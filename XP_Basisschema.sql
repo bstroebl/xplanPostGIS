@@ -28,9 +28,10 @@ CREATE SCHEMA "XP_Raster";
 CREATE SCHEMA "SO_Schutzgebiete";
 
 COMMENT ON SCHEMA "XP_Basisobjekte" IS 'Dieses Paket enthält die Basisklassen des XPlanGML Schemas.';
+COMMENT ON SCHEMA "XP_Sonstiges" IS 'Allegemeine Datentypen.';
 COMMENT ON SCHEMA "XP_Praesentationsobjekte" IS 'Das Paket Praesentationsobjekte modelliert Klassen, die lediglich der graphischen Ausgestaltung eines Plans dienen und selbst keine eigentlichen Plan-Inhalte repräsentieren. Die entsprechenden Fachobjekte können unmittelbar instanziiert werden.';
-COMMENT ON SCHEMA "XP_Enumerationen" IS 'Dies Paket enthält verschiedene Enumerationen, die Fachschema-übergreifend verwwendet werden';
-COMMENT ON SCHEMA "XP_Raster" IS 'Dies Paket enthält Basisklassen für die Rasterdarstellung von Bebauungsplänen, Flächennutzungsplänen, Landschafts- und Regionalplänen.';
+COMMENT ON SCHEMA "XP_Enumerationen" IS 'Dieses Paket enthält verschiedene Enumerationen, die Fachschema-übergreifend verwwendet werden';
+COMMENT ON SCHEMA "XP_Raster" IS 'Dieses Paket enthält Basisklassen für die Rasterdarstellung von Bebauungsplänen, Flächennutzungsplänen, Landschafts- und Regionalplänen.';
 COMMENT ON SCHEMA "SO_Schutzgebiete" IS 'Objektbereich SonstigePlanwerke: Fachschema zur Modellierung nachrichtlicher Übernahmen aus anderen Rechtsbereichen und sonstiger raumbezogener Pläne nach BauGB.
 SO_Schutzgebiete: Schutzgebiete nach verschiedenen gesetzlichen Bestimmungen.';
 
