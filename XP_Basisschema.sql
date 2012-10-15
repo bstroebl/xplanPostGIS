@@ -579,6 +579,16 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWald" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWald" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" (
+  "Wert" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(255) NOT NULL ,
+  PRIMARY KEY ("Wert") );
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" TO xp_gast;
+
+
+-- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Nutzungsform"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Nutzungsform" (
@@ -1986,6 +1996,19 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") V
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1600', 'Schutzwald');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1800', 'FlaecheForstwirtschaft');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1000', 'LandwirtschaftAllgemein');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1100', 'Ackerbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1200', 'WiesenWeidewirtschaft');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1300', 'GartenbaulicheErzeugung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1400', 'Obstbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1500', 'Weinbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1600', 'Imkerei');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1700', 'Binnenfischerei');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Nutzungsform"
