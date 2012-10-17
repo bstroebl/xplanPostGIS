@@ -328,6 +328,50 @@ GRANT ALL ON TABLE "XP_Sonstiges"."XP_SPEMassnahmenDaten_id_seq" TO GROUP xp_use
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isAbstract"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        RAISE EXCEPTION 'Einfügen in abstrakte Klasse ist nicht zulässig';
+        RETURN NULL;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isAbstract"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'DELTE') THEN
+        RETURN old;
+    ELSE
+        new.flaechenschluss = false;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() TO bp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        RETURN old;
+    ELSE
+        new.flaechenschluss = true;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO bp_user;
+
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() 
 RETURNS trigger AS
 $BODY$ 

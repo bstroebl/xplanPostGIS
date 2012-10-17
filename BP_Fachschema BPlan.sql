@@ -75,36 +75,6 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."child_of_BP_Objekt"() TO bp_user;
 
-CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."child_of_BP_Ueberlagerungsobjekt"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'DELTE') THEN
-        RETURN old;
-    ELSE
-        new.flaechenschluss = false;
-        RETURN new;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."child_of_BP_Ueberlagerungsobjekt"() TO bp_user;
-
-CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."child_of_BP_Flaechenschlussobjekt"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'DELETE') THEN
-        RETURN old;
-    ELSE
-        new.flaechenschluss = true;
-        RETURN new;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."child_of_BP_Flaechenschlussobjekt"() TO bp_user;
-
 CREATE OR REPLACE FUNCTION "BP_Naturschutz"."child_of_BP_AnpflanzungBindungErhaltung"() 
 RETURNS trigger AS
 $BODY$ 
