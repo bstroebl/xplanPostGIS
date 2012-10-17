@@ -73,7 +73,7 @@ LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
 COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer)
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer, boolean)
   RETURNS text AS
 $BODY$
 DECLARE
@@ -83,6 +83,7 @@ DECLARE
 	column_name alias for $4;
 	new_type alias for $5;
 	new_dim alias for $6;
+    is_table alias for $7;
     new_srid integer;
 	rec RECORD;
 	sr varchar;
@@ -215,46 +216,48 @@ BEGIN
 	EXECUTE sql;
 
 
-	-- Add table CHECKs
-	sql := 'ALTER TABLE ' ||
-		quote_ident(real_schema) || '.' || quote_ident(table_name)
-		|| ' ADD CONSTRAINT '
-		|| quote_ident('enforce_srid_' || column_name)
-		|| ' CHECK (ST_SRID(' || quote_ident(column_name) ||
-		') = ' || new_srid::text || ')' ;
-	RAISE DEBUG '%', sql;
-	EXECUTE sql;
+    If is_table THEN
+        -- Add table CHECKs
+        sql := 'ALTER TABLE ' ||
+            quote_ident(real_schema) || '.' || quote_ident(table_name)
+            || ' ADD CONSTRAINT '
+            || quote_ident('enforce_srid_' || column_name)
+            || ' CHECK (ST_SRID(' || quote_ident(column_name) ||
+            ') = ' || new_srid::text || ')' ;
+        RAISE DEBUG '%', sql;
+        EXECUTE sql;
 
-	sql := 'ALTER TABLE ' ||
-		quote_ident(real_schema) || '.' || quote_ident(table_name)
-		|| ' ADD CONSTRAINT '
-		|| quote_ident('enforce_dims_' || column_name)
-		|| ' CHECK (ST_NDims(' || quote_ident(column_name) ||
-		') = ' || new_dim::text || ')' ;
-	RAISE DEBUG '%', sql;
-	EXECUTE sql;
+        sql := 'ALTER TABLE ' ||
+            quote_ident(real_schema) || '.' || quote_ident(table_name)
+            || ' ADD CONSTRAINT '
+            || quote_ident('enforce_dims_' || column_name)
+            || ' CHECK (ST_NDims(' || quote_ident(column_name) ||
+            ') = ' || new_dim::text || ')' ;
+        RAISE DEBUG '%', sql;
+        EXECUTE sql;
 
-	IF ( NOT (new_type = 'GEOMETRY')) THEN
-		sql := 'ALTER TABLE ' ||
-			quote_ident(real_schema) || '.' || quote_ident(table_name) || ' ADD CONSTRAINT ' ||
-			quote_ident('enforce_geotype_' || column_name) ||
-			' CHECK (GeometryType(' ||
-			quote_ident(column_name) || ')=' ||
-			quote_literal(new_type) || ' OR (' ||
-			quote_ident(column_name) || ') is null)';
-		RAISE DEBUG '%', sql;
-		EXECUTE sql;
-	END IF;
-    
-    --Create spatial index
-    sql := 'CREATE INDEX ' ||
-		quote_ident(table_name || '_gidx')
-		|| ' ON '
-		|| quote_ident(real_schema) || '.' || quote_ident(table_name)
-		|| ' using gist(' || quote_ident(column_name) ||
-		')' ;
-	RAISE DEBUG '%', sql;
-	EXECUTE sql;
+        IF ( NOT (new_type = 'GEOMETRY')) THEN
+            sql := 'ALTER TABLE ' ||
+                quote_ident(real_schema) || '.' || quote_ident(table_name) || ' ADD CONSTRAINT ' ||
+                quote_ident('enforce_geotype_' || column_name) ||
+                ' CHECK (GeometryType(' ||
+                quote_ident(column_name) || ')=' ||
+                quote_literal(new_type) || ' OR (' ||
+                quote_ident(column_name) || ') is null)';
+            RAISE DEBUG '%', sql;
+            EXECUTE sql;
+        END IF;
+        
+        --Create spatial index
+        sql := 'CREATE INDEX ' ||
+            quote_ident(table_name || '_gidx')
+            || ' ON '
+            || quote_ident(real_schema) || '.' || quote_ident(table_name)
+            || ' using gist(' || quote_ident(column_name) ||
+            ')' ;
+        RAISE DEBUG '%', sql;
+        EXECUTE sql;
+    END IF; -- is_table
     
 	RETURN
 		real_schema || '.' ||
@@ -266,7 +269,7 @@ END;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE STRICT
   COST 100;
-COMMENT ON FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer) IS 'Funktion zur Registrierung in geometry columns für instantiierbare Tabellen, die ihr Geometriefeld erben (z.B. alle Kinder von XP_Bereich';
+COMMENT ON FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer, boolean) IS 'Funktion zur Registrierung in geometry columns für instantiierbare Tabellen, die ihr Geometriefeld erben (z.B. alle Kinder von XP_Bereich';
 
 -- *****************************************************
 -- CREATE SEQUENCES
@@ -1905,7 +1908,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_user;
 
 CREATE OR REPLACE RULE _update AS
-    ON UPDATE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+    ON UPDATE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" SET "raeumlicherGeltungsbereich" = new."raeumlicherGeltungsbereich"
   WHERE gid = old.gid;
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
@@ -1923,7 +1926,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_user;
 
 CREATE OR REPLACE RULE _update AS
-    ON UPDATE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_Geltungsbereich" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+    ON UPDATE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_Geltungsbereich" SET "geltungsbereich" = new."geltungsbereich"
   WHERE gid = old.gid;
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
@@ -1941,7 +1944,7 @@ GRANT SELECT ON TABLE "XP_Raster"."XP_Bereiche" TO xp_gast;
 GRANT ALL ON TABLE "XP_Raster"."XP_Bereiche" TO xp_user;
 
 CREATE OR REPLACE RULE _update AS
-    ON UPDATE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  UPDATE "XP_Raster"."XP_GeltungsbereichAenderung" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+    ON UPDATE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  UPDATE "XP_Raster"."XP_GeltungsbereichAenderung" SET "geltungsbereichAenderung" = new."geltungsbereichAenderung"
   WHERE gid = old.gid;
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  DELETE FROM "XP_Raster"."XP_GeltungsbereichAenderung"
@@ -1952,14 +1955,22 @@ CREATE OR REPLACE RULE _delete AS
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- PostGIS für Views
+-- -----------------------------------------------------
+
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Plaene', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Bereiche', 'geltungsbereich','MULTIPOLYGON',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Raster','XP_RasterplanAenderungen', 'geltungsbereichAenderung','MULTIPOLYGON',2, false);
+
+-- -----------------------------------------------------
 -- PostGIS für XP_Praesentationsobjekte
 -- -----------------------------------------------------
 
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PPO', 'position','MULTIPOINT',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_FPO', 'position','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PPO', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_FPO', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2, true);
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
