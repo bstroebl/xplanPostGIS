@@ -631,7 +631,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" (
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" TO xp_gast;
 
-
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Nutzungsform"
 -- -----------------------------------------------------
@@ -713,6 +712,28 @@ CREATE  TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrech
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_user;
+
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" (
+  "gid" INTEGER NOT NULL ,
+  "raeumlicherGeltungsbereich" GEOMETRY NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_user;
+CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Geltungsbereich"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_Geltungsbereich" (
+  "gid" INTEGER NOT NULL ,
+  "geltungsbereich" GEOMETRY NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_user;
+CREATE TRIGGER  "XP_Geltungsbereich_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Geltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_GesetzlicheGrundlage"
@@ -798,6 +819,17 @@ CREATE INDEX "idx_fk_xp_externereferenz_xp_externereferenzart1" ON "XP_Basisobje
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" TO xp_user;
+
+-- -----------------------------------------------------
+-- Table "XP_Raster"."XP_GeltungsbereichAenderung"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Raster"."XP_GeltungsbereichAenderung" (
+  "gid" INTEGER NOT NULL ,
+  "geltungsbereichAenderung" GEOMETRY NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_user;
+CREATE TRIGGER  "XP_GeltungsbereichAenderung_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Raster"."XP_GeltungsbereichAenderung" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "XP_Raster"."XP_RasterplanBasis"
@@ -1855,6 +1887,69 @@ CREATE INDEX "fk_hoehenangabe_XP_Hoehenangabe1" ON "XP_Basisobjekte"."hoehenanga
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
+
+-- *****************************************************
+-- CREATE VIEWs
+-- *****************************************************
+
+-- -----------------------------------------------------
+-- View "XP_Basisobjekte"."XP_Plaene"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
+SELECT g.*, p.name, c.relname as "Objektart" 
+FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;
+
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
+  WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "XP_Basisobjekte"."XP_Bereiche"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Bereiche" AS
+SELECT g.*, p.name, c.relname as "Objektart" 
+FROM  "XP_Basisobjekte"."XP_Geltungsbereich" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN "XP_Basisobjekte"."XP_Bereich" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_Geltungsbereich" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
+  WHERE gid = old.gid;
+  
+-- -----------------------------------------------------
+-- View "XP_Raster"."XP_RasterplanAenderungen"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "XP_Raster"."XP_RasterplanAenderungen" AS
+SELECT g.*, p."nameAenderung", c.relname as "Objektart" 
+FROM  "XP_Raster"."XP_GeltungsbereichAenderung" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN "XP_Basisobjekte"."XP_RasterplanAenderung" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "XP_Raster"."XP_Bereiche" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_Bereiche" TO xp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  UPDATE "XP_Raster"."XP_GeltungsbereichAenderung" SET raeumlicherGeltungsbereich = new.raeumlicherGeltungsbereich
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  DELETE FROM "XP_Raster"."XP_GeltungsbereichAenderung"
+  WHERE gid = old.gid;
+
+-- *****************************************************
+-- DATA
+-- *****************************************************
 
 -- -----------------------------------------------------
 -- PostGIS für XP_Praesentationsobjekte
