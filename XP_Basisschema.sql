@@ -354,7 +354,7 @@ $BODY$
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() TO bp_user;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() 
 RETURNS trigger AS
@@ -369,7 +369,7 @@ $BODY$
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO bp_user;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
 
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() 
