@@ -540,7 +540,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_VersionBauNVO" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" TO xp_gast;
 
@@ -549,7 +549,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" TO xp_gast;
 
@@ -558,7 +558,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" TO xp_g
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Sondernutzungen" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Sondernutzungen" TO xp_gast;
 
@@ -567,7 +567,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Sondernutzungen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_AbweichungBauNVOTypen" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AbweichungBauNVOTypen" TO xp_gast;
 
@@ -576,7 +576,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AbweichungBauNVOTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" TO xp_gast;
 
@@ -585,7 +585,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" TO xp_
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" TO xp_gast;
 
@@ -594,7 +594,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" TO 
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" TO xp_gast;
 
@@ -603,7 +603,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" TO
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGruen" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGruen" TO xp_gast;
 
@@ -612,7 +612,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGruen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" TO xp_gast;
 
@@ -621,7 +621,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" TO x
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWald" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWald" TO xp_gast;
 
@@ -630,7 +630,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWald" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" TO xp_gast;
 
@@ -639,7 +639,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" TO x
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Nutzungsform" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Nutzungsform" TO xp_gast;
 
@@ -648,7 +648,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Nutzungsform" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" TO xp_gast;
 
@@ -657,7 +657,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" TO xp
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" TO xp_gast;
 
@@ -666,7 +666,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" TO xp
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" TO xp_gast;
 
@@ -675,7 +675,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgu
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" TO xp_gast;
 
@@ -684,7 +684,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" TO xp_gas
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" TO xp_gast;
 
@@ -693,7 +693,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" TO
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Bundeslaender" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Bundeslaender" TO xp_gast;
 
@@ -702,7 +702,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Bundeslaender" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 
@@ -711,7 +711,7 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrec
 -- -----------------------------------------------------
 CREATE  TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_user;
@@ -1120,7 +1120,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
   
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_gast;
@@ -1527,7 +1527,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."texte" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_StylesheetListe" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_gast;
@@ -1791,7 +1791,7 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEZiele" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezug" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezug" TO xp_gast;
@@ -1801,7 +1801,7 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezug" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" (
   "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(255) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" TO xp_gast;
