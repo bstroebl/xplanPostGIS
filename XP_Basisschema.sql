@@ -325,6 +325,14 @@ CREATE SEQUENCE "XP_Basisobjekte"."XP_VerfahrensMerkmal_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal_id_seq" TO GROUP xp_user;
 
+CREATE SEQUENCE "XP_Basisobjekte"."aendert_id_seq"
+    MINVALUE 1;
+GRANT ALL ON TABLE "XP_Basisobjekte"."aendert_id_seq" TO GROUP xp_user;
+
+CREATE SEQUENCE "XP_Basisobjekte"."wurdeGeaendertVon_id_seq"
+    MINVALUE 1;
+GRANT ALL ON TABLE "XP_Basisobjekte"."wurdeGeaendertVon_id_seq" TO GROUP xp_user;
+
 CREATE SEQUENCE "XP_Sonstiges"."XP_Gemeinde_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Gemeinde_id_seq" TO GROUP xp_user;
@@ -399,6 +407,9 @@ $BODY$
         new.gid := old.gid; --no change in gid allowed
         UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE gid = old.gid;
         RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE gid = old.gid;
+        RETURN old;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
@@ -1112,7 +1123,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugsh
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
     
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
-CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
+CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_gast; 
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_user;
 
@@ -1212,25 +1223,21 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
   "gid" INTEGER NOT NULL ,
   "planName" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_XP_VerbundenerPlan_XP_Plan1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+  PRIMARY KEY ("gid"));
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (Attribut name von XP_Plan) des verbundenen Plans.';
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Basisobjekte"."aendert"
+-- Table "XP_Basisobjekte"."aendert" 
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."aendert" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."aendert_id_seq"'),
   "XP_Plan" INTEGER NOT NULL ,
   "XP_VerbundenerPlan" INTEGER NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
-  PRIMARY KEY ("XP_Plan", "XP_VerbundenerPlan") ,
+  PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan1"
     FOREIGN KEY ("XP_Plan" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
@@ -1258,10 +1265,11 @@ COMMENT ON COLUMN "XP_Basisobjekte"."aendert"."rechtscharakter" IS 'Rechtscharak
 -- Table "XP_Basisobjekte"."wurdeGeaendertVon"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."wurdeGeaendertVon" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."wurdeGeaendertVonid_seq"'),
   "XP_Plan" INTEGER NOT NULL ,
   "XP_VerbundenerPlan" INTEGER NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
-  PRIMARY KEY ("XP_Plan", "XP_VerbundenerPlan") ,
+  PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan2"
     FOREIGN KEY ("XP_Plan" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
