@@ -2931,6 +2931,65 @@ CREATE TRIGGER "change_to_FP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE OR DE
 CREATE TRIGGER "FP_BodenschaetzeFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_BodenschaetzeFlaeche', 'position','MULTIPOLYGON',2, true);
 
+-- *****************************************************
+-- CREATE VIEWs
+-- *****************************************************
+
+-- -----------------------------------------------------
+-- View "FP_Basisobjekte"."FP_Punktobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Punktobjekte" AS
+SELECT g.*, c.relname as "Objektart" 
+FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid;
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_gast;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_user;
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Punktobjekte', 'position','MULTIPOINT',2, false);
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "FP_Basisobjekte"."FP_Punktobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Punktobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "FP_Basisobjekte"."FP_Punktobjekte" DO INSTEAD  DELETE FROM "FP_Basisobjekte"."FP_Punktobjekt"
+  WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "FP_Basisobjekte"."FP_Linienobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Linienobjekte" AS
+SELECT g.*, c.relname as "Objektart" 
+FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid;
+
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_gast;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_user;
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Linienobjekte', 'position','MULTILINESTRING',2, false);
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "FP_Basisobjekte"."FP_Linienobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Linienobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "FP_Basisobjekte"."FP_Linienobjekte" DO INSTEAD  DELETE FROM "FP_Basisobjekte"."FP_Linienobjekt"
+  WHERE gid = old.gid;
+  
+-- -----------------------------------------------------
+-- View "FP_Basisobjekte"."FP_Flaechenobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Flaechenobjekte" AS
+SELECT g.*, c.relname as "Objektart" 
+FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid;
+
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_gast;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_user;
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Flaechenobjekte', 'position','MULTIPOLYGON',2, false);
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "FP_Basisobjekte"."FP_Flaechenobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Flaechenobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "FP_Basisobjekte"."FP_Flaechenobjekte" DO INSTEAD  DELETE FROM "FP_Basisobjekte"."FP_Flaechenobjekt"
+  WHERE gid = old.gid;
 
 -- *****************************************************
 -- DATA
