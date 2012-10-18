@@ -374,7 +374,6 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
 
-
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() 
 RETURNS trigger AS
 $BODY$ 
@@ -383,11 +382,21 @@ $BODY$
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
         END IF;
-        
+
         INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, 'XP_Plan ' || CAST(new.gid as varchar));
+        
+        IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
+            new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
+
+        IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
+            new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Plan" WHERE gid = old.gid;
@@ -408,9 +417,19 @@ $BODY$
         END IF;
         
         INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, 'XP_Bereich ' || CAST(new.gid as varchar));
+
+        IF new."geltungsbereich" IS NOT NULL THEN
+            new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in id allowed
+
+        IF new."geltungsbereich" IS NOT NULL THEN
+            new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Bereich" WHERE gid = old.gid;
@@ -500,9 +519,19 @@ $BODY$
         END IF;
         
         INSERT INTO "XP_Raster"."XP_RasterplanAenderung" (gid) VALUES (new.gid);
+
+        IF new."geltungsbereichAenderung" IS NOT NULL THEN
+            new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
+
+        IF new."geltungsbereichAenderung" IS NOT NULL THEN
+            new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         PERFORM "XP_Basisobjekte"."XP_RasterplanAenderung_deleted"(old.gid);   
@@ -512,6 +541,28 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+        
+        RETURN new;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
+
+
 
 -- *****************************************************
 -- CREATE TABLEs 
@@ -1620,6 +1671,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" IS 'Flächenförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_FPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_FPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "XP_FPO_RHR" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
 
