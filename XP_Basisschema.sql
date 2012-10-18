@@ -321,6 +321,10 @@ CREATE SEQUENCE "XP_Basisobjekte"."XP_BegruendungAbschnitt_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_BegruendungAbschnitt_id_seq" TO GROUP xp_user;
 
+CREATE SEQUENCE "XP_Basisobjekte"."XP_VerfahrensMerkmal_id_seq"
+    MINVALUE 1;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal_id_seq" TO GROUP xp_user;
+
 CREATE SEQUENCE "XP_Sonstiges"."XP_Gemeinde_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Gemeinde_id_seq" TO GROUP xp_user;
@@ -1285,12 +1289,12 @@ COMMENT ON COLUMN "XP_Basisobjekte"."wurdeGeaendertVon"."rechtscharakter" IS 'Re
 -- Table "XP_Basisobjekte"."XP_VerfahrensMerkmal"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerfahrensMerkmal" (
-  "id" INTEGER NOT NULL ,
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_VerfahrensMerkmal_id_seq"'),
   "vermerk" VARCHAR(1024) NOT NULL ,
   "datum" DATE NOT NULL ,
   "signatur" VARCHAR(255) NOT NULL ,
   "signiert" BOOLEAN  NOT NULL ,
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan" INTEGER NOT NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_verfahrensmerkmal_xp_plan1"
     FOREIGN KEY ("XP_Plan_gid" )
@@ -1299,10 +1303,12 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_VerfahrensMerkmal" (
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" IS 'Vermerke der am Planungssverfahrens beteiligten Akteure.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."vermerk" IS 'Inhat des Vermerks';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."datum" IS 'Datum des Vermerks';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."signatur" IS 'Unterschrift';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."signiert" IS 'Angabe, ob die Unterschrift erfolgt ist.';
-CREATE INDEX "idx_fk_xp_verfahrensmerkmal_xp_plan1" ON "XP_Basisobjekte"."XP_VerfahrensMerkmal" ("XP_Plan_gid") ;
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerfahrensMerkmal"."XP_Plan" IS 'Plan, auf den sich der Vermerk bezieht.';
+CREATE INDEX "idx_fk_xp_verfahrensmerkmal_xp_plan1" ON "XP_Basisobjekte"."XP_VerfahrensMerkmal" ("XP_Plan") ;
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_user;
