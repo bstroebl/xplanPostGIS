@@ -1991,9 +1991,9 @@ CREATE  OR REPLACE VIEW "XP_Raster"."XP_RasterplanAenderungen" AS
 SELECT g.*, p."nameAenderung", c.relname as "Objektart" 
 FROM  "XP_Raster"."XP_GeltungsbereichAenderung" g
 JOIN pg_class c ON g.tableoid = c.oid
-JOIN "XP_Basisobjekte"."XP_RasterplanAenderung" p ON g.gid = p.gid;
-GRANT SELECT ON TABLE "XP_Raster"."XP_Bereiche" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_Bereiche" TO xp_user;
+JOIN "XP_Raster"."XP_RasterplanAenderung" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderungen" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderungen" TO xp_user;
 
 CREATE OR REPLACE RULE _update AS
     ON UPDATE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  UPDATE "XP_Raster"."XP_GeltungsbereichAenderung" SET "geltungsbereichAenderung" = new."geltungsbereichAenderung"
