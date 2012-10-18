@@ -786,7 +786,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_user;
-CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT ON "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Geltungsbereich"
@@ -797,7 +797,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Geltungsbereich" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_user;
-CREATE TRIGGER  "XP_Geltungsbereich_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Geltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER  "XP_Geltungsbereich_isAbstract" BEFORE INSERT ON "XP_Basisobjekte"."XP_Geltungsbereich" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_GesetzlicheGrundlage"
@@ -893,7 +893,7 @@ CREATE  TABLE  "XP_Raster"."XP_GeltungsbereichAenderung" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_gast;
 GRANT ALL ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_user;
-CREATE TRIGGER  "XP_GeltungsbereichAenderung_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Raster"."XP_GeltungsbereichAenderung" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER  "XP_GeltungsbereichAenderung_isAbstract" BEFORE INSERT ON "XP_Raster"."XP_GeltungsbereichAenderung" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "XP_Raster"."XP_RasterplanBasis"
