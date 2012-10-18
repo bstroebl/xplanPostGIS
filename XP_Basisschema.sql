@@ -73,7 +73,7 @@ LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
 COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer, boolean)
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer)
   RETURNS text AS
 $BODY$
 DECLARE
@@ -83,7 +83,8 @@ DECLARE
 	column_name alias for $4;
 	new_type alias for $5;
 	new_dim alias for $6;
-    is_table alias for $7;
+    is_table boolean;
+    not_null boolean;
     new_srid integer;
 	rec RECORD;
 	sr varchar;
@@ -91,7 +92,7 @@ DECLARE
 	sql text;
 
 BEGIN
-    new_srid := 31468; --EPSG-code des räumlichen Referenzsystems hier ändern
+    new_srid := 3397; --EPSG-code des räumlichen Referenzsystems hier ändern
 	-- Verify geometry type
 	IF ( NOT ( (new_type = 'GEOMETRY') OR
 			   (new_type = 'GEOMETRYCOLLECTION') OR
@@ -215,6 +216,7 @@ BEGIN
 	RAISE DEBUG '%', sql;
 	EXECUTE sql;
 
+    SELECT CASE relkind WHEN 'v' THEN false ELSE true END from pg_class JOIN  pg_namespace ON relnamespace = pg_namespace.oid WHERE nspname = quote_ident(real_schema) AND relname = quote_ident(table_name) INTO is_table;
 
     If is_table THEN
         -- Add table CHECKs
@@ -237,13 +239,21 @@ BEGIN
         EXECUTE sql;
 
         IF ( NOT (new_type = 'GEOMETRY')) THEN
+            SELECT attnotnull FROM pg_attribute JOIN pg_class on attrelid = pg_class.oid JOIN pg_namespace ON relnamespace = pg_namespace.oid WHERE nspname = quote_ident(real_schema) AND relname = quote_ident(table_name) AND attname = quote_ident(column_name) INTO not_null;
             sql := 'ALTER TABLE ' ||
                 quote_ident(real_schema) || '.' || quote_ident(table_name) || ' ADD CONSTRAINT ' ||
                 quote_ident('enforce_geotype_' || column_name) ||
                 ' CHECK (GeometryType(' ||
                 quote_ident(column_name) || ')=' ||
-                quote_literal(new_type) || ' OR (' ||
-                quote_ident(column_name) || ') is null)';
+                quote_literal(new_type);
+
+                IF not_null THEN
+                    sql := sql || ' OR (' ||
+                    quote_ident(column_name) || ') is null)';
+                ELSE
+                    sql := sql || ')';
+                END IF;
+                
             RAISE DEBUG '%', sql;
             EXECUTE sql;
         END IF;
@@ -269,7 +279,7 @@ END;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE STRICT
   COST 100;
-COMMENT ON FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer, boolean) IS 'Funktion zur Registrierung in geometry columns für instantiierbare Tabellen, die ihr Geometriefeld erben (z.B. alle Kinder von XP_Bereich';
+COMMENT ON FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer) IS 'Funktion zur Registrierung in geometry columns für instantiierbare Tabellen, die ihr Geometriefeld erben';
 
 -- *****************************************************
 -- CREATE SEQUENCES
@@ -2010,19 +2020,19 @@ CREATE OR REPLACE RULE _delete AS
 -- PostGIS für Views
 -- -----------------------------------------------------
 
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Plaene', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2, false);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Bereiche', 'geltungsbereich','MULTIPOLYGON',2, false);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Raster','XP_RasterplanAenderungen', 'geltungsbereichAenderung','MULTIPOLYGON',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Plaene', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Bereiche', 'geltungsbereich','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Raster','XP_RasterplanAenderungen', 'geltungsbereichAenderung','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- PostGIS für XP_Praesentationsobjekte
 -- -----------------------------------------------------
 
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PPO', 'position','MULTIPOINT',2, true);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_FPO', 'position','MULTIPOLYGON',2, true);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2, true);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2, true);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PPO', 'position','MULTIPOINT',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_FPO', 'position','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2);
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
