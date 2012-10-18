@@ -776,12 +776,12 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
-INHERITS("FP_Basisobjekte.FP_Flaechenobjekt");
+INHERITS("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("ziel") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten1" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("massnahme") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten2" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme1") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten3" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme2") ;
+CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEZiele" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("ziel") ;
+CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten1" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("massnahme") ;
+CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten2" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme1") ;
+CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten3" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme2") ;
 CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_ExterneReferenz1" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("refMassnahmenText") ;
 CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_ExterneReferenz2" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("refLandschaftsplan") ;
 GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" TO xp_gast;
@@ -902,16 +902,16 @@ COMMENT ON TABLE  "FP_Basisobjekte"."wirdAusgeglichenDurchSPE" IS 'Relation auf 
 -- Table "FP_Raster"."auslegungsStartDatum"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."auslegungsStartDatum" (
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
+  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
   "auslegungsStartDatum" DATE NOT NULL ,
-  PRIMARY KEY ("BP_RasterplanAenderung_id", "auslegungsStartDatum") ,
+  PRIMARY KEY ("FP_RasterplanAenderung_gid", "auslegungsStartDatum") ,
   CONSTRAINT "fk_auslegungsStartDatum_FP_RasterplanAenderung"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
+    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
     REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_auslegungsStartDatum_FP_RasterplanAenderung" ON "FP_Raster"."auslegungsStartDatum" ("BP_RasterplanAenderung_id") ;
+CREATE INDEX "idx_fk_auslegungsStartDatum_FP_RasterplanAenderung" ON "FP_Raster"."auslegungsStartDatum" ("FP_RasterplanAenderung_gid") ;
 GRANT SELECT ON TABLE "FP_Raster"."auslegungsStartDatum" TO xp_gast;
 GRANT ALL ON TABLE "FP_Raster"."auslegungsStartDatum" TO fp_user;
 COMMENT ON TABLE  "FP_Raster"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
@@ -921,16 +921,15 @@ COMMENT ON TABLE  "FP_Raster"."auslegungsStartDatum" IS 'Start-Datum der öffent
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."auslegungsEndDatum" (
   "auslegungsEndDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("auslegungsEndDatum", "BP_RasterplanAenderung_id") ,
+  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  PRIMARY KEY ("auslegungsEndDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_auslegungsEndDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
+    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
     REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-CREATE INDEX "idx_fk_auslegungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."auslegungsEndDatum" ("BP_RasterplanAenderung_id") ;
-CREATE INDEX "idx_fk_auslegungsStartDatum_FP_RasterplanAenderung" ON "FP_Raster"."auslegungsStartDatum" ("BP_RasterplanAenderung_id") ;
+CREATE INDEX "idx_fk_auslegungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."auslegungsEndDatum" ("FP_RasterplanAenderung_gid") ;
 GRANT SELECT ON TABLE "FP_Raster"."auslegungsEndDatum" TO xp_gast;
 GRANT ALL ON TABLE "FP_Raster"."auslegungsEndDatum" TO fp_user;
 COMMENT ON TABLE  "FP_Raster"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
@@ -941,14 +940,14 @@ COMMENT ON TABLE  "FP_Raster"."auslegungsEndDatum" IS 'End-Datum der öffentlich
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" (
   "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsStartDatum", "BP_RasterplanAenderung_id") ,
+  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  PRIMARY KEY ("traegerbeteiligungsStartDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
+    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
     REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsStartDatum" ("BP_RasterplanAenderung_id") ;
+CREATE INDEX "idx_fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsStartDatum" ("FP_RasterplanAenderung_gid") ;
 GRANT SELECT ON TABLE "FP_Raster"."traegerbeteiligungsStartDatum" TO xp_gast;
 GRANT ALL ON TABLE "FP_Raster"."traegerbeteiligungsStartDatum" TO fp_user;
 COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
@@ -958,14 +957,14 @@ COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" IS 'Start-Datum de
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" (
   "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsEndDatum", "BP_RasterplanAenderung_id") ,
+  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  PRIMARY KEY ("traegerbeteiligungsEndDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
+    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
     REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsEndDatum" ("BP_RasterplanAenderung_id") ;
+CREATE INDEX "idx_fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsEndDatum" ("FP_RasterplanAenderung_gid") ;
 GRANT SELECT ON TABLE "FP_Raster"."traegerbeteiligungsEndDatum" TO xp_gast;
 GRANT ALL ON TABLE "FP_Raster"."traegerbeteiligungsEndDatum" TO fp_user;
 COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
@@ -1617,14 +1616,14 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung3") ;
+CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("zweckbestimmung") ;
+CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung1") ;
+CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung2") ;
+CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung3") ;
+CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
+CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung1") ;
+CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung2") ;
+CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung3") ;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" IS 'Darstellung einer Landwirtschaftsfläche nach §5, Abs. 2, Nr. 9a.';
@@ -1922,10 +1921,10 @@ CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte1" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte2" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte3" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung3") ;
+CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("zweckbestimmung") ;
+CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO1" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung1") ;
+CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO2" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung2") ;
+CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO3" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung3") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
 COMMENT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des FPlans, die keine nachrichtliche Übernahmen aus anderen Rechts-bereichen sind, aber durch keine andere Klasse des FPlan-Fachschemas dargestellt werden können.';
@@ -2315,7 +2314,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" (
     REFERENCES "FP_Sonstiges"."FP_UnverbindlicheVormerkung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Linieobjekt");
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" TO fp_user;
