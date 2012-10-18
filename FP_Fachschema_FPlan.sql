@@ -18,33 +18,40 @@ GRANT xp_user TO fp_user;
 -- *****************************************************
 
 CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Basisobjekte";
+CREATE SCHEMA "FP_Raster";
+CREATE SCHEMA "FP_Bebauung";
+CREATE SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen";
+CREATE SCHEMA "FP_Landwirtschaft_Wald_und_Gruen";
+CREATE SCHEMA "FP_Naturschutz";
+CREATE SCHEMA "FP_Sonstiges";
+CREATE SCHEMA "FP_Ver_und_Entsorgung";
+CREATE SCHEMA "FP_Verkehr";
+CREATE SCHEMA "FP_Wasser";
+CREATE SCHEMA "FP_Aufschuettung_Abgrabung";
 
+COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.';
+COMMENT ON SCHEMA "FP_Raster" IS 'Raster-Darstellung von FPlänen';
+COMMENT ON SCHEMA "FP_Bebauung" IS 'Darstellung der für die Bebauung vorgesehenen Flächen (§5, Abs. 2, Nr. 1 BauGB).';
+COMMENT ON SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen" IS 'Darstellung der Ausstattung des Gemeindegebiets mit Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, sowie die Flächen für Spiel- und Sportanlagen (§5, Abs. 2, Nr. 2 BauGB).';
+COMMENT ON SCHEMA "FP_Landwirtschaft_Wald_und_Gruen" IS 'Darstellung von Grünflächen (§5, Abs. 2, Nr. 5 BauGB) und von Flächen für die Landwirtschaft und Wald (§5, Abs. 2, Nr. 9 BauGB).';
+COMMENT ON SCHEMA "FP_Naturschutz" IS 'Darstellung von Flächen für Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Boden, Natur und Landschaft (§5 Abs. 2 Nr. 10 BauGB).';
+COMMENT ON SCHEMA "FP_Sonstiges" IS 'Sonstige Klassen von FPlan-Objekten.';
+COMMENT ON SCHEMA "FP_Ver_und_Entsorgung" IS 'Darstellung von Flächen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung, für Ablagerungen, sowie für Hauptversorgungs- und Hauptabwasserleitungen (§5, Abs. 2, Nr. 4 BauGB).';
+COMMENT ON SCHEMA "FP_Verkehr" IS 'Darstellung von Flächen für den überörtlichen Verkehr sowie für die örtlichen Hauptverkehrszüge (§5, Abs. 2, Nr. 3 BauGB).';
+COMMENT ON SCHEMA "FP_Wasser" IS 'Darstellung von Wasserflächen, Häfen, und den für die Wasserwirtschaft vorgesehenen Flächen, sowie von Flächen, die im Interesse des Hochwasserschutzes und der Regelung des Wasserabflusses freizuhalten sind (§5, Abs. 2, Nr. 7 BauGB).';
+COMMENT ON SCHEMA "FP_Aufschuettung_Abgrabung" IS 'Darstellung von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB).';
 
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.'
-
 GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Raster" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Bebauung" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Landwirtschaft_Wald_und_Gruen" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Naturschutz" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Sonstiges" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Ver_und_Entsorgung" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Verkehr" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Wasser" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Aufschuettung_Abgrabung" TO xp_gast;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -491,8 +498,8 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."entwurfsbeschlussDatum" IS 'Datum
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."planbeschlussDatum" IS 'Datum des Planbeschlusses';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."wirksamkeitsDatum" IS 'Datum der Wirksamkeit';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."refUmweltbericht" IS 'Referenz auf den Umweltbericht.';
-CREATE TRIGGER "change_to_FP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"(); 
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Plan', 'reumlicherGeltungsbereich','MULTIPOLYGON',2, true);
+CREATE TRIGGER "change_to_FP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Bereich"
@@ -533,8 +540,8 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVOText" IS 'Textlic
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGB" IS 'Datum der zugrunde liegenden Version des BauGB.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."gehoertZuPlan" IS '';
-CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"(); 
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Bereich', 'geltungsbereich','MULTIPOLYGON',2, true);
+CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Rechtscharakter"
@@ -663,7 +670,7 @@ COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."entwurfsbeschlussDatum" 
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."planbeschlussDatum" IS '';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."wirksamkeitsDatum" IS '';
 CREATE TRIGGER "change_to_FP_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Raster"."FP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Raster','FP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Raster','FP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."rasterAenderung"
@@ -697,7 +704,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Punktobjekt" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekt" TO fp_user;
-CREATE TRIGGER "FP_Punktobjekt_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER "FP_Punktobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."FP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Linienobjekt"
@@ -708,7 +715,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Linienobjekt" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekt" TO fp_user;
-CREATE TRIGGER "FP_Linienobjekt_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Linienobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER "FP_Linienobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."FP_Linienobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Flaechenobjekt"
@@ -720,7 +727,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Flaechenobjekt" (
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekt" TO fp_user;
-CREATE TRIGGER "FP_Flaechenobjekt_isAbstract" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+CREATE TRIGGER "FP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."FP_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
 -- Table "FP_Naturschutz"."FP_AusgleichsFlaeche"
@@ -789,7 +796,7 @@ COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refMassnahmenText" I
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
 CREATE TRIGGER "change_to_FP_AusgleichsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_AusgleichsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_AusgleichsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_AusgleichsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche"
@@ -980,7 +987,7 @@ GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO xp_g
 GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO fp_user;
 COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Naturschutz"."child_of_FP_SchutzPflegeEntwicklung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie"
@@ -999,7 +1006,7 @@ GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" TO xp_g
 GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" TO fp_user;
 COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Naturschutz"."child_of_FP_SchutzPflegeEntwicklung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"
@@ -1019,7 +1026,7 @@ GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" TO fp_us
 COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Naturschutz"."child_of_FP_SchutzPflegeEntwicklung"();
 CREATE TRIGGER "FP_SchutzPflegeEntwicklungFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPflegeEntwicklungFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Bebauung"."FP_DetailArtDerBaulNutzung"
@@ -1095,7 +1102,7 @@ COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."GRZ" IS 'Angabe einer max
 CREATE TRIGGER "change_to_FP_BebauungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_BebauungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_BebauungsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_BebauungsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_BebauungsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche"
@@ -1115,7 +1122,7 @@ GRANT ALL ON TABLE "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" TO fp
 COMMENT ON TABLE "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" IS 'Baufläche, für die eine zentrale Abwasserbeseitigung nicht vorgesehen ist (§5, Abs. 2, Nr. 1 BauGB).';
 CREATE TRIGGER "change_to_FP_KeineZentrAbwasserBeseitigungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_KeineZentrAbwasserBeseitigungFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_KeineZentrAbwasserBeseitigungFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_KeineZentrAbwasserBeseitigungFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf"
@@ -1366,7 +1373,7 @@ GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfF
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_GemeinbedarfFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_Gemeinbedarf"();
 CREATE TRIGGER "FP_GemeinbedarfFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie"
@@ -1384,7 +1391,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_GemeinbedarfLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_Gemeinbedarf"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt"
@@ -1402,7 +1409,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_GemeinbedarfPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_Gemeinbedarf"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_GemeinbedarfPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche"
@@ -1421,7 +1428,7 @@ GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanl
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_SpielSportanlageFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_SpielSportanlage"();
 CREATE TRIGGER "FP_SpielSportanlageFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlageFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlageFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie"
@@ -1439,7 +1446,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_SpielSportanlageLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_SpielSportanlage"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlageLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlageLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt"
@@ -1457,7 +1464,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_SpielSportanlagePunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."child_of_FP_SpielSportanlage"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlagePunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlagePunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche"
@@ -1516,7 +1523,6 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-    ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
 CREATE INDEX "idx_fk_FP_WaldFlaeche_XP_ZweckbestimmungWald" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("zweckbestimmung") ;
@@ -1538,7 +1544,7 @@ COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereD
 CREATE TRIGGER "change_to_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_WaldFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_WaldFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_WaldFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche"
@@ -1634,7 +1640,7 @@ COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche
 CREATE TRIGGER "change_to_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_LandwirtschaftsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_LandwirtschaftsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_LandwirtschaftsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen"
@@ -1793,7 +1799,7 @@ CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen6" ON "FP_Landwirtschaft_Wa
 CREATE INDEX "idx_fk_FP_Gruen_XP_Nutzungsform1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("nutzungsform") ;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" TO fp_user;
-COMMENT ON ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" IS 'Darstellung einer Grünfläche nach §5, Abs. 2, Nr. 5 BauGB';
+COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" IS 'Darstellung einer Grünfläche nach §5, Abs. 2, Nr. 5 BauGB';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung der Grünfläche.';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung1" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
@@ -1832,7 +1838,7 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" TO xp
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_GruenFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Landwirtschaft_Wald_und_Gruen"."child_of_FP_Gruen"();
 CREATE TRIGGER "FP_GruenFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie"
@@ -1850,7 +1856,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_GruenLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Landwirtschaft_Wald_und_Gruen"."child_of_FP_Gruen"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt"
@@ -1868,7 +1874,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_GruenPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Landwirtschaft_Wald_und_Gruen"."child_of_FP_Gruen"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_GruenPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte"
@@ -1922,7 +1928,7 @@ CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte2" 
 CREATE INDEX "idx_fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte3" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung3") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
-COMMENT ON ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des FPlans, die keine nachrichtliche Übernahmen aus anderen Rechts-bereichen sind, aber durch keine andere Klasse des FPlan-Fachschemas dargestellt werden können.';
+COMMENT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des FPlans, die keine nachrichtliche Übernahmen aus anderen Rechts-bereichen sind, aber durch keine andere Klasse des FPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmung des Objekts.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."weitereZweckbestimmung1" IS 'Über eine ExternalCodeList definierte weitere Zweckbestimmung des Objekts.';
@@ -1958,7 +1964,7 @@ CREATE INDEX "idx_fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung1" ON "FP_S
 CREATE INDEX "idx_fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung2" ON "FP_Sonstiges"."FP_Kennzeichnung" ("weitereZweckbestimmung1") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
-COMMENT ON ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" IS 'Kennzeichnungen gemäß §5 Abs. 3 BauGB.';
+COMMENT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" IS 'Kennzeichnungen gemäß §5 Abs. 3 BauGB.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."zweckbestimmung" IS 'Zweckbestimmung der Kennzeichnung.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung der Kennzeichnung.';
@@ -1981,7 +1987,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_GenerischesObjekt"();
 CREATE TRIGGER "FP_GenerischesObjektFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_GenerischesObjektLinie"
@@ -1999,7 +2005,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_GenerischesObjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_GenerischesObjektPunkt"
@@ -2017,7 +2023,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_GenerischesObjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_GenerischesObjektPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_KennzeichnungFlaeche"
@@ -2036,7 +2042,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_KennzeichnungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_KennzeichnungFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_KennzeichnungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_KennzeichnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_Kennzeichnung"();
 CREATE TRIGGER "FP_KennzeichnungFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_KennzeichnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_KennzeichnungLinie"
@@ -2054,7 +2060,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_KennzeichnungLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_KennzeichnungLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_KennzeichnungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_KennzeichnungLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_Kennzeichnung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_KennzeichnungPunkt"
@@ -2072,7 +2078,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_KennzeichnungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_KennzeichnungPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_KennzeichnungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_KennzeichnungPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_Kennzeichnung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_KennzeichnungPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche"
@@ -2093,7 +2099,7 @@ COMMENT ON TABLE  "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" IS 'Umgrenzu
 CREATE TRIGGER "change_to_FP_NutzungsbeschraenkungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "ueberlagerung_FP_NutzungsbeschraenkungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 CREATE TRIGGER "FP_NutzungsbeschraenkungsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_NutzungsbeschraenkungsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_NutzungsbeschraenkungsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben"
@@ -2198,7 +2204,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" TO xp_ga
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_PrivilegiertesVorhabenFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_PrivilegiertesVorhaben"();
 CREATE TRIGGER "FP_PrivilegiertesVorhabenFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie"
@@ -2216,7 +2222,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_PrivilegiertesVorhabenLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_PrivilegiertesVorhaben"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt"
@@ -2234,7 +2240,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_PrivilegiertesVorhabenPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_PrivilegiertesVorhaben"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_PrivilegiertesVorhabenPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_VorbehalteFlaeche"
@@ -2257,7 +2263,7 @@ COMMENT ON COLUMN  "FP_Sonstiges"."FP_VorbehalteFlaeche"."gid" IS 'Primärschlü
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_VorbehalteFlaeche"."vorbehalt" IS '';
 CREATE TRIGGER "change_to_FP_VorbehalteFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_VorbehalteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_VorbehalteFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_VorbehalteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_VorbehalteFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_VorbehalteFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkung"
@@ -2296,7 +2302,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" TO xp_
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_UnverbindlicheVormerkungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_UnverbindlicheVormerkung"();
 CREATE TRIGGER "FP_UnverbindlicheVormerkungFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie"
@@ -2314,7 +2320,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linieobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_UnverbindlicheVormerkungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_UnverbindlicheVormerkung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt"
@@ -2332,7 +2338,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_FP_UnverbindlicheVormerkungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Sonstiges"."child_of_FP_UnverbindlicheVormerkung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_UnverbindlicheVormerkungPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche"
@@ -2354,7 +2360,7 @@ COMMENT ON COLUMN  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche"."gid" IS 'Pr
 CREATE TRIGGER "change_to_FP_TextlicheDarstellungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "ueberlagerung_FP_TextlicheDarstellungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 CREATE TRIGGER "FP_TextlicheDarstellungsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_TextlicheDarstellungsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_TextlicheDarstellungsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung"
@@ -2497,7 +2503,7 @@ GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" TO xp_ga
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_VerEntsorgungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Ver_und_Entsorgung"."child_of_FP_VerEntsorgung"();
 CREATE TRIGGER "FP_VerEntsorgungFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie"
@@ -2515,7 +2521,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_VerEntsorgungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Ver_und_Entsorgung"."child_of_FP_VerEntsorgung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt"
@@ -2533,7 +2539,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_VerEntsorgungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Ver_und_Entsorgung"."child_of_FP_VerEntsorgung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_VerEntsorgungPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr"
@@ -2630,7 +2636,7 @@ GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_StrassenverkehrFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_StrassenverkehrFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Verkehr"."FP_StrassenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Verkehr"."child_of_FP_Strassenverkehr"();
 CREATE TRIGGER "FP_StrassenverkehrFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Verkehr"."FP_StrassenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_StrassenverkehrLinie"
@@ -2648,7 +2654,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_StrassenverkehrLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_StrassenverkehrLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Verkehr"."FP_StrassenverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Verkehr"."child_of_FP_Strassenverkehr"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_StrassenverkehrPunkt"
@@ -2666,7 +2672,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_StrassenverkehrPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Verkehr"."FP_StrassenverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Verkehr"."child_of_FP_Strassenverkehr"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_StrassenverkehrPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_DetailZweckbestGewaesser"
@@ -2773,7 +2779,7 @@ GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_GewaesserFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Gewaesser"();
 CREATE TRIGGER "FP_GewaesserFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_GewaesserLinie"
@@ -2791,7 +2797,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_GewaesserLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Gewaesser"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_GewaesserPunkt"
@@ -2809,7 +2815,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_GewaesserPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Gewaesser"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_WasserwirtschaftFlaeche"
@@ -2828,7 +2834,7 @@ GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_WasserwirtschaftFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_WasserwirtschaftFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Wasserwirtschaft"();
 CREATE TRIGGER "FP_WasserwirtschaftFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_WasserwirtschaftLinie"
@@ -2846,7 +2852,7 @@ INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftLinie" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_WasserwirtschaftLinie" TO fp_user;
 CREATE TRIGGER "change_to_FP_WasserwirtschaftLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_WasserwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Wasserwirtschaft"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftLinie', 'position','MULTILINESTRING',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_WasserwirtschaftPunkt"
@@ -2864,7 +2870,7 @@ INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
 GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftPunkt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_WasserwirtschaftPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "FP_Wasser"."child_of_FP_Wasserwirtschaft"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftPunkt', 'position','MULTIPOINT',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche"
@@ -2885,7 +2891,7 @@ COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" IS 'Fl
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_AufschuettungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_AufschuettungsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AufschuettungsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AufschuettungsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche"
@@ -2906,7 +2912,7 @@ COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" IS 'Fläch
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_AbgrabungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_AbgrabungsFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AbgrabungsFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AbgrabungsFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"
@@ -2929,7 +2935,7 @@ COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"."gid" 
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_FP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."child_of_FP_Objekt"();
 CREATE TRIGGER "FP_BodenschaetzeFlaeche_RHR" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_BodenschaetzeFlaeche', 'position','MULTIPOLYGON',2, true);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_BodenschaetzeFlaeche', 'position','MULTIPOLYGON',2);
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -2944,7 +2950,7 @@ FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_user;
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Punktobjekte', 'position','MULTIPOINT',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Punktobjekte', 'position','MULTIPOINT',2);
 
 CREATE OR REPLACE RULE _update AS
     ON UPDATE TO "FP_Basisobjekte"."FP_Punktobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Punktobjekt" SET "position" = new."position"
@@ -2958,12 +2964,12 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Linienobjekte" AS
 SELECT g.*, c.relname as "Objektart" 
-FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
+FROM  "FP_Basisobjekte"."FP_Linienobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_user;
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Linienobjekte', 'position','MULTILINESTRING',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Linienobjekte', 'position','MULTILINESTRING',2);
 
 CREATE OR REPLACE RULE _update AS
     ON UPDATE TO "FP_Basisobjekte"."FP_Linienobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Linienobjekt" SET "position" = new."position"
@@ -2977,12 +2983,12 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Flaechenobjekte" AS
 SELECT g.*, c.relname as "Objektart" 
-FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
+FROM  "FP_Basisobjekte"."FP_Flaechenobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_user;
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Flaechenobjekte', 'position','MULTIPOLYGON',2, false);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Flaechenobjekte', 'position','MULTIPOLYGON',2);
 
 CREATE OR REPLACE RULE _update AS
     ON UPDATE TO "FP_Basisobjekte"."FP_Flaechenobjekte" DO INSTEAD  UPDATE "FP_Basisobjekte"."FP_Flaechenobjekt" SET "position" = new."position"
