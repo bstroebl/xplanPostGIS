@@ -570,12 +570,12 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
   "rechtscharakter" INTEGER NULL ,
   "spezifischePraegung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_bp_objekt_bp_rechtscharakter1"
+  CONSTRAINT "fk_fp_objekt_fp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
     REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT "fk_BP_Objekt_XP_Objekt1"
+  CONSTRAINT "fk_FP_Objekt_XP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -586,7 +586,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-CREATE INDEX "idx_fk_bp_objekt_bp_rechtscharakter1" ON "FP_Basisobjekte"."FP_Objekt" ("rechtscharakter") ;
+CREATE INDEX "idx_fk_fp_objekt_fp_rechtscharakter1" ON "FP_Basisobjekte"."FP_Objekt" ("rechtscharakter") ;
 CREATE INDEX "idx_fk_FP_Objekt_FP_SpezifischePraegungTypen1" ON "FP_Basisobjekte"."FP_Objekt" ("spezifischePraegung") ;
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Objekt" TO fp_user;
@@ -622,11 +622,11 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."gehoertZuFP_Bereich" TO fp_user;
 -- Table "FP_Basisobjekte"."gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."gemeinde" (
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "FP_Plan_gid" INTEGER NOT NULL ,
   "XP_Gemeinde_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("BP_Plan_gid", "XP_Gemeinde_id") ,
-  CONSTRAINT "fk_gemeinde_BP_Plan1"
-    FOREIGN KEY ("BP_Plan_gid" )
+  PRIMARY KEY ("FP_Plan_gid", "XP_Gemeinde_id") ,
+  CONSTRAINT "fk_gemeinde_FP_Plan1"
+    FOREIGN KEY ("FP_Plan_gid" )
     REFERENCES "FP_Basisobjekte"."FP_Plan" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -636,7 +636,7 @@ CREATE  TABLE  "FP_Basisobjekte"."gemeinde" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_gemeinde_BP_Plan1" ON "FP_Basisobjekte"."gemeinde" ("BP_Plan_gid") ;
+CREATE INDEX "idx_fk_gemeinde_FP_Plan1" ON "FP_Basisobjekte"."gemeinde" ("FP_Plan_gid") ;
 CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "FP_Basisobjekte"."gemeinde" ("XP_Gemeinde_id") ;
 GRANT SELECT ON TABLE "FP_Basisobjekte"."gemeinde" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."gemeinde" TO fp_user;
@@ -653,7 +653,7 @@ CREATE  TABLE  "FP_Raster"."FP_RasterplanAenderung" (
   "planbeschlussDatum" DATE NULL ,
   "wirksamkeitsDatum" DATE NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_BP_RasterplanAenderung1"
+  CONSTRAINT "fk_FP_RasterplanAenderung1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
