@@ -1112,7 +1112,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugsh
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
     
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
-CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
+CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_gast; 
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_user;
 
@@ -1212,12 +1212,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
   "gid" INTEGER NOT NULL ,
   "planName" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_XP_VerbundenerPlan_XP_Plan1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+  PRIMARY KEY ("gid"));
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (Attribut name von XP_Plan) des verbundenen Plans.';
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
