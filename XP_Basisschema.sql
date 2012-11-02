@@ -2024,7 +2024,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
 -- View "XP_Basisobjekte"."XP_Plaene"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
-SELECT g.*, p.name, c.relname as "Objektart" 
+SELECT g.*, p.name, CAST(c.relname as varchar) as "Objektart" 
 FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;
@@ -2043,7 +2043,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "XP_Basisobjekte"."XP_Bereiche"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Bereiche" AS
-SELECT g.*, p.name, c.relname as "Objektart" 
+SELECT g.*, p.name, CAST(c.relname as varchar) as "Objektart" 
 FROM  "XP_Basisobjekte"."XP_Geltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Bereich" p ON g.gid = p.gid;

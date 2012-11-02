@@ -80,6 +80,25 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."child_of_FP_Objekt"() TO fp_user;
 
+CREATE OR REPLACE FUNCTION "FP_Basisobjekte"."new_FP_Bereich"() 
+RETURNS trigger AS
+$BODY$
+ DECLARE
+    fp_plan_gid integer;
+ BEGIN
+    SELECT max(gid) from "FP_Basisobjekte"."FP_Plan" INTO fp_plan_gid;
+
+    IF fp_plan_gid IS NULL THEN
+        RETURN NULL;
+    ELSE
+        new."gehoertZuPlan" := fp_plan_gid;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."new_FP_Bereich"() TO fp_user;
+
 CREATE OR REPLACE FUNCTION "FP_Naturschutz"."child_of_FP_SchutzPflegeEntwicklung"() 
 RETURNS trigger AS
 $BODY$ 
@@ -541,6 +560,7 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGB" IS 'Datum der zu
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."gehoertZuPlan" IS '';
 CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
+CREATE TRIGGER "insert_into_FP_Bereich" BEFORE INSERT ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."new_FP_Bereich"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
@@ -2944,7 +2964,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung',
 -- View "FP_Basisobjekte"."FP_Punktobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Punktobjekte" AS
-SELECT g.*, c.relname as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
 FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_gast;
@@ -2962,7 +2982,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Linienobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Linienobjekte" AS
-SELECT g.*, c.relname as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
 FROM  "FP_Basisobjekte"."FP_Linienobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
@@ -2981,7 +3001,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Flaechenobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Flaechenobjekte" AS
-SELECT g.*, c.relname as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
 FROM  "FP_Basisobjekte"."FP_Flaechenobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
