@@ -56,7 +56,24 @@ $BODY$
   LANGUAGE 'plpythonu' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
-  
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(nspname character varying, relname character varying, gid integer)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    retvalue integer;
+BEGIN
+    EXECUTE 'SELECT b."gehoertZuPlan" FROM ' || 
+        quote_ident(nspname) || '.' || quote_ident(relname) || ' b ' ||
+        ' WHERE b.gid = ' || CAST(gid as varchar) || ';' INTO retvalue;
+    RETURN retvalue;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE STRICT
+COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, integer) TO xp_user;
+COMMENT ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, integer) IS 'Gibt die gid des XP_Plans, zu dem ein XP_Bereich gehoert zurück';
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(nspname character varying, relname character varying, art character varying, gid integer)
   RETURNS character varying AS
 $BODY$
@@ -71,6 +88,7 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) TO xp_user;
 COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer)
@@ -2043,10 +2061,12 @@ CREATE OR REPLACE RULE _delete AS
 -- View "XP_Basisobjekte"."XP_Bereiche"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Bereiche" AS
-SELECT g.*, p.name, CAST(c.relname as varchar) as "Objektart" 
-FROM  "XP_Basisobjekte"."XP_Geltungsbereich" g
-JOIN pg_class c ON g.tableoid = c.oid
-JOIN "XP_Basisobjekte"."XP_Bereich" p ON g.gid = p.gid;
+SELECT g.*, p.name, CAST(c.relname as varchar) as "Objektart", p.name as "planName", p."Objektart" as "planArt"
+   FROM "XP_Basisobjekte"."XP_Geltungsbereich" g
+   JOIN pg_class c ON g.tableoid = c.oid
+   JOIN pg_namespace n ON c.relnamespace = n.oid
+   JOIN "XP_Basisobjekte"."XP_Bereich" b ON g.gid = b.gid
+   JOIN "XP_Basisobjekte"."XP_Plaene" p ON "XP_Basisobjekte"."gehoertZuPlan"(CAST(n.nspname as varchar), CAST(c.relname as varchar), g.gid) = p.gid;
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_user;
 
