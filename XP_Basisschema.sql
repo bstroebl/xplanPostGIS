@@ -545,7 +545,7 @@ $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF new.gid IS NULL THEN
-            new.gid := currentval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+            new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         END IF;
         
         INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
