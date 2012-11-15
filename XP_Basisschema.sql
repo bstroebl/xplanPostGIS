@@ -1782,7 +1782,12 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0 ,
   "skalierung" REAL NULL DEFAULT 1 ,
-  PRIMARY KEY ("gid") );
+  PRIMARY KEY ("gid")
+  CONSTRAINT "fk_XP_PPO_XP_APO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" IS 'Punktförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
@@ -1797,7 +1802,12 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid") );
+  PRIMARY KEY ("gid")
+  CONSTRAINT "fk_XP_FPO_XP_APO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" IS 'Flächenförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_FPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_FPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
@@ -1811,7 +1821,12 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid") );
+  PRIMARY KEY ("gid")
+  CONSTRAINT "fk_XP_LPO_XP_APO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" IS 'Linienförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_LPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
@@ -1854,12 +1869,17 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_TPO" (
     FOREIGN KEY ("vertikaleAusrichtung" )
     REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert" )
     ON DELETE SET NULL
-    ON UPDATE NO ACTION,
+    ON UPDATE RESTRICT,
   CONSTRAINT "fk_XP_TPO_XP_HorizontaleAusrichtung1"
     FOREIGN KEY ("horizontaleAusrichtung" )
     REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert" )
     ON DELETE SET NULL
-    ON UPDATE NO ACTION,
+    ON UPDATE RESTRICT,
+  CONSTRAINT "fk_XP_TPO_XP_APO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_TPO_XP_LPO1"
     FOREIGN KEY ("hat" )
     REFERENCES "XP_Praesentationsobjekte"."XP_LPO" ("gid" )
@@ -1892,7 +1912,12 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PTO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0,
-  PRIMARY KEY ("gid") );
+  PRIMARY KEY ("gid")
+  CONSTRAINT "fk_XP_PTO_XP_TPO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_TPO" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" IS 'Textförmiges Präsentationsobjekt mit punktförmiger Festlegung der Textposition.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist.
@@ -1907,7 +1932,12 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid") );
+  PRIMARY KEY ("gid")
+  CONSTRAINT "fk_XP_LTO_XP_TPO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_TPO" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LTO" IS 'Textförmiges Präsentationsobjekt mit linienförmiger Textgeometrie.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_LTO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
