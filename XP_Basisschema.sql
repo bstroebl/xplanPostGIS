@@ -2183,6 +2183,13 @@ INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeich
 INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('9999', 'SonstigesGebiet');
 
 -- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_Rechtsstand"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('1000', 'Geplant');
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2000', 'Bestehend');
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('3000', 'Fortfallend');
+
+-- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Sondernutzungen"
 -- -----------------------------------------------------
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1000', 'Wochenendhausgebiet');
