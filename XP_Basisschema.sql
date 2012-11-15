@@ -319,6 +319,10 @@ CREATE SEQUENCE "XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_gid_seq" TO GROUP xp_user;
 
+CREATE SEQUENCE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq"
+   MINVALUE 1;
+GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq" TO GROUP xp_user;
+
 CREATE SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_gid_seq" TO GROUP xp_user;
@@ -557,6 +561,19 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."dientZurDarstellungVon_Insert"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO "XP_Praesentationsobjekte"."art"("dientZurDarstellungVon_id", "art") VALUES (new.id, 'text');
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."dientZurDarstellungVon_Insert"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() 
 RETURNS trigger AS
@@ -1714,10 +1731,10 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt
 -- Table "XP_Praesentationsobjekte"."dientZurDarstellungVon"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."dientZurDarstellungVon" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq"'),
   "XP_APObjekt_gid" INTEGER NOT NULL ,
   "XP_Objekt_gid" INTEGER NOT NULL ,
-  "art" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("XP_APObjekt_gid", "XP_Objekt_gid") ,
+  PRIMARY KEY ("id") ,
   CONSTRAINT "fk_dientzurdarstellungvon_XP_AbstraktesPraesentationsobjekt1"
     FOREIGN KEY ("XP_APObjekt_gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
@@ -1728,12 +1745,34 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."dientZurDarstellungVon" (
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+
 COMMENT ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" IS 'Relation zu XP_Objekt';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."art" IS 'Gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_APO1" ON "XP_Praesentationsobjekte"."dientZurDarstellungVon" ("XP_APObjekt_gid") ;
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_Objekt1" ON "XP_Praesentationsobjekte"."dientZurDarstellungVon" ("XP_Objekt_gid") ;
+CREATE TRIGGER "dientZurDarstellungVon_hadInsert" AFTER INSERT ON "XP_Praesentationsobjekte"."dientZurDarstellungVon" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."dientZurDarstellungVon_Insert"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" TO xp_user;
+
+-- -----------------------------------------------------
+-- Table "XP_Praesentationsobjekte"."art"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Praesentationsobjekte"."art" (
+  "dientZurDarstellungVon_id" INTEGER NOT NULL ,
+  "art" VARCHAR(255) NOT NULL ,
+  PRIMARY KEY ("dientZurDarstellungVon_id", "art") ,
+  CONSTRAINT "fk_dientZurDarstellungVon_has_attributname_dientZurDarstellun1"
+    FOREIGN KEY ("dientZurDarstellungVon_id" )
+    REFERENCES "XP_Praesentationsobjekte"."dientZurDarstellungVon" ("id" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "XP_Praesentationsobjekte"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
+Die Attributart "Art" darf nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."art"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
+Die Attributart "Art" darf nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+CREATE INDEX "idx_fk_dientZurDarstellungVon" ON "XP_Praesentationsobjekte"."art" ("dientZurDarstellungVon_id") ;
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."art" TO xp_gast;
+GRANT ALL ON TABLE "XP_Praesentationsobjekte"."art" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_PPO"
