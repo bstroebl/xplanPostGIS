@@ -3022,9 +3022,9 @@ CREATE OR REPLACE RULE _delete AS
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
 SELECT fp_o.gid as gid, "FP_Bereich_gid" as "XP_Bereich_gid", "Objektart"
 FROM  "FP_Basisobjekte"."gehoertZuFP_Bereich" g
-JOIN (SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Punktobjekte"
-    UNION SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Linienobjekte"
-    UNION SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Flaechenobjekte") fp_o
+JOIN (SELECT SELECT gid, CAST(c.relname as varchar) as "Objektart" FROM "FP_Basisobjekte"."FP_Punktobjekt"
+    UNION SELECT gid, CAST(c.relname as varchar) as "Objektart" FROM "FP_Basisobjekte"."FP_Linienobjekt"
+    UNION SELECT gid, CAST(c.relname as varchar) as "Objektart" FROM "FP_Basisobjekte"."FP_Flaechenobjekt") fp_o
     ON fp_o.gid = g."FP_Objekt_gid";
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 
