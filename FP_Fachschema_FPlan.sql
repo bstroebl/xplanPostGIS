@@ -3016,6 +3016,18 @@ CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "FP_Basisobjekte"."FP_Flaechenobjekte" DO INSTEAD  DELETE FROM "FP_Basisobjekte"."FP_Flaechenobjekt"
   WHERE gid = old.gid;
 
+-- -----------------------------------------------------
+-- View "FP_Basisobjekte"."FP_Objekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
+SELECT fp_o.gid as gid, "FP_Bereich_gid" as "XP_Bereich_gid", "Objektart"
+FROM  "FP_Basisobjekte"."gehoertZuFP_Bereich" g
+JOIN (SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Punktobjekte"
+    UNION SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Linienobjekte"
+    UNION SELECT gid, "Objektart" FROM "FP_Basisobjekte"."FP_Flaechenobjekte") fp_o
+    ON fp_o.gid = g."FP_Objekt_gid";
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
+
 -- *****************************************************
 -- DATA
 -- *****************************************************
