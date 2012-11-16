@@ -1680,6 +1680,14 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_gast
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_user;
 
 -- -----------------------------------------------------
+-- Table "XP_Praesentationsobjekte"."XP_APO"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APO" (
+  "gid" INTEGER NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APO" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (
@@ -1751,12 +1759,13 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0 ,
   "skalierung" REAL NULL DEFAULT 1 ,
-  PRIMARY KEY ("gid")
+  PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_PPO_XP_APO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" IS 'Punktförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
@@ -1771,12 +1780,13 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid")
+  PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_FPO_XP_APO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" IS 'Flächenförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_FPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_FPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
@@ -1790,12 +1800,13 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid")
+  PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LPO_XP_APO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" IS 'Linienförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_LPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
@@ -1881,12 +1892,13 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PTO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0,
-  PRIMARY KEY ("gid")
+  PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_PTO_XP_TPO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_TPO" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" IS 'Textförmiges Präsentationsobjekt mit punktförmiger Festlegung der Textposition.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist.
@@ -1901,12 +1913,13 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
   "gid" INTEGER NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  PRIMARY KEY ("gid")
+  PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LTO_XP_TPO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_TPO" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+    INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LTO" IS 'Textförmiges Präsentationsobjekt mit linienförmiger Textgeometrie.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "XP_LTO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
@@ -2119,7 +2132,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "XP_Raster"."XP_RasterplanAenderungen"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Raster"."XP_RasterplanAenderungen" AS
-SELECT g.*, p."nameAenderung", c.relname as "Objektart" 
+SELECT g.*, p."nameAenderung", CAST(c.relname as varchar) as "Objektart" 
 FROM  "XP_Raster"."XP_GeltungsbereichAenderung" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Raster"."XP_RasterplanAenderung" p ON g.gid = p.gid;
@@ -2132,6 +2145,17 @@ CREATE OR REPLACE RULE _update AS
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  DELETE FROM "XP_Raster"."XP_GeltungsbereichAenderung"
   WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_AbstraktePraesentationsobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_AbstraktePraesentationsobjekte" AS
+SELECT g.gid, p."gehoertZuBereich", CAST(c.relname as varchar) as "Objektart" , d."XP_Objekt_gid"
+FROM  "XP_Praesentationsobjekte"."XP_APO" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" p ON g.gid = p.gid
+LEFT JOIN (SELECT DISTINCT "XP_APObjekt_gid" as gid, "XP_Objekt_gid" FROM "XP_Praesentationsobjekte"."dientZurDarstellungVon") d ON g.gid = d.gid;
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktePraesentationsobjekte" TO xp_gast;
 
 -- *****************************************************
 -- DATA
