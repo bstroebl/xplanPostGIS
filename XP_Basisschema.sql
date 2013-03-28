@@ -234,7 +234,9 @@ BEGIN
 	RAISE DEBUG '%', sql;
 	EXECUTE sql;
 
-    SELECT CASE relkind WHEN 'v' THEN false ELSE true END from pg_class JOIN  pg_namespace ON relnamespace = pg_namespace.oid WHERE nspname = quote_ident(real_schema) AND relname = quote_ident(table_name) INTO is_table;
+     EXECUTE 'SELECT CASE relkind WHEN ' || quote_literal('v') || ' THEN false ELSE true END ' ||
+    'FROM pg_class JOIN pg_namespace ON relnamespace = pg_namespace.oid ' ||
+    'WHERE nspname = ' || quote_literal(real_schema) || ' AND relname = ' || quote_literal(table_name) || ';' INTO is_table;
 
     If is_table THEN
         -- Add table CHECKs
