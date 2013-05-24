@@ -1355,7 +1355,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_VerfahrensMerkmal" (
   "XP_Plan" INTEGER NOT NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_verfahrensmerkmal_xp_plan1"
-    FOREIGN KEY ("XP_Plan_gid" )
+    FOREIGN KEY ("XP_Plan" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
@@ -2134,7 +2134,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
 -- View "XP_Basisobjekte"."XP_Plaene"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
-SELECT g.*, p.name, CAST(c.relname as varchar) as "Objektart" 
+SELECT g."raeumlicherGeltungsbereich", p.*, CAST(c.relname as varchar) as "Objektart" 
 FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;

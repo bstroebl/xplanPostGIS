@@ -2967,8 +2967,10 @@ CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Punktobjekte" AS
 SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
 FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
+
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_gast;
-GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_user;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO fp_user;
+
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Punktobjekte', 'position','MULTIPOINT',2);
 
 CREATE OR REPLACE RULE _update AS
@@ -2987,7 +2989,8 @@ FROM  "FP_Basisobjekte"."FP_Linienobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_gast;
-GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_user;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO fp_user;
+
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Linienobjekte', 'position','MULTILINESTRING',2);
 
 CREATE OR REPLACE RULE _update AS
@@ -3006,7 +3009,8 @@ FROM  "FP_Basisobjekte"."FP_Flaechenobjekt" g
 JOIN pg_class c ON g.tableoid = c.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_gast;
-GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_user;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO fp_user;
+
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Flaechenobjekte', 'position','MULTIPOLYGON',2);
 
 CREATE OR REPLACE RULE _update AS

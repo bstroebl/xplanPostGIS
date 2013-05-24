@@ -58,7 +58,7 @@ SELECT "XP_Basisobjekte".ensure_sequence('QGIS', 'layer', 'id');
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."XP_Bereich_gesperrt" (
   "XP_Bereich_gid" INTEGER NOT NULL ,
-  "gesperrt" BOOLEAN  NOT NULL DEFAULT f ,
+  "gesperrt" BOOLEAN  NOT NULL DEFAULT false ,
   PRIMARY KEY ("XP_Bereich_gid") ,
   CONSTRAINT "fk_XP_Bereich_gesperrt_XP_Bereich1"
     FOREIGN KEY ("XP_Bereich_gid" )
@@ -76,13 +76,13 @@ CREATE  TABLE  "QGIS"."HorizontaleAusrichtung" (
   "Wert" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") ,
-  CONSTRAINT "fk_HorizontaleAusrichtung_XP_HorizontaleAusrichtung1"
+  CONSTRAINT "fk_HorizontaleAusrichtung1"
     FOREIGN KEY ("Wert" )
-    REFERENCES "QGIS"."XP_HorizontaleAusrichtung" ("Wert" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_HorizontaleAusrichtung_XP_HorizontaleAusrichtung1" ON "QGIS"."HorizontaleAusrichtung" ("Wert") ;
+CREATE INDEX "idx_fk_HorizontaleAusrichtung1" ON "QGIS"."HorizontaleAusrichtung" ("Wert") ;
 GRANT SELECT ON TABLE "QGIS"."HorizontaleAusrichtung" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -92,13 +92,13 @@ CREATE  TABLE  "QGIS"."VertikaleAusrichtung" (
   "Wert" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") ,
-  CONSTRAINT "fk_VertikaleAusrichtung_XP_VertikaleAusrichtung1"
+  CONSTRAINT "fk_VertikaleAusrichtung1"
     FOREIGN KEY ("Wert" )
-    REFERENCES "QGIS"."XP_VertikaleAusrichtung" ("Wert" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_VertikaleAusrichtung_XP_VertikaleAusrichtung1" ON "QGIS"."VertikaleAusrichtung" ("Wert") ;
+CREATE INDEX "idx_fk_VertikaleAusrichtung1" ON "QGIS"."VertikaleAusrichtung" ("Wert") ;
 GRANT SELECT ON TABLE "QGIS"."VertikaleAusrichtung" TO xp_gast;
 
 -- *****************************************************
@@ -120,11 +120,11 @@ FROM "XP_Basisobjekte"."XP_Bereich" xb
 JOIN (
 SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich" 
 UNION SELECT gid, "gehoertZuPlan" FROM "BP_Basisobjekte"."BP_Bereich"
-UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich")
-b ON xb.gid = b.gid
+UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich"
+) b ON xb.gid = b.gid
 JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
 GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
-COMMENT ON TABLE "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
+COMMENT ON VIEW "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
 Fachschemas nicht installiert sind, ist der View anzupassen!';
 
 -- -----------------------------------------------------
