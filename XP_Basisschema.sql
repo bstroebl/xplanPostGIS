@@ -46,6 +46,45 @@ GRANT USAGE ON SCHEMA "SO_Schutzgebiete" TO xp_gast;
 -- CREATE FUNCTIONs
 -- *****************************************************
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte".ensure_sequence(name_of_schema character varying, name_of_table character varying, pk_column character varying)
+  RETURNS character varying AS
+$BODY$ 
+ DECLARE
+    str_trigger varchar;
+ BEGIN
+        str_trigger := 'CREATE FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
+			'() RETURNS TRIGGER AS $ensure_sequence$' || E'\n';
+        str_trigger := str_trigger || 'DECLARE' || E'\n';
+        str_trigger := str_trigger || '    str_execute text;' || E'\n';
+        str_trigger := str_trigger || 'BEGIN' || E'\n'; 
+        str_trigger := str_trigger || '    IF (TG_OP = ' || quote_literal('INSERT') || ') THEN' || E'\n';
+        str_trigger := str_trigger || '        NEW.' || pk_column || ' := nextval(' || 
+		quote_literal(quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_' || 
+		pk_column || '_seq')) || ');' || E'\n';
+        str_trigger := str_trigger || '    ELSIF (TG_OP = ' || quote_literal('UPDATE') || ') THEN' || E'\n';
+        str_trigger := str_trigger || '        NEW.' || pk_column || ' := ' || 'OLD.' || pk_column || ';' || E'\n';
+        str_trigger := str_trigger || '    END IF;' || E'\n';
+        str_trigger := str_trigger || '    RETURN NEW;' || E'\n';
+        str_trigger := str_trigger || 'END; $ensure_sequence$ LANGUAGE plpgsql;' || E'\n'; 
+        
+        EXECUTE str_trigger;
+
+        EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' || 
+		quote_ident(name_of_table || '_ensure_sequence') || '() TO grp_gast;';
+        EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
+		'() OWNER TO grp_admin;';
+        EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' || 
+		quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) || 
+		' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' || 
+			quote_ident(name_of_table || '_ensure_sequence') || '();';
+        RETURN 'OK'; --*/
+ END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+COMMENT ON FUNCTION "XP_Basisobjekte".ensure_sequence(character varying, character varying, character varying) IS 
+'Erzeugt Trigger, die für das PK-Feld den nächsten Wert aus der Sequenz vergeben und sicherstellen, dass der PK-Wert
+vom Nutzer nicht geändert werden kann.';
+
 -- needs Python 2.5 or higher
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte".create_uuid()
   RETURNS character varying AS
