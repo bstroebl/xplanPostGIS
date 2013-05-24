@@ -106,6 +106,26 @@ GRANT SELECT ON TABLE "QGIS"."VertikaleAusrichtung" TO xp_gast;
 -- *****************************************************
 CREATE TRIGGER "XP_Bereich_hasInsert" AFTER INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "QGIS"."XP_Bereich_Sperre"();
 
+-- *****************************************************
+-- CREATE Views
+-- *****************************************************
+
+-- -----------------------------------------------------
+-- View "QGIS"."XP_Bereiche"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "QGIS"."XP_Bereiche" AS
+SELECT xb.gid, xb.name as bereichsname, xp.name as planname, xp."Objektart" as planart, 
+xp.beschreibung, xp."technHerstellDatum", xp."untergangsDatum" 
+FROM "XP_Basisobjekte"."XP_Bereich" xb
+JOIN (
+SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich" 
+UNION SELECT gid, "gehoertZuPlan" FROM "BP_Basisobjekte"."BP_Bereich"
+UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich")
+b ON xb.gid = b.gid
+JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
+GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
+COMMENT ON TABLE "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
+Fachschemas nicht installiert sind, ist der View anzupassen!';
 
 -- -----------------------------------------------------
 -- Data for table "QGIS"."HorizontaleAusrichtung"
