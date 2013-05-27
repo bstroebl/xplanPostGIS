@@ -114,7 +114,7 @@ CREATE TRIGGER "XP_Bereich_hasInsert" AFTER INSERT ON "XP_Basisobjekte"."XP_Bere
 -- View "QGIS"."XP_Bereiche"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "QGIS"."XP_Bereiche" AS
-SELECT xb.gid, xb.name as bereichsname, xp.name as planname, xp."Objektart" as planart, 
+SELECT xb.gid, xb.name as bereichsname, xp.gid as plangid, xp.name as planname, xp."Objektart" as planart, 
 xp.beschreibung, xp."technHerstellDatum", xp."untergangsDatum" 
 FROM "XP_Basisobjekte"."XP_Bereich" xb
 JOIN (
