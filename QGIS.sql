@@ -20,6 +20,7 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     INSERT INTO "QGIS"."XP_Bereich_gesperrt"("XP_Bereich_gid") VALUES (new.gid);
+    RETURN new;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
@@ -49,7 +50,7 @@ CREATE  TABLE  "QGIS"."layer" (
 CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid") ;
 GRANT SELECT ON TABLE "QGIS"."layer" TO xp_gast;
 GRANT ALL ON TABLE "QGIS"."layer" TO xp_user;
-
+COMMENT ON TABLE  "QGIS"."layer" IS 'Layersteuerung für QGIS; für einzelne Layer kann ein Stil (qml-xml) definiert werden, der angewendet wird, wenn diser Layer in diesen Bereich geladen wird. Die loadorder legt optional fest, in welcher Reihenfolge die Layer geladen werden sollen (wichtig bei sich überlagernden Polygonlayern). Unabhängig von den hier getroffenen Einstellungen wird ein Layer nur in einen Bereich geladen, wenn er dafür Objekte hat.'
 SELECT "XP_Basisobjekte".ensure_sequence('QGIS', 'layer', 'id');
 
 
