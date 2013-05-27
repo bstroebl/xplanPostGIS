@@ -149,7 +149,7 @@ DECLARE
 	sql text;
 
 BEGIN
-    new_srid := 3397; --EPSG-code des räumlichen Referenzsystems hier ändern
+    new_srid := 25832; --EPSG-code des räumlichen Referenzsystems hier ändern
 	-- Verify geometry type
 	IF ( NOT ( (new_type = 'GEOMETRY') OR
 			   (new_type = 'GEOMETRYCOLLECTION') OR
