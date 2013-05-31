@@ -2134,7 +2134,9 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
 -- View "XP_Basisobjekte"."XP_Plaene"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
-SELECT g."raeumlicherGeltungsbereich", p.*, CAST(c.relname as varchar) as "Objektart" 
+SELECT g.gid, g."raeumlicherGeltungsbereich", name, nummer, "internalId", beschreibung,  kommentar,
+  "technHerstellDatum",  "untergangsDatum",  "erstellungsMassstab" ,
+  "xPlanGMLVersion",  bezugshoehe , CAST(c.relname as varchar) as "Objektart" 
 FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;

@@ -37,7 +37,7 @@ CREATE  TABLE  "QGIS"."layer" (
   "id" INTEGER NOT NULL ,
   "schemaname" VARCHAR(45) NOT NULL ,
   "layername" VARCHAR(45) NOT NULL ,
-  "style" VARCHAR(1024) NOT NULL ,
+  "style" TEXT NOT NULL ,
   "XP_Bereich_gid" INTEGER NULL ,
   "loadorder" INTEGER NULL,
   PRIMARY KEY ("id") ,
