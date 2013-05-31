@@ -2964,9 +2964,11 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung',
 -- View "FP_Basisobjekte"."FP_Punktobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Punktobjekte" AS
-SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
 FROM  "FP_Basisobjekte"."FP_Punktobjekt" g
-JOIN pg_class c ON g.tableoid = c.oid;
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekte" TO fp_user;
@@ -2984,9 +2986,11 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Linienobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Linienobjekte" AS
-SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
 FROM  "FP_Basisobjekte"."FP_Linienobjekt" g
-JOIN pg_class c ON g.tableoid = c.oid;
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekte" TO fp_user;
@@ -3004,9 +3008,11 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Flaechenobjekte"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Flaechenobjekte" AS
-SELECT g.*, CAST(c.relname as varchar) as "Objektart" 
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
 FROM  "FP_Basisobjekte"."FP_Flaechenobjekt" g
-JOIN pg_class c ON g.tableoid = c.oid;
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekte" TO fp_user;
@@ -3027,12 +3033,14 @@ CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
 SELECT fp_o.gid as gid, "FP_Bereich_gid" as "XP_Bereich_gid", "Objektart"
 FROM  "FP_Basisobjekte"."gehoertZuFP_Bereich" g
 JOIN (
-    SELECT gid, CAST(c.relname as varchar) as "Objektart"
+    SELECT gid, CAST(c.relname as varchar) as "Objektart",
+    CAST(n.nspname as varchar) as "Objektartengruppe"
     FROM
         (SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Punktobjekt" p 
         UNION SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Linienobjekt" 
         UNION SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
     JOIN pg_class c ON o.tableoid = c.oid
+    JOIN pg_namespace n ON c.relnamespace = n.oid
     ) fp_o
     ON fp_o.gid = g."FP_Objekt_gid";
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
