@@ -650,6 +650,8 @@ $BODY$
         IF new."position" IS NOT NULL THEN
             new."position" := ST_ForceRHR(new."position");
         END IF;
+
+        RETURN new;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
