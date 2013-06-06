@@ -47,6 +47,7 @@ CREATE  TABLE  "QGIS"."layer" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "onlyOneStyle" UNIQUE (schemaname , layername , "XP_Bereich_gid");
+  -- NULL in XP_Bereich_gid kann mehrfach vorkommen!
 
 CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid") ;
 -- eventuell ist ein Index auf (schemaname , layername , "XP_Bereich_gid") performanter
@@ -144,3 +145,4 @@ INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('zent
 INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Basis', 'Base');
 INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Mitte', 'Half');
 INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Oben', 'Top');
+
