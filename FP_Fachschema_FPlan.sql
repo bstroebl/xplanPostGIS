@@ -3029,20 +3029,21 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 -- View "FP_Basisobjekte"."FP_Objekte"
 -- -----------------------------------------------------
-CREATE  OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
-SELECT fp_o.gid as gid, "FP_Bereich_gid" as "XP_Bereich_gid", "Objektart"
-FROM  "FP_Basisobjekte"."gehoertZuFP_Bereich" g
-JOIN (
-    SELECT gid, CAST(c.relname as varchar) as "Objektart",
-    CAST(n.nspname as varchar) as "Objektartengruppe"
-    FROM
-        (SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Punktobjekt" p 
-        UNION SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Linienobjekt" 
-        UNION SELECT gid, tableoid FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
+CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS 
+ SELECT fp_o.gid, g."FP_Bereich_gid" AS "XP_Bereich_gid", fp_o."Objektart"
+ FROM 
+  ( SELECT o.gid, c.relname::character varying AS "Objektart", n.nspname::character varying AS "Objektartengruppe"
+         FROM (        (         SELECT p.gid, p.tableoid
+                                 FROM "FP_Basisobjekte"."FP_Punktobjekt" p
+                      UNION 
+                               SELECT "FP_Linienobjekt".gid, "FP_Linienobjekt".tableoid
+                                 FROM "FP_Basisobjekte"."FP_Linienobjekt")
+              UNION 
+                       SELECT "FP_Flaechenobjekt".gid, "FP_Flaechenobjekt".tableoid
+                         FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
     JOIN pg_class c ON o.tableoid = c.oid
-    JOIN pg_namespace n ON c.relnamespace = n.oid
-    ) fp_o
-    ON fp_o.gid = g."FP_Objekt_gid";
+    JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+  left join "FP_Basisobjekte"."gehoertZuFP_Bereich" g ON fp_o.gid = g."FP_Objekt_gid";
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 
 -- *****************************************************
