@@ -3030,7 +3030,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Objekte"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS 
- SELECT fp_o.gid, g."FP_Bereich_gid" AS "XP_Bereich_gid", fp_o."Objektart"
+ SELECT fp_o.gid, g."FP_Bereich_gid", fp_o."Objektart"
  FROM 
   ( SELECT o.gid, c.relname::character varying AS "Objektart", n.nspname::character varying AS "Objektartengruppe"
          FROM (        (         SELECT p.gid, p.tableoid
@@ -3043,7 +3043,7 @@ CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
                          FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
     JOIN pg_class c ON o.tableoid = c.oid
     JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-  left join "FP_Basisobjekte"."gehoertZuFP_Bereich" g ON fp_o.gid = g."FP_Objekt_gid";
+    left join "FP_Basisobjekte"."gehoertZuFP_Bereich" g ON fp_o.gid = g."FP_Objekt_gid";
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 
 -- *****************************************************
