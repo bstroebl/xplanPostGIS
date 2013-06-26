@@ -3030,7 +3030,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "FP_Basisobjekte"."FP_Objekte"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS 
- SELECT fp_o.gid, g."FP_Bereich_gid", fp_o."Objektart"
+ SELECT fp_o.gid, g."FP_Bereich_gid", fp_o."Objektart", fp_o."Objektartengruppe"
  FROM 
   ( SELECT o.gid, c.relname::character varying AS "Objektart", n.nspname::character varying AS "Objektartengruppe"
          FROM (        (         SELECT p.gid, p.tableoid
