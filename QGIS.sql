@@ -36,7 +36,7 @@ GRANT EXECUTE ON FUNCTION "QGIS"."XP_Bereich_Sperre"() TO xp_user;
 CREATE  TABLE  "QGIS"."layer" (
   "id" INTEGER NOT NULL ,
   "schemaname" VARCHAR(45) NOT NULL ,
-  "layername" VARCHAR(45) NOT NULL ,
+  "tablename" VARCHAR(45) NOT NULL ,
   "style" TEXT NOT NULL ,
   "XP_Bereich_gid" INTEGER NULL ,
   "loadorder" INTEGER NULL,
