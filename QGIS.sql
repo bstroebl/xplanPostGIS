@@ -133,6 +133,44 @@ COMMENT ON VIEW "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren B
 Fachschemas nicht installiert sind, ist der View anzupassen!';
 
 -- -----------------------------------------------------
+-- Funktionen umdefinieren, damit keine XP_Objekte aus gesperrten Bereichen gelöscht werden können
+-- -----------------------------------------------------
+CREATE OR REPLACE FUNCTION "FP_Basisobjekte"."child_of_FP_Objekt"() 
+RETURNS trigger AS
+$BODY$
+DECLARE
+  gesperrt integer;
+BEGIN
+  IF (TG_OP = 'INSERT') THEN
+    IF new.gid IS NULL THEN
+        new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+    END IF;
+    
+    INSERT INTO "FP_Basisobjekte"."FP_Objekt"(gid) VALUES(new.gid);
+    RETURN new;
+  ELSE
+    --prüfen, ob das FP_Objekt in einem gesperrten Bereich liegt
+    SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "FP_Basisobjekte"."gehoertZuFP_Bereich" z LEFT JOIN "QGIS"."XP_Bereich_gesperrt" g ON z."FP_Bereich_gid" = g."XP_Bereich_gid" WHERE z."FP_Objekt_gid" = old.gid ORDER BY gesp DESC LIMIT 1 INTO gesperrt;
+
+    IF gesperrt = 1 THEN
+      RETURN NULL; -- Befehl wird nicht ausgeführt
+    ELSE
+      IF (TG_OP = 'UPDATE') THEN
+        new.gid := old.gid; --no change in gid allowed
+        RETURN new;
+      ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "FP_Basisobjekte"."FP_Objekt" WHERE gid = old.gid;
+        RETURN old;
+      END IF;
+    END IF;
+  END IF;
+END; $BODY$
+LANGUAGE 'plpgsql' VOLATILE
+COST 100;
+GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."child_of_FP_Objekt"() TO fp_user;
+
+
+-- -----------------------------------------------------
 -- Data for table "QGIS"."HorizontaleAusrichtung"
 -- -----------------------------------------------------
 INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('linksbündig', 'Left');
