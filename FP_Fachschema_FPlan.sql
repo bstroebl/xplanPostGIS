@@ -2708,8 +2708,8 @@ GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO fp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_Gewaesser" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NOT NULL ,
-  "detaillierteZweckbestimmung" INTEGER NOT NULL ,
+  "zweckbestimmung" INTEGER,
+  "detaillierteZweckbestimmung" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Gewaesser_XP_ZweckbestimmungGewaesser"
     FOREIGN KEY ("zweckbestimmung" )
