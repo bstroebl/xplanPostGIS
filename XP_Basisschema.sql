@@ -868,7 +868,7 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutz
 -- Table "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "raeumlicherGeltungsbereich" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_gast;
@@ -879,7 +879,7 @@ CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT ON "XP_
 -- Table "XP_Basisobjekte"."XP_Geltungsbereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Geltungsbereich" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "geltungsbereich" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_gast;
@@ -975,7 +975,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" TO xp_user;
 -- Table "XP_Raster"."XP_GeltungsbereichAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Raster"."XP_GeltungsbereichAenderung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "geltungsbereichAenderung" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_gast;
@@ -1056,7 +1056,7 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_user;
 -- Table "XP_Raster"."XP_RasterplanAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung" (
-  "gid" INTEGER NOT NULL DEFAULT nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"'),
+  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"'),
   "nameAenderung" VARCHAR(64) NULL ,
   "beschreibung" VARCHAR(255) NULL ,
   "refBeschreibung" INTEGER NULL ,
@@ -1097,7 +1097,7 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_user;
 -- Table "XP_Raster"."XP_RasterplanAenderung_refScan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung_refScan" (
-  "XP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "XP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_RasterplanAenderung_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_RasterplanAenderung_refScan1"
@@ -1121,7 +1121,7 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_refScan" TO xp_user;
 -- Table "XP_Raster"."XP_RasterplanAenderung_refLegende"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung_refLegende" (
-  "XP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "XP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_RasterplanAenderung_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_RasterplanAenderung_refLegende1"
@@ -1145,7 +1145,7 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_refLegende" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Plan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
-  "gid" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"'),
+  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"'),
   "name" VARCHAR(64) NOT NULL ,
   "nummer" VARCHAR(16) NULL ,
   "internalId" VARCHAR(255) NULL ,
@@ -1186,7 +1186,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Bereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Bereich" (
-  "gid" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"'),
+  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"'),
   "nummer" INTEGER NOT NULL DEFAULT 0 ,
   "name" VARCHAR(255) NOT NULL ,
   "bedeutung" INTEGER NULL ,
@@ -1221,7 +1221,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
-  "gid" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"'),
+  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"'),
   "uuid" VARCHAR(64) NULL ,
   "text" VARCHAR(255) NULL ,
   "rechtsstand" INTEGER NULL ,
@@ -1276,7 +1276,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 -- Table "XP_Basisobjekte"."XP_VerbundenerPlan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "planName" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("gid"));
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
@@ -1288,8 +1288,8 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 -- Table "XP_Basisobjekte"."aendert"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."aendert" (
-  "XP_Plan" INTEGER NOT NULL ,
-  "XP_VerbundenerPlan" INTEGER NOT NULL ,
+  "XP_Plan" BIGINT NOT NULL ,
+  "XP_VerbundenerPlan" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
   PRIMARY KEY ("XP_Plan", "XP_VerbundenerPlan") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan1"
@@ -1319,8 +1319,8 @@ COMMENT ON COLUMN "XP_Basisobjekte"."aendert"."rechtscharakter" IS 'Rechtscharak
 -- Table "XP_Basisobjekte"."wurdeGeaendertVon"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."wurdeGeaendertVon" (
-  "XP_Plan" INTEGER NOT NULL ,
-  "XP_VerbundenerPlan" INTEGER NOT NULL ,
+  "XP_Plan" BIGINT NOT NULL ,
+  "XP_VerbundenerPlan" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
   PRIMARY KEY ("XP_Plan", "XP_VerbundenerPlan") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan2"
@@ -1378,8 +1378,8 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_user;
 -- Table "XP_Basisobjekte"."gehoertNachrichtlichZuBereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."gehoertNachrichtlichZuBereich" (
-  "XP_Bereich_gid" INTEGER NOT NULL ,
-  "XP_Objekt_gid" INTEGER NOT NULL ,
+  "XP_Bereich_gid" BIGINT NOT NULL ,
+  "XP_Objekt_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("XP_Bereich_gid", "XP_Objekt_gid") ,
   CONSTRAINT "fk_XP_Bereich_has_XP_Objekt_XP_Bereich1"
     FOREIGN KEY ("XP_Bereich_gid" )
@@ -1402,7 +1402,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."gehoertNachrichtlichZuBereich" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich" (
-  "XP_Objekt_gid" INTEGER NOT NULL ,
+  "XP_Objekt_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Objekt_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Objekt_rechtsverbindlich1"
@@ -1426,7 +1426,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Objekt_informell"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_informell" (
-  "XP_Objekt_gid" INTEGER NOT NULL ,
+  "XP_Objekt_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Objekt_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Objekt_informell2"
@@ -1450,7 +1450,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_informell" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Plan_rechtsverbindlich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_rechtsverbindlich" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan1"
@@ -1474,7 +1474,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_rechtsverbindlich" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_Plan_informell"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_informell" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan2"
@@ -1498,7 +1498,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_informell" TO xp_user;
 -- Table "XP_Basisobjekte"."refBeschreibung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."refBeschreibung" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan3"
@@ -1522,7 +1522,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."refBeschreibung" TO xp_user;
 -- Table "XP_Basisobjekte"."refBegruendung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."refBegruendung" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan4"
@@ -1546,7 +1546,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."refBegruendung" TO xp_user;
 -- Table "XP_Basisobjekte"."refLegende"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."refLegende" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan5"
@@ -1570,7 +1570,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."refLegende" TO xp_user;
 -- Table "XP_Basisobjekte"."refRechtsplan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."refRechtsplan" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan6"
@@ -1594,7 +1594,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."refRechtsplan" TO xp_user;
 -- Table "XP_Basisobjekte"."refPlangrundlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."refPlangrundlage" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_ExterneReferenz_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_ExterneReferenz_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan7"
@@ -1668,7 +1668,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_BegruendungAbschnitt" TO xp_user;
 -- Table "XP_Basisobjekte"."begruendungsTexte"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."begruendungsTexte" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_BegruendungAbschnitt_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_BegruendungAbschnitt_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_BegruendungAbschnitt_XP_Plan1"
@@ -1692,7 +1692,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."begruendungsTexte" TO xp_user;
 -- Table "XP_Basisobjekte"."texte"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."texte" (
-  "XP_Plan_gid" INTEGER NOT NULL ,
+  "XP_Plan_gid" BIGINT NOT NULL ,
   "XP_TextAbschnitt_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Plan_gid", "XP_TextAbschnitt_id") ,
   CONSTRAINT "fk_XP_Plan_has_XP_TextAbschnitt_XP_Plan1"
@@ -1727,7 +1727,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_APO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APO" TO xp_gast;
 
@@ -1735,7 +1735,7 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APO" TO xp_gast;
 -- Table "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (
-  "gid" INTEGER NOT NULL DEFAULT nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"'),
+  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"'),
   "stylesheetId" INTEGER NULL ,
   "darstellungsprioritaet" INTEGER NULL ,
   "gehoertZuBereich" INTEGER NULL ,
@@ -1770,8 +1770,8 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt
 -- Table "XP_Praesentationsobjekte"."dientZurDarstellungVon"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."dientZurDarstellungVon" (
-  "XP_APObjekt_gid" INTEGER NOT NULL ,
-  "XP_Objekt_gid" INTEGER NOT NULL ,
+  "XP_APObjekt_gid" BIGINT NOT NULL ,
+  "XP_Objekt_gid" BIGINT NOT NULL ,
   "art" VARCHAR(64) NOT NULL DEFAULT 'text',
   PRIMARY KEY ("XP_APObjekt_gid", "XP_Objekt_gid", "art") ,
   CONSTRAINT "fk_dientzurdarstellungvon_XP_APOt1"
@@ -1799,7 +1799,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" TO xp_use
 -- Table "XP_Praesentationsobjekte"."XP_PPO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0 ,
   "skalierung" REAL NULL DEFAULT 1 ,
@@ -1822,7 +1822,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_FPO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_FPO_XP_APO1"
@@ -1842,7 +1842,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_LPO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LPO_XP_APO1"
@@ -1881,7 +1881,7 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" TO 
 -- Table "XP_Praesentationsobjekte"."XP_TPO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_TPO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "schriftinhalt" VARCHAR(255) NULL ,
   "fontSperrung" REAL NULL DEFAULT 0,
   "skalierung" REAL NULL DEFAULT 1,
@@ -1933,7 +1933,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_PTO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PTO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0,
   PRIMARY KEY ("gid"),
@@ -1955,7 +1955,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_LTO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LTO_XP_TPO1"
@@ -2109,7 +2109,7 @@ GRANT ALL ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_user;
 -- Table `XP_Basisobjekte`.`hoehenangabe`
 -- -----------------------------------------------------
 CREATE TABLE "XP_Basisobjekte"."hoehenangabe" (
-  "XP_Objekt_gid" INTEGER NOT NULL ,
+  "XP_Objekt_gid" BIGINT NOT NULL ,
   "XP_Hoehenangabe_id" INTEGER NOT NULL ,
   PRIMARY KEY ("XP_Objekt_gid", "XP_Hoehenangabe_id") ,
   CONSTRAINT "fk_XP_Objekt_has_XP_Hoehenangabe_XP_Objekt1"

@@ -38,7 +38,7 @@ CREATE  TABLE  "QGIS"."layer" (
   "schemaname" VARCHAR(45) NOT NULL ,
   "tablename" VARCHAR(45) NOT NULL ,
   "style" TEXT NOT NULL ,
-  "XP_Bereich_gid" INTEGER NULL ,
+  "XP_Bereich_gid" BIGINT NULL ,
   "loadorder" INTEGER NULL,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_layer_XP_Bereich1"
@@ -62,7 +62,7 @@ SELECT "XP_Basisobjekte".ensure_sequence('QGIS', 'layer', 'id');
 -- Table "QGIS"."XP_Bereich_gesperrt"
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."XP_Bereich_gesperrt" (
-  "XP_Bereich_gid" INTEGER NOT NULL ,
+  "XP_Bereich_gid" BIGINT NOT NULL ,
   "gesperrt" BOOLEAN  NOT NULL DEFAULT false ,
   PRIMARY KEY ("XP_Bereich_gid") ,
   CONSTRAINT "fk_XP_Bereich_gesperrt_XP_Bereich1"

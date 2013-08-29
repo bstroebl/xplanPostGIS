@@ -431,7 +431,7 @@ GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_PlanArt" TO xp_gast;
 -- Table "FP_Basisobjekte"."FP_Plan"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "plangeber" INTEGER NULL ,
   "planArt" INTEGER NULL ,
   "sonstPlanArt" INTEGER NULL ,
@@ -524,7 +524,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Plan', 
 -- Table "FP_Basisobjekte"."FP_Bereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "versionBauNVO" INTEGER NULL ,
   "versionBauNVOText" VARCHAR(255) NULL ,
   "versionBauGB" DATE NULL ,
@@ -586,7 +586,7 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO fp_user;
 -- Table "FP_Basisobjekte"."FP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NULL ,
   "spezifischePraegung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -620,8 +620,8 @@ CREATE TRIGGER "change_to_FP_Objekt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ba
 -- Table "FP_Basisobjekte"."gehoertZuFP_Bereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."gehoertZuFP_Bereich" (
-  "FP_Bereich_gid" INTEGER NOT NULL ,
-  "FP_Objekt_gid" INTEGER NOT NULL ,
+  "FP_Bereich_gid" BIGINT NOT NULL ,
+  "FP_Objekt_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("FP_Bereich_gid", "FP_Objekt_gid") ,
   CONSTRAINT "fk_gehoertzuFP_Bereich_FP_Bereich1"
     FOREIGN KEY ("FP_Bereich_gid" )
@@ -642,7 +642,7 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."gehoertZuFP_Bereich" TO fp_user;
 -- Table "FP_Basisobjekte"."gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."gemeinde" (
-  "FP_Plan_gid" INTEGER NOT NULL ,
+  "FP_Plan_gid" BIGINT NOT NULL ,
   "XP_Gemeinde_id" INTEGER NOT NULL ,
   PRIMARY KEY ("FP_Plan_gid", "XP_Gemeinde_id") ,
   CONSTRAINT "fk_gemeinde_FP_Plan1"
@@ -666,7 +666,7 @@ COMMENT ON TABLE  "FP_Basisobjekte"."gemeinde" IS 'Zuständige Gemeinde';
 -- Table "FP_Raster"."FP_RasterplanAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."FP_RasterplanAenderung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   " aufstellungbeschlussDatum" DATE NULL ,
   "aenderungenBisDatum" DATE NULL ,
   "entwurfsbeschlussDatum" DATE NULL ,
@@ -696,8 +696,8 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Raster','FP_RasterplanAen
 -- Table "FP_Basisobjekte"."rasterAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."rasterAenderung" (
-  "FP_Bereich_gid" INTEGER NOT NULL ,
-  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "FP_Bereich_gid" BIGINT NOT NULL ,
+  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("FP_Bereich_gid", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_rasterAenderung_FP_Bereich"
     FOREIGN KEY ("FP_Bereich_gid" )
@@ -719,7 +719,7 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."rasterAenderung" TO fp_user;
 -- Table "FP_Basisobjekte"."FP_Punktobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Punktobjekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekt" TO xp_gast;
@@ -730,7 +730,7 @@ CREATE TRIGGER "FP_Punktobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."F
 -- Table "FP_Basisobjekte"."FP_Linienobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Linienobjekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekt" TO xp_gast;
@@ -741,7 +741,7 @@ CREATE TRIGGER "FP_Linienobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."
 -- Table "FP_Basisobjekte"."FP_Flaechenobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Flaechenobjekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
   "flaechenschluss" BOOLEAN,
   PRIMARY KEY ("gid") );
@@ -753,7 +753,7 @@ CREATE TRIGGER "FP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"
 -- Table "FP_Naturschutz"."FP_AusgleichsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
   "massnahme" INTEGER NULL ,
   "weitereMassnahme1" INTEGER NULL ,
@@ -822,8 +822,8 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_Ausgleic
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche" (
-  "FP_Objekt_gid" INTEGER NOT NULL ,
-  "FP_AusgleichsFlaeche_gid" INTEGER NOT NULL ,
+  "FP_Objekt_gid" BIGINT NOT NULL ,
+  "FP_AusgleichsFlaeche_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("FP_Objekt_gid", "FP_AusgleichsFlaeche_gid") ,
   CONSTRAINT "fk_wirdAusgeglichenDurchFlaeche1"
     FOREIGN KEY ("FP_Objekt_gid" )
@@ -846,7 +846,7 @@ COMMENT ON TABLE "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche" IS 'Relation a
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
   "massnahme" INTEGER NULL ,
   "weitereMassnahme1" INTEGER NULL ,
@@ -898,8 +898,8 @@ CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklung" BEFORE INSERT OR UPDATE OR
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchSPE"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."wirdAusgeglichenDurchSPE" (
-  "FP_Objekt_gid" INTEGER NOT NULL ,
-  "FP_SchutzPflegeEntwicklung_gid" INTEGER NOT NULL ,
+  "FP_Objekt_gid" BIGINT NOT NULL ,
+  "FP_SchutzPflegeEntwicklung_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("FP_Objekt_gid", "FP_SchutzPflegeEntwicklung_gid") ,
   CONSTRAINT "fk_wirdAusgeglichenDurchSPE1"
     FOREIGN KEY ("FP_Objekt_gid" )
@@ -922,7 +922,7 @@ COMMENT ON TABLE  "FP_Basisobjekte"."wirdAusgeglichenDurchSPE" IS 'Relation auf 
 -- Table "FP_Raster"."auslegungsStartDatum"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."auslegungsStartDatum" (
-  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   "auslegungsStartDatum" DATE NOT NULL ,
   PRIMARY KEY ("FP_RasterplanAenderung_gid", "auslegungsStartDatum") ,
   CONSTRAINT "fk_auslegungsStartDatum_FP_RasterplanAenderung"
@@ -941,7 +941,7 @@ COMMENT ON TABLE  "FP_Raster"."auslegungsStartDatum" IS 'Start-Datum der öffent
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."auslegungsEndDatum" (
   "auslegungsEndDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("auslegungsEndDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_auslegungsEndDatum_FP_RasterplanAenderung1"
     FOREIGN KEY ("FP_RasterplanAenderung_gid" )
@@ -960,7 +960,7 @@ COMMENT ON TABLE  "FP_Raster"."auslegungsEndDatum" IS 'End-Datum der öffentlich
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" (
   "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("traegerbeteiligungsStartDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1"
     FOREIGN KEY ("FP_RasterplanAenderung_gid" )
@@ -977,7 +977,7 @@ COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" IS 'Start-Datum de
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" (
   "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" INTEGER NOT NULL ,
+  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("traegerbeteiligungsEndDatum", "FP_RasterplanAenderung_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1"
     FOREIGN KEY ("FP_RasterplanAenderung_gid" )
@@ -993,7 +993,7 @@ COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" IS 'End-Datum der Tr
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklungPunkt1"
     FOREIGN KEY ("gid" )
@@ -1012,7 +1012,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPf
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklungLinie"
     FOREIGN KEY ("gid" )
@@ -1031,7 +1031,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPf
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklungFlaeche"
     FOREIGN KEY ("gid" )
@@ -1061,7 +1061,7 @@ GRANT ALL ON TABLE "FP_Bebauung"."FP_DetailArtDerBaulNutzung" TO fp_user;
 -- Table "FP_Bebauung"."FP_BebauungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "allgArtDerBaulNutzung" INTEGER NULL ,
   "besondereArtDerBaulNutzung" INTEGER NULL ,
   "sonderNutzung" INTEGER NULL ,
@@ -1127,7 +1127,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_BebauungsFl
 -- Table "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_KeineZentrAbwasserBeseitigungFlaeche_FP_Objekt1"
     FOREIGN KEY ("gid" )
@@ -1157,7 +1157,7 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestG
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -1329,7 +1329,7 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestS
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "detaillierteZweckbestimmung" INTEGER NULL ,
@@ -1379,7 +1379,7 @@ CREATE TRIGGER "change_to_FP_SpielSportanlage" BEFORE INSERT OR UPDATE OR DELETE
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GemeinbedarfFlaeche_FP_Gemeinbedarf1"
     FOREIGN KEY ("gid" )
@@ -1398,7 +1398,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GemeinbedarfLinie_FP_Gemeinbedarf1"
     FOREIGN KEY ("gid" )
@@ -1416,7 +1416,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GemeinbedarfPunkt_FP_Gemeinbedarf1"
     FOREIGN KEY ("gid" )
@@ -1434,7 +1434,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SpielSportanlageFlaeche_FP_SpielSportanlage1"
     FOREIGN KEY ("gid" )
@@ -1453,7 +1453,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SpielSportanlageLinie_FP_SpielSportanlage1"
     FOREIGN KEY ("gid" )
@@ -1471,7 +1471,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SpielSportanlagePunkt_FP_SpielSportanlage1"
     FOREIGN KEY ("gid" )
@@ -1499,7 +1499,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFla
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -1579,7 +1579,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwir
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -1675,7 +1675,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" 
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -1844,7 +1844,7 @@ CREATE TRIGGER "change_to_FP_Gruen" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Lan
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GruenFlaeche_FP_Gruen1"
     FOREIGN KEY ("gid" )
@@ -1863,7 +1863,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_G
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GruenLinie_FP_Gruen1"
     FOREIGN KEY ("gid" )
@@ -1881,7 +1881,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_G
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GruenPunkt_FP_Gruen1"
     FOREIGN KEY ("gid" )
@@ -1909,7 +1909,7 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO fp_us
 -- Table "FP_Sonstiges"."FP_GenerischesObjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -1959,7 +1959,7 @@ CREATE TRIGGER "change_to_FP_GenerischesObjekt" BEFORE INSERT OR UPDATE OR DELET
 -- Table "FP_Sonstiges"."FP_Kennzeichnung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -1993,7 +1993,7 @@ CREATE TRIGGER "change_to_FP_Kennzeichnung" BEFORE INSERT OR UPDATE OR DELETE ON
 -- Table "FP_Sonstiges"."FP_GenerischesObjektFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GenerischesObjektFlaeche_FP_GenerischesObjekt1"
     FOREIGN KEY ("gid" )
@@ -2012,7 +2012,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Generische
 -- Table "FP_Sonstiges"."FP_GenerischesObjektLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GenerischesObjektLinie_FP_GenerischesObjekt1"
     FOREIGN KEY ("gid" )
@@ -2030,7 +2030,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Generische
 -- Table "FP_Sonstiges"."FP_GenerischesObjektPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GenerischesObjektPunkt_FP_GenerischesObjekt1"
     FOREIGN KEY ("gid" )
@@ -2048,7 +2048,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Generische
 -- Table "FP_Sonstiges"."FP_KennzeichnungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_KennzeichnungFlaeche_FP_Kennzeichnung1"
     FOREIGN KEY ("gid" )
@@ -2067,7 +2067,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Kennzeichn
 -- Table "FP_Sonstiges"."FP_KennzeichnungLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_KennzeichnungLinie_FP_Kennzeichnung1"
     FOREIGN KEY ("gid" )
@@ -2085,7 +2085,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Kennzeichn
 -- Table "FP_Sonstiges"."FP_KennzeichnungPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_KennzeichnungPunkt_FP_Kennzeichnung1"
     FOREIGN KEY ("gid" )
@@ -2103,7 +2103,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Kennzeichn
 -- Table "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_NutzungsbeschraenkungsFlaeche_FP_Objekt1"
     FOREIGN KEY ("gid" )
@@ -2142,7 +2142,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" 
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhaben"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -2210,7 +2210,7 @@ CREATE TRIGGER "change_to_FP_PrivilegiertesVorhaben" BEFORE INSERT OR UPDATE OR 
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_PrivVorhaFlaeche_FP_PrivilegiertesVorhaben1"
     FOREIGN KEY ("gid" )
@@ -2229,7 +2229,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Privilegie
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_PrivVorhaLinie_FP_PrivilegiertesVorhaben1"
     FOREIGN KEY ("gid" )
@@ -2247,7 +2247,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Privilegie
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_PrivVorhaPunkt_FP_PrivilegiertesVorhaben1"
     FOREIGN KEY ("gid" )
@@ -2265,7 +2265,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Privilegie
 -- Table "FP_Sonstiges"."FP_VorbehalteFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_VorbehalteFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "vorbehalt" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VorbehalteFlaeche_FP_Objekt1"
@@ -2288,7 +2288,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Vorbehalte
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "vormerkung" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_UnverbindlicheVormerkung_FP_Objekt1"
@@ -2308,7 +2308,7 @@ CREATE TRIGGER "change_to_FP_UnverbindlicheVormerkung" BEFORE INSERT OR UPDATE O
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_UnverVormerFlaeche_FP_UnverVormer1"
     FOREIGN KEY ("gid" )
@@ -2327,7 +2327,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Unverbindl
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_UnverVormerLinie_FP_UnverVormer1"
     FOREIGN KEY ("gid" )
@@ -2345,7 +2345,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Unverbindl
 -- Table "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_UnverVormerPunkt_FP_UnverVormer1"
     FOREIGN KEY ("gid" )
@@ -2363,7 +2363,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Unverbindl
 -- Table "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_TextlicheDarstellungsFlaeche_FP_Objekt1"
     FOREIGN KEY ("gid" )
@@ -2395,7 +2395,7 @@ GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO 
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "weitereZweckbestimmung1" INTEGER NULL ,
   "weitereZweckbestimmung2" INTEGER NULL ,
@@ -2509,7 +2509,7 @@ CREATE TRIGGER "change_to_FP_VerEntsorgung" BEFORE INSERT OR UPDATE OR DELETE ON
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VerEntsorgungFlaeche_FP_VerEntsorgung1"
     FOREIGN KEY ("gid" )
@@ -2528,7 +2528,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_V
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VerEntsorgungLinie_FP_VerEntsorgung1"
     FOREIGN KEY ("gid" )
@@ -2546,7 +2546,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_V
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VerEntsorgungPunkt_FP_VerEntsorgung1"
     FOREIGN KEY ("gid" )
@@ -2592,7 +2592,7 @@ GRANT ALL ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO fp_user;
 -- Table "FP_Verkehr"."FP_Strassenverkehr"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "besondereZweckbestimmung" INTEGER NULL ,
   "detaillierteZweckbestimmung" INTEGER NULL ,
@@ -2642,7 +2642,7 @@ CREATE TRIGGER "change_to_FP_Strassenverkehr" BEFORE INSERT OR UPDATE OR DELETE 
 -- Table "FP_Verkehr"."FP_StrassenverkehrFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_StrassenverkehrFlaeche_FP_Strassenverkehr1"
     FOREIGN KEY ("gid" )
@@ -2661,7 +2661,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_Strassenverk
 -- Table "FP_Verkehr"."FP_StrassenverkehrLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_StrassenverkehrLinie_FP_Strassenverkehr1"
     FOREIGN KEY ("gid" )
@@ -2679,7 +2679,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_Strassenverk
 -- Table "FP_Verkehr"."FP_StrassenverkehrPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_StrassenverkehrPunkt_FP_Strassenverkehr1"
     FOREIGN KEY ("gid" )
@@ -2707,7 +2707,7 @@ GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO fp_user;
 -- Table "FP_Wasser"."FP_Gewaesser"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_Gewaesser" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NOT NULL ,
   "detaillierteZweckbestimmung" INTEGER NOT NULL ,
   PRIMARY KEY ("gid") ,
@@ -2751,7 +2751,7 @@ GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" TO fp_user;
 -- Table "FP_Wasser"."FP_Wasserwirtschaft"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_Wasserwirtschaft" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
   "detaillierteZweckbestimmung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -2785,7 +2785,7 @@ CREATE TRIGGER "change_to_FP_Wasserwirtschaft" BEFORE INSERT OR UPDATE OR DELETE
 -- Table "FP_Wasser"."FP_GewaesserFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_GewaesserFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GewaesserFlaeche_FP_Gewaesser1"
     FOREIGN KEY ("gid" )
@@ -2804,7 +2804,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserFlae
 -- Table "FP_Wasser"."FP_GewaesserLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_GewaesserLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GewaesserLinie_FP_Gewaesser1"
     FOREIGN KEY ("gid" )
@@ -2822,7 +2822,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserLini
 -- Table "FP_Wasser"."FP_GewaesserPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_GewaesserPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_GewaesserPunkt_FP_Gewaesser1"
     FOREIGN KEY ("gid" )
@@ -2840,7 +2840,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_GewaesserPunk
 -- Table "FP_Wasser"."FP_WasserwirtschaftFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_WasserwirtschaftFlaeche_FP_Wasserwirtschaft1"
     FOREIGN KEY ("gid" )
@@ -2859,7 +2859,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_Wasserwirtsch
 -- Table "FP_Wasser"."FP_WasserwirtschaftLinie"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftLinie" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_WasserwirtschaftLinie_FP_Wasserwirtschaft1"
     FOREIGN KEY ("gid" )
@@ -2877,7 +2877,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_Wasserwirtsch
 -- Table "FP_Wasser"."FP_WasserwirtschaftPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftPunkt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_WasserwirtschaftPunkt_FP_Wasserwirtschaft1"
     FOREIGN KEY ("gid" )
@@ -2895,7 +2895,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_Wasserwirtsch
 -- Table "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AufschuettungsFlaeche_FP_Objekt"
     FOREIGN KEY ("gid" )
@@ -2916,7 +2916,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung',
 -- Table "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AbgrabungsFlaeche_FP_Objekt0"
     FOREIGN KEY ("gid" )
@@ -2937,7 +2937,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung',
 -- Table "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "abbaugut" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_FP_BodenschaetzeFlaeche_FP_Objekt1"

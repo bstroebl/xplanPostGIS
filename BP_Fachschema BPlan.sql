@@ -213,7 +213,7 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_Rechtsstand" TO xp_gast;
 -- Table "BP_Basisobjekte"."BP_Plan"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "raeumlicherGeltungsbereich" GEOMETRY NULL ,
   "plangeber" INTEGER NULL ,
   "sonstPlanArt" INTEGER NULL ,
@@ -337,7 +337,7 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_PlanArt" TO xp_gast;
 -- Table "BP_Basisobjekte"."planArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."planArt" (
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   "BP_Planart_Wert" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_Plan_gid", "BP_Planart_Wert") ,
   CONSTRAINT "fk_planArt_BP_Plan"
@@ -361,7 +361,7 @@ CREATE INDEX "idx_fk_planArt_BP_PlanArt" ON "BP_Basisobjekte"."planArt" ("BP_Pla
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."auslegungsStartDatum" (
   "auslegungsStartDatum" DATE NOT NULL ,
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("auslegungsStartDatum", "BP_Plan_gid") ,
   CONSTRAINT "fk_auslegungsstartdatum_bp_plan1"
     FOREIGN KEY ("BP_Plan_gid" )
@@ -378,7 +378,7 @@ CREATE INDEX "idx_fk_auslegungsstartdatum_bp_plan1" ON "BP_Basisobjekte"."ausleg
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."auslegungsEndDatum" (
   "auslegungsEndDatum" DATE NOT NULL ,
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("auslegungsEndDatum", "BP_Plan_gid") ,
   CONSTRAINT "fk_auslegungsenddatum_bp_plan1"
     FOREIGN KEY ("BP_Plan_gid" )
@@ -395,7 +395,7 @@ CREATE INDEX "idx_fk_auslegungsenddatum_bp_plan1" ON "BP_Basisobjekte"."auslegun
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."traegerbeteiligungsStartDatum" (
   "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("traegerbeteiligungsStartDatum", "BP_Plan_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsstartdatum_bp_plan1"
     FOREIGN KEY ("BP_Plan_gid" )
@@ -412,7 +412,7 @@ CREATE INDEX "idx_fk_traegerbeteiligungsstartdatum_bp_plan1" ON "BP_Basisobjekte
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."traegerbeteiligungsEndDatum" (
   "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("traegerbeteiligungsEndDatum", "BP_Plan_gid") ,
   CONSTRAINT "fk_traegerbeteiligungsenddatum_bp_plan1"
     FOREIGN KEY ("BP_Plan_gid" )
@@ -428,7 +428,7 @@ CREATE INDEX "idx_fk_traegerbeteiligungsenddatum_bp_plan1" ON "BP_Basisobjekte".
 -- Table "BP_Basisobjekte"."BP_Bereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "geltungsbereich" GEOMETRY NULL ,
   "versionBauNVO" INTEGER NULL ,
   "versionBauNVOText" VARCHAR(255) NULL ,
@@ -494,7 +494,7 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumRelativ" IS
 -- Table "BP_Basisobjekte"."BP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NULL ,
   "startBedingung" INTEGER NULL ,
   "endeBedingung" INTEGER NULL ,
@@ -536,8 +536,8 @@ CREATE TRIGGER "change_to_BP_Objekt" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Ba
 -- Table "BP_Basisobjekte"."gehoertZuBP_Bereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."gehoertZuBP_Bereich" (
-  "BP_Bereich_gid" INTEGER NOT NULL ,
-  "BP_Objekt_gid" INTEGER NOT NULL ,
+  "BP_Bereich_gid" BIGINT NOT NULL ,
+  "BP_Objekt_gid" BIGINT NOT NULL ,
   PRIMARY KEY ("BP_Bereich_gid", "BP_Objekt_gid") ,
   CONSTRAINT "fk_gehoertzubp_bereich_bp_bereich1"
     FOREIGN KEY ("BP_Bereich_gid" )
@@ -559,7 +559,7 @@ CREATE INDEX "idx_fk_gehoertZuBP_Bereich_BP_Objekt1" ON "BP_Basisobjekte"."gehoe
 -- Table "BP_Basisobjekte"."gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."gemeinde" (
-  "BP_Plan_gid" INTEGER NOT NULL ,
+  "BP_Plan_gid" BIGINT NOT NULL ,
   "XP_Gemeinde_id" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_Plan_gid", "XP_Gemeinde_id") ,
   CONSTRAINT "fk_gemeinde_BP_Plan1"
@@ -582,7 +582,7 @@ CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."gemeinde" ("XP
 -- Table "BP_Raster"."BP_RasterplanAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Raster"."BP_RasterplanAenderung" (
-  "gid" INTEGER NOT NULL ,
+  "gid" BIGINT NOT NULL ,
   "geltungsbereichAenderung" GEOMETRY NULL ,
   "aufstellungsbeschlussDatum" DATE NULL ,
   "veraenderungssperreDatum" DATE NULL ,
