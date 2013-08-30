@@ -529,7 +529,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
   "versionBauNVOText" VARCHAR(255) NULL ,
   "versionBauGB" DATE NULL ,
   "versionBauGBText" VARCHAR(255) NULL ,
-  "gehoertZuPlan" INTEGER NOT NULL ,
+  "gehoertZuPlan" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Bereich_FP_Plan1"
     FOREIGN KEY ("gehoertZuPlan" )
@@ -626,7 +626,7 @@ CREATE  TABLE  "FP_Basisobjekte"."gehoertZuFP_Bereich" (
   CONSTRAINT "fk_gehoertzuFP_Bereich_FP_Bereich1"
     FOREIGN KEY ("FP_Bereich_gid" )
     REFERENCES "FP_Basisobjekte"."FP_Bereich" ("gid" )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_gehoertZuFP_Bereich_FP_Objekt1"
     FOREIGN KEY ("FP_Objekt_gid" )
