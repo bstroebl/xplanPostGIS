@@ -26,22 +26,18 @@ CREATE SCHEMA "XP_Sonstiges";
 CREATE SCHEMA "XP_Praesentationsobjekte";
 CREATE SCHEMA "XP_Enumerationen";
 CREATE SCHEMA "XP_Raster";
-CREATE SCHEMA "SO_Schutzgebiete";
 
 COMMENT ON SCHEMA "XP_Basisobjekte" IS 'Dieses Paket enthält die Basisklassen des XPlanGML Schemas.';
 COMMENT ON SCHEMA "XP_Sonstiges" IS 'Allegemeine Datentypen.';
 COMMENT ON SCHEMA "XP_Praesentationsobjekte" IS 'Das Paket Praesentationsobjekte modelliert Klassen, die lediglich der graphischen Ausgestaltung eines Plans dienen und selbst keine eigentlichen Plan-Inhalte repräsentieren. Die entsprechenden Fachobjekte können unmittelbar instanziiert werden.';
 COMMENT ON SCHEMA "XP_Enumerationen" IS 'Dieses Paket enthält verschiedene Enumerationen, die Fachschema-übergreifend verwwendet werden';
 COMMENT ON SCHEMA "XP_Raster" IS 'Dieses Paket enthält Basisklassen für die Rasterdarstellung von Bebauungsplänen, Flächennutzungsplänen, Landschafts- und Regionalplänen.';
-COMMENT ON SCHEMA "SO_Schutzgebiete" IS 'Objektbereich SonstigePlanwerke: Fachschema zur Modellierung nachrichtlicher Übernahmen aus anderen Rechtsbereichen und sonstiger raumbezogener Pläne nach BauGB.
-SO_Schutzgebiete: Schutzgebiete nach verschiedenen gesetzlichen Bestimmungen.';
 
 GRANT USAGE ON SCHEMA "XP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "XP_Sonstiges" TO xp_gast;
 GRANT USAGE ON SCHEMA "XP_Praesentationsobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "XP_Enumerationen" TO xp_gast;
 GRANT USAGE ON SCHEMA "XP_Raster" TO xp_gast;
-GRANT USAGE ON SCHEMA "SO_Schutzgebiete" TO xp_gast;
 
 -- *****************************************************
 -- CREATE FUNCTIONs
@@ -844,25 +840,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_Bundeslaender" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Bundeslaender" TO xp_gast;
-
--- -----------------------------------------------------
--- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
--- -----------------------------------------------------
-CREATE  TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" (
-  "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
-GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
-
--- -----------------------------------------------------
--- Table "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht"
--- -----------------------------------------------------
-CREATE  TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" (
-  "Wert" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
-GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
-GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
@@ -2546,23 +2523,6 @@ INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES 
 INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2400', 'ST');
 INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2500', 'TH');
 INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('3000', 'Bund');
-
--- -----------------------------------------------------
--- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
--- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1000', 'Naturschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1100', 'Nationalpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1200', 'Biosphaerenreservat');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1300', 'Landschaftsschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1400', 'Naturpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1500', 'Naturdenkmal');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1600', 'GeschuetzterLandschaftsBestandteil');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1700', 'GesetzlichGeschuetztesBiotop');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('1800', 'Natura2000');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('18000', 'GebietGemeinschaftlicherBedeutung');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('18001', 'EuropaeischesVogelschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('2000', 'NationalesNaturmonument');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_BedeutungenBereich"
