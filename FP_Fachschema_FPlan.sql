@@ -743,7 +743,7 @@ CREATE TRIGGER "FP_Linienobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."
 CREATE  TABLE  "FP_Basisobjekte"."FP_Flaechenobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY NOT NULL ,
-  "flaechenschluss" BOOLEAN,
+  "flaechenschluss" BOOLEAN NOT NULL,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Flaechenobjekt" TO fp_user;
