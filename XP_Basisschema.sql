@@ -534,19 +534,48 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() 
 RETURNS trigger AS
 $BODY$ 
+ DECLARE
+    parent_nspname varchar;
+    parent_relname varchar;
+    rec record;
  BEGIN
+    parent_nspname := NULL;
+    -- die Elterntabelle rauskriegen und in Variablen speichern
+    For rec IN SELECT 
+               ns.nspname, c.relname 
+            FROM pg_attribute att 
+                JOIN (SELECT * FROM pg_constraint WHERE contype = 'f') fcon ON att.attrelid = fcon.conrelid AND att.attnum = ANY (fcon.conkey) 
+                JOIN (SELECT * FROM pg_constraint WHERE contype = 'p') pcon ON att.attrelid = pcon.conrelid AND att.attnum = ANY (pcon.conkey) 
+                JOIN pg_class c ON fcon.confrelid = c.oid 
+                JOIN pg_namespace ns ON c.relnamespace = ns.oid 
+            WHERE att.attnum > 0 
+                AND att.attisdropped = false 
+                AND att.attrelid = TG_RELID 
+                AND array_length(pcon.conkey, 1) = 1 LOOP
+        parent_nspname := rec.nspname;
+        parent_relname := rec.relname;
+    END LOOP;
+    
     IF (TG_OP = 'INSERT') THEN
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
         END IF;
         
-        INSERT INTO "XP_Basisobjekte"."XP_Objekt"(gid) VALUES(new.gid);
+        IF parent_nspname IS NOT NULL THEN
+            -- Elternobjekt anlegen
+            EXECUTE 'INSERT INTO ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) || 
+                '(gid) VALUES(' || CAST(new.gid as varchar) || ');';
+        END IF;
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "XP_Basisobjekte"."XP_Objekt" WHERE gid = old.gid;
+        IF parent_nspname IS NOT NULL THEN
+            -- Elternobjekt löschen
+            EXECUTE 'DELETE FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) || 
+            'WHERE gid = ' || CAST(old.gid as varchar) || ';';
+        END IF;
         RETURN old;
     END IF;
  END; $BODY$
@@ -653,7 +682,7 @@ $BODY$
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 
 
 
