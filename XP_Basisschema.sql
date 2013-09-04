@@ -93,7 +93,7 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(nspname character varying, relname character varying, gid integer)
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(nspname character varying, relname character varying, gid bigint)
   RETURNS integer AS
 $BODY$
 DECLARE
@@ -107,10 +107,10 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, integer) TO xp_user;
-COMMENT ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, integer) IS 'Gibt die gid des XP_Plans, zu dem ein XP_Bereich gehoert zurück';
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, bigint) TO xp_user;
+COMMENT ON FUNCTION "XP_Basisobjekte"."gehoertZuPlan"(character varying, character varying, bigint) IS 'Gibt die gid des XP_Plans, zu dem ein XP_Bereich gehoert zurück';
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(nspname character varying, relname character varying, art character varying, gid integer)
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(nspname character varying, relname character varying, art character varying, gid bigint)
   RETURNS character varying AS
 $BODY$
 DECLARE
@@ -124,8 +124,8 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) TO xp_user;
-COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, integer) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, bigint) TO xp_user;
+COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, bigint) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer)
   RETURNS text AS
@@ -425,7 +425,7 @@ $BODY$
     IF (TG_OP = 'DELTE') THEN
         RETURN old;
     ELSE
-        new.flaechenschluss = false;
+        new.flaechenschluss := false;
         RETURN new;
     END IF;
  END; $BODY$
@@ -440,7 +440,7 @@ $BODY$
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
-        new.flaechenschluss = true;
+        new.flaechenschluss := true;
         RETURN new;
     END IF;
  END; $BODY$
@@ -473,8 +473,12 @@ $BODY$
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
         END IF;
+        
+        IF new.name IS NULL THEN
+            new.name := 'XP_Plan ' || CAST(new.gid as varchar);
+        END IF;
 
-        INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, 'XP_Plan ' || CAST(new.gid as varchar));
+        INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, new.name);
         
         IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
             new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
@@ -497,6 +501,58 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF new.name != old.name THEN
+        IF TG_TABLE_NAME LIKE '%Plan' THEN
+            UPDATE "XP_Basisobjekte"."XP_Plan" SET name = new.name;
+        ELSIF TG_TABLE_NAME LIKE '%Bereich' THEN
+            UPDATE "XP_Basisobjekte"."XP_Bereich" SET name = new.name;
+        END IF;
+    END IF;
+    RETURN new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_child"() 
+RETURNS trigger AS
+$BODY$ 
+DECLARE
+    rec record;
+ BEGIN
+    IF new.name != old.name THEN
+        IF TG_TABLE_NAME = 'XP_Plan' THEN
+            FOR rec IN 
+                SELECT nspname, relname 
+                FROM pg_class c 
+                    JOIN pg_namespace n ON c.relnamespace = n.oid
+                WHERE relname IN ('FP_Plan', 'BP_Plan', 'LP_Plan', 'RP_Plan', 'SO_Plan')
+            LOOP
+                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) || 
+                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';'; 
+            END LOOP;
+        ELSIF TG_TABLE_NAME = 'XP_Bereich' THEN
+            FOR rec IN 
+                SELECT nspname, relname 
+                FROM pg_class c 
+                    JOIN pg_namespace n ON c.relnamespace = n.oid
+                WHERE relname IN ('FP_Bereich', 'BP_Bereich', 'LP_Bereich', 'RP_Bereich', 'SO_Bereich')
+            LOOP
+                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) || 
+                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';'; 
+            END LOOP;
+        END IF;
+    END IF;
+    RETURN new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."propagate_name_to_child"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() 
 RETURNS trigger AS
@@ -1152,7 +1208,7 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_refLegende" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"'),
-  "name" VARCHAR(64) NOT NULL ,
+  "name" VARCHAR(256) NOT NULL ,
   "nummer" VARCHAR(16) NULL ,
   "internalId" VARCHAR(255) NULL ,
   "beschreibung" VARCHAR(255) NULL ,
@@ -1185,6 +1241,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz
     
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
 CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
+CREATE TRIGGER "XP_Plan_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_gast; 
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_user;
 
@@ -1222,6 +1279,7 @@ CREATE INDEX "idx_fk_XP_Bereich_XP_BedeutungenBereich1" ON "XP_Basisobjekte"."XP
 CREATE INDEX "idx_fk_XP_Bereich_XP_RasterplanBasis1" ON "XP_Basisobjekte"."XP_Bereich" ("rasterBasis") ;
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast; 
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
+CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt"
