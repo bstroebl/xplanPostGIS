@@ -597,17 +597,19 @@ $BODY$
  BEGIN
     parent_nspname := NULL;
     -- die Elterntabelle rauskriegen und in Variablen speichern
-    For rec IN SELECT 
-               ns.nspname, c.relname 
-            FROM pg_attribute att 
-                JOIN (SELECT * FROM pg_constraint WHERE contype = 'f') fcon ON att.attrelid = fcon.conrelid AND att.attnum = ANY (fcon.conkey) 
-                JOIN (SELECT * FROM pg_constraint WHERE contype = 'p') pcon ON att.attrelid = pcon.conrelid AND att.attnum = ANY (pcon.conkey) 
-                JOIN pg_class c ON fcon.confrelid = c.oid 
-                JOIN pg_namespace ns ON c.relnamespace = ns.oid 
-            WHERE att.attnum > 0 
-                AND att.attisdropped = false 
-                AND att.attrelid = TG_RELID 
-                AND array_length(pcon.conkey, 1) = 1 LOOP
+    For rec IN 
+        SELECT 
+           ns.nspname, c.relname 
+        FROM pg_attribute att 
+            JOIN (SELECT * FROM pg_constraint WHERE contype = 'f') fcon ON att.attrelid = fcon.conrelid AND att.attnum = ANY (fcon.conkey) 
+            JOIN (SELECT * FROM pg_constraint WHERE contype = 'p') pcon ON att.attrelid = pcon.conrelid AND att.attnum = ANY (pcon.conkey) 
+            JOIN pg_class c ON fcon.confrelid = c.oid 
+            JOIN pg_namespace ns ON c.relnamespace = ns.oid 
+        WHERE att.attnum > 0 
+            AND att.attisdropped = false 
+            AND att.attrelid = TG_RELID 
+            AND array_length(pcon.conkey, 1) = 1 
+    LOOP
         parent_nspname := rec.nspname;
         parent_relname := rec.relname;
     END LOOP;
@@ -630,7 +632,7 @@ $BODY$
         IF parent_nspname IS NOT NULL THEN
             -- Elternobjekt löschen
             EXECUTE 'DELETE FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) || 
-            'WHERE gid = ' || CAST(old.gid as varchar) || ';';
+            ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
         END IF;
         RETURN old;
     END IF;
