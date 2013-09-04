@@ -422,7 +422,7 @@ CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"()
 RETURNS trigger AS
 $BODY$ 
  BEGIN
-    IF (TG_OP = 'DELTE') THEN
+    IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
         new.flaechenschluss := false;
