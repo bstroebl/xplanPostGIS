@@ -546,7 +546,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
     REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");;
+INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");
 
 CREATE INDEX "idx_fk_FP_Bereich_FP_Plan1" ON "FP_Basisobjekte"."FP_Bereich" ("gehoertZuPlan") ;
 CREATE INDEX "idx_fk_FP_Bereich_XP_VersionBauNVO1" ON "FP_Basisobjekte"."FP_Bereich" ("versionBauNVO") ;
@@ -667,7 +667,7 @@ COMMENT ON TABLE  "FP_Basisobjekte"."gemeinde" IS 'Zuständige Gemeinde';
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Raster"."FP_RasterplanAenderung" (
   "gid" BIGINT NOT NULL ,
-  " aufstellungbeschlussDatum" DATE NULL ,
+  "aufstellungbeschlussDatum" DATE NULL ,
   "aenderungenBisDatum" DATE NULL ,
   "entwurfsbeschlussDatum" DATE NULL ,
   "planbeschlussDatum" DATE NULL ,
