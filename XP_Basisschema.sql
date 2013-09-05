@@ -720,29 +720,39 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF new."position" IS NOT NULL THEN
+        new."position" := ST_ForceRHR(new."position");
+    END IF;
+    
+    IF (TG_OP = 'INSERT') THEN
+        IF new."flaechenschluss" IS NULL THEN
+            new."flaechenschluss" := false;
+        END IF;   
+    END IF;
+    
+    RETURN new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() TO xp_user;
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() 
 RETURNS trigger AS
 $BODY$ 
  BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new."position" IS NOT NULL THEN
-            new."position" := ST_ForceRHR(new."position");
-        END IF;
-        
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        IF new."position" IS NOT NULL THEN
-            new."position" := ST_ForceRHR(new."position");
-        END IF;
-
-        RETURN new;
+    IF new."position" IS NOT NULL THEN
+        new."position" := ST_ForceRHR(new."position");
     END IF;
+    
+    RETURN new;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
-
-
 
 -- *****************************************************
 -- CREATE TABLEs 
