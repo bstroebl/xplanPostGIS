@@ -26,6 +26,61 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "QGIS"."XP_Bereich_Sperre"() TO xp_user;
 
+-- Funktion, die Änderungen in gesperrten Bereichen verhindert
+-- Funktion noch nicht getestet, muß evtl noch angepasst, v.a. aber auf
+-- die entsprechenden Tabellen angewendet werden!!
+
+CREATE OR REPLACE FUNCTION "QGIS"."pruefe_Sperre"() 
+RETURNS trigger AS
+$BODY$
+DECLARE
+  gesperrt integer;
+  bereich_gid_fld varchar;
+  objekt_gid_fld varchar;
+BEGIN
+    IF TG_TABLE_NAME = 'gehoertNachrichtlichZuBereich' THEN
+        bereich_gid_fld := 'XP_Bereich_gid';
+        objekt_gid_fld := 'XP_Objekt_gid';
+    ELSIF TG_TABLE_NAME = 'gehoertZuFP_Bereich' THEN
+        bereich_gid_fld := 'FP_Bereich_gid';
+        objekt_gid_fld := 'FP_Objekt_gid';
+    ELSIF TG_TABLE_NAME = 'gehoertZuBP_Bereich' THEN
+        bereich_gid_fld := 'BP_Bereich_gid';
+        objekt_gid_fld := 'BP_Objekt_gid';
+    ELSIF TG_TABLE_NAME = 'gehoertZuLP_Bereich' THEN
+        bereich_gid_fld := 'LP_Bereich_gid';
+        objekt_gid_fld := 'LP_Objekt_gid';
+    ELSIF TG_TABLE_NAME = 'gehoertZuRP_Bereich' THEN
+        bereich_gid_fld := 'RP_Bereich_gid';
+        objekt_gid_fld := 'RP_Objekt_gid';
+    ELSIF TG_TABLE_NAME = 'gehoertZuSO_Bereich' THEN
+        bereich_gid_fld := 'SO_Bereich_gid';
+        objekt_gid_fld := 'SO_Objekt_gid';
+    END IF;
+    
+    --prüfen, ob das Objekt in einem gesperrten Bereich liegt
+    IF (TG_OP = 'UPDATE') OR (TG_OP = 'INSERT') THEN
+        EXECUTE 'SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "QGIS"."XP_Bereich_gesperrt"
+        WHERE "XP_Bereich_gid" = new.' || quote_ident(bereich_gid_fld) || ' LIMIT 1' INTO gesperrt;
+    ELSIF (TG_OP = 'DELETE')
+        EXECUTE 'SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "QGIS"."XP_Bereich_gesperrt"
+        WHERE "XP_Bereich_gid" = old.' || quote_ident(bereich_gid_fld) || ' LIMIT 1' INTO gesperrt;
+    END IF;
+
+    IF gesperrt = 1 THEN
+      RETURN NULL; -- Befehl wird nicht ausgeführt
+    ELSE
+      IF (TG_OP = 'UPDATE') OR (TG_OP = 'INSERT') THEN
+        RETURN new;
+      ELSIF (TG_OP = 'DELETE') THEN
+        RETURN old;
+      END IF;
+    END IF;
+END; $BODY$
+LANGUAGE 'plpgsql' VOLATILE
+COST 100;
+GRANT EXECUTE ON FUNCTION "QGIS"."pruefe_Sperre"() TO xp_user;
+
 -- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************
@@ -46,7 +101,7 @@ CREATE  TABLE  "QGIS"."layer" (
     REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "onlyOneStyle" UNIQUE (schemaname , layername , "XP_Bereich_gid");
+  CONSTRAINT "onlyOneStyle" UNIQUE (schemaname , tablename , "XP_Bereich_gid"));
   -- NULL in XP_Bereich_gid kann mehrfach vorkommen!
 
 CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid") ;
@@ -54,7 +109,7 @@ CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid")
 -- CREATE INDEX "onlyOneStyle_idx" ON "QGIS"."layer" (schemaname , layername , "XP_Bereich_gid") ;
 GRANT SELECT ON TABLE "QGIS"."layer" TO xp_gast;
 GRANT ALL ON TABLE "QGIS"."layer" TO xp_user;
-COMMENT ON TABLE  "QGIS"."layer" IS 'Layersteuerung für QGIS; für einzelne Layer kann ein Stil (qml-xml) definiert werden, der angewendet wird, wenn diser Layer in diesen Bereich geladen wird. Die loadorder legt optional fest, in welcher Reihenfolge die Layer geladen werden sollen (wichtig bei sich überlagernden Polygonlayern). Unabhängig von den hier getroffenen Einstellungen wird ein Layer nur in einen Bereich geladen, wenn er dafür Objekte hat.'
+COMMENT ON TABLE  "QGIS"."layer" IS 'Layersteuerung für QGIS; für einzelne Layer kann ein Stil (qml-xml) definiert werden, der angewendet wird, wenn dieser Layer in diesen Bereich geladen wird. Die loadorder legt optional fest, in welcher Reihenfolge die Layer geladen werden sollen (wichtig bei sich überlagernden Polygonlayern). Unabhängig von den hier getroffenen Einstellungen wird ein Layer nur in einen Bereich geladen, wenn er dafür Objekte hat.';
 SELECT "XP_Basisobjekte".ensure_sequence('QGIS', 'layer', 'id');
 
 
@@ -131,43 +186,6 @@ JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
 GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
 COMMENT ON VIEW "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
 Fachschemas nicht installiert sind, ist der View anzupassen!';
-
--- -----------------------------------------------------
--- Funktionen umdefinieren, damit keine XP_Objekte aus gesperrten Bereichen gelöscht werden können
--- -----------------------------------------------------
-CREATE OR REPLACE FUNCTION "FP_Basisobjekte"."child_of_FP_Objekt"() 
-RETURNS trigger AS
-$BODY$
-DECLARE
-  gesperrt integer;
-BEGIN
-  IF (TG_OP = 'INSERT') THEN
-    IF new.gid IS NULL THEN
-        new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-    END IF;
-    
-    INSERT INTO "FP_Basisobjekte"."FP_Objekt"(gid) VALUES(new.gid);
-    RETURN new;
-  ELSE
-    --prüfen, ob das FP_Objekt in einem gesperrten Bereich liegt
-    SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "FP_Basisobjekte"."gehoertZuFP_Bereich" z LEFT JOIN "QGIS"."XP_Bereich_gesperrt" g ON z."FP_Bereich_gid" = g."XP_Bereich_gid" WHERE z."FP_Objekt_gid" = old.gid ORDER BY gesp DESC LIMIT 1 INTO gesperrt;
-
-    IF gesperrt = 1 THEN
-      RETURN NULL; -- Befehl wird nicht ausgeführt
-    ELSE
-      IF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-      ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "FP_Basisobjekte"."FP_Objekt" WHERE gid = old.gid;
-        RETURN old;
-      END IF;
-    END IF;
-  END IF;
-END; $BODY$
-LANGUAGE 'plpgsql' VOLATILE
-COST 100;
-GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."child_of_FP_Objekt"() TO fp_user;
 
 
 -- -----------------------------------------------------
