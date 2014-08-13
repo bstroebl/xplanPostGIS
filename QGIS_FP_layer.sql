@@ -9095,7 +9095,7 @@ INSERT INTO "QGIS".layer VALUES (42, 'FP_Wasser', 'FP_WasserwirtschaftPunkt', '<
  <attributeactions/>
 </qgis>
 ', NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (43, 'FP_Aufschuuettung_Abgrabung', 'FP_AufschuettungFlaeche', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer VALUES (43, 'FP_Aufschuuettung_Abgrabung', 'FP_Aufschuettung', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
  <renderer-v2 symbollevels="0" type="singleSymbol">
   <symbols>
    <symbol alpha="1" type="fill" name="0">
@@ -9293,7 +9293,7 @@ INSERT INTO "QGIS".layer VALUES (43, 'FP_Aufschuuettung_Abgrabung', 'FP_Aufschue
  <attributeactions/>
 </qgis>
 ', NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (44, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_AbgrabungsFlaeche', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer VALUES (44, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_Abgrabung', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
  <renderer-v2 symbollevels="0" type="singleSymbol">
   <symbols>
    <symbol alpha="1" type="fill" name="0">
@@ -9491,7 +9491,7 @@ INSERT INTO "QGIS".layer VALUES (44, 'FP_Aufschuettung_Abgrabung_Bodenschaetze',
  <attributeactions/>
 </qgis>
 ', NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (45, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_BodenschaetzeFlaeche', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer VALUES (45, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_Bodenschaetze', '<qgis version="1.9.0-Master" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
  <renderer-v2 symbollevels="0" type="singleSymbol">
   <symbols>
    <symbol alpha="1" type="fill" name="0">
