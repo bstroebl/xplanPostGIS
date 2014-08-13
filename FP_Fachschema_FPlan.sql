@@ -137,6 +137,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
   "plangeber" INTEGER NULL ,
   "planArt" INTEGER NULL ,
   "sonstPlanArt" INTEGER NULL ,
+  "sachgebiet" VARCHAR (256) NULL,
   "verfahren" INTEGER NULL ,
   "rechtsstand" INTEGER NULL ,
   "status" INTEGER NULL ,
@@ -150,6 +151,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
   "planbeschlussDatum" DATE NULL ,
   "wirksamkeitsDatum" DATE NULL ,
   "refUmweltbericht" INTEGER NULL ,
+  "refErlaeuterung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_fp_plan_xp_plangeber1"
     FOREIGN KEY ("plangeber" )
@@ -176,8 +178,13 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
     REFERENCES "FP_Basisobjekte"."FP_Rechtsstand" ("Wert" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_fp_plan_xp_externereferenz4"
+  CONSTRAINT "fk_fp_plan_xp_externereferenz1"
     FOREIGN KEY ("refUmweltbericht" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_fp_plan_xp_externereferenz2"
+    FOREIGN KEY ("refErlaeuterung" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
@@ -207,6 +214,7 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."name" IS 'Name des Plans. Der Nam
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."plangeber" IS 'Für die Planung zuständige Institution';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."planArt" IS 'Typ des FPlans';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."sonstPlanArt" IS 'Sonstige Art eines FPlans bei planArt == 9999.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."sachgebiet" IS 'Sachgebiet eines Teilflächennutzungsplans.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."verfahren" IS 'Verfahren nach dem ein FPlan aufgestellt oder geändert wird.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."rechtsstand" IS 'Rechtsstand des Plans';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."status" IS 'Über eine ExternalCodeList definierter Status des Plans.';
@@ -220,6 +228,7 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."entwurfsbeschlussDatum" IS 'Datum
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."planbeschlussDatum" IS 'Datum des Planbeschlusses';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."wirksamkeitsDatum" IS 'Datum der Wirksamkeit';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."refUmweltbericht" IS 'Referenz auf den Umweltbericht.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."refErlaeuterung" IS 'Referenz auf den Erläuterungsbericht.';
 CREATE TRIGGER "change_to_FP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "FP_Plan_propagate_name" AFTER UPDATE ON "FP_Basisobjekte"."FP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
@@ -269,7 +278,7 @@ CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_B
 CREATE TRIGGER "insert_into_FP_Bereich" BEFORE INSERT ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."new_FP_Bereich"();
 CREATE TRIGGER "FP_Bereich_propagate_name" AFTER UPDATE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
-
+  
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Rechtscharakter"
 -- -----------------------------------------------------
@@ -278,6 +287,32 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Rechtscharakter" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Rechtscharakter" TO xp_gast;
+
+
+-- -----------------------------------------------------
+-- Table "FP_Basisobjekte"."FP_TextAbschnitt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Basisobjekte"."FP_TextAbschnitt" (
+  "id" INTEGER NOT NULL ,
+  "rechtscharacter" INTEGER NOT NULL ,
+  PRIMARY KEY ("id") ,
+  CONSTRAINT "fk_FP_Textabschnitt_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_fp_textabschnitt_fp_rechtscharakter1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "FP_Basisobjekte"."FP_TextAbschnitt" ("rechtscharakter") ;
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_TextAbschnitt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Basisobjekte"."FP_TextAbschnitt" TO fp_user;
+COMMENT ON TABLE  "FP_Basisobjekte"."FP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Flächennutzungsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut "rechtscharakter" des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
+COMMENT ON COLUMN  "FP_Basisobjekte"."FP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "FP_Basisobjekte"."FP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts. ';
+CREATE TRIGGER "change_to_FP_TextAbschnitt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_SpezifischePraegungTypen"
@@ -288,6 +323,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_SpezifischePraegungTypen" (
   PRIMARY KEY ("Wert") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO fp_user;
+
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Objekt"
@@ -462,30 +498,12 @@ CREATE TRIGGER "FP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"
 CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
-  "massnahme" INTEGER NULL ,
-  "weitereMassnahme1" INTEGER NULL ,
-  "weitereMassnahme2" INTEGER NULL ,
   "refMassnahmenText" INTEGER NULL ,
   "refLandschaftsplan" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEZiele1"
     FOREIGN KEY ("ziel" )
     REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten1"
-    FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten2"
-    FOREIGN KEY ("weitereMassnahme1" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten3"
-    FOREIGN KEY ("weitereMassnahme2" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_FP_Objekt1"
@@ -506,9 +524,6 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
 INHERITS("FP_Basisobjekte"."FP_Flaechenobjekt");
 
 CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEZiele" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("ziel") ;
-CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten1" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("massnahme") ;
-CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten2" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme1") ;
-CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_SPEMassnahmenDaten3" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("weitereMassnahme2") ;
 CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_ExterneReferenz1" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("refMassnahmenText") ;
 CREATE INDEX "idx_fk_FP_AusgleichsFlaeche_XP_ExterneReferenz2" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" ("refLandschaftsplan") ;
 GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" TO xp_gast;
@@ -516,14 +531,33 @@ GRANT ALL ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."massnahme" IS 'Auf der Fläche durchzuführende Maßnahme.';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."weitereMassnahme1" IS 'Weitere durchzuführende Massnahme.';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."weitereMassnahme2" IS 'Weitere durchzuführende Massnahme.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refMassnahmenText" IS 'Referenz auf ein Dokument in dem die Massnahmen beschrieben werden.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
 CREATE TRIGGER "change_to_FP_AusgleichsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "FP_AusgleichsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_AusgleichsFlaeche', 'position','MULTIPOLYGON',2);
+
+-- -----------------------------------------------------
+-- Table "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" (
+  "gid" BIGINT NOT NULL ,
+  "massnahme" INTEGER NULL ,
+  PRIMARY KEY ("gid", "massnahme"),
+  CONSTRAINT "fk_FP_AusgleichsFlaeche_massnahme1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Naturschutz"."FP_AusgleichsFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_AusgleichsFlaeche_massnahme2"
+    FOREIGN KEY ("massnahme" )
+    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" TO xp_gast;
+GRANT ALL ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" TO fp_user;
+COMMENT ON TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" IS 'Auf der Fläche durchzuführende Maßnahmen.';
+
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche"
@@ -600,6 +634,27 @@ COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."weitereMassnah
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."weitereMassnahme2" IS 'Weitere durchzuführende Massnahme.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."istAusgleich" IS 'Gibt an, ob die Maßnahme zum Ausgkeich eines Eingriffs benutzt wird.';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" (
+  "gid" BIGINT NOT NULL ,
+  "massnahme" INTEGER NULL ,
+  PRIMARY KEY ("gid", "massnahme"),
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_massnahme1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_massnahme2"
+    FOREIGN KEY ("massnahme" )
+    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" TO xp_gast;
+GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" TO fp_user;
+COMMENT ON TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" IS 'Durchzuführende Maßnahmen.';
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchSPE"
@@ -865,162 +920,81 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestG
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "weitereZweckbestimmung3" INTEGER NULL ,
-  "weitereZweckbestimmung4" INTEGER NULL ,
-  "weitereZweckbestimmung5" INTEGER NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  "weitereBesondZweckbestimmung1" INTEGER NULL ,
-  "weitereBesondZweckbestimmung2" INTEGER NULL ,
-  "weitereBesondZweckbestimmung3" INTEGER NULL ,
-  "weitereBesondZweckbestimmung4" INTEGER NULL ,
-  "weitereBesondZweckbestimmung5" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
-  "weitereDetailZweckbestimmung2" INTEGER NULL ,
-  "weitereDetailZweckbestimmung3" INTEGER NULL ,
-  "weitereDetailZweckbestimmung4" INTEGER NULL ,
-  "weitereDetailZweckbestimmung5" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_XP_ZweckbestimmungGemeinbedarf0"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf1"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf2"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf3"
-    FOREIGN KEY ("weitereZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf4"
-    FOREIGN KEY ("weitereZweckbestimmung4" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf5"
-    FOREIGN KEY ("weitereZweckbestimmung5" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf1"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf2"
-    FOREIGN KEY ("weitereBesondZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf3"
-    FOREIGN KEY ("weitereBesondZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf4"
-    FOREIGN KEY ("weitereBesondZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf5"
-    FOREIGN KEY ("weitereBesondZweckbestimmung4" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf6"
-    FOREIGN KEY ("weitereBesondZweckbestimmung5" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf3"
-    FOREIGN KEY ("weitereDetailZweckbestimmung2" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf4"
-    FOREIGN KEY ("weitereDetailZweckbestimmung3" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf5"
-    FOREIGN KEY ("weitereDetailZweckbestimmung4" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf6"
-    FOREIGN KEY ("weitereDetailZweckbestimmung5" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gemeinbedarf_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_XP_ZweckbestimmungGemeinbedarf0" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf1" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf2" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf3" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf4" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_ZweckbestimmungGemeinbedarf5" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereZweckbestimmung5") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf1" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("besondereZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf2" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereBesondZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf3" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereBesondZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf4" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereBesondZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf5" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereBesondZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_XP_BesondereZweckbestGemeinbedarf6" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereBesondZweckbestimmung5") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf1" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf2" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf3" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereDetailZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf4" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereDetailZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf5" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereDetailZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gemeinbedarf_FP_DetailZweckbestGemeinbedarf6" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("weitereDetailZweckbestimmung5") ;
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" TO fp_user;
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" IS 'Darstellung von Flächen für den Gemeinbedarf nach §5, Abs. 2, Nr. 2 BauGB.';
 COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung der Fläche';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereZweckbestimmung1" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereZweckbestimmung2" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereZweckbestimmung3" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereZweckbestimmung4" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereZweckbestimmung5" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."besondereZweckbestimmung" IS 'Besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereBesondZweckbestimmung1" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereBesondZweckbestimmung2" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereBesondZweckbestimmung3" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereBesondZweckbestimmung4" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereBesondZweckbestimmung5" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."detaillierteZweckbestimmung" IS 'Über eine ExternalCodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereDetailZweckbestimmung3" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereDetailZweckbestimmung4" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"."weitereDetailZweckbestimmung5" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_Gemeinbedarf" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Gemeinbedarf_zweckbestimmung_FP_Gemeinbedarf1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_ZweckbestimmungGemeinbedarf0"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "besondereZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_FP_Gemeinbedarf_besondereZweckbestimmung_FP_Gemeinbedarf1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_besondereZweckbestimmungGemeinbedarf0"
+    FOREIGN KEY ("besondereZweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_Gemeinbedarf_detaillierteZweckbestimmung_FP_Gemeinbedarf1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_DetailZweckbestGemeinbedarf0"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" IS 'BÜber eine ExternalCodeList definierte zusätzliche Zweckbestimmungen.';
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage"
@@ -1037,50 +1011,79 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestS
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SpielSportanlage_XP_ZweckSpielSportanlage1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SpielSportanlage_XP_ZweckSpielSportanlage2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SpielSportanlage_FP_DetaiSpielSportanlage1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SpielSportanlage_FP_DetailSpielSportanlage2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_SpielSportanlage_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_SpielSportanlage_XP_ZweckSpielSportanlage1" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_SpielSportanlage_XP_ZweckSpielSportanlage2" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_SpielSportanlage_FP_DetaiSpielSportanlage1" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_SpielSportanlage_FP_DetailSpielSportanlage2" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("weitereDetailZweckbestimmung1") ;
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" TO fp_user;
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" IS 'Darstellung von Flächen für Spiel- und Sportanlagen nach §5, Abs. 2, Nr. 2 BauGB.';
 COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"."zweckbestimmung" IS 'Zweckbestimmung der Fläche';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_SpielSportanlage" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_SpielSportanlage_zweckbestimmung_FP_SpielSportanlage1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_ZweckbestimmungSpielSportanlage0"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" IS 'Zweckbestimmungen der Fläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_SpielSportanlage_besondereZweckbestimmung_FP_SpielSportanlage1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_DetailZweckbestSpielSportanlage0"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandel_FP_Objekt1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" TO fp_user;
+COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" IS 'Anlagen, Einrichtungen und sonstige Maßnahmen, die der Anpassung an den Klimawandel dienen.';
+COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandel" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche"
@@ -1193,6 +1196,61 @@ CREATE TRIGGER "change_to_FP_SpielSportanlagePunkt" BEFORE INSERT OR UPDATE OR D
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_SpielSportanlagePunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelFlaeche_FP_AnpassungKlimawandel1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_AnpassungKlimawandelFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_AnpassungKlimawandelFlaeche', 'position','MULTIPOLYGON',2);
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelLinie_FP_AnpassungKlimawandel1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_AnpassungKlimawandelLinie', 'position','MULTILINESTRING',2);
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelPunkt_FP_AnpassungKlimawandel1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sportanlagen','FP_AnpassungKlimawandelPunkt', 'position','MULTIPOINT',2);
+
+-- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" (
@@ -1207,43 +1265,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFla
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
-  "weitereDetailZweckbestimmung2" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_WaldFlaeche_XP_ZweckbestimmungWald"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_WaldFlaeche_XP_ZweckbestimmungWald1"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_WaldFlaeche_XP_ZweckbestimmungWald2"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche3"
-    FOREIGN KEY ("weitereDetailZweckbestimmung2" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_WaldFlaeche_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
@@ -1251,26 +1273,58 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-CREATE INDEX "idx_fk_FP_WaldFlaeche_XP_ZweckbestimmungWald" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_WaldFlaeche_XP_ZweckbestimmungWald1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_WaldFlaeche_XP_ZweckbestimmungWald2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_WaldFlaeche_FP_DetailZweckbestWaldFlaeche3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("weitereDetailZweckbestimmung2") ;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" IS 'Darstellung von Waldflächen nach §5, Abs. 2, Nr. 9b,';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Waldfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung der Waldfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereZweckbestimmung2" IS 'Weitere Zweckbestimmung der Waldfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_WaldFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_WaldFlaeche', 'position','MULTIPOLYGON',2);
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_WaldFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_WaldFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Waldfläche';
+
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_WaldFlaeche_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_WaldFlaeche_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche"
@@ -1287,86 +1341,64 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwir
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "weitereZweckbestimmung3" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
-  "weitereDetailZweckbestimmung2" INTEGER NULL ,
-  "weitereDetailZweckbestimmung3" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft3"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_XP_ZweckbestimmungLandwirtschaft4"
-    FOREIGN KEY ("weitereZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft3"
-    FOREIGN KEY ("weitereDetailZweckbestimmung2" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_DetailZweckbestLandwirtschaft4"
-    FOREIGN KEY ("weitereDetailZweckbestimmung3" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_LandwiFlaeche_XP_ZweckbestimmungLandw4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_LandwFlaeche_FP_DetailZweckbestLandw4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("weitereDetailZweckbestimmung3") ;
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" IS 'Darstellung einer Landwirtschaftsfläche nach §5, Abs. 2, Nr. 9a.';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereZweckbestimmung2" IS 'Weitere Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereZweckbestimmung3" IS 'Weitere Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."weitereDetailZweckbestimmung3" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_LandwirtschaftsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_Gruen','FP_LandwirtschaftsFlaeche', 'position','MULTIPOLYGON',2);
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Fläche';
+
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen"
@@ -1383,24 +1415,6 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" 
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "weitereZweckbestimmung3" INTEGER NULL ,
-  "weitereZweckbestimmung4" INTEGER NULL ,
-  "weitereZweckbestimmung5" INTEGER NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  "weitereBesondZweckbestimmung1" INTEGER NULL ,
-  "weitereBesondZweckbestimmung2" INTEGER NULL ,
-  "weitereBesondZweckbestimmung3" INTEGER NULL ,
-  "weitereBesondZweckbestimmung4" INTEGER NULL ,
-  "weitereBesondZweckbestimmung5" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
-  "weitereDetailZweckbestimmung2" INTEGER NULL ,
-  "weitereDetailZweckbestimmung3" INTEGER NULL ,
-  "weitereDetailZweckbestimmung4" INTEGER NULL ,
-  "weitereDetailZweckbestimmung5" INTEGER NULL ,
   "nutzungsform" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Gruen_FP_Objekt1"
@@ -1408,144 +1422,82 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" (
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen3"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen4"
-    FOREIGN KEY ("weitereZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen5"
-    FOREIGN KEY ("weitereZweckbestimmung4" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_ZweckbestimmungGruen6"
-    FOREIGN KEY ("weitereZweckbestimmung5" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen1"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen2"
-    FOREIGN KEY ("weitereBesondZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen3"
-    FOREIGN KEY ("weitereBesondZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen4"
-    FOREIGN KEY ("weitereBesondZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen5"
-    FOREIGN KEY ("weitereBesondZweckbestimmung4" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_XP_BesondereZweckbestimmungGruen6"
-    FOREIGN KEY ("weitereBesondZweckbestimmung5" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen3"
-    FOREIGN KEY ("weitereDetailZweckbestimmung2" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen4"
-    FOREIGN KEY ("weitereDetailZweckbestimmung3" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen5"
-    FOREIGN KEY ("weitereDetailZweckbestimmung4" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_FP_DetailZweckbestGruen6"
-    FOREIGN KEY ("weitereDetailZweckbestimmung5" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gruen_XP_Nutzungsform1"
     FOREIGN KEY ("nutzungsform" )
     REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Wert" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen5" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_ZweckbestimmungGruen6" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereZweckbestimmung5") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("besondereZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereBesondZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereBesondZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereBesondZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen5" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereBesondZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gruen_XP_BesondereZweckbestimmungGruen6" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereBesondZweckbestimmung5") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen2" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen3" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereDetailZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen4" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereDetailZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen5" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereDetailZweckbestimmung4") ;
-CREATE INDEX "idx_fk_FP_Gruen_FP_DetailZweckbestGruen6" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("weitereDetailZweckbestimmung5") ;
 CREATE INDEX "idx_fk_FP_Gruen_XP_Nutzungsform1" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("nutzungsform") ;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" TO fp_user;
 COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" IS 'Darstellung einer Grünfläche nach §5, Abs. 2, Nr. 5 BauGB';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung1" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung2" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung3" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung4" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereZweckbestimmung5" IS 'Weitere allgemeine Zweckbestimmung der Grünfläche.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."besondereZweckbestimmung" IS 'Besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereBesondZweckbestimmung1" IS 'Weitere besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereBesondZweckbestimmung2" IS 'Weitere besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereBesondZweckbestimmung3" IS 'Weitere besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereBesondZweckbestimmung4" IS 'Weitere besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereBesondZweckbestimmung5" IS 'Weitere besondere Zweckbestimmung der Grünfläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereDetailZweckbestimmung3" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereDetailZweckbestimmung4" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."weitereDetailZweckbestimmung5" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
+COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"."nutzungsform" IS 'Nutzungsform der Grünfläche.';
 CREATE TRIGGER "change_to_FP_Gruen" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Gruen_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Gruen_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Grümläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "besondereZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_FP_Gruen_besondereZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Gruen_besondereZweckbestimmung2"
+    FOREIGN KEY ("besondereZweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Grünläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_Gruen_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Gruen_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche"
@@ -1617,84 +1569,78 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO fp_us
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "weitereZweckbestimmung3" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte1"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte2"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_FP_GenerischesObjekt_FP_ZweckbestimmungGenerischeObjekte3"
-    FOREIGN KEY ("weitereZweckbestimmung3" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT "fk_FP_GenerischesObjekt_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO1" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO2" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_GO_FP_ZweckbestGO3" ON "FP_Sonstiges"."FP_GenerischesObjekt" ("weitereZweckbestimmung3") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
 COMMENT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des FPlans, die keine nachrichtliche Übernahmen aus anderen Rechts-bereichen sind, aber durch keine andere Klasse des FPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmung des Objekts.';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."weitereZweckbestimmung1" IS 'Über eine ExternalCodeList definierte weitere Zweckbestimmung des Objekts.';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."weitereZweckbestimmung2" IS 'Über eine ExternalCodeList definierte weitere Zweckbestimmung des Objekts.';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_GenerischesObjekt"."weitereZweckbestimmung3" IS 'Über eine ExternalCodeList definierte weitere Zweckbestimmung des Objekts.';
 CREATE TRIGGER "change_to_FP_GenerischesObjekt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_GenerischesObjekt_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_GenerischesObjekt_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmungen des Objekts.';
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_Kennzeichnung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Kennzeichnung_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung1" ON "FP_Sonstiges"."FP_Kennzeichnung" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Kennzeichnung_XP_ZweckbestimmungKennzeichnung2" ON "FP_Sonstiges"."FP_Kennzeichnung" ("weitereZweckbestimmung1") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
 COMMENT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" IS 'Kennzeichnungen gemäß §5 Abs. 3 BauGB.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."zweckbestimmung" IS 'Zweckbestimmung der Kennzeichnung.';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung der Kennzeichnung.';
 CREATE TRIGGER "change_to_FP_Kennzeichnung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_Kennzeichnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Kennzeichnung_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_Kennzeichnung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Kennzeichnung_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmungen des Objekts.';
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_GenerischesObjektFlaeche"
@@ -1850,68 +1796,62 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" 
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  "weitereBesondZweckbestimmung1" INTEGER NULL ,
-  "weitereBesondZweckbestimmung2" INTEGER NULL ,
   "vorhaben" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung3"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest1"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest2"
-    FOREIGN KEY ("weitereBesondZweckbestimmung1" )
-    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest3"
-    FOREIGN KEY ("weitereBesondZweckbestimmung2" )
-    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung1" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung2" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_Zweckbestimmung3" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest1" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("besondereZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest2" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("weitereBesondZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_PrivilegiertesVorhaben_FP_BesondZweckbest3" ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("weitereBesondZweckbestimmung2") ;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben" TO fp_user;
 COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" IS 'Standorte für privilegierte Außenbereichsvorhaben und für sonstige Anlagen in Außenbereichen gem. § 35 Abs. 1 und 2 BauGB.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."zweckbestimmung" IS 'Zweckbestimmung des Vorhabens';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."weitereZweckbestimmung1" IS 'Weitere Zweckbestimmung des Vorhabens';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."weitereZweckbestimmung2" IS 'Weitere Zweckbestimmung des Vorhabens';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."besondereZweckbestimmung" IS 'Besondere Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."weitereBesondZweckbestimmung1" IS 'Weitere besondere Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."weitereBesondZweckbestimmung2" IS 'Weitere besondere Zweckbestimmung';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_PrivilegiertesVorhaben"."vorhaben" IS 'Nähere Beschreibung des Vorhabens';
 CREATE TRIGGER "change_to_FP_PrivilegiertesVorhaben" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_PrivilegiertesVorhaben" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" IS 'Zweckbestimmungen des Vorhabens.';
+
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "besondereZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung1"
+    FOREIGN KEY ("besondereZweckbestimmung" )
+    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungendes Vorhabens, die die spezifizierten allgemeinen Zweckbestimmungen detaillieren.';
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche"
@@ -2103,114 +2043,82 @@ GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO 
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "weitereZweckbestimmung1" INTEGER NULL ,
-  "weitereZweckbestimmung2" INTEGER NULL ,
-  "weitereZweckbestimmung3" INTEGER NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  "weitereBesondZweckbestimmung1" INTEGER NULL ,
-  "weitereBesondZweckbestimmung2" INTEGER NULL ,
-  "weitereBesondZweckbestimmung3" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  "weitereDetailZweckbestimmung1" INTEGER NULL ,
-  "weitereDetailZweckbestimmung2" INTEGER NULL ,
-  "weitereDetailZweckbestimmung3" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VerEntsorgung_FP_Objekt"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung1"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung2"
-    FOREIGN KEY ("weitereZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung3"
-    FOREIGN KEY ("weitereZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung4"
-    FOREIGN KEY ("weitereZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung1"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung2"
-    FOREIGN KEY ("weitereBesondZweckbestimmung1" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung3"
-    FOREIGN KEY ("weitereBesondZweckbestimmung2" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung4"
-    FOREIGN KEY ("weitereBesondZweckbestimmung3" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung2"
-    FOREIGN KEY ("weitereDetailZweckbestimmung1" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung3"
-    FOREIGN KEY ("weitereDetailZweckbestimmung2" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung4"
-    FOREIGN KEY ("weitereDetailZweckbestimmung3" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung1" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung2" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung3" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_ZweckbestimmungVerEntsorgung4" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung1" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("besondereZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung2" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereBesondZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung3" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereBesondZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_XP_BesZweckbestVerEntsorgung4" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereBesondZweckbestimmung3") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung1" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("detaillierteZweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung2" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereDetailZweckbestimmung1") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung3" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereDetailZweckbestimmung2") ;
-CREATE INDEX "idx_fk_FP_VerEntsorgung_FP_DetailZweckbestVerEntsorgung4" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("weitereDetailZweckbestimmung3") ;
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" TO fp_user;
 COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" IS 'Flächen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung sowie für Ablagerungen (§5, Abs. 2, Nr. 4 BauGB).';
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereZweckbestimmung1" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereZweckbestimmung2" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereZweckbestimmung3" IS 'Weitere allgemeine Zweckbestimmung der Fläche.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."besondereZweckbestimmung" IS 'Besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereBesondZweckbestimmung1" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereBesondZweckbestimmung2" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereBesondZweckbestimmung3" IS 'Weitere besondere Zweckbestimmung der Fläche, die die zugehörige allgemeine Zweckbestimmung detailliert oder ersetzt.';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereDetailZweckbestimmung1" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
-COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."weitereDetailZweckbestimmung3" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_VerEntsorgung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_VerEntsorgung_zweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_VerEntsorgung_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "besondereZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_FP_VerEntsorgung_besondereZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_VerEntsorgung_besondereZweckbestimmung2"
+    FOREIGN KEY ("besondereZweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung" (
+  "gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_VerEntsorgung_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_VerEntsorgung_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche"
@@ -2599,69 +2507,69 @@ CREATE TRIGGER "change_to_FP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE OR D
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche"
+-- Table "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AufschuettungsFlaeche_FP_Objekt"
+  CONSTRAINT "fk_FP_Aufschuettung_FP_Objekt"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_AufschuettungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_AufschuettungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AufschuettungsFlaeche', 'position','MULTIPOLYGON',2);
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Aufschuettung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche"
+-- Table "FP_Aufschuettung_Abgrabung"."FP_Abgrabung"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AbgrabungsFlaeche_FP_Objekt0"
+  CONSTRAINT "fk_FP_Abgrabung_FP_Objekt0"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_AbgrabungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_AbgrabungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_AbgrabungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_AbgrabungsFlaeche', 'position','MULTIPOLYGON',2);
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Abgrabung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Abgrabung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"
+-- Table "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" (
   "gid" BIGINT NOT NULL ,
   "abbaugut" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_FP_BodenschaetzeFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_FP_Bodenschaetze_FP_Objekt1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
-CREATE TRIGGER "change_to_FP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_BodenschaetzeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_BodenschaetzeFlaeche', 'position','MULTIPOLYGON',2);
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
+CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Bodenschaetze_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Bodenschaetze', 'position','MULTIPOLYGON',2);
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -2783,6 +2691,7 @@ INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('1000'
 INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('2000', 'GemeinsamerFPlan');
 INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('3000', 'RegFPlan');
 INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('4000', 'FPlanRegPlan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('5000', 'SachlicherTeilplan');
 INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------

@@ -687,6 +687,29 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Textabschnitt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        IF new.id IS NULL THEN
+            new.id := nextval('"XP_Basisobjekte"."XP_Textabschnitt_id_seq"');
+        END IF;
+        
+        INSERT INTO "XP_Basisobjekte"."XP_Textabschnitt" (id) VALUES (new.id);
+        RETURN new;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new.id := old.id; --no change in id allowed
+        RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_Textabschnitt" WHERE id = old.id;
+        RETURN old;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Textabschnitt"() TO xp_user;
+
 CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() 
 RETURNS trigger AS
 $BODY$ 
@@ -1010,6 +1033,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenz" (
   "georefMimeType" VARCHAR(64) NULL ,
   "beschreibung" VARCHAR(255) NULL ,
   "art" VARCHAR(64) NULL ,
+  "datum" DATE NULL,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_externereferenz_xp_mimetypes"
     FOREIGN KEY ("referenzMimeType" )
@@ -1037,6 +1061,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referen
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
 
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("referenzMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("georefMimeType") ;
@@ -1132,10 +1157,12 @@ GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_user;
 CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung" (
   "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"'),
   "nameAenderung" VARCHAR(64) NULL ,
+  "nummerAenderung" INTEGER NULL,
   "beschreibung" VARCHAR(255) NULL ,
   "refBeschreibung" INTEGER NULL ,
   "refBegruendung" INTEGER NULL ,
   "refText" INTEGER NULL ,
+  "besonderheiten" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_RasterplanAenderung_XP_ExterneReferenz1"
     FOREIGN KEY ("refBeschreibung" )
@@ -1157,10 +1184,12 @@ Im Standard sind nur georeferenzierte Rasterpläne zugelassen. Die über refScan
 Es handelt sich um eine abstrakte Objektart.';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."nameAenderung" IS 'Bezeichnung der Plan-Änderung';
+COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."nummerAenderung" IS 'Nummer der Änderung';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."beschreibung" IS 'Nähere Beschreibung der Plan-Änderung';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBeschreibung" IS 'Referenz auf das Beschreibungs-Dokument';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBegruendung" IS 'Referenz auf das Begründungs-Dokument';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refText" IS 'Referenz auf die textlichen Inhalte der Planänderung.';
+COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheiten" IS 'Besonderheiten der Änderung';
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz1" ON "XP_Raster"."XP_RasterplanAenderung" ("refBeschreibung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz2" ON "XP_Raster"."XP_RasterplanAenderung" ("refBegruendung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz3" ON "XP_Raster"."XP_RasterplanAenderung" ("refText") ;
@@ -1226,9 +1255,10 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "beschreibung" VARCHAR(255) NULL ,
   "kommentar" VARCHAR(255) NULL ,
   "technHerstellDatum" DATE NULL ,
+  "genehmigungsDatum" DATE NULL ,
   "untergangsDatum" DATE NULL ,
   "erstellungsMassstab" INTEGER  NULL ,
-  "xPlanGMLVersion" VARCHAR(8) NULL DEFAULT '4.0' ,
+  "xPlanGMLVersion" VARCHAR(8) NULL DEFAULT '4.1' ,
   "bezugshoehe" REAL NULL ,
   "refExternalCodeList" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -1245,6 +1275,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."internalId" IS 'Interner Identifi
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."beschreibung" IS 'Kommentierende Beschreibung des Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."kommentar" IS 'Beliebiger Kommentar zum Plan';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."technHerstellDatum" IS 'Datum, an dem der Plan technisch ausgefertigt wurde.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."genehmigungsDatum" IS 'Datum der Genehmigung des Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."untergangsDatum" IS 'Datum, an dem der Plan (z.B. durch Ratsbeschluss oder Gerichtsurteil) aufgehoben oder für nichtig erklärt wurde.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei der Erstellung des Plans benutzte Kartenmassstab.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."xPlanGMLVersion" IS 'Version des XPlanGML-Schemas, nach dem der Datensatz erstellt wurde.';
@@ -1354,9 +1385,11 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
   "gid" BIGINT NOT NULL ,
   "planName" VARCHAR(64) NOT NULL ,
+  "nummer" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid"));
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (Attribut name von XP_Plan) des verbundenen Plans.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."nummer" IS 'Nummer des verbundenen Plans.';
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 
@@ -1849,6 +1882,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."dientZurDarstellungVon" (
   "XP_APObjekt_gid" BIGINT NOT NULL ,
   "XP_Objekt_gid" BIGINT NOT NULL ,
   "art" VARCHAR(64) NOT NULL DEFAULT 'text',
+  "index" INTEGER,
   PRIMARY KEY ("XP_APObjekt_gid", "XP_Objekt_gid", "art") ,
   CONSTRAINT "fk_dientzurdarstellungvon_XP_APOt1"
     FOREIGN KEY ("XP_APObjekt_gid" )
@@ -1866,6 +1900,7 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."XP_APObje
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."XP_Objekt_gid" IS 'Verweis auf das Fachobjekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
 Die Attributart "Art" darf nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht.';
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_APO1" ON "XP_Praesentationsobjekte"."dientZurDarstellungVon" ("XP_APObjekt_gid") ;
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_Objekt1" ON "XP_Praesentationsobjekte"."dientZurDarstellungVon" ("XP_Objekt_gid") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" TO xp_gast;
@@ -2028,6 +2063,28 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 
 -- -----------------------------------------------------
+-- Table "XP_Praesentationsobjekte"."XP_Nutzungsschablone"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Praesentationsobjekte"."XP_Nutzungsschablone" (
+  "gid" BIGINT NOT NULL ,
+  "spaltenAnz" INTEGER NOT NULL ,
+  "zeilenAnz" INTEGER NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_XP_Nutzungsschablone_XP_PTO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_PTO" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_PTO");
+COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" IS 'Modelliert eine Nutzungsschablone. Die darzustellenden Attributwerte werden zeilenweise in die Nutzungsschablone geschrieben.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."spaltenAnz" IS 'Anzahl der Spalten in der Nutzungsschablone';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."zeilenAnz" IS 'Anzahl der Zeilen in der Nutzungsschablone';
+CREATE TRIGGER "XP_Nutzungsschablone_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_Nutzungsschablone" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" TO xp_gast;
+GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" TO xp_user;
+
+-- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_LTO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
@@ -2143,14 +2200,14 @@ CREATE  TABLE  "XP_Sonstiges"."XP_Hoehenangabe" (
     REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe.';
+COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe oder zu einem Bereich vertikaler Höhen. Es ist möglich, spezifische Höhenangaben (z.B. die First- oder Traufhöhe eines Gebäudes) vorzugeben oder einzuschränken, oder den Gültigkeitsbereich eines Planinhalts auf eine bestimmte Höhe (hZwingend) bzw. einen Höhenbereich (hMin - hMax) zu beschränken, was vor allem bei der höhenabhängigen Festsetzung einer überbaubaren Grundstücksfläche (BP_UeberbaubareGrundstuecksflaeche), einer Baulinie (BP_Baulinie) oder einer Baugrenze (BP_Baugrenze) relevant ist. In diesem Fall bleibt das Attribut bezugspunkt unbelegt. ';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hoehenbezug" IS 'Art des Höhenbezuges.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."bezugspunkt" IS 'Bestimmung des Bezugspunktes für relative Höhenangaben.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMin" IS 'Minimale Höhe.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMax" IS 'Maximale Höhe bei einer Bereichsangabe. Das Attribut hMin muss ebenfalls belegt sein.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hZwingend" IS 'Zwingend einzuhaltende Höhe.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."h" IS 'Maximal zulässige Höhe.';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."bezugspunkt" IS 'Bestimmung des Bezugspunktes der Höhenangaben. Wenn dies Attribut nicht belegt ist, soll die Höhenangabe als verikale Einschränkung des zugeordneten Planinhalts interpretiert werden. ';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMin" IS 'Minimal zulassige Höhe des Bezugspunktes (bezugspunkt) bei einer Bereichsangabe, bzw. untere Grenze des vertikalen Gültigkeitsbereiches eines Planinhalts, wenn bezugspunkt nicht belegt ist. In diesem Fall gilt: Ist hMax nicht belegt, gilt die Festlegung ab der Höhe hMin. ';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMax" IS 'Maximal zulässige Höhe des Bezugspunktes (bezugspunkt) bei einer Bereichsangabe, bzw. obere Grenze des vertikalen Gültigkeitsbereiches eines Planinhalts, wenn bezugspunkt nicht belegt ist. In diesem Fall gilt: Ist hMin nicht belegt, gilt die Festlegung bis zur Höhe hMax. ';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hZwingend" IS 'Zwingend einzuhaltende Höhe des Bezugspunktes (bezugspunkt) , bzw. Beschränkung der vertikalen Gültigkeitsbereiches eines Planinhalts auf eine bestimmte Höhe. ';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."h" IS 'Maximal zulässige Höhe des Bezugspunktes (bezugspunkt) ';
 CREATE INDEX "idx_fk_XP_Hoehenangabe_XP_ArtHoehenbezug" ON "XP_Sonstiges"."XP_Hoehenangabe" ("hoehenbezug") ;
 CREATE INDEX "idx_fk_XP_Hoehenangabe_XP_ArtHoehenbezugspunkt1" ON "XP_Sonstiges"."XP_Hoehenangabe" ("bezugspunkt") ;
 
@@ -2527,6 +2584,8 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezei
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2200', 'Abfallentsorgung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2400', 'Ablagerung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2600', 'Telekommunikation');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2800', 'ErneuerbareEnergien');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('3000', 'KraftWaermeKopplung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
@@ -2583,6 +2642,11 @@ INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert
 INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26000', 'Fernmeldeanlage');
 INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26001', 'Mobilfunkstrecke');
 INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26002', 'Fernmeldekabel');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28000', 'Windenergie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28001', 'Photovoltaik');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28002', 'Biomasse');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28003', 'Geothermie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28004', 'SonstErneuerbareEnergie');
 INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('99990', 'Produktenleitung');
 
 -- -----------------------------------------------------
@@ -2668,6 +2732,7 @@ INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Wert", "Bezeichner") VAL
 -- Data for table "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung"
 -- -----------------------------------------------------
 INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('1000', 'Aenderung');
+INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('1100', 'Ergaenzung');
 INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('2000', 'Aufhebung');
 
 -- -----------------------------------------------------
@@ -2708,6 +2773,8 @@ INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES 
 -- -----------------------------------------------------
 INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('1000', 'SchutzPflege');
 INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('2000', 'Entwicklung');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('3000', 'Anlage');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
 INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------

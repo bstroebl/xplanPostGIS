@@ -227,6 +227,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
   "satzungsbeschlussDatum" DATE NULL ,
   "rechtsverordnungsDatum" DATE NULL ,
   "inkrafttretensDatum" DATE NULL ,
+  "ausfertigungsDatum" DATE NULL ,
   "veraenderungssperre" BOOLEAN  NULL DEFAULT false ,
   "staedtebaulicherVertrag" BOOLEAN  NULL DEFAULT false ,
   "erschliessungsVertrag" BOOLEAN  NULL DEFAULT false ,
@@ -236,6 +237,8 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
   "refGrundstuecksverzeichnis" INTEGER NULL ,
   "refPflanzliste" INTEGER NULL ,
   "refUmweltbericht" INTEGER NULL ,
+  "refSatzung" INTEGER NULL ,
+  "refGruenordnungsplan" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_bp_plan_xp_plangeber1"
     FOREIGN KEY ("plangeber" )
@@ -282,6 +285,16 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
+  CONSTRAINT "fk_bp_plan_xp_externereferenz5"
+    FOREIGN KEY ("refSatzung" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_bp_plan_xp_externereferenz6"
+    FOREIGN KEY ("refGruenordnungsplan" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Plan_XP_Plan1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
@@ -298,6 +311,8 @@ CREATE INDEX "idx_fk_bp_plan_xp_externereferenz1" ON "BP_Basisobjekte"."BP_Plan"
 CREATE INDEX "idx_fk_bp_plan_xp_externereferenz2" ON "BP_Basisobjekte"."BP_Plan" ("refGrundstuecksverzeichnis") ;
 CREATE INDEX "idx_fk_bp_plan_xp_externereferenz3" ON "BP_Basisobjekte"."BP_Plan" ("refPflanzliste") ;
 CREATE INDEX "idx_fk_bp_plan_xp_externereferenz4" ON "BP_Basisobjekte"."BP_Plan" ("refUmweltbericht") ;
+CREATE INDEX "idx_fk_bp_plan_xp_externereferenz4" ON "BP_Basisobjekte"."BP_Plan" ("refSatzung") ;
+CREATE INDEX "idx_fk_bp_plan_xp_externereferenz4" ON "BP_Basisobjekte"."BP_Plan" ("refGruenordnungsplan") ;
 CREATE INDEX "idx_fk_BP_Plan_XP_Plan1" ON "BP_Basisobjekte"."BP_Plan" ("gid") ;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Plan" IS 'Die Klasse modelliert einen Bebauungsplan';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -313,6 +328,7 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."veraenderungssperreDatum" IS 'Da
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."satzungsbeschlussDatum" IS 'Datum des Satzungsbeschlusses';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."rechtsverordnungsDatum" IS 'Datum der Rechtsverordnung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."inkrafttretensDatum" IS 'Datum des Inkrafttretens.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."ausfertigungsDatum" IS 'Datum der Ausfertigung';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."veraenderungssperre" IS 'Gibt an ob es im gesamten Geltungsbereich des Plans eine Veränderungssperre gibt.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."staedtebaulicherVertrag" IS 'Gibt an, ob es zum Plan einen städtebaulichen Vertrag gibt.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."erschliessungsVertrag" IS 'Gibt an, ob es für den Plan einen Erschließungsvertrag gibt.';
@@ -322,6 +338,8 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refKoordinatenListe" IS 'Referen
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGrundstuecksverzeichnis" IS 'Referenz auf ein Grundstücksverzeichnis.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refPflanzliste" IS 'Referenz auf eine Pflanzliste.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refUmweltbericht" IS 'Referenz auf den Umweltbericht.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refSatzung" IS 'Referenz auf die Satzung.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGruenordnungsplan" IS 'Referenz auf den Grünordnungsplan .';
 CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"(); 
 
 -- -----------------------------------------------------

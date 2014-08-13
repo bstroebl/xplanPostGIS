@@ -196,6 +196,31 @@ GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Flaechenobjekt" TO xp_gast;
 CREATE TRIGGER "SO_Flaechenobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."SO_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
+-- Table "SO_Basisobjekte"."SO_TextAbschnitt"
+-- -----------------------------------------------------
+CREATE  TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" (
+  "id" INTEGER NOT NULL ,
+  "rechtscharacter" INTEGER NOT NULL ,
+  PRIMARY KEY ("id") ,
+  CONSTRAINT "fk_SO_Textabschnitt_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_so_textabschnitt_so_rechtscharakter1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "SO_Basisobjekte"."SO_TextAbschnitt" ("rechtscharakter") ;
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_TextAbschnitt" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_TextAbschnitt" TO so_user;
+COMMENT ON TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Sonstigen Plans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut "rechtscharakter" des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
+COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts. ';
+CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+
+-- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" (
@@ -433,15 +458,6 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" (
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO so_user;
 
--- -----------------------------------------------------
--- Table "SO_Schutzgebiete"."SO_LaermschutzzoneTypen"
--- -----------------------------------------------------
-CREATE TABLE  "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" (
-  "Wert" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
-
-GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"
@@ -450,7 +466,6 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" (
   "gid" BIGINT NOT NULL,
   "artDerFestlegung" INTEGER NULL,
   "detailArtDerFestlegung" INTEGER NULL,
-  "zone" INTEGER NULL,
   "name" VARCHAR(64) NULL,
   "nummer" VARCHAR(64) NULL,
   PRIMARY KEY ("gid"),
@@ -467,13 +482,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" (
   CONSTRAINT "fk_SO_SchutzgebietSonstigesRecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
     REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" ("Wert")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_SO_SchutzgebietSonstigesRecht_zone"
-    FOREIGN KEY ("zone")
-    REFERENCES "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" ("Wert")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
+    ON DELETE NO ACTION);
 
 CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_artDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("artDerFestlegung");
 CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_detailArtDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("detailArtDerFestlegung");
@@ -484,7 +493,6 @@ COMMENT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" IS 'Sonstige
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."artDerFestlegung" IS 'Klassifizierung des Schutzgebietes oder Schutzbereichs.';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung';
-COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."zone" IS 'Zugeordnete Schutzzone (wenn artDerFestlegung == 1000 Laermschutzbereich)';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."name" IS 'Informelle Bezeichnung des Gebiets';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer des Gebiets.';
 CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1338,6 +1346,16 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuft
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" TO so_user;
 
 -- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" (
+  "Wert" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Wert"));
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" (
@@ -1346,6 +1364,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" (
   "detailArtDerFestlegung" INTEGER NULL,
   "name" VARCHAR(64) NULL,
   "nummer" VARCHAR(64) NULL,
+  "laermschutzzone" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Luftverkehrsrecht_SO_Objekt1"
     FOREIGN KEY ("gid")
@@ -1361,6 +1380,11 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" (
     FOREIGN KEY ("detailArtDerFestlegung")
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" ("Wert")
     ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Luftverkehrsrecht_laermschutzzone"
+    FOREIGN KEY ("laermschutzzone")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_SO_Luftverkehrsrecht_artDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" ("artDerFestlegung");
@@ -1373,6 +1397,7 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."artDerF
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."laermschutzzone" IS 'Lärmschutzzone nach LuftVG';
 CREATE TRIGGER "change_to_SO_Luftverkehrsrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
@@ -1751,13 +1776,6 @@ INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert", "Be
 INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
--- Data for table "SO_Schutzgebiete"."SO_LaermschutzzoneTypen"
--- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (1000, 'TagZone1');
-INSERT INTO "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (2000, 'TagZone2');
-INSERT INTO "SO_Schutzgebiete"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (3000, 'Nacht');
-
--- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht"
 -- -----------------------------------------------------
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1000, 'Bundesautobahn');
@@ -1839,7 +1857,16 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" (
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5000, 'Ballonstartplatz');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5200, 'Haengegleiter');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5400, 'Gleitsegler');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (6000, 'Laermschutzbereich');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (7000, 'Baubeschraenkungsbereich');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen"
+-- -----------------------------------------------------
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (1000, 'TagZone1');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (2000, 'TagZone2');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (3000, 'Nacht');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht"
@@ -1860,6 +1887,7 @@ INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1400, 'SozialeStadt');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1500, 'BusinessImprovementDestrict');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1600, 'HousingImprovementDestrict');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1999, 'Erhaltungsverordnung');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2000, 'ErhaltungsverordnungStaedebaulicheGestalt');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2100, 'ErhaltungsverordnungWohnbevoelkerung');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2200, 'ErhaltungsverordnungUmstrukturierung');
