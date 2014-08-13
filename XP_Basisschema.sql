@@ -2067,17 +2067,22 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_Nutzungsschablone" (
   "gid" BIGINT NOT NULL ,
+  "position" GEOMETRY NOT NULL ,
+  "drehwinkel" INTEGER NULL DEFAULT 0,
   "spaltenAnz" INTEGER NOT NULL ,
   "zeilenAnz" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_XP_Nutzungsschablone_XP_PTO1"
+  CONSTRAINT "fk_XP_Nutzungsschablone_XP_TPO1"
     FOREIGN KEY ("gid" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_PTO" ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_TPO" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("XP_Praesentationsobjekte"."XP_PTO");
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
+
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" IS 'Modelliert eine Nutzungsschablone. Die darzustellenden Attributwerte werden zeilenweise in die Nutzungsschablone geschrieben.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist.
+Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."spaltenAnz" IS 'Anzahl der Spalten in der Nutzungsschablone';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."zeilenAnz" IS 'Anzahl der Zeilen in der Nutzungsschablone';
 CREATE TRIGGER "XP_Nutzungsschablone_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_Nutzungsschablone" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
@@ -2357,6 +2362,7 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','X
 SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2);
 SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2);
 SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_Nutzungsschablone', 'position','POINT',2);
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
