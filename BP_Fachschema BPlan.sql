@@ -20,17 +20,44 @@ GRANT xp_user TO bp_user;
 
 CREATE SCHEMA "BP_Basisobjekte";
 CREATE SCHEMA "BP_Bebauung";
-CREATE SCHEMA "BP_Naturschutz";
+CREATE SCHEMA "BP_Gemeinbedarf_Spiel_und_Sportanlagen";
+CREATE SCHEMA "BP_Ver_und_Entsorgung";
+CREATE SCHEMA "BP_Verkehr";
+CREATE SCHEMA "BP_Wasser";
+CREATE SCHEMA "BP_Naturschutz_Landschaftsbild_Naturhaushalt";
+CREATE SCHEMA "BP_Landwirtschaft_Wald_und_Gruen";
+CREATE SCHEMA "BP_Sonstiges";
+CREATE SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze";
+CREATE SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz";
+CREATE SCHEMA "BP_Umwelt";
 CREATE SCHEMA "BP_Raster";
 
 COMMENT ON SCHEMA "BP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines BPlans (abgeleitet von XP_Plan) und eines BPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für BPlan-Fachobjekte.';
 COMMENT ON SCHEMA "BP_Bebauung" IS 'Festsetzungen über baulich genutzte Flächen';
-COMMENT ON SCHEMA "BP_Naturschutz" IS 'BP_Naturschutz, Landschaftsbild, Naturhaushalt: Festsetzungen von Flächen und Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9, Abs. 1, Nr. 20 BauGB).';
+COMMENT ON SCHEMA "BP_Gemeinbedarf_Spiel_und_Sportanlagen" IS 'Festsetzung von Flächen für den Gemeinbedarf sowie für Sport- und Spielanlagen.';
+COMMENT ON SCHEMA "BP_Ver_und_Entsorgung" IS 'Festsetzung von Versorgungsflächen, Festsetzung der Führung von oberirdischen und unterirdischen Versorgungsanlagen und -leitungen, von Flächen für die Abfall- und Abwasserbeseitigung, sowie von Ablagerungen (§9, Abs. 1, Nr. 12-14 BauGB).';
+COMMENT ON SCHEMA "BP_Verkehr" IS 'Verkehrsflächen und Verkehrsflächen besonderer Zweckbestimmung (§9, Abs. 1, Nr. 11 BauGB).';
+COMMENT ON SCHEMA "BP_Wasser" IS 'Festsetzung von Gewässerflächen und Flächen für die Wasserwirtschaft.';
+COMMENT ON SCHEMA "BP_Naturschutz_Landschaftsbild_Naturhaushalt" IS 'BP_Naturschutz, Landschaftsbild, Naturhaushalt: Festsetzungen von Flächen und Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9, Abs. 1, Nr. 20 BauGB).';
+COMMENT ON SCHEMA "BP_Landwirtschaft_Wald_und_Gruen" IS 'Festsetzungen von Flächen für die Landwirtschaft und Wald (§9, Abs. 1, Nr. 18 BauGB) für öffentliche und private Grünflächen (§9, Abs. 1, Nr. 15 BauGB), und für die Kleintierhaltung (§9, Abs. 1, Nr. 19 BauGB)';
+COMMENT ON SCHEMA "BP_Sonstiges" IS 'Sonstige Festsetzungen';
+COMMENT ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" IS 'Festsetzungen von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§9, Abs. 1, Nr. 17 BauGB).';
+COMMENT ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" IS 'Festsetzungen zur Erhaltungssatzungen(§172 BauGB), Denkmalschutz-Ensembles sowie Einzelanlagen des Denkmalschutzes.';
+COMMENT ON SCHEMA "BP_Umwelt" IS 'Umweltbezogene Festsetzungen';
 COMMENT ON SCHEMA "BP_Raster" IS 'Rasterdarstellung von Bebauungsplänen';
 
 GRANT USAGE ON SCHEMA "BP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Bebauung" TO xp_gast;
-GRANT USAGE ON SCHEMA "BP_Naturschutz" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Gemeinbedarf_Spiel_und_Sportanlagen" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Ver_und_Entsorgung" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Verkehr" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Wasser" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Naturschutz_Landschaftsbild_Naturhaushalt" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Landwirtschaft_Wald_und_Gruen" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Sonstiges" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Umwelt" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Raster" TO xp_gast;
 
 
