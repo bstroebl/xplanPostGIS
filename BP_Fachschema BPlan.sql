@@ -74,120 +74,24 @@ GRANT ALL ON TABLE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq" TO GROUP b
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
-CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."child_of_BP_Objekt"() 
+CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."new_BP_Bereich"() 
 RETURNS trigger AS
-$BODY$ 
+$BODY$
+ DECLARE
+    bp_plan_gid integer;
  BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-        END IF;
-        
-        INSERT INTO "BP_Basisobjekte"."BP_Objekt"(gid) VALUES (new.gid);
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "BP_Basisobjekte"."BP_Objekt" WHERE gid = old.gid;
-        RETURN old;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."child_of_BP_Objekt"() TO bp_user;
+    SELECT max(gid) from "BP_Basisobjekte"."BP_Plan" INTO bp_plan_gid;
 
-CREATE OR REPLACE FUNCTION "BP_Naturschutz"."child_of_BP_AnpflanzungBindungErhaltung"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-        END IF;
-        
-        INSERT INTO "BP_Naturschutz"."BP_AnpflanzungBindungErhaltung" (gid) VALUES (new.gid);
+    IF bp_plan_gid IS NULL THEN
+        RETURN NULL;
+    ELSE
+        new."gehoertZuPlan" := bp_plan_gid;
         RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "BP_Naturschutz"."BP_AnpflanzungBindungErhaltung" WHERE gid = old.gid;
-        RETURN old;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Naturschutz"."child_of_BP_AnpflanzungBindungErhaltung"() TO bp_user;
-
-CREATE OR REPLACE FUNCTION "BP_Naturschutz"."child_of_BP_Schutzgebiet"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-        END IF;
-        
-        INSERT INTO "BP_Naturschutz"."BP_Schutzgebiet" (gid) VALUES (new.gid);
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "BP_Naturschutz"."BP_Schutzgebiet" WHERE gid = old.gid;
-        RETURN old;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Naturschutz"."child_of_BP_Schutzgebiet"() TO bp_user;
-
-CREATE OR REPLACE FUNCTION "BP_Naturschutz"."child_of_BP_AusgleichsMassnahme"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-        END IF;
-        
-        INSERT INTO "BP_Naturschutz"."BP_AusgleichsMassnahme" (gid) VALUES (new.gid);
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "BP_Naturschutz"."BP_AusgleichsMassnahme" WHERE gid = old.gid;
-        RETURN old;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Naturschutz"."child_of_BP_AusgleichsMassnahme"() TO bp_user; 
-
-CREATE OR REPLACE FUNCTION "BP_Naturschutz"."child_of_BP_SchutzPflegeEntwicklungsMassnahme"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-        END IF;
-        
-        INSERT INTO "BP_Naturschutz"."BP_SchutzPflegeEntwicklungsMassnahme" (gid) VALUES (new.gid);
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "BP_Naturschutz"."BP_SchutzPflegeEntwicklungsMassnahme" WHERE gid = old.gid;
-        RETURN old;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "BP_Naturschutz"."child_of_BP_SchutzPflegeEntwicklungsMassnahme"() TO bp_user; 
+GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."new_BP_Bereich"() TO bp_user;
 
 -- *****************************************************
 -- CREATE TABLEs 
@@ -236,7 +140,7 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_Rechtsstand" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
   "gid" BIGINT NOT NULL ,
-  "raeumlicherGeltungsbereich" GEOMETRY NULL ,
+  "name" VARCHAR (256) NOT NULL,
   "plangeber" INTEGER NULL ,
   "sonstPlanArt" INTEGER NULL ,
   "verfahren" INTEGER NULL ,
@@ -321,7 +225,9 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich");
+
 GRANT SELECT ON "BP_Basisobjekte"."BP_Plan" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Plan" TO bp_user;
 CREATE INDEX "idx_fk_bp_plan_xp_plangeber1" ON "BP_Basisobjekte"."BP_Plan" ("plangeber") ;
@@ -338,6 +244,7 @@ CREATE INDEX "idx_fk_bp_plan_xp_externereferenz4" ON "BP_Basisobjekte"."BP_Plan"
 CREATE INDEX "idx_fk_BP_Plan_XP_Plan1" ON "BP_Basisobjekte"."BP_Plan" ("gid") ;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Plan" IS 'Die Klasse modelliert einen Bebauungsplan';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."plangeber" IS 'Für den BPlan verantwortliche Stelle.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."sonstPlanArt" IS 'Spezifikation einer "Sonstigen Planart", wenn kein Plantyp aus der Enumeration BP_PlanArt zutraffend ist.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."verfahren" IS 'Verfahrensart der BPlan-Aufstellung oder -Änderung.';
@@ -362,7 +269,9 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refPflanzliste" IS 'Referenz auf
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refUmweltbericht" IS 'Referenz auf den Umweltbericht.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refSatzung" IS 'Referenz auf die Satzung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGruenordnungsplan" IS 'Referenz auf den Grünordnungsplan .';
-CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"(); 
+CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
+CREATE TRIGGER "BP_Plan_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_PlanArt"
@@ -469,7 +378,7 @@ CREATE INDEX "idx_fk_traegerbeteiligungsenddatum_bp_plan1" ON "BP_Basisobjekte".
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
   "gid" BIGINT NOT NULL ,
-  "geltungsbereich" GEOMETRY NULL ,
+  "name" VARCHAR (256) NOT NULL,
   "versionBauNVO" INTEGER NULL ,
   "versionBauNVOText" VARCHAR(255) NULL ,
   "versionBauGB" DATE NULL ,
@@ -490,11 +399,14 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");
+    
 GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Bereich" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Bereich" IS 'Diese Klasse modelliert einen Bereich eines Bebauungsplans, z.B. eine vertikale Ebene.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."name" IS 'Bezeichnung des Bereiches. Die Bezeichnung kann hier oder in XP_Bereich geändert werden.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVO" IS 'Benutzte Version der BauNVO';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVOText" IS 'Textliche Spezifikation einer anderen Gesetzesgrundlage als der BauNVO. In diesem Fall muss das Attribut versionBauNVO den Wert 9999 haben.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGB" IS 'Datum der zugrunde liegenden Version des BauGB.';
@@ -503,7 +415,11 @@ CREATE INDEX "idx_fk_BP_Bereich_BP_Plan1" ON "BP_Basisobjekte"."BP_Bereich" ("ge
 CREATE INDEX "idx_fk_BP_Bereich_XP_VersionBauNVO1" ON "BP_Basisobjekte"."BP_Bereich" ("versionBauNVO") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich1" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich2" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
-CREATE TRIGGER "change_to_BP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"(); 
+CREATE TRIGGER "change_to_BP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
+CREATE TRIGGER "insert_into_BP_Bereich" BEFORE INSERT ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "BP_Basisobjekte"."new_BP_Bereich"();
+CREATE TRIGGER "BP_Bereich_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
+  
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Rechtscharakter"
@@ -529,6 +445,41 @@ COMMENT ON TABLE  "BP_Basisobjekte"."BP_WirksamkeitBedingung" IS 'Spezifikation 
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."bedingung" IS 'Textlich formulierte Bedingung für die Wirksamkeit oder Unwirksamkeit einer Festsetzung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumAbsolut" IS 'Datum an dem eine Festsetzung wirksam oder unwirksam wird.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumRelativ" IS 'Zeitspanne, nach der eine Festsetzung wirksam oder unwirksam wird, wenn die im Attribut bedingung spezifizierte Bedingung erfüllt ist.';
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Punktobjekt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Basisobjekte"."BP_Punktobjekt" (
+  "gid" BIGINT NOT NULL ,
+  "position" GEOMETRY NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO bp_user;
+CREATE TRIGGER "BP_Punktobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."BP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Linienobjekt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Basisobjekte"."BP_Linienobjekt" (
+  "gid" BIGINT NOT NULL ,
+  "position" GEOMETRY NOT NULL ,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO bp_user;
+CREATE TRIGGER "BP_Linienobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."BP_Linienobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Flaechenobjekt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Basisobjekte"."BP_Flaechenobjekt" (
+  "gid" BIGINT NOT NULL ,
+  "position" GEOMETRY NOT NULL ,
+  "flaechenschluss" BOOLEAN NOT NULL,
+  PRIMARY KEY ("gid") );
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Flaechenobjekt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Flaechenobjekt" TO bp_user;
+CREATE TRIGGER "BP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."BP_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
+
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Objekt"
@@ -582,7 +533,7 @@ CREATE  TABLE  "BP_Basisobjekte"."gehoertZuBP_Bereich" (
   CONSTRAINT "fk_gehoertzubp_bereich_bp_bereich1"
     FOREIGN KEY ("BP_Bereich_gid" )
     REFERENCES "BP_Basisobjekte"."BP_Bereich" ("gid" )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_gehoertZuBP_Bereich_BP_Objekt1"
     FOREIGN KEY ("BP_Objekt_gid" )
@@ -623,7 +574,6 @@ CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."gemeinde" ("XP
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Raster"."BP_RasterplanAenderung" (
   "gid" BIGINT NOT NULL ,
-  "geltungsbereichAenderung" GEOMETRY NULL ,
   "aufstellungsbeschlussDatum" DATE NULL ,
   "veraenderungssperreDatum" DATE NULL ,
   "satzungsbeschlussDatum" DATE NULL ,
@@ -634,7 +584,9 @@ CREATE  TABLE  "BP_Raster"."BP_RasterplanAenderung" (
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS("XP_Raster"."XP_GeltungsbereichAenderung");
+
 GRANT SELECT ON "BP_Raster"."BP_RasterplanAenderung" TO xp_gast;
 GRANT ALL ON "BP_Raster"."BP_RasterplanAenderung" TO bp_user;
 COMMENT ON TABLE  "BP_Raster"."BP_RasterplanAenderung" IS 'Georeferenziertes Rasterbild der Änderung eines Basisplans. Die abgeleitete Klasse besitzt Datums-Attribute, die spezifisch für Bebauungspläne sind.';
@@ -646,6 +598,7 @@ COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."rechtsverordnungsDatum"
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."inkrafttretensDatum" IS 'Datum des Inkrafttretens der Änderung';
 CREATE INDEX "idx_fk_BP_RasterplanAenderung1" ON "BP_Raster"."BP_RasterplanAenderung" ("gid") ;
 CREATE TRIGGER "change_to_BP_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Raster"."BP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
+SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Raster','BP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "BP_Raster"."auslegungsStartDatum"
@@ -719,14 +672,6 @@ CREATE INDEX "idx_fk_traegerbeteiligungsEndDatum1" ON "BP_Raster"."traegerbeteil
 -- *****************************************************
 -- INSERT DATA
 -- *****************************************************
-
--- -----------------------------------------------------
--- PostGIS für instantiierbare Objekte
--- -----------------------------------------------------
-
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Raster','BP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Verfahren"
