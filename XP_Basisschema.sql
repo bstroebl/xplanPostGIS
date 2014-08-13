@@ -785,180 +785,180 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 -- Table "XP_Enumerationen"."XP_Rechtsstand"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Rechtsstand" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Rechtsstand" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_VersionBauNVO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_VersionBauNVO" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_VersionBauNVO" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Sondernutzungen"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Sondernutzungen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Sondernutzungen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_AbweichungBauNVOTypen"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_AbweichungBauNVOTypen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AbweichungBauNVOTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungGruen"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGruen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGruen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungWald"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWald" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWald" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Nutzungsform"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Nutzungsform" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Nutzungsform" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungGewaesser"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Bundeslaender"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Bundeslaender" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Bundeslaender" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -987,9 +987,9 @@ CREATE TRIGGER  "XP_Geltungsbereich_isAbstract" BEFORE INSERT ON "XP_Basisobjekt
 -- Table "XP_Basisobjekte"."XP_GesetzlicheGrundlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_GesetzlicheGrundlage" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_GesetzlicheGrundlage" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_GesetzlicheGrundlage" TO xp_user;
 
@@ -997,27 +997,27 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_GesetzlicheGrundlage" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_BedeutungenBereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_BedeutungenBereich" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(45) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_BedeutungenBereich" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_MimeTypes"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_MimeTypes" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_MimeTypes" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenzArt" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenzArt" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1037,17 +1037,17 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenz" (
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_externereferenz_xp_mimetypes"
     FOREIGN KEY ("referenzMimeType" )
-    REFERENCES "XP_Basisobjekte"."XP_MimeTypes" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_MimeTypes" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_xp_externereferenz_xp_mimetypes1"
     FOREIGN KEY ("georefMimeType" )
-    REFERENCES "XP_Basisobjekte"."XP_MimeTypes" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_MimeTypes" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_xp_externereferenz_xp_externereferenzart1"
     FOREIGN KEY ("art" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1302,7 +1302,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Bereich" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Bereich_XP_BedeutungenBereich1"
     FOREIGN KEY ("bedeutung" )
-    REFERENCES "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
     CONSTRAINT "fk_XP_Bereich_XP_RasterplanBasis1"
@@ -1341,12 +1341,12 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Objekt_XP_Rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
-    REFERENCES "XP_Enumerationen"."XP_Rechtsstand" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_Rechtsstand" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_Objekt_xp_gesetzlichegrundlage1"
     FOREIGN KEY ("gesetzlicheGrundlage" )
-    REFERENCES "XP_Basisobjekte"."XP_GesetzlicheGrundlage" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_GesetzlicheGrundlage" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt" IS 'Abstrakte Oberklasse für alle XPlanGML-Fachobjekte. Die Attribute dieser Klasse werden über den Vererbungs-Mechanismus an alle Fachobjekte weitergegeben.';
@@ -1374,9 +1374,9 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1413,7 +1413,7 @@ CREATE  TABLE  "XP_Basisobjekte"."aendert" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_aendert_XP_RechtscharakterPlanaenderung1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "XP_Basisobjekte"."aendert" TO xp_gast;
@@ -1444,7 +1444,7 @@ CREATE  TABLE  "XP_Basisobjekte"."wurdeGeaendertVon" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_wurdeGeaendertVon_XP_RechtscharakterPlanaenderung1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert" )
+    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "XP_Basisobjekte"."wurdeGeaendertVon" TO xp_gast;
@@ -1825,9 +1825,9 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."texte" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_StylesheetListe"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_StylesheetListe" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_user;
@@ -1856,7 +1856,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_AbstraktesPraesentationsobjekt_xp_stylesheetliste1"
     FOREIGN KEY ("stylesheetId" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_StylesheetListe" ("Wert" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_StylesheetListe" ("Code" )
     ON DELETE SET NULL
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" IS 'Abstrakte Basisklasse für alle Präsentationsobjekte.
@@ -1972,9 +1972,9 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_user;
 -- Table "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
   
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" TO xp_gast;
 
@@ -1982,9 +1982,9 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" TO xp
 -- Table "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
   
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" TO xp_gast;
 
@@ -2002,12 +2002,12 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_TPO" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_TPO_XP_VertikaleAusrichtung1"
     FOREIGN KEY ("vertikaleAusrichtung" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Code" )
     ON DELETE SET NULL
     ON UPDATE RESTRICT,
   CONSTRAINT "fk_XP_TPO_XP_HorizontaleAusrichtung1"
     FOREIGN KEY ("horizontaleAusrichtung" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code" )
     ON DELETE SET NULL
     ON UPDATE RESTRICT,
   CONSTRAINT "fk_XP_TPO_XP_APO1"
@@ -2141,9 +2141,9 @@ GRANT ALL ON TABLE "XP_Sonstiges"."XP_Plangeber" TO xp_user;
 -- Table "XP_Sonstiges"."XP_SPEMassnamenTypen"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnamenTypen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 COMMENT ON TABLE  "XP_Sonstiges"."XP_SPEMassnamenTypen" IS 'Klassifikation der Maßnahme';
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEMassnamenTypen" TO xp_gast;
 
@@ -2151,9 +2151,9 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEMassnamenTypen" TO xp_gast;
 -- Table "XP_Sonstiges"."XP_SPEZiele"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_SPEZiele" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEZiele" TO xp_gast;
 
@@ -2161,9 +2161,9 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEZiele" TO xp_gast;
 -- Table "XP_Sonstiges"."XP_ArtHoehenbezug"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezug" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezug" TO xp_gast;
 
@@ -2171,9 +2171,9 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezug" TO xp_gast;
 -- Table "XP_Sonstiges"."XP_ArtHoehenbezugspunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" TO xp_gast;
 
@@ -2192,12 +2192,12 @@ CREATE  TABLE  "XP_Sonstiges"."XP_Hoehenangabe" (
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_Hoehenangabe_XP_ArtHoehenbezug"
     FOREIGN KEY ("hoehenbezug" )
-    REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezug" ("Wert" )
+    REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_Hoehenangabe_XP_ArtHoehenbezugspunkt1"
     FOREIGN KEY ("bezugspunkt" )
-    REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert" )
+    REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe oder zu einem Bereich vertikaler Höhen. Es ist möglich, spezifische Höhenangaben (z.B. die First- oder Traufhöhe eines Gebäudes) vorzugeben oder einzuschränken, oder den Gültigkeitsbereich eines Planinhalts auf eine bestimmte Höhe (hZwingend) bzw. einen Höhenbereich (hMin - hMax) zu beschränken, was vor allem bei der höhenabhängigen Festsetzung einer überbaubaren Grundstücksfläche (BP_UeberbaubareGrundstuecksflaeche), einer Baulinie (BP_Baulinie) oder einer Baugrenze (BP_Baugrenze) relevant ist. In diesem Fall bleibt das Attribut bezugspunkt unbelegt. ';
@@ -2225,7 +2225,7 @@ CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" (
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1"
     FOREIGN KEY ("klassifizMassnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert" )
+    REFERENCES "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" IS 'Spezifikation der Attribute für einer Schutz-, Pflege- oder Entwicklungsmaßnahme.';
@@ -2361,440 +2361,440 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','X
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1000', 'WohnBauflaeche');
-INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('2000', 'GemischteBauflaeche');
-INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('3000', 'GewerblicheBauflaeche');
-INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('4000', 'SonderBauflaeche');
-INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('9999', 'SonstigeBauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1000', 'WohnBauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('2000', 'GemischteBauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('3000', 'GewerblicheBauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('4000', 'SonderBauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeBauflaeche');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1000', 'Kleinsiedlungsgebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1100', 'ReinesWohngebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1200', 'AllgWohngebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1300', 'BesonderesWohngebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1400', 'Dorfgebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1500', 'Mischgebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1600', 'Kerngebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1700', 'Gewerbegebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('1800', 'Industriegebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('2000', 'SondergebietErholung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('2100', 'SondergebietSonst');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('3000', 'Wochenendhausgebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('4000', 'Sondergebiet');
-INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert", "Bezeichner") VALUES ('9999', 'SonstigesGebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1000', 'Kleinsiedlungsgebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1100', 'ReinesWohngebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1200', 'AllgWohngebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1300', 'BesonderesWohngebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1400', 'Dorfgebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1500', 'Mischgebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1600', 'Kerngebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1700', 'Gewerbegebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('1800', 'Industriegebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('2000', 'SondergebietErholung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('2100', 'SondergebietSonst');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('3000', 'Wochenendhausgebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('4000', 'Sondergebiet');
+INSERT INTO "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code", "Bezeichner") VALUES ('9999', 'SonstigesGebiet');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Rechtsstand"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('1000', 'Geplant');
-INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2000', 'Bestehend');
-INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('3000', 'Fortfallend');
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Code", "Bezeichner") VALUES ('1000', 'Geplant');
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2000', 'Bestehend');
+INSERT INTO "XP_Enumerationen"."XP_Rechtsstand" ("Code", "Bezeichner") VALUES ('3000', 'Fortfallend');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Sondernutzungen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1000', 'Wochenendhausgebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1100', 'Ferienhausgebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1200', 'Campingplatzgebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1300', 'Kurgebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1400', 'SonstSondergebietErholung');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1500', 'Einzelhandelsgebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1600', 'GrossflaechigerEinzelhandel');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('16000', 'Ladengebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('16001', 'Einkaufszentrum');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('16002', 'SonstGrossflEinzelhandel');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1700', 'Verkehrsuebungsplatz');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1800', 'Hafengebiet');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('1900', 'SondergebietErneuerbareEnergie');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2000', 'SondergebietMilitaer');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2100', 'SondergebietLandwirtschaft');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2200', 'SondergebietSport');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2300', 'SondergebietGesundheitSoziales');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2400', 'Golfplatz');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2500', 'SondergebietKultur');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2600', 'SondergebietTourismus');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2700', 'SondergebietBueroUndVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2800', 'SondergebietHochschuleEinrichtungen');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('2900', 'SondergebietMesse');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Wert", "Bezeichner") VALUES ('9999', 'SondergebietAndereNutzungen');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1000', 'Wochenendhausgebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1100', 'Ferienhausgebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1200', 'Campingplatzgebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1300', 'Kurgebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1400', 'SonstSondergebietErholung');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1500', 'Einzelhandelsgebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1600', 'GrossflaechigerEinzelhandel');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('16000', 'Ladengebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('16001', 'Einkaufszentrum');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('16002', 'SonstGrossflEinzelhandel');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1700', 'Verkehrsuebungsplatz');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1800', 'Hafengebiet');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('1900', 'SondergebietErneuerbareEnergie');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2000', 'SondergebietMilitaer');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2100', 'SondergebietLandwirtschaft');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2200', 'SondergebietSport');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2300', 'SondergebietGesundheitSoziales');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2400', 'Golfplatz');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2500', 'SondergebietKultur');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2600', 'SondergebietTourismus');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2700', 'SondergebietBueroUndVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2800', 'SondergebietHochschuleEinrichtungen');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2900', 'SondergebietMesse');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('9999', 'SondergebietAndereNutzungen');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AbweichungBauNVOTypen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Wert", "Bezeichner") VALUES ('1000', 'EinschraenkungNutzung');
-INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Wert", "Bezeichner") VALUES ('2000', 'AusschlussNutzung');
-INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Wert", "Bezeichner") VALUES ('3000', 'AusweitungNutzung');
-INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Wert", "Bezeichner") VALUES ('9999', 'SonstAbweichung');
+INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code", "Bezeichner") VALUES ('1000', 'EinschraenkungNutzung');
+INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code", "Bezeichner") VALUES ('2000', 'AusschlussNutzung');
+INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code", "Bezeichner") VALUES ('3000', 'AusweitungNutzung');
+INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstAbweichung');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('1000', 'OffentlicheVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('1200', 'BildungForschung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('1400', 'Kirche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('1600', 'Sozial');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('1800', 'Gesundheit');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('2000', 'Kultur');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('2200', 'Sport');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('2400', 'SicherheitOrdnung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('2600', 'Infrastruktur');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1000', 'OffentlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1200', 'BildungForschung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1400', 'Kirche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1600', 'Sozial');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1800', 'Gesundheit');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2000', 'Kultur');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2200', 'Sport');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2400', 'SicherheitOrdnung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2600', 'Infrastruktur');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('10000', 'KommunaleEinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('10001', 'BetriebOeffentlZweckbestimmung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('10002', 'AnlageBundLand');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('10003', 'SonstigeOeffentlicheVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('12000', 'Schule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('12001', 'Hochschule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('12002', 'BerufsbildendeSchule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('12003', 'Forschungseinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('12004', 'SonstigesBildungForschung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('14000', 'Sakralgebaeude');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('14001', 'KirchlicheVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('14002', 'Kirchengemeinde');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('14003', 'SonstigesKirche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('16000', 'EinrichtungKinder');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('16001', 'EinrichtungJugendliche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('16002', 'EinrichtungFamilienErwachsene');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('16003', 'EinrichtungSenioren');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('16004', 'SonstigeSozialeEinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('18000', 'Krankenhaus');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('18001', 'SonstigesGesundheit');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('20000', 'MusikTheater');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('20001', 'Bildung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('20002', 'SonstigeKultur');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('22000', 'Bad');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('22001', 'SportplatzSporthalle');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('22002', 'SonstigerSport');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('24000', 'Feuerwehr');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('24001', 'Schutzbauwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('24002', 'Justiz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('24003', 'SonstigeSicherheitOrdnung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('26000', 'Post');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert", "Bezeichner") VALUES ('26001', 'SonstigeInfrastruktur');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10000', 'KommunaleEinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10001', 'BetriebOeffentlZweckbestimmung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10002', 'AnlageBundLand');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10003', 'SonstigeOeffentlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12000', 'Schule');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12001', 'Hochschule');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12002', 'BerufsbildendeSchule');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12003', 'Forschungseinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12004', 'SonstigesBildungForschung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14000', 'Sakralgebaeude');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14001', 'KirchlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14002', 'Kirchengemeinde');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14003', 'SonstigesKirche');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16000', 'EinrichtungKinder');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16001', 'EinrichtungJugendliche');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16002', 'EinrichtungFamilienErwachsene');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16003', 'EinrichtungSenioren');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16004', 'SonstigeSozialeEinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('18000', 'Krankenhaus');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('18001', 'SonstigesGesundheit');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20000', 'MusikTheater');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20001', 'Bildung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20002', 'SonstigeKultur');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22000', 'Bad');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22001', 'SportplatzSporthalle');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22002', 'SonstigerSport');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24000', 'Feuerwehr');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24001', 'Schutzbauwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24002', 'Justiz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24003', 'SonstigeSicherheitOrdnung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('26000', 'Post');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('26001', 'SonstigeInfrastruktur');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert", "Bezeichner") VALUES ('1000', 'Sportanlage');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert", "Bezeichner") VALUES ('2000', 'Spielanlage');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert", "Bezeichner") VALUES ('3000', 'SpielSportanlage');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('1000', 'Sportanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('2000', 'Spielanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('3000', 'SpielSportanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGruen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('1000', 'Parkanlage');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('1200', 'Dauerkleingaerten');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('1400', 'Sportplatz');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('1600', 'Spielplatz');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('1800', 'Zeltplatz');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('2000', 'Badeplatz');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('2200', 'FreizeitErholung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('2400', 'SpezGruenflaeche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('2600', 'Friedhof');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('1000', 'Parkanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('1200', 'Dauerkleingaerten');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('1400', 'Sportplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('1600', 'Spielplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('1800', 'Zeltplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2000', 'Badeplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2200', 'FreizeitErholung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2400', 'SpezGruenflaeche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2600', 'Friedhof');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('10000', 'ParkanlageHistorisch');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('10001', 'ParkanlageNaturnah');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('10002', 'ParkanlageWaldcharakter');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('10003', 'NaturnaheUferParkanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('12000', 'ErholungsGaerten');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14000', 'Reitsportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14001', 'Hundesportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14002', 'Wassersportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14003', 'Schiessstand');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14004', 'Golfplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14005', 'Skisport');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14006', 'Tennisanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('14007', 'SonstigerSportplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('16000', 'Bolzplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('16001', 'Abenteuerspielplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('18000', 'Campingplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('22000', 'Kleintierhaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('22001', 'Festplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24000', 'StrassenbegleitGruen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24001', 'BoeschungsFlaeche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24002', 'FeldWaldWiese');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24003', 'Uferschutzstreifen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24004', 'Abschirmgruen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24005', 'UmweltbildungsparkSchaugatter');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('24006', 'RuhenderVerkehr');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert", "Bezeichner") VALUES ('99990', 'Gaertnerei');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10000', 'ParkanlageHistorisch');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10001', 'ParkanlageNaturnah');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10002', 'ParkanlageWaldcharakter');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10003', 'NaturnaheUferParkanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('12000', 'ErholungsGaerten');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14000', 'Reitsportanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14001', 'Hundesportanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14002', 'Wassersportanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14003', 'Schiessstand');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14004', 'Golfplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14005', 'Skisport');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14006', 'Tennisanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14007', 'SonstigerSportplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16000', 'Bolzplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16001', 'Abenteuerspielplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('18000', 'Campingplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22000', 'Kleintierhaltung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22001', 'Festplatz');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24000', 'StrassenbegleitGruen');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24001', 'BoeschungsFlaeche');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24002', 'FeldWaldWiese');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24003', 'Uferschutzstreifen');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24004', 'Abschirmgruen');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24005', 'UmweltbildungsparkSchaugatter');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24006', 'RuhenderVerkehr');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('99990', 'Gaertnerei');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungWald"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1000', 'Naturwald');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1200', 'Nutzwald');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1400', 'Erholungswald');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1600', 'Schutzwald');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('1800', 'FlaecheForstwirtschaft');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1000', 'Naturwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1200', 'Nutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1400', 'Erholungswald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1600', 'Schutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1800', 'FlaecheForstwirtschaft');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1000', 'LandwirtschaftAllgemein');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1100', 'Ackerbau');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1200', 'WiesenWeidewirtschaft');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1300', 'GartenbaulicheErzeugung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1400', 'Obstbau');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1500', 'Weinbau');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1600', 'Imkerei');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('1700', 'Binnenfischerei');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1000', 'LandwirtschaftAllgemein');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1100', 'Ackerbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1200', 'WiesenWeidewirtschaft');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1300', 'GartenbaulicheErzeugung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1400', 'Obstbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1500', 'Weinbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1600', 'Imkerei');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('1700', 'Binnenfischerei');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Nutzungsform"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_Nutzungsform" ("Wert", "Bezeichner") VALUES ('1000', 'Privat');
-INSERT INTO "XP_Enumerationen"."XP_Nutzungsform" ("Wert", "Bezeichner") VALUES ('2000', 'Oeffentlich');
+INSERT INTO "XP_Enumerationen"."XP_Nutzungsform" ("Code", "Bezeichner") VALUES ('1000', 'Privat');
+INSERT INTO "XP_Enumerationen"."XP_Nutzungsform" ("Code", "Bezeichner") VALUES ('2000', 'Oeffentlich');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('1000', 'Naturgewalten');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('2000', 'Abbauflaeche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('3000', 'AeussereEinwirkungen');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('4000', 'SchadstoffBelastBoden');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('5000', 'LaermBelastung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('6000', 'Bergbau');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('7000', 'Bodenordnung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert", "Bezeichner") VALUES ('9999', 'AndereGesetzlVorschriften');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('1000', 'Naturgewalten');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('2000', 'Abbauflaeche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('3000', 'AeussereEinwirkungen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('4000', 'SchadstoffBelastBoden');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('5000', 'LaermBelastung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('6000', 'Bergbau');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('7000', 'Bodenordnung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('9999', 'AndereGesetzlVorschriften');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1000', 'Elektrizitaet');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1200', 'Gas');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1300', 'Erdoel');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1400', 'Waermeversorgung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1600', 'Trinkwasser');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('1800', 'Abwasser');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2000', 'Regenwasser');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2200', 'Abfallentsorgung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2400', 'Ablagerung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2600', 'Telekommunikation');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('2800', 'ErneuerbareEnergien');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('3000', 'KraftWaermeKopplung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1000', 'Elektrizitaet');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1200', 'Gas');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1300', 'Erdoel');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1400', 'Waermeversorgung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1600', 'Trinkwasser');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('1800', 'Abwasser');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('2000', 'Regenwasser');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('2200', 'Abfallentsorgung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('2400', 'Ablagerung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('2600', 'Telekommunikation');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('2800', 'ErneuerbareEnergien');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('3000', 'KraftWaermeKopplung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10000', 'Hochspannungsleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10001', 'TrafostationUmspannwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10002', 'Solarkraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10003', 'Windkraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10004', 'Geothermiekraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10005', 'Elektrizitaetswerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10006', 'Wasserkraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10007', 'BiomasseKraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10008', 'Kabelleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10009', 'Niederspannungsleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('10010', 'Leitungsmast');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12000', 'Ferngasleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12001', 'Gaswerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12002', 'Gasbehaelter');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12003', 'Gasdruckregler');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12004', 'Gasstation');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('12005', 'Gasleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('13000', 'Erdoelleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('13001', 'Bohrstelle');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('13002', 'Erdoelpumpstation');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('13003', 'Oeltank');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('14000', 'Blockheizkraftwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('14001', 'Fernwaermeleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('14002', 'Fernheizwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16000', 'Wasserwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16001', 'Wasserleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16002', 'Wasserspeicher');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16003', 'Brunnen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16004', 'Pumpwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('16005', 'Quelle');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18000', 'Abwasserleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18001', 'Abwasserrueckhaltebecken');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18002', 'Abwasserpumpwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18003', 'Klaeranlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18004', 'AnlageKlaerschlamm');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('18005', 'SonstigeAbwasserBehandlungsanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('20000', 'RegenwasserRueckhaltebecken');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('20001', 'Niederschlagswasserleitung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('22000', 'Muellumladestation');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('22001', 'Muellbeseitigungsanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('22002', 'Muellsortieranlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('22003', 'Recyclinghof');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24000', 'Erdaushubdeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24001', 'Bauschuttdeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24002', 'Hausmuelldeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24003', 'Sondermuelldeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24004', 'StillgelegteDeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('24005', 'RekultivierteDeponie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26000', 'Fernmeldeanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26001', 'Mobilfunkstrecke');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('26002', 'Fernmeldekabel');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28000', 'Windenergie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28001', 'Photovoltaik');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28002', 'Biomasse');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28003', 'Geothermie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('28004', 'SonstErneuerbareEnergie');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert", "Bezeichner") VALUES ('99990', 'Produktenleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10000', 'Hochspannungsleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10001', 'TrafostationUmspannwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10002', 'Solarkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10003', 'Windkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10004', 'Geothermiekraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10005', 'Elektrizitaetswerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10006', 'Wasserkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10007', 'BiomasseKraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10008', 'Kabelleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10009', 'Niederspannungsleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10010', 'Leitungsmast');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12000', 'Ferngasleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12001', 'Gaswerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12002', 'Gasbehaelter');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12003', 'Gasdruckregler');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12004', 'Gasstation');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12005', 'Gasleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13000', 'Erdoelleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13001', 'Bohrstelle');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13002', 'Erdoelpumpstation');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13003', 'Oeltank');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14000', 'Blockheizkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14001', 'Fernwaermeleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14002', 'Fernheizwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16000', 'Wasserwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16001', 'Wasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16002', 'Wasserspeicher');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16003', 'Brunnen');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16004', 'Pumpwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16005', 'Quelle');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18000', 'Abwasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18001', 'Abwasserrueckhaltebecken');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18002', 'Abwasserpumpwerk');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18003', 'Klaeranlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18004', 'AnlageKlaerschlamm');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18005', 'SonstigeAbwasserBehandlungsanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('20000', 'RegenwasserRueckhaltebecken');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('20001', 'Niederschlagswasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22000', 'Muellumladestation');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22001', 'Muellbeseitigungsanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22002', 'Muellsortieranlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22003', 'Recyclinghof');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24000', 'Erdaushubdeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24001', 'Bauschuttdeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24002', 'Hausmuelldeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24003', 'Sondermuelldeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24004', 'StillgelegteDeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24005', 'RekultivierteDeponie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26000', 'Fernmeldeanlage');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26001', 'Mobilfunkstrecke');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26002', 'Fernmeldekabel');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28000', 'Windenergie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28001', 'Photovoltaik');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28002', 'Biomasse');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28003', 'Geothermie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28004', 'SonstErneuerbareEnergie');
+INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('99990', 'Produktenleitung');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGewaesser"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Wert", "Bezeichner") VALUES ('1000', 'Hafen');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Wert", "Bezeichner") VALUES ('1100', 'Wasserflaeche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Wert", "Bezeichner") VALUES ('1200', 'Fliessgewaesser');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1000', 'Hafen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1100', 'Wasserflaeche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1200', 'Fliessgewaesser');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert", "Bezeichner") VALUES ('1000', 'HochwasserRueckhaltebecken');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert", "Bezeichner") VALUES ('1100', 'Ueberschwemmgebiet');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert", "Bezeichner") VALUES ('1200', 'Versickerungsflaeche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert", "Bezeichner") VALUES ('1300', 'Entwaesserungsgraben');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1000', 'HochwasserRueckhaltebecken');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1100', 'Ueberschwemmgebiet');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1200', 'Versickerungsflaeche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1300', 'Entwaesserungsgraben');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_Bundeslaender"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1000', 'BB');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1100', 'BE');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1200', 'BW');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1300', 'BY');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1400', 'HB');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1500', 'HE');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1600', 'HH');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1700', 'MV');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1800', 'NI');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('1900', 'NW');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2000', 'RP');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2100', 'SH');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2200', 'SL');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2300', 'SN');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2400', 'ST');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('2500', 'TH');
-INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Wert", "Bezeichner") VALUES ('3000', 'Bund');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1000', 'BB');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1100', 'BE');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1200', 'BW');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1300', 'BY');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1400', 'HB');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1500', 'HE');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1600', 'HH');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1700', 'MV');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1800', 'NI');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('1900', 'NW');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2000', 'RP');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2100', 'SH');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2200', 'SL');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2300', 'SN');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2400', 'ST');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('2500', 'TH');
+INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES ('3000', 'Bund');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_BedeutungenBereich"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('1000', 'Aenderungsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('1500', 'Ergänzungsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('1600', 'Teilbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('1700', 'Eingriffsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('1800', 'Ausgleichsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('2000', 'Nebenzeichnung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('2500', 'Variante');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('3000', 'VertikaleGliederung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('3500', 'Erstnutzung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('4000', 'Folgenutzung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1000', 'Aenderungsbereich');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1500', 'Ergänzungsbereich');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1600', 'Teilbereich');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1700', 'Eingriffsbereich');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1800', 'Ausgleichsbereich');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('2000', 'Nebenzeichnung');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('2500', 'Variante');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('3000', 'VertikaleGliederung');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('3500', 'Erstnutzung');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('4000', 'Folgenutzung');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_MimeTypes"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/pdf', 'application/pdf');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/zip', 'application/zip');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/xml', 'application/xml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/msword', 'application/msword');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/msexcel', 'application/msexcel');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/vnd.ogc.sld+xml', 'application/vnd.ogc.sld+xml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/vnd.ogc.wms_xml', 'application/vnd.ogc.wms_xml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/vnd.ogc.gml', 'application/vnd.ogc.gml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('application/odt', 'application/odt');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('image/jpg', 'image/jpg');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('image/png', 'image/png');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('image/tiff', 'image/tiff');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('image/ecw', 'image/ecw');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('image/svg+xml', 'image/svg+xml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('text/html', 'text/html');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Wert", "Bezeichner") VALUES ('text/plain', 'text/plain');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/pdf', 'application/pdf');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/zip', 'application/zip');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/xml', 'application/xml');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/msword', 'application/msword');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/msexcel', 'application/msexcel');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.sld+xml', 'application/vnd.ogc.sld+xml');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.wms_xml', 'application/vnd.ogc.wms_xml');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.gml', 'application/vnd.ogc.gml');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/odt', 'application/odt');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/jpg', 'image/jpg');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/png', 'image/png');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/tiff', 'image/tiff');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/ecw', 'image/ecw');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/svg+xml', 'image/svg+xml');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/html', 'text/html');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/plain', 'text/plain');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_ExterneReferenzArt"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Wert", "Bezeichner") VALUES ('Dokument', 'Dokument');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Wert", "Bezeichner") VALUES ('PlanMitGeoreferenz', 'PlanMitGeoreferenz');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Code", "Bezeichner") VALUES ('Dokument', 'Dokument');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Code", "Bezeichner") VALUES ('PlanMitGeoreferenz', 'PlanMitGeoreferenz');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('1000', 'Aenderung');
-INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('1100', 'Ergaenzung');
-INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Wert", "Bezeichner") VALUES ('2000', 'Aufhebung');
+INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code", "Bezeichner") VALUES ('1000', 'Aenderung');
+INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code", "Bezeichner") VALUES ('1100', 'Ergaenzung');
+INSERT INTO "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code", "Bezeichner") VALUES ('2000', 'Aufhebung');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Basis', 'Basis');
-INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Mitte', 'Mitte');
-INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Oben', 'Oben');
+INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Basis', 'Basis');
+INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Mitte', 'Mitte');
+INSERT INTO "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Oben', 'Oben');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung"
 -- -----------------------------------------------------
-INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('linksbündig', 'linksbündig');
-INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('rechtsbündig', 'rechtsbündig');
-INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('zentrisch', 'zentrisch');
+INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('linksbündig', 'linksbündig');
+INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('rechtsbündig', 'rechtsbündig');
+INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('zentrisch', 'zentrisch');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_SPEMassnamenTypen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1400', 'Obstwiese');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1800', 'Ackerbrache');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('2200', 'Trockenrasen');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('2300', 'Heide');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1400', 'Obstwiese');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ackerbrache');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2200', 'Trockenrasen');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2300', 'Heide');
+INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_SPEZiele"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('1000', 'SchutzPflege');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('2000', 'Entwicklung');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('3000', 'Anlage');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('1000', 'SchutzPflege');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('2000', 'Entwicklung');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('3000', 'Anlage');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
+INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezug"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Wert", "Bezeichner") VALUES ('1000', 'absolutNHN');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Wert", "Bezeichner") VALUES ('2000', 'relativGelaendeoberkante');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Wert", "Bezeichner") VALUES ('2500', 'relativGehwegOberkante');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Wert", "Bezeichner") VALUES ('3000', 'relativBezugshoehe');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1000', 'absolutNHN');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2000', 'relativGelaendeoberkante');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2500', 'relativGehwegOberkante');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3000', 'relativBezugshoehe');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezugspunkt"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('1000', 'TH');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('2000', 'FH');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('3000', 'OK');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('3500', 'LH');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('4000', 'SH');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('4500', 'EFH');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('5000', 'HBA');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('5500', 'UK');
-INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Wert", "Bezeichner") VALUES ('6000', 'GBH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('1000', 'TH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('2000', 'FH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('3000', 'OK');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('3500', 'LH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('4000', 'SH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('4500', 'EFH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('5000', 'HBA');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('5500', 'UK');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6000', 'GBH');
 

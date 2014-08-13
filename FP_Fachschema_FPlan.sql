@@ -85,9 +85,9 @@ GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."new_FP_Bereich"() TO fp_user;
 -- Table "FP_Basisobjekte"."FP_SonstPlanArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_SonstPlanArt" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_SonstPlanArt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SonstPlanArt" TO fp_user;
 
@@ -95,18 +95,18 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SonstPlanArt" TO fp_user;
 -- Table "FP_Basisobjekte"."FP_Verfahren"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Verfahren" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Verfahren" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Status"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Status" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Status" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Status" TO fp_user;
 
@@ -114,18 +114,18 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Status" TO fp_user;
 -- Table "FP_Basisobjekte"."FP_Rechtsstand"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Rechtsstand" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Rechtsstand" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_PlanArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_PlanArt" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_PlanArt" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -160,22 +160,22 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_fp_sonstplanart1"
     FOREIGN KEY ("sonstPlanArt" )
-    REFERENCES "FP_Basisobjekte"."FP_SonstPlanArt" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_SonstPlanArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_fp_verfahren1"
     FOREIGN KEY ("verfahren" )
-    REFERENCES "FP_Basisobjekte"."FP_Verfahren" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_Verfahren" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_fp_status1"
     FOREIGN KEY ("status" )
-    REFERENCES "FP_Basisobjekte"."FP_Status" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_Status" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_fp_rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
-    REFERENCES "FP_Basisobjekte"."FP_Rechtsstand" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_Rechtsstand" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_xp_externereferenz1"
@@ -195,7 +195,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Plan_FP_PlanArt1"
     FOREIGN KEY ("planArt" )
-    REFERENCES "FP_Basisobjekte"."FP_PlanArt" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_PlanArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich");
@@ -252,7 +252,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Bereich_XP_VersionBauNVO1"
     FOREIGN KEY ("versionBauNVO" )
-    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Bereich_XP_Bereich1"
@@ -283,9 +283,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Basisobjekte','FP_Bereich
 -- Table "FP_Basisobjekte"."FP_Rechtscharakter"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Rechtscharakter" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Rechtscharakter" TO xp_gast;
 
 
@@ -303,7 +303,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_TextAbschnitt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_textabschnitt_fp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "FP_Basisobjekte"."FP_TextAbschnitt" ("rechtscharakter") ;
@@ -318,9 +318,9 @@ CREATE TRIGGER "change_to_FP_TextAbschnitt" BEFORE INSERT OR UPDATE OR DELETE ON
 -- Table "FP_Basisobjekte"."FP_SpezifischePraegungTypen"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_SpezifischePraegungTypen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO fp_user;
 
@@ -335,7 +335,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_fp_objekt_fp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_FP_Objekt_XP_Objekt1"
@@ -345,7 +345,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Objekt_FP_SpezifischePraegungTypen1"
     FOREIGN KEY ("spezifischePraegung" )
-    REFERENCES "FP_Basisobjekte"."FP_SpezifischePraegungTypen" ("Wert" )
+    REFERENCES "FP_Basisobjekte"."FP_SpezifischePraegungTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -503,7 +503,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEZiele1"
     FOREIGN KEY ("ziel" )
-    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Wert" )
+    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_FP_Objekt1"
@@ -596,7 +596,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele"
     FOREIGN KEY ("ziel" )
-    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Wert" )
+    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten1"
@@ -813,9 +813,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Naturschutz','FP_SchutzPf
 -- Table "FP_Bebauung"."FP_DetailArtDerBaulNutzung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Bebauung"."FP_DetailArtDerBaulNutzung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Bebauung"."FP_DetailArtDerBaulNutzung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Bebauung"."FP_DetailArtDerBaulNutzung" TO fp_user;
 
@@ -837,17 +837,17 @@ CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_BebauungsFlaeche_XP_AllgArtDerBaulNutzung"
     FOREIGN KEY ("allgArtDerBaulNutzung" )
-    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_BebauungsFlaeche_XP_BesondereArtDerBaulNutzung1"
     FOREIGN KEY ("besondereArtDerBaulNutzung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_BebauungsFlaeche_XP_Sondernutzungen1"
     FOREIGN KEY ("sonderNutzung" )
-    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_BebauungsFlaeche_FP_Objekt1"
@@ -857,7 +857,7 @@ CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_BebauungsFlaeche_FP_DetailArtDerBaulNutzung1"
     FOREIGN KEY ("detaillierteArtDerBaulNutzung" )
-    REFERENCES "FP_Bebauung"."FP_DetailArtDerBaulNutzung" ("Wert" )
+    REFERENCES "FP_Bebauung"."FP_DetailArtDerBaulNutzung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("FP_Basisobjekte"."FP_Flaechenobjekt");
@@ -909,9 +909,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Bebauung','FP_KeineZentrA
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" TO fp_user;
 
@@ -947,7 +947,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbe
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_ZweckbestimmungGemeinbedarf0"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" TO xp_gast;
@@ -968,7 +968,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besonde
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_besondereZweckbestimmungGemeinbedarf0"
     FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" TO xp_gast;
@@ -989,7 +989,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaill
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_DetailZweckbestGemeinbedarf0"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Wert" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" TO xp_gast;
@@ -1000,9 +1000,9 @@ COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_deta
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" TO fp_user;
 
@@ -1038,7 +1038,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zwe
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_ZweckbestimmungSpielSportanlage0"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" TO xp_gast;
@@ -1059,7 +1059,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_det
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_DetailZweckbestSpielSportanlage0"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Wert" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" TO xp_gast;
@@ -1254,9 +1254,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Gemeinbedarf_Spiel_und_Sp
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" TO fp_user;
 
@@ -1297,7 +1297,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmun
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_WaldFlaeche_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" TO xp_gast;
@@ -1319,7 +1319,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZw
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_WaldFlaeche_detaillierteZweckbestimmung2"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Wert" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" TO xp_gast;
@@ -1330,9 +1330,9 @@ COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detailliert
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" TO fp_user;
 
@@ -1371,7 +1371,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zwe
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" TO xp_gast;
@@ -1393,7 +1393,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_det
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung2"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Wert" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" TO xp_gast;
@@ -1404,9 +1404,9 @@ COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" TO fp_user;
 
@@ -1424,7 +1424,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gruen_XP_Nutzungsform1"
     FOREIGN KEY ("nutzungsform" )
-    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1450,7 +1450,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gruen_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" TO xp_gast;
@@ -1471,7 +1471,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestim
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gruen_besondereZweckbestimmung2"
     FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" TO xp_gast;
@@ -1492,7 +1492,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbes
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gruen_detaillierteZweckbestimmung2"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Wert" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" TO xp_gast;
@@ -1558,9 +1558,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Landwirtschaft_Wald_und_G
 -- Table "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO fp_user;
 
@@ -1596,7 +1596,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_GenerischesObjekt_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Wert" )
+    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" TO xp_gast;
@@ -1635,7 +1635,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Kennzeichnung_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" TO xp_gast;
@@ -1777,18 +1777,18 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_Nutzungsbe
 -- Table "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1825,7 +1825,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_PrivilegiertesVorhaben_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert" )
+    REFERENCES "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" TO xp_gast;
@@ -1846,7 +1846,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmun
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung1"
     FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert" )
+    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" TO xp_gast;
@@ -2032,9 +2032,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Sonstiges','FP_TextlicheD
 -- Table "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO fp_user;
 
@@ -2070,7 +2070,7 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_VerEntsorgung_zweckbestimmung2"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" TO xp_gast;
@@ -2091,7 +2091,7 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmun
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_VerEntsorgung_besondereZweckbestimmung2"
     FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" TO xp_gast;
@@ -2112,7 +2112,7 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestim
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_VerEntsorgung_detaillierteZweckbestimmung2"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Wert" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung" TO xp_gast;
@@ -2179,27 +2179,27 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Ver_und_Entsorgung','FP_V
 -- Table "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO fp_user;
 
@@ -2215,22 +2215,22 @@ CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_ZweckStrassenverkehr"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert" )
+    REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_BesZweckStrassenverk1"
     FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert" )
+    REFERENCES "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_DetailZweckStrassenverkehr1"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" ("Wert" )
+    REFERENCES "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" ("Code" )
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_XP_Nutzungsform1"
     FOREIGN KEY ("nutzungsform" )
-    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_Objekt1"
@@ -2312,9 +2312,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Verkehr','FP_Strassenverk
 -- Table "FP_Wasser"."FP_DetailZweckbestGewaesser"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_DetailZweckbestGewaesser" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO fp_user;
 
@@ -2328,12 +2328,12 @@ CREATE  TABLE  "FP_Wasser"."FP_Gewaesser" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Gewaesser_XP_ZweckbestimmungGewaesser"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gewaesser_FP_DetailZweckbestGewaesser1"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Wasser"."FP_DetailZweckbestGewaesser" ("Wert" )
+    REFERENCES "FP_Wasser"."FP_DetailZweckbestGewaesser" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Gewaesser_FP_Objekt1"
@@ -2356,9 +2356,9 @@ CREATE TRIGGER "change_to_FP_Gewaesser" BEFORE INSERT OR UPDATE OR DELETE ON "FP
 -- Table "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" TO fp_user;
 
@@ -2372,12 +2372,12 @@ CREATE  TABLE  "FP_Wasser"."FP_Wasserwirtschaft" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Wasserwirtschaft_XP_ZweckbestimmungWasserwirtschaft1"
     FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_FP_Wasserwirtschaft_FP_DetailZweckbestWasserwirtschaft1"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" ("Wert" )
+    REFERENCES "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_FP_Wasserwirtschaft_FP_Objekt1"
@@ -2668,98 +2668,98 @@ GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 -- -----------------------------------------------------
 -- Data for table "FP_Basisobjekte"."FP_Verfahren"
 -- -----------------------------------------------------
-INSERT INTO "FP_Basisobjekte"."FP_Verfahren" ("Wert", "Bezeichner") VALUES ('1000', 'Normal');
-INSERT INTO "FP_Basisobjekte"."FP_Verfahren" ("Wert", "Bezeichner") VALUES ('2000', 'Parag13');
+INSERT INTO "FP_Basisobjekte"."FP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');
+INSERT INTO "FP_Basisobjekte"."FP_Verfahren" ("Code", "Bezeichner") VALUES ('2000', 'Parag13');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Basisobjekte"."FP_Rechtsstand"
 -- -----------------------------------------------------
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('1000', 'Aufstellungsbeschluss');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2000', 'Entwurf');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2100', 'FruehzeitigeBehoerdenBeteiligung');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2200', 'FruehzeitigeOeffentlichkeitsBeteiligung');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2300', 'BehoerdenBeteiligung');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2400', 'OeffentlicheAuslegung');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('3000', 'Plan');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('4000', 'Wirksamkeit');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('5000', 'Untergegangen');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('1000', 'Aufstellungsbeschluss');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2000', 'Entwurf');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2100', 'FruehzeitigeBehoerdenBeteiligung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2200', 'FruehzeitigeOeffentlichkeitsBeteiligung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2300', 'BehoerdenBeteiligung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2400', 'OeffentlicheAuslegung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('3000', 'Plan');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('4000', 'Wirksamkeit');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtsstand" ("Code", "Bezeichner") VALUES ('5000', 'Untergegangen');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Basisobjekte"."FP_PlanArt"
 -- -----------------------------------------------------
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('1000', 'FPlan');
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('2000', 'GemeinsamerFPlan');
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('3000', 'RegFPlan');
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('4000', 'FPlanRegPlan');
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('5000', 'SachlicherTeilplan');
-INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('1000', 'FPlan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('2000', 'GemeinsamerFPlan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('3000', 'RegFPlan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('4000', 'FPlanRegPlan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('5000', 'SachlicherTeilplan');
+INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Basisobjekte"."FP_Rechtscharakter"
 -- -----------------------------------------------------
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('1000', 'Darstellung');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('3000', 'Hinweis');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('4000', 'Vermerk');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('1000', 'Darstellung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'Hinweis');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'Vermerk');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben"
 -- -----------------------------------------------------
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('1000', 'LandForstwirtschaft');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('1200', 'OeffentlicheVersorgung');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('1400', 'OrtsgebundenerGewerbebetrieb');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('1600', 'BesonderesVorhaben');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('1800', 'ErneuerbareEnergie');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('2000', 'Kernenergie');
-INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1000', 'LandForstwirtschaft');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1200', 'OeffentlicheVersorgung');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1400', 'OrtsgebundenerGewerbebetrieb');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1600', 'BesonderesVorhaben');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1800', 'ErneuerbareEnergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('2000', 'Kernenergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben"
 -- -----------------------------------------------------
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('10000', 'Aussiedlerhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('10001', 'Altenteil');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('10002', 'Reiterhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('10003', 'Gartenbaubetrieb');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('10004', 'Baumschule');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12000', 'Wasser');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12001', 'Gas');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12002', 'Waerme');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12003', 'Elektrizitaet');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12004', 'Telekommunikation');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('12005', 'Abwasser');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('16000', 'BesondereUmgebungsAnforderung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('16001', 'NachteiligeUmgebungsWirkung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('16002', 'BesondereZweckbestimmung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('18000', 'Windenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('18001', 'Wasserenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('18002', 'Solarenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('18003', 'Biomasse');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('20000', 'NutzungKernerergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('20001', 'EntsorgungRadioaktiveAbfaelle');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('99990', 'StandortEinzelhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Wert", "Bezeichner") VALUES ('99991', 'BebauteFlaecheAussenbereich');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10000', 'Aussiedlerhof');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10001', 'Altenteil');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10002', 'Reiterhof');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10003', 'Gartenbaubetrieb');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10004', 'Baumschule');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12000', 'Wasser');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12001', 'Gas');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12002', 'Waerme');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12003', 'Elektrizitaet');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12004', 'Telekommunikation');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12005', 'Abwasser');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16000', 'BesondereUmgebungsAnforderung');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16001', 'NachteiligeUmgebungsWirkung');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16002', 'BesondereZweckbestimmung');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18000', 'Windenergie');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18001', 'Wasserenergie');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18002', 'Solarenergie');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18003', 'Biomasse');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20000', 'NutzungKernerergie');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20001', 'EntsorgungRadioaktiveAbfaelle');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99990', 'StandortEinzelhof');
+INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99991', 'BebauteFlaecheAussenbereich');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr"
 -- -----------------------------------------------------
-INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('1000', 'Autobahn');
-INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('1200', 'Hauptverkehrsstrasse');
-INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('1400', 'SonstigerVerkehrswegAnlage');
-INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('1600', 'RuhenderVerkehr');
-INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1000', 'Autobahn');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1200', 'Hauptverkehrsstrasse');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1400', 'SonstigerVerkehrswegAnlage');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1600', 'RuhenderVerkehr');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr"
 -- -----------------------------------------------------
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14000', 'VerkehrsberuhigterBereich');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14001', 'Platz');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14002', 'Fussgaengerbereich');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14003', 'RadFussweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14004', 'Radweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14005', 'Fussweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14006', 'Wanderweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14007', 'ReitKutschweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14008', 'Rastanlage');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14009', 'Busbahnhof');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14010', 'UeberfuehrenderVerkehrsweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Wert", "Bezeichner") VALUES ('14011', 'UnterfuehrenderVerkehrsweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14000', 'VerkehrsberuhigterBereich');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14001', 'Platz');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14002', 'Fussgaengerbereich');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14003', 'RadFussweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14004', 'Radweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14005', 'Fussweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14006', 'Wanderweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14007', 'ReitKutschweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14008', 'Rastanlage');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14009', 'Busbahnhof');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14010', 'UeberfuehrenderVerkehrsweg');
+INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14011', 'UnterfuehrenderVerkehrsweg');

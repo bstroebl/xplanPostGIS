@@ -175,9 +175,9 @@ GRANT EXECUTE ON FUNCTION "BP_Naturschutz"."child_of_BP_SchutzPflegeEntwicklungs
 -- Table "BP_Basisobjekte"."BP_SonstPlanArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_SonstPlanArt" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_SonstPlanArt" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_SonstPlanArt" TO bp_user;
 
@@ -185,18 +185,18 @@ GRANT ALL ON "BP_Basisobjekte"."BP_SonstPlanArt" TO bp_user;
 -- Table "BP_Basisobjekte"."BP_Verfahren"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Verfahren" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_Verfahren" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Status"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Status" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_Status" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Status" TO bp_user;
 
@@ -204,9 +204,9 @@ GRANT ALL ON "BP_Basisobjekte"."BP_Status" TO bp_user;
 -- Table "BP_Basisobjekte"."BP_Rechtsstand"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Rechtsstand" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_Rechtsstand" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -247,22 +247,22 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_bp_plan_bp_sonstplanart1"
     FOREIGN KEY ("sonstPlanArt" )
-    REFERENCES "BP_Basisobjekte"."BP_SonstPlanArt" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_SonstPlanArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_bp_plan_bp_verfahren1"
     FOREIGN KEY ("verfahren" )
-    REFERENCES "BP_Basisobjekte"."BP_Verfahren" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_Verfahren" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_bp_plan_bp_status1"
     FOREIGN KEY ("status" )
-    REFERENCES "BP_Basisobjekte"."BP_Status" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_Status" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_bp_plan_bp_rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
-    REFERENCES "BP_Basisobjekte"."BP_Rechtsstand" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_Rechtsstand" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_bp_plan_xp_externereferenz1"
@@ -346,9 +346,9 @@ CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basi
 -- Table "BP_Basisobjekte"."BP_PlanArt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_PlanArt" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(255) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_PlanArt" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -365,7 +365,7 @@ CREATE  TABLE  "BP_Basisobjekte"."planArt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_planArt_BP_PlanArt"
     FOREIGN KEY ("BP_Planart_Wert" )
-    REFERENCES "BP_Basisobjekte"."BP_PlanArt" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_PlanArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON "BP_Basisobjekte"."planArt" TO xp_gast;
@@ -461,7 +461,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Bereich_XP_VersionBauNVO1"
     FOREIGN KEY ("versionBauNVO" )
-    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Wert" )
+    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Bereich_XP_Bereich1"
@@ -487,9 +487,9 @@ CREATE TRIGGER "change_to_BP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "BP_B
 -- Table "BP_Basisobjekte"."BP_Rechtscharakter"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Rechtscharakter" (
-  "Wert" INTEGER NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") );
+  PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_Rechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -519,7 +519,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_bp_objekt_bp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "BP_Basisobjekte"."BP_Rechtscharakter" ("Wert" )
+    REFERENCES "BP_Basisobjekte"."BP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_BP_Objekt_BP_WirksamkeitBedingung1"
@@ -709,43 +709,43 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Bereich
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Verfahren"
 -- -----------------------------------------------------
-INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Wert", "Bezeichner") VALUES ('1000', 'Normal');
-INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Wert", "Bezeichner") VALUES ('2000', 'Parag13');
-INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Wert", "Bezeichner") VALUES ('3000', 'Parag13a');
+INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');
+INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('2000', 'Parag13');
+INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('3000', 'Parag13a');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Rechtsstand"
 -- -----------------------------------------------------
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('1000', 'Aufstellungsbeschluss');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2000', 'Entwurf');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2100', 'FruehzeitigeBehoerdenBeteiligung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2200', 'FruehzeitigeOeffentlichkeitsBeteiligung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2300', 'BehoerdenBeteiligung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('2400', 'OeffentlicheAuslegung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('3000', 'Satzung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('4000', 'InkraftGetreten');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('4500', 'TeilweiseUntergegangen');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Wert", "Bezeichner") VALUES ('5000', 'Untergegangen');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('1000', 'Aufstellungsbeschluss');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2000', 'Entwurf');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2100', 'FruehzeitigeBehoerdenBeteiligung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2200', 'FruehzeitigeOeffentlichkeitsBeteiligung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2300', 'BehoerdenBeteiligung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('2400', 'OeffentlicheAuslegung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('3000', 'Satzung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('4000', 'InkraftGetreten');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('4500', 'TeilweiseUntergegangen');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtsstand" ("Code", "Bezeichner") VALUES ('5000', 'Untergegangen');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_PlanArt"
 -- -----------------------------------------------------
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('1000', 'BPlan');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('10000', 'EinfacherBPlan');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('10001', 'QualifizierterBPlan');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('3000', 'VorhabenbezogenerBPlan');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('4000', 'InnenbereichsSatzung');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('40000', 'KlarstellungsSatzung');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('40001', 'EntwicklungsSatzung');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('40002', 'ErgaenzungsSatzung');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('5000', 'AussenbereichsSatzung');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('7000', 'OertlicheBauvorschrift');
-INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Wert", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('1000', 'BPlan');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('10000', 'EinfacherBPlan');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('10001', 'QualifizierterBPlan');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('3000', 'VorhabenbezogenerBPlan');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('4000', 'InnenbereichsSatzung');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('40000', 'KlarstellungsSatzung');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('40001', 'EntwicklungsSatzung');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('40002', 'ErgaenzungsSatzung');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('5000', 'AussenbereichsSatzung');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('7000', 'OertlicheBauvorschrift');
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Rechtscharakter"
 -- -----------------------------------------------------
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('1000', 'Festsetzung');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('3000', 'Hinweis');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('4000', 'Vermerk');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Wert", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('1000', 'Festsetzung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'Hinweis');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'Vermerk');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');

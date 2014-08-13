@@ -88,9 +88,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Raster','SO_RasterplanAen
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(255) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 
@@ -98,9 +98,9 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrec
 -- Table "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(255) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO so_user;
@@ -109,9 +109,9 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutz
 -- Table "SO_Basisobjekte"."SO_Rechtscharakter"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Rechtscharakter" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Rechtscharakter" TO xp_gast;
 
@@ -119,9 +119,9 @@ GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Rechtscharakter" TO xp_gast;
 -- Table "SO_Basisobjekte"."SO_SonstRechtscharakter"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_SonstRechtscharakter" (
-  "Wert" VARCHAR(64) NOT NULL,
+  "Code" VARCHAR(64) NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO xp_gast;
 
@@ -140,12 +140,12 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Objekt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Objekt_rechtscharacter"
     FOREIGN KEY ("rechtscharacter")
-    REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert")
+    REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Objekt_sonstRechtscharacter"
     FOREIGN KEY ("sonstRechtscharacter")
-    REFERENCES "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Wert")
+    REFERENCES "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -209,7 +209,7 @@ CREATE  TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_so_textabschnitt_so_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert" )
+    REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "SO_Basisobjekte"."SO_TextAbschnitt" ("rechtscharakter") ;
@@ -224,9 +224,9 @@ CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE OR DELETE ON
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" TO xp_gast;
 
@@ -248,17 +248,17 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietNaturschutzrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietNaturschutzrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietNaturschutzrecht_zone"
     FOREIGN KEY ("zone")
-    REFERENCES "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -320,9 +320,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_Schutz
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" TO xp_gast;
 
@@ -330,9 +330,9 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" T
 -- Table "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" TO so_user;
@@ -341,9 +341,9 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" TO xp_gast;
 
@@ -365,17 +365,17 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietWasserrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietWasserrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietWasserrecht_zone"
     FOREIGN KEY ("zone")
-    REFERENCES "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -441,9 +441,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_Schutz
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" TO xp_gast;
 
@@ -451,9 +451,9 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" TO
 -- Table "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO so_user;
@@ -476,12 +476,12 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietSonstigesRecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietSonstigesRecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" ("Wert")
+    REFERENCES "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" ("Code")
     ON DELETE NO ACTION);
 
 CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_artDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("artDerFestlegung");
@@ -521,9 +521,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_Schutz
 -- Table "SO_Basisobjekte"."SO_PlanTyp"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_PlanTyp" (
-  "Wert" VARCHAR(64) NOT NULL,
+  "Code" VARCHAR(64) NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"))
+  PRIMARY KEY ("Code"))
 ;
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_PlanTyp" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_PlanTyp" TO so_user;
@@ -539,7 +539,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Plan" (
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Plan_planTyp"
     FOREIGN KEY ("planTyp")
-    REFERENCES "SO_Basisobjekte"."SO_PlanTyp" ("Wert")
+    REFERENCES "SO_Basisobjekte"."SO_PlanTyp" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Plan_plangeber"
@@ -629,9 +629,9 @@ GRANT ALL ON TABLE "SO_Basisobjekte"."gehoertZuSO_Bereich" TO so_user;
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" TO xp_gast;
 
@@ -639,9 +639,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenve
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO so_user;
@@ -663,12 +663,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Strassenverkehrsrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Strassenverkehrsrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -730,9 +730,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" TO so_user;
 
@@ -740,9 +740,9 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" 
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO so_user;
@@ -765,12 +765,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Wasserrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Wasserrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -854,9 +854,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" TO xp_gast;
 
@@ -864,9 +864,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" TO so_user;
@@ -888,12 +888,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Forstrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Forstrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -953,9 +953,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" TO xp_gast;
 
@@ -963,9 +963,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalsch
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" TO so_user;
@@ -988,12 +988,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Denkmalschutzrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Denkmalschutzrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1073,9 +1073,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" TO xp_gast;
 
@@ -1083,9 +1083,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemR
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO so_user;
@@ -1107,12 +1107,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SonstigesRecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SonstigesRecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1195,9 +1195,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" TO xp_gast;
 
@@ -1205,18 +1205,18 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenve
 -- Table "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" TO so_user;
 
@@ -1238,17 +1238,17 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Schienenverkehrsrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Schienenverkehrsrecht_besondereArtDerFestlegung"
     FOREIGN KEY ("besondereArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Schienenverkehrsrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1328,9 +1328,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" TO xp_gast;
 
@@ -1338,9 +1338,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkeh
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" TO so_user;
@@ -1349,9 +1349,9 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftver
 -- Table "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" TO xp_gast;
 
@@ -1373,17 +1373,17 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Luftverkehrsrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Luftverkehrsrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Luftverkehrsrecht_laermschutzzone"
     FOREIGN KEY ("laermschutzzone")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1443,9 +1443,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" TO xp_gast;
 
@@ -1453,9 +1453,9 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschut
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO so_user;
@@ -1478,12 +1478,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Bodenschutzrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Bodenschutzrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" ("Wert")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1543,9 +1543,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen
 -- Table "SO_SonstigeGebiete"."SO_GebietsArt"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_SonstigeGebiete"."SO_GebietsArt" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_GebietsArt" TO xp_gast;
 
@@ -1553,9 +1553,9 @@ GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_GebietsArt" TO xp_gast;
 -- Table "SO_SonstigeGebiete"."SO_SonstGebietsArt"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_SonstigeGebiete"."SO_SonstGebietsArt" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO xp_gast;
 GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO so_user;
@@ -1564,9 +1564,9 @@ GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO so_user;
 -- Table "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" TO xp_gast;
 
@@ -1574,9 +1574,9 @@ GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" TO xp_gast;
 -- Table "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" TO xp_gast;
 GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" TO so_user;
@@ -1608,22 +1608,22 @@ CREATE TABLE  "SO_SonstigeGebiete"."SO_Gebiet" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Gebiet_gebietsArt"
     FOREIGN KEY ("gebietsArt")
-    REFERENCES "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert")
+    REFERENCES "SO_SonstigeGebiete"."SO_GebietsArt" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Gebiet_sonstGebietsArt"
     FOREIGN KEY ("sonstGebietsArt")
-    REFERENCES "SO_SonstigeGebiete"."SO_SonstGebietsArt" ("Wert")
+    REFERENCES "SO_SonstigeGebiete"."SO_SonstGebietsArt" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Gebiet_rechtsstandGebiet"
     FOREIGN KEY ("rechtsstandGebiet")
-    REFERENCES "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert")
+    REFERENCES "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Gebiet_sonstRechtsstandGebiet"
     FOREIGN KEY ("sonstRechtsstandGebiet")
-    REFERENCES "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" ("Wert")
+    REFERENCES "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
@@ -1654,9 +1654,9 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_SonstigeGebiete','SO_Gebi
 -- Table "SO_Sonstiges"."SO_GrenzeTypen"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Sonstiges"."SO_GrenzeTypen" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
   
 GRANT SELECT ON TABLE "SO_Sonstiges"."SO_GrenzeTypen" TO xp_gast;
 
@@ -1664,9 +1664,9 @@ GRANT SELECT ON TABLE "SO_Sonstiges"."SO_GrenzeTypen" TO xp_gast;
 -- Table "SO_Sonstiges"."SO_SonstGrenzeTypen"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Sonstiges"."SO_SonstGrenzeTypen" (
-  "Wert" INTEGER NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Wert"));
+  PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_Sonstiges"."SO_SonstGrenzeTypen" TO xp_gast;
 GRANT ALL ON TABLE "SO_Sonstiges"."SO_SonstGrenzeTypen" TO so_user;
@@ -1686,12 +1686,12 @@ CREATE TABLE  "SO_Sonstiges"."SO_Grenze" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Grenze_typ"
     FOREIGN KEY ("typ")
-    REFERENCES "SO_Sonstiges"."SO_GrenzeTypen" ("Wert")
+    REFERENCES "SO_Sonstiges"."SO_GrenzeTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Grenze_sonstTyp"
     FOREIGN KEY ("sonstTyp")
-    REFERENCES "SO_Sonstiges"."SO_SonstGrenzeTypen" ("Wert")
+    REFERENCES "SO_Sonstiges"."SO_SonstGrenzeTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
@@ -1710,213 +1710,213 @@ SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Sonstiges','SO_Grenze', '
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1000, 'Naturschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1100, 'Nationalpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1200, 'Biosphaerenreservat');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1300, 'Landschaftsschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1400, 'Naturpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1500, 'Naturdenkmal');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1600, 'GeschuetzterLandschaftsBestandteil');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1700, 'GesetzlichGeschuetztesBiotop');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1800, 'Natura2000');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (18000, 'GebietGemeinschaftlicherBedeutung');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (18001, 'EuropaeischesVogelschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (2000, 'NationalesNaturmonument');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'Naturschutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1100, 'Nationalpark');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1200, 'Biosphaerenreservat');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1300, 'Landschaftsschutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1400, 'Naturpark');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1500, 'Naturdenkmal');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1600, 'GeschuetzterLandschaftsBestandteil');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1700, 'GesetzlichGeschuetztesBiotop');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1800, 'Natura2000');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18000, 'GebietGemeinschaftlicherBedeutung');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18001, 'EuropaeischesVogelschutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'NationalesNaturmonument');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_Rechtscharakter"
 -- -----------------------------------------------------
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert", "Bezeichner") VALUES (3000, 'Hinweis');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert", "Bezeichner") VALUES (4000, 'Vermerk');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert", "Bezeichner") VALUES (5000, 'Kennzeichnung');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (3000, 'Hinweis');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (4000, 'Vermerk');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (5000, 'Kennzeichnung');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_SonstRechtscharakter"
 -- -----------------------------------------------------
-INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Wert", "Bezeichner") VALUES ('FestsetzungBPlan', 'FestsetzungBPlan');
-INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Wert", "Bezeichner") VALUES ('DarstellungFPlan', 'DarstellungFPlan');
+INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code", "Bezeichner") VALUES ('FestsetzungBPlan', 'FestsetzungBPlan');
+INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code", "Bezeichner") VALUES ('DarstellungFPlan', 'DarstellungFPlan');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1000, 'Schutzzone_1');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1100, 'Schutzzone_2');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (1200, 'Schutzzone_3');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (2000, 'Kernzone');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (2100, 'Pflegezone');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (2200, 'Entwicklungszone');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Wert", "Bezeichner") VALUES (2300, 'Regenerationszone');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'Schutzzone_1');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (1100, 'Schutzzone_2');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (1200, 'Schutzzone_3');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'Kernzone');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (2100, 'Pflegezone');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (2200, 'Entwicklungszone');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" ("Code", "Bezeichner") VALUES (2300, 'Regenerationszone');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert", "Bezeichner") VALUES (1000, 'Wasserschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert", "Bezeichner") VALUES (10000, 'QuellGrundwasserSchutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert", "Bezeichner") VALUES (10001, 'OberflaechengewaesserSchutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert", "Bezeichner") VALUES (2000, 'Heilquellenschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Wasserschutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code", "Bezeichner") VALUES (10000, 'QuellGrundwasserSchutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code", "Bezeichner") VALUES (10001, 'OberflaechengewaesserSchutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code", "Bezeichner") VALUES (2000, 'Heilquellenschutzgebiet');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1000, 'Zone_1');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1100, 'Zone_2');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1200, 'Zone_3');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1300, 'Zone_3a');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1400, 'Zone_3b');
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Wert", "Bezeichner") VALUES (1500, 'Zone_4');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Zone_1');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1100, 'Zone_2');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1200, 'Zone_3');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1300, 'Zone_3a');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1400, 'Zone_3b');
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht" ("Code", "Bezeichner") VALUES (1500, 'Zone_4');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert", "Bezeichner") VALUES (1000, 'Laermschutzbereich');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert", "Bezeichner") VALUES (2000, 'SchutzzoneLeitungstrasse');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Code", "Bezeichner") VALUES (1000, 'Laermschutzbereich');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Code", "Bezeichner") VALUES (2000, 'SchutzzoneLeitungstrasse');
+INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1000, 'Bundesautobahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1100, 'Bundesstrasse');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1200, 'LandesStaatsstrasse');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1300, 'Kreisstrasse');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Wert", "Bezeichner") VALUES (9999, 'SonstOeffentlStrasse');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (1000, 'Bundesautobahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (1100, 'Bundesstrasse');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (1200, 'LandesStaatsstrasse');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (1300, 'Kreisstrasse');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (9999, 'SonstOeffentlStrasse');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (1000, 'Gewaesser1Ordnung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (1100, 'Gewaesser2Ordnung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (1300, 'Gewaesser3Ordnung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (2000, 'Ueberschwemmungsgebiet');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (20000, 'FestgesetztesUeberschwemmungsgebiet');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (20001, 'NochNichtFestgesetztesUeberschwemmungsgebiet');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (20002, 'UeberschwemmGefaehrdetesGebiet');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser1Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1100, 'Gewaesser2Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1300, 'Gewaesser3Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (2000, 'Ueberschwemmungsgebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20000, 'FestgesetztesUeberschwemmungsgebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20001, 'NochNichtFestgesetztesUeberschwemmungsgebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20002, 'UeberschwemmGefaehrdetesGebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Wert", "Bezeichner") VALUES (1000, 'DenkmalschutzEnsemble');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Wert", "Bezeichner") VALUES (1100, 'DenkmalschutzEinzelanlage');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Wert", "Bezeichner") VALUES (1200, 'Grabungsschutzgebiet');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'DenkmalschutzEnsemble');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1100, 'DenkmalschutzEinzelanlage');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1200, 'Grabungsschutzgebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Wert", "Bezeichner") VALUES (1000, 'OeffentlicherWald');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Wert", "Bezeichner") VALUES (2000, 'Privatwald');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (1000, 'OeffentlicherWald');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (2000, 'Privatwald');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (1000, 'Bauschutzbereich');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (1100, 'Berggesetz');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (1200, 'Richtfunkverbindung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (1300, 'Truppenuebungsplatz');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (1400, 'VermessungsKatasterrecht');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1000, 'Bauschutzbereich');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1100, 'Berggesetz');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1200, 'Richtfunkverbindung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1300, 'Truppenuebungsplatz');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1400, 'VermessungsKatasterrecht');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1000, 'Bahnanlage');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1200, 'Bahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Wert", "Bezeichner") VALUES (1400, 'OEPNV');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (1000, 'Bahnanlage');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (1200, 'Bahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (1400, 'OEPNV');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (10000, 'DB_Bahnanlage');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (10001, 'Personenbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (10002, 'Fernbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (10003, 'Gueterbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12000, 'Personenbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12001, 'Regionalbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12002, 'Kleinbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12003, 'Gueterbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12004, 'WerksHafenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (12005, 'Seilbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (14000, 'Strassenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (14001, 'UBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (14002, 'SBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Wert", "bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10000, 'DB_Bahnanlage');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10001, 'Personenbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10002, 'Fernbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10003, 'Gueterbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12000, 'Personenbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12001, 'Regionalbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12002, 'Kleinbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12003, 'Gueterbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12004, 'WerksHafenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12005, 'Seilbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14000, 'Strassenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14001, 'UBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14002, 'SBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (1000, 'Flughafen');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (2000, 'Landeplatz');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (3000, 'Segelfluggelaende');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (4000, 'HubschrauberLandeplatz');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5000, 'Ballonstartplatz');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5200, 'Haengegleiter');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (5400, 'Gleitsegler');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (6000, 'Laermschutzbereich');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (7000, 'Baubeschraenkungsbereich');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (1000, 'Flughafen');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (2000, 'Landeplatz');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (3000, 'Segelfluggelaende');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (4000, 'HubschrauberLandeplatz');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (5000, 'Ballonstartplatz');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (5200, 'Haengegleiter');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (5400, 'Gleitsegler');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (6000, 'Laermschutzbereich');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (7000, 'Baubeschraenkungsbereich');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (1000, 'TagZone1');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (2000, 'TagZone2');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Wert", "Bezeichner") VALUES (3000, 'Nacht');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Code", "Bezeichner") VALUES (1000, 'TagZone1');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Code", "Bezeichner") VALUES (2000, 'TagZone2');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen" ("Code", "Bezeichner") VALUES (3000, 'Nacht');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert", "Bezeichner") VALUES (1000, 'SchaedlicheBodenveraenderung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert", "Bezeichner") VALUES (2000, 'Altlast');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert", "Bezeichner") VALUES (20000, 'Altablagerung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert", "Bezeichner") VALUES (20001, 'Altstandort');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Wert", "Bezeichner") VALUES (20002, 'AltstandortAufAltablagerung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'SchaedlicheBodenveraenderung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'Altlast');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code", "Bezeichner") VALUES (20000, 'Altablagerung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code", "Bezeichner") VALUES (20001, 'Altstandort');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" ("Code", "Bezeichner") VALUES (20002, 'AltstandortAufAltablagerung');
 
 -- -----------------------------------------------------
 -- Data for table "SO_SonstigeGebiete"."SO_GebietsArt"
 -- -----------------------------------------------------
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1000, 'Umlegungsgebiet');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1100, 'StaedtebaulicheSanierung');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1200, 'StaedtebaulicheEntwicklungsmassnahme');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1300, 'Stadtumbaugebiet');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1400, 'SozialeStadt');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1500, 'BusinessImprovementDestrict');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1600, 'HousingImprovementDestrict');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (1999, 'Erhaltungsverordnung');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2000, 'ErhaltungsverordnungStaedebaulicheGestalt');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2100, 'ErhaltungsverordnungWohnbevoelkerung');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (2200, 'ErhaltungsverordnungUmstrukturierung');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1000, 'Umlegungsgebiet');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1100, 'StaedtebaulicheSanierung');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1200, 'StaedtebaulicheEntwicklungsmassnahme');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1300, 'Stadtumbaugebiet');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1400, 'SozialeStadt');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1500, 'BusinessImprovementDestrict');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1600, 'HousingImprovementDestrict');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1999, 'Erhaltungsverordnung');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (2000, 'ErhaltungsverordnungStaedebaulicheGestalt');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (2100, 'ErhaltungsverordnungWohnbevoelkerung');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (2200, 'ErhaltungsverordnungUmstrukturierung');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp"
 -- -----------------------------------------------------
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (1000, 'VorbereitendeUntersuchung');
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (2000, 'Aufstellung');
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (3000, 'Festlegung');
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (4000, 'Abgeschlossen');
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (5000, 'Verstetigung');
-INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Wert", "Bezeichner") VALUES (9999, 'Sonstiges');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (1000, 'VorbereitendeUntersuchung');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (2000, 'Aufstellung');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (3000, 'Festlegung');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (4000, 'Abgeschlossen');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (5000, 'Verstetigung');
+INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Sonstiges"."SO_GrenzeTypen"
 -- -----------------------------------------------------
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1000, 'Bundesgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1100, 'Landesgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1200, 'Regierungsbezirksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1250, 'Bezirksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1300, 'Kreisgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1400, 'Gemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1450, 'Verbandsgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1500, 'Samtgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1510, 'Mitgliedsgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1550, 'Amtsgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (1600, 'Stadtteilgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (2000, 'VorgeschlageneGrundstuecksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (2100, 'GrenzeBestehenderBebauungsplan');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Wert", "Bezeichner") VALUES (9999, 'SonstGrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1000, 'Bundesgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1100, 'Landesgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1200, 'Regierungsbezirksgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1250, 'Bezirksgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1300, 'Kreisgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1400, 'Gemeindegrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1450, 'Verbandsgemeindegrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1500, 'Samtgemeindegrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1510, 'Mitgliedsgemeindegrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1550, 'Amtsgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1600, 'Stadtteilgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (2000, 'VorgeschlageneGrundstuecksgrenze');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (2100, 'GrenzeBestehenderBebauungsplan');
+INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstGrenze');

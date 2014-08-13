@@ -133,32 +133,32 @@ GRANT ALL ON TABLE "QGIS"."XP_Bereich_gesperrt" TO xp_user;
 -- Table "QGIS"."HorizontaleAusrichtung"
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."HorizontaleAusrichtung" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") ,
+  PRIMARY KEY ("Code") ,
   CONSTRAINT "fk_HorizontaleAusrichtung1"
-    FOREIGN KEY ("Wert" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Wert" )
+    FOREIGN KEY ("Code" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_HorizontaleAusrichtung1" ON "QGIS"."HorizontaleAusrichtung" ("Wert") ;
+CREATE INDEX "idx_fk_HorizontaleAusrichtung1" ON "QGIS"."HorizontaleAusrichtung" ("Code") ;
 GRANT SELECT ON TABLE "QGIS"."HorizontaleAusrichtung" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "QGIS"."VertikaleAusrichtung"
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."VertikaleAusrichtung" (
-  "Wert" VARCHAR(64) NOT NULL ,
+  "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Wert") ,
+  PRIMARY KEY ("Code") ,
   CONSTRAINT "fk_VertikaleAusrichtung1"
-    FOREIGN KEY ("Wert" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Wert" )
+    FOREIGN KEY ("Code" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" ("Code" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_VertikaleAusrichtung1" ON "QGIS"."VertikaleAusrichtung" ("Wert") ;
+CREATE INDEX "idx_fk_VertikaleAusrichtung1" ON "QGIS"."VertikaleAusrichtung" ("Code") ;
 GRANT SELECT ON TABLE "QGIS"."VertikaleAusrichtung" TO xp_gast;
 
 -- *****************************************************
@@ -191,14 +191,14 @@ Fachschemas nicht installiert sind, ist der View anzupassen!';
 -- -----------------------------------------------------
 -- Data for table "QGIS"."HorizontaleAusrichtung"
 -- -----------------------------------------------------
-INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('linksbündig', 'Left');
-INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('rechtsbündig', 'Right');
-INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Wert", "Bezeichner") VALUES ('zentrisch', 'Center');
+INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('linksbündig', 'Left');
+INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('rechtsbündig', 'Right');
+INSERT INTO "QGIS"."HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('zentrisch', 'Center');
 
 -- -----------------------------------------------------
 -- Data for table "QGIS"."VertikaleAusrichtung"
 -- -----------------------------------------------------
-INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Basis', 'Base');
-INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Mitte', 'Half');
-INSERT INTO "QGIS"."VertikaleAusrichtung" ("Wert", "Bezeichner") VALUES ('Oben', 'Top');
+INSERT INTO "QGIS"."VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Basis', 'Base');
+INSERT INTO "QGIS"."VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Mitte', 'Half');
+INSERT INTO "QGIS"."VertikaleAusrichtung" ("Code", "Bezeichner") VALUES ('Oben', 'Top');
 
