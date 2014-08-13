@@ -68,12 +68,7 @@ GRANT USAGE ON SCHEMA "BP_Raster" TO xp_gast;
 CREATE SEQUENCE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq" TO GROUP bp_user;
-CREATE SEQUENCE "BP_Bebauung"."BP_GestaltungBaugebiet_id_seq"
-   MINVALUE 1;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_id_seq" TO GROUP bp_user;
-CREATE SEQUENCE "BP_Bebauung"."BP_FestsetzungenBaugebiet_id_seq"
-   MINVALUE 1;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet_id_seq" TO GROUP bp_user;
+
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
