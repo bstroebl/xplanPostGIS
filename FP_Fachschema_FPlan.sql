@@ -27,7 +27,7 @@ CREATE SCHEMA "FP_Sonstiges";
 CREATE SCHEMA "FP_Ver_und_Entsorgung";
 CREATE SCHEMA "FP_Verkehr";
 CREATE SCHEMA "FP_Wasser";
-CREATE SCHEMA "FP_Aufschuettung_Abgrabung";
+CREATE SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze";
 
 COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.';
 COMMENT ON SCHEMA "FP_Raster" IS 'Raster-Darstellung von FPlänen';
@@ -39,7 +39,7 @@ COMMENT ON SCHEMA "FP_Sonstiges" IS 'Sonstige Klassen von FPlan-Objekten.';
 COMMENT ON SCHEMA "FP_Ver_und_Entsorgung" IS 'Darstellung von Flächen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung, für Ablagerungen, sowie für Hauptversorgungs- und Hauptabwasserleitungen (§5, Abs. 2, Nr. 4 BauGB).';
 COMMENT ON SCHEMA "FP_Verkehr" IS 'Darstellung von Flächen für den überörtlichen Verkehr sowie für die örtlichen Hauptverkehrszüge (§5, Abs. 2, Nr. 3 BauGB).';
 COMMENT ON SCHEMA "FP_Wasser" IS 'Darstellung von Wasserflächen, Häfen, und den für die Wasserwirtschaft vorgesehenen Flächen, sowie von Flächen, die im Interesse des Hochwasserschutzes und der Regelung des Wasserabflusses freizuhalten sind (§5, Abs. 2, Nr. 7 BauGB).';
-COMMENT ON SCHEMA "FP_Aufschuettung_Abgrabung" IS 'Darstellung von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB).';
+COMMENT ON SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze" IS 'Darstellung von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB).';
 
 GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Raster" TO xp_gast;
@@ -51,7 +51,7 @@ GRANT USAGE ON SCHEMA "FP_Sonstiges" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Ver_und_Entsorgung" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Verkehr" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Wasser" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Aufschuettung_Abgrabung" TO xp_gast;
+GRANT USAGE ON SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze" TO xp_gast;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -2507,9 +2507,9 @@ CREATE TRIGGER "change_to_FP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE OR D
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Wasser','FP_WasserwirtschaftPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung"
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Aufschuettung_FP_Objekt"
@@ -2519,18 +2519,18 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" (
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Aufschuettung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_Abgrabung"
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Abgrabung_FP_Objekt0"
@@ -2540,18 +2540,18 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" (
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Abgrabung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Abgrabung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Abgrabung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
--- Table "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" (
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" (
   "gid" BIGINT NOT NULL ,
   "abbaugut" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
@@ -2562,13 +2562,13 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" (
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" TO xp_gast;
-GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
-CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Bodenschaetze_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO fp_user;
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
+CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_Bodenschaetze_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Bodenschaetze', 'position','MULTIPOLYGON',2);
 
 -- *****************************************************
