@@ -687,28 +687,28 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Textabschnitt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() 
 RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF new.id IS NULL THEN
-            new.id := nextval('"XP_Basisobjekte"."XP_Textabschnitt_id_seq"');
+            new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
         END IF;
         
-        INSERT INTO "XP_Basisobjekte"."XP_Textabschnitt" (id) VALUES (new.id);
+        INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.id := old.id; --no change in id allowed
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "XP_Basisobjekte"."XP_Textabschnitt" WHERE id = old.id;
+        DELETE FROM "XP_Basisobjekte"."XP_TextAbschnitt" WHERE id = old.id;
         RETURN old;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Textabschnitt"() TO xp_user;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() 
 RETURNS trigger AS

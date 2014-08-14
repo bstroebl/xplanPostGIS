@@ -294,7 +294,7 @@ GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Rechtscharakter" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_TextAbschnitt" (
   "id" INTEGER NOT NULL ,
-  "rechtscharacter" INTEGER NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_FP_Textabschnitt_parent"
     FOREIGN KEY ("id" )
@@ -1052,12 +1052,12 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_det
   "gid" BIGINT NOT NULL ,
   "detaillierteZweckbestimmung" INTEGER NULL ,
   PRIMARY KEY ("gid", "detaillierteZweckbestimmung"),
-  CONSTRAINT "fk_FP_SpielSportanlage_besondereZweckbestimmung_FP_SpielSportanlage1"
+  CONSTRAINT "FP_SpielSportanlage_detaillierteZweckbestimmung1"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_DetailZweckbestSpielSportanlage0"
+  CONSTRAINT "FP_SpielSportanlage_detaillierteZweckbestimmung2"
     FOREIGN KEY ("detaillierteZweckbestimmung" )
     REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" ("Code" )
     ON DELETE NO ACTION
@@ -1277,7 +1277,6 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO xp_
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" IS 'Darstellung von Waldflächen nach §5, Abs. 2, Nr. 9b,';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."weitereDetailZweckbestimmung2" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 CREATE TRIGGER "change_to_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_WaldFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1844,7 +1843,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmun
     REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung1"
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung2"
     FOREIGN KEY ("besondereZweckbestimmung" )
     REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code" )
     ON DELETE NO ACTION
@@ -2525,7 +2524,7 @@ COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" 
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Aufschuettung', 'position','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung_Bodenschaetze','FP_Aufschuettung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"
@@ -2546,7 +2545,7 @@ COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" IS '
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "FP_Abgrabung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Abgrabung', 'position','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung_Bodenschaetze','FP_Abgrabung', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"
@@ -2569,7 +2568,7 @@ COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "FP_Bodenschaetze_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung','FP_Bodenschaetze', 'position','MULTIPOLYGON',2);
+SELECT "XP_Basisobjekte".registergeometrycolumn('','FP_Aufschuettung_Abgrabung_Bodenschaetze','FP_Bodenschaetze', 'position','MULTIPOLYGON',2);
 
 -- *****************************************************
 -- CREATE VIEWs

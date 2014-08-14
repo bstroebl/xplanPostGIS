@@ -200,7 +200,7 @@ CREATE TRIGGER "SO_Flaechenobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"
 -- -----------------------------------------------------
 CREATE  TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" (
   "id" INTEGER NOT NULL ,
-  "rechtscharacter" INTEGER NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_SO_Textabschnitt_parent"
     FOREIGN KEY ("id" )
@@ -486,7 +486,6 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" (
 
 CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_artDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("artDerFestlegung");
 CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_detailArtDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("detailArtDerFestlegung");
-CREATE INDEX "idx_fk_SO_SchutzgebietSonstigesRecht_zone_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" ("zone");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" TO so_user;
 COMMENT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" IS 'Sonstige Schutzgebiete nach unterschiedlichen rechtlichen Bestimmungen.';
