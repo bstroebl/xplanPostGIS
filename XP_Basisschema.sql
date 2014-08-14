@@ -777,6 +777,28 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() 
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    If (TG_OP = 'INSERT') THEN
+      IF new.id IS NULL THEN
+        new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+      END IF;
+
+      IF new."referenzName" IS NULL THEN
+        new."referenzName" := 'Externe Referenz ' || CAST(new.id as varchar);
+      END IF;
+    ELSIf (TG_OP = 'UPDATE') THEN
+        new.id := old.id;
+    END IF;
+
+    RETURN new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() TO xp_user;
+
 -- *****************************************************
 -- CREATE TABLEs 
 -- *****************************************************
@@ -1062,7 +1084,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mi
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
-
+CREATE TRIGGER  "XP_ExterneReferenz_has_changes" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_ExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_ExterneReferenz"();
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("referenzMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("georefMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_externereferenzart1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("art") ;
