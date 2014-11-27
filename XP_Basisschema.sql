@@ -6,6 +6,12 @@
 -- -----------------------------------------------------
 
 -- *****************************************************
+-- CREATE LANGUAGE Python2
+-- *****************************************************
+
+CREATE LANGUAGE plpython2u; -- auskommentieren, falls Python bereits installiert ist
+
+-- *****************************************************
 -- CREATE GROUP ROLES
 -- *****************************************************
 
@@ -90,7 +96,7 @@ $BODY$
 	import uuid
 	return uuid.uuid1()
 $BODY$
-  LANGUAGE 'plpythonu' VOLATILE
+  LANGUAGE 'plpython2u' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
 
