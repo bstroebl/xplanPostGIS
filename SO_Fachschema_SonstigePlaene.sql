@@ -7,7 +7,7 @@
 -- CREATE GROUP ROLES
 -- *****************************************************
 
--- editierende Rolle für FP_Fachschema_FPlan
+-- editierende Rolle für SO_SonstigePlanwerke
 CREATE ROLE so_user
   NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_gast TO so_user;
@@ -82,7 +82,6 @@ GRANT SELECT ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO xp_gast;
 GRANT ALL ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO so_user;
 COMMENT ON TABLE "SO_Raster"."SO_RasterplanAenderung" IS '';
 CREATE TRIGGER "change_to_SO_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Raster','SO_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
@@ -166,7 +165,7 @@ CREATE TRIGGER "change_to_SO_Objekt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Ba
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Punktobjekt" (
   "gid" BIGINT NOT NULL,
-  "position" GEOMETRY NOT NULL,
+  "position" GEOMETRY(Multipoint,25832) NOT NULL,
   PRIMARY KEY ("gid"));
   
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Punktobjekt" TO xp_gast;
@@ -177,7 +176,7 @@ CREATE TRIGGER "SO_Punktobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."S
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Linienobjekt" (
   "gid" BIGINT NOT NULL,
-  "position" GEOMETRY NOT NULL,
+  "position" GEOMETRY(MultiLinestring,25832) NOT NULL,
   PRIMARY KEY ("gid"));
 
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Linienobjekt" TO xp_gast;
@@ -188,7 +187,7 @@ CREATE TRIGGER "SO_Linienobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Flaechenobjekt" (
   "gid" BIGINT NOT NULL,
-  "position" GEOMETRY NOT NULL,
+  "position" GEOMETRY(Multipolygon,25832) NOT NULL,
   "flaechenschluss" BOOLEAN NOT NULL,
   PRIMARY KEY ("gid"));
   
@@ -294,7 +293,6 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" 
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_SchutzgebietNaturschutzrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"
@@ -314,7 +312,6 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" T
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietNaturschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_SchutzgebietNaturschutzrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht"
@@ -415,7 +412,6 @@ GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" TO xp
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_SchutzgebietWasserrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche"
@@ -435,7 +431,6 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" TO so_
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietWasserrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_SchutzgebietWasserrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht"
@@ -514,7 +509,6 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" TO 
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietSonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Schutzgebiete','SO_SchutzgebietSonstigesRechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_PlanTyp"
@@ -566,7 +560,6 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planTyp" IS 'Typ des Plans';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Für den Plan zuständige Stelle.';
 CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Basisobjekte','SO_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Bereich"
@@ -598,7 +591,6 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Bereich"."gehoertZuPlan" IS '';
 CREATE TRIGGER "change_to_SO_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "insert_into_SO_Bereich" BEFORE INSERT ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "SO_Basisobjekte"."new_SO_Bereich"();
 CREATE TRIGGER "SO_Bereich_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Basisobjekte','SO_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."gehoertZuSO_Bereich"
@@ -703,7 +695,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLi
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_StrassenverkehrsrechtLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche"
@@ -723,7 +714,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaec
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_StrassenverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_StrassenverkehrsrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
@@ -806,9 +796,7 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_WasserrechtPunkt', 'position','MULTIPOINT',2);
-    
+CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();    
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"
@@ -827,7 +815,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO xp
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_WasserrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_WasserrechtLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche"
@@ -847,7 +834,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" TO so_
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_WasserrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_WasserrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_WasserrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht"
@@ -926,7 +912,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO xp_
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_ForstrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_ForstrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche"
@@ -946,7 +931,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" TO so_u
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_ForstrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_ForstrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_ForstrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht"
@@ -1027,7 +1011,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_DenkmalschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_DenkmalschutzrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie"
@@ -1046,7 +1029,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_DenkmalschutzrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_DenkmalschutzrechtLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"
@@ -1066,7 +1048,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_DenkmalschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_DenkmalschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_DenkmalschutzrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht"
@@ -1149,7 +1130,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SonstigesRechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SonstigesRechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie"
@@ -1168,7 +1148,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SonstigesRechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SonstigesRechtLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche"
@@ -1188,7 +1167,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" TO 
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SonstigesRechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SonstigesRechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht"
@@ -1282,7 +1260,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPu
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SchienenverkehrsrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie"
@@ -1301,7 +1278,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLi
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SchienenverkehrsrechtLinie', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche"
@@ -1321,7 +1297,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaec
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchienenverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_SchienenverkehrsrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
@@ -1416,7 +1391,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt"
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_LuftverkehrsrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_LuftverkehrsrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche"
@@ -1436,7 +1410,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" 
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_LuftverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_LuftverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_LuftverkehrsrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht"
@@ -1516,7 +1489,6 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" 
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_BodenschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_BodenschutzrechtPunkt', 'position','MULTIPOINT',2);
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche"
@@ -1536,7 +1508,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" T
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_BodenschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_BodenschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_NachrichtlicheUebernahmen','SO_BodenschutzrechtFlaeche', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_SonstigeGebiete"."SO_GebietsArt"
@@ -1647,7 +1618,6 @@ COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."durchfuehrungEndDatum" IS 'E
 COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."traegerMassnahme" IS '';
 CREATE TRIGGER "change_to_SO_Gebiet" BEFORE INSERT OR UPDATE OR DELETE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_Gebiet_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_SonstigeGebiete','SO_Gebiet', 'position','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "SO_Sonstiges"."SO_GrenzeTypen"
@@ -1704,7 +1674,6 @@ COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."gid" IS 'Primärschlüssel, wird aut
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."typ" IS 'Typ der Grenze';
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."sonstTyp" IS '';
 CREATE TRIGGER "change_to_SO_Grenze" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','SO_Sonstiges','SO_Grenze', 'position','MULTILINESTRING',2);
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
