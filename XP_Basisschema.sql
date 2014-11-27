@@ -2,6 +2,7 @@
 -- XP__Basisschema
 -- Das XPLanGML Basisschema enthält abstrakte Oberklassen, von denen alle Klassen der Fachschemata abgeleitet sind,
 -- sowie allgemeine Feature-Types, DataTypes und Enumerationen, die in verschiedenen Fach-Schemata verwendet werden.
+-- Version für PostGIS 2.*
 -- -----------------------------------------------------
 
 -- *****************************************************
@@ -126,216 +127,6 @@ LANGUAGE plpgsql VOLATILE STRICT
 COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, bigint) TO xp_user;
 COMMENT ON FUNCTION "XP_Basisobjekte"."XP_PO_artvalue"(character varying, character varying, character varying, bigint) IS 'gibt den Wert für das Feld art für gid in der relation nspname.relname aus';
-
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer)
-  RETURNS text AS
-$BODY$
-DECLARE
-	catalog_name alias for $1;
-	schema_name alias for $2;
-	table_name alias for $3;
-	column_name alias for $4;
-	new_type alias for $5;
-	new_dim alias for $6;
-    is_table boolean;
-    not_null boolean;
-    new_srid integer;
-	rec RECORD;
-	sr varchar;
-	real_schema name;
-	sql text;
-
-BEGIN
-    new_srid := 25832; --EPSG-code des räumlichen Referenzsystems hier ändern
-	-- Verify geometry type
-	IF ( NOT ( (new_type = 'GEOMETRY') OR
-			   (new_type = 'GEOMETRYCOLLECTION') OR
-			   (new_type = 'POINT') OR
-			   (new_type = 'MULTIPOINT') OR
-			   (new_type = 'POLYGON') OR
-			   (new_type = 'MULTIPOLYGON') OR
-			   (new_type = 'LINESTRING') OR
-			   (new_type = 'MULTILINESTRING') OR
-			   (new_type = 'GEOMETRYCOLLECTIONM') OR
-			   (new_type = 'POINTM') OR
-			   (new_type = 'MULTIPOINTM') OR
-			   (new_type = 'POLYGONM') OR
-			   (new_type = 'MULTIPOLYGONM') OR
-			   (new_type = 'LINESTRINGM') OR
-			   (new_type = 'MULTILINESTRINGM') OR
-			   (new_type = 'CIRCULARSTRING') OR
-			   (new_type = 'CIRCULARSTRINGM') OR
-			   (new_type = 'COMPOUNDCURVE') OR
-			   (new_type = 'COMPOUNDCURVEM') OR
-			   (new_type = 'CURVEPOLYGON') OR
-			   (new_type = 'CURVEPOLYGONM') OR
-			   (new_type = 'MULTICURVE') OR
-			   (new_type = 'MULTICURVEM') OR
-			   (new_type = 'MULTISURFACE') OR
-			   (new_type = 'MULTISURFACEM')) )
-	THEN
-		RAISE EXCEPTION 'Invalid type name - valid ones are:
-	POINT, MULTIPOINT,
-	LINESTRING, MULTILINESTRING,
-	POLYGON, MULTIPOLYGON,
-	CIRCULARSTRING, COMPOUNDCURVE, MULTICURVE,
-	CURVEPOLYGON, MULTISURFACE,
-	GEOMETRY, GEOMETRYCOLLECTION,
-	POINTM, MULTIPOINTM,
-	LINESTRINGM, MULTILINESTRINGM,
-	POLYGONM, MULTIPOLYGONM,
-	CIRCULARSTRINGM, COMPOUNDCURVEM, MULTICURVEM
-	CURVEPOLYGONM, MULTISURFACEM,
-	or GEOMETRYCOLLECTIONM';
-		RETURN 'fail';
-	END IF;
-
-
-	-- Verify dimension
-	IF ( (new_dim >4) OR (new_dim <0) ) THEN
-		RAISE EXCEPTION 'invalid dimension';
-		RETURN 'fail';
-	END IF;
-
-	IF ( (new_type LIKE '%M') AND (new_dim!=3) ) THEN
-		RAISE EXCEPTION 'TypeM needs 3 dimensions';
-		RETURN 'fail';
-	END IF;
-
-
-	-- Verify SRID
-	IF ( new_srid != -1 ) THEN
-		SELECT SRID INTO sr FROM spatial_ref_sys WHERE SRID = new_srid;
-		IF NOT FOUND THEN
-			RAISE EXCEPTION 'registergeometrycolumns() - invalid SRID';
-			RETURN 'fail';
-		END IF;
-	END IF;
-
-
-	-- Verify schema
-	IF ( schema_name IS NOT NULL AND schema_name != '' ) THEN
-		sql := 'SELECT nspname FROM pg_namespace ' ||
-			'WHERE text(nspname) = ' || quote_literal(schema_name) ||
-			'LIMIT 1';
-		RAISE DEBUG '%', sql;
-		EXECUTE sql INTO real_schema;
-
-		IF ( real_schema IS NULL ) THEN
-			RAISE EXCEPTION 'Schema % is not a valid schemaname', quote_literal(schema_name);
-			RETURN 'fail';
-		END IF;
-	END IF;
-
-	IF ( real_schema IS NULL ) THEN
-		RAISE DEBUG 'Detecting schema';
-		sql := 'SELECT n.nspname AS schemaname ' ||
-			'FROM pg_catalog.pg_class c ' ||
-			  'JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace ' ||
-			'WHERE c.relkind = ' || quote_literal('r') ||
-			' AND n.nspname NOT IN (' || quote_literal('pg_catalog') || ', ' || quote_literal('pg_toast') || ')' ||
-			' AND pg_catalog.pg_table_is_visible(c.oid)' ||
-			' AND c.relname = ' || quote_literal(table_name);
-		RAISE DEBUG '%', sql;
-		EXECUTE sql INTO real_schema;
-
-		IF ( real_schema IS NULL ) THEN
-			RAISE EXCEPTION 'Table % does not occur in the search_path', quote_literal(table_name);
-			RETURN 'fail';
-		END IF;
-	END IF;
-
-	-- Delete stale record in geometry_columns (if any)
-	sql := 'DELETE FROM geometry_columns WHERE
-		f_table_catalog = ' || quote_literal('') ||
-		' AND f_table_schema = ' ||
-		quote_literal(real_schema) ||
-		' AND f_table_name = ' || quote_literal(table_name) ||
-		' AND f_geometry_column = ' || quote_literal(column_name);
-	RAISE DEBUG '%', sql;
-	EXECUTE sql;
-
-
-	-- Add record in geometry_columns
-	sql := 'INSERT INTO geometry_columns (f_table_catalog,f_table_schema,f_table_name,' ||
-										  'f_geometry_column,coord_dimension,srid,type)' ||
-		' VALUES (' ||
-		quote_literal('') || ',' ||
-		quote_literal(real_schema) || ',' ||
-		quote_literal(table_name) || ',' ||
-		quote_literal(column_name) || ',' ||
-		new_dim::text || ',' ||
-		new_srid::text || ',' ||
-		quote_literal(new_type) || ')';
-	RAISE DEBUG '%', sql;
-	EXECUTE sql;
-
-     EXECUTE 'SELECT CASE relkind WHEN ' || quote_literal('v') || ' THEN false ELSE true END ' ||
-    'FROM pg_class JOIN pg_namespace ON relnamespace = pg_namespace.oid ' ||
-    'WHERE nspname = ' || quote_literal(real_schema) || ' AND relname = ' || quote_literal(table_name) || ';' INTO is_table;
-
-    If is_table THEN
-        -- Add table CHECKs
-        sql := 'ALTER TABLE ' ||
-            quote_ident(real_schema) || '.' || quote_ident(table_name)
-            || ' ADD CONSTRAINT '
-            || quote_ident('enforce_srid_' || column_name)
-            || ' CHECK (ST_SRID(' || quote_ident(column_name) ||
-            ') = ' || new_srid::text || ')' ;
-        RAISE DEBUG '%', sql;
-        EXECUTE sql;
-
-        sql := 'ALTER TABLE ' ||
-            quote_ident(real_schema) || '.' || quote_ident(table_name)
-            || ' ADD CONSTRAINT '
-            || quote_ident('enforce_dims_' || column_name)
-            || ' CHECK (ST_NDims(' || quote_ident(column_name) ||
-            ') = ' || new_dim::text || ')' ;
-        RAISE DEBUG '%', sql;
-        EXECUTE sql;
-
-        IF ( NOT (new_type = 'GEOMETRY')) THEN
-            SELECT attnotnull FROM pg_attribute JOIN pg_class on attrelid = pg_class.oid JOIN pg_namespace ON relnamespace = pg_namespace.oid WHERE nspname = quote_ident(real_schema) AND relname = quote_ident(table_name) AND attname = quote_ident(column_name) INTO not_null;
-            sql := 'ALTER TABLE ' ||
-                quote_ident(real_schema) || '.' || quote_ident(table_name) || ' ADD CONSTRAINT ' ||
-                quote_ident('enforce_geotype_' || column_name) ||
-                ' CHECK (GeometryType(' ||
-                quote_ident(column_name) || ')=' ||
-                quote_literal(new_type);
-
-                IF not_null THEN
-                    sql := sql || ' OR (' ||
-                    quote_ident(column_name) || ') is null)';
-                ELSE
-                    sql := sql || ')';
-                END IF;
-                
-            RAISE DEBUG '%', sql;
-            EXECUTE sql;
-        END IF;
-        
-        --Create spatial index
-        sql := 'CREATE INDEX ' ||
-            quote_ident(table_name || '_gidx')
-            || ' ON '
-            || quote_ident(real_schema) || '.' || quote_ident(table_name)
-            || ' using gist(' || quote_ident(column_name) ||
-            ')' ;
-        RAISE DEBUG '%', sql;
-        EXECUTE sql;
-    END IF; -- is_table
-    
-	RETURN
-		real_schema || '.' ||
-		table_name || '.' || column_name ||
-		' SRID:' || new_srid::text ||
-		' TYPE:' || new_type ||
-		' DIMS:' || new_dim::text || ' ';
-END;
-$BODY$
-  LANGUAGE 'plpgsql' VOLATILE STRICT
-  COST 100;
-COMMENT ON FUNCTION "XP_Basisobjekte"."registergeometrycolumn"(character varying, character varying, character varying, character varying, character varying, integer) IS 'Funktion zur Registrierung in geometry columns für instantiierbare Tabellen, die ihr Geometriefeld erben';
 
 -- *****************************************************
 -- CREATE SEQUENCES
@@ -988,7 +779,7 @@ GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Bundeslaender" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" (
   "gid" BIGINT NOT NULL ,
-  "raeumlicherGeltungsbereich" GEOMETRY NOT NULL ,
+  "raeumlicherGeltungsbereich" GEOMETRY(Multipolygon,25832) NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" TO xp_user;
@@ -999,7 +790,7 @@ CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT ON "XP_
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Geltungsbereich" (
   "gid" BIGINT NOT NULL ,
-  "geltungsbereich" GEOMETRY NOT NULL ,
+  "geltungsbereich" GEOMETRY(Multipolygon,25832) NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_user;
@@ -1097,7 +888,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Raster"."XP_GeltungsbereichAenderung" (
   "gid" BIGINT NOT NULL ,
-  "geltungsbereichAenderung" GEOMETRY NOT NULL ,
+  "geltungsbereichAenderung" GEOMETRY(Multipolygon,25832) NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_gast;
 GRANT ALL ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_user;
@@ -1933,7 +1724,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon" TO xp_use
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipoint,25832) NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0 ,
   "skalierung" REAL NULL DEFAULT 1 ,
   PRIMARY KEY ("gid"),
@@ -1956,7 +1747,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipolygon,25832) NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_FPO_XP_APO1"
     FOREIGN KEY ("gid" )
@@ -1976,7 +1767,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LPO_XP_APO1"
     FOREIGN KEY ("gid" )
@@ -2067,7 +1858,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PTO" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipoint,25832) NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_PTO_XP_TPO1"
@@ -2089,7 +1880,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_Nutzungsschablone" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipoint,25832) NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0,
   "spaltenAnz" INTEGER NOT NULL ,
   "zeilenAnz" INTEGER NULL,
@@ -2116,7 +1907,7 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_LTO_XP_TPO1"
     FOREIGN KEY ("gid" )
@@ -2366,25 +2157,6 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktePraesentationsobje
 -- *****************************************************
 -- DATA
 -- *****************************************************
-
--- -----------------------------------------------------
--- PostGIS für Views
--- -----------------------------------------------------
-
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Plaene', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Basisobjekte','XP_Bereiche', 'geltungsbereich','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Raster','XP_RasterplanAenderungen', 'geltungsbereichAenderung','MULTIPOLYGON',2);
-
--- -----------------------------------------------------
--- PostGIS für XP_Praesentationsobjekte
--- -----------------------------------------------------
-
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PPO', 'position','MULTIPOINT',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_FPO', 'position','MULTIPOLYGON',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LPO', 'position','MULTILINESTRING',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_LTO', 'position','MULTILINESTRING',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_PTO', 'position','POINT',2);
-SELECT "XP_Basisobjekte".registergeometrycolumn('','XP_Praesentationsobjekte','XP_Nutzungsschablone', 'position','POINT',2);
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
