@@ -150,6 +150,10 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
   "aenderungenBisDatum" DATE NULL ,
   "aufstellungsbechlussDatum" DATE NULL ,
   "veraenderungssperreDatum" DATE NULL ,
+  "auslegungsStartDatum" DATE[],
+  "auslegungsEndDatum" DATE[],
+  "traegerbeteiligungsStartDatum" DATE[],
+  "traegerbeteiligungsEndDatum" DATE[],
   "satzungsbeschlussDatum" DATE NULL ,
   "rechtsverordnungsDatum" DATE NULL ,
   "inkrafttretensDatum" DATE NULL ,
@@ -254,6 +258,10 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."hoehenbezug" IS 'Bei Höhenangab
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."aenderungenBisDatum" IS 'Datum der berücksichtigten Plan-Änderungen.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."aufstellungsbechlussDatum" IS 'Datum des Aufstellungsbeschlusses.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."veraenderungssperreDatum" IS 'Datum der Veränderungssperre';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."auslegungsStartDatum" IS 'Start-Datum des Auslegungs-Zeitraums. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangeben spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."auslegungsEndDatum" IS 'End-Datum des Auslegungs-Zeitraums. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangeben spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangeben spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangeben spezifiziert werden.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."satzungsbeschlussDatum" IS 'Datum des Satzungsbeschlusses';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."rechtsverordnungsDatum" IS 'Datum der Rechtsverordnung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."inkrafttretensDatum" IS 'Datum des Inkrafttretens.';
@@ -304,74 +312,6 @@ GRANT ALL ON "BP_Basisobjekte"."planArt" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."planArt" IS 'Typ des vorliegenden BPlans.';
 CREATE INDEX "idx_fk_planArt_BP_Plan" ON "BP_Basisobjekte"."planArt" ("BP_Plan_gid") ;
 CREATE INDEX "idx_fk_planArt_BP_PlanArt" ON "BP_Basisobjekte"."planArt" ("BP_Planart_Wert") ;
-
--- -----------------------------------------------------
--- Table "BP_Basisobjekte"."auslegungsStartDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."auslegungsStartDatum" (
-  "auslegungsStartDatum" DATE NOT NULL ,
-  "BP_Plan_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("auslegungsStartDatum", "BP_Plan_gid") ,
-  CONSTRAINT "fk_auslegungsstartdatum_bp_plan1"
-    FOREIGN KEY ("BP_Plan_gid" )
-    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."auslegungsStartDatum" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."auslegungsStartDatum" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."auslegungsStartDatum" IS 'Start-Datum des Auslegungs-Zeitraums. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangeben spezifiziert werden.';  
-CREATE INDEX "idx_fk_auslegungsstartdatum_bp_plan1" ON "BP_Basisobjekte"."auslegungsStartDatum" ("BP_Plan_gid") ;
-
--- -----------------------------------------------------
--- Table "BP_Basisobjekte"."auslegungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."auslegungsEndDatum" (
-  "auslegungsEndDatum" DATE NOT NULL ,
-  "BP_Plan_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("auslegungsEndDatum", "BP_Plan_gid") ,
-  CONSTRAINT "fk_auslegungsenddatum_bp_plan1"
-    FOREIGN KEY ("BP_Plan_gid" )
-    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."auslegungsEndDatum" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."auslegungsEndDatum" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."auslegungsEndDatum" IS 'End-Datum des Auslegungs-Zeitraums. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangeben spezifiziert werden.';
-CREATE INDEX "idx_fk_auslegungsenddatum_bp_plan1" ON "BP_Basisobjekte"."auslegungsEndDatum" ("BP_Plan_gid") ;
-
--- -----------------------------------------------------
--- Table "BP_Basisobjekte"."traegerbeteiligungsStartDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."traegerbeteiligungsStartDatum" (
-  "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "BP_Plan_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsStartDatum", "BP_Plan_gid") ,
-  CONSTRAINT "fk_traegerbeteiligungsstartdatum_bp_plan1"
-    FOREIGN KEY ("BP_Plan_gid" )
-    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."traegerbeteiligungsStartDatum" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."traegerbeteiligungsStartDatum" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangeben spezifiziert werden.';
-CREATE INDEX "idx_fk_traegerbeteiligungsstartdatum_bp_plan1" ON "BP_Basisobjekte"."traegerbeteiligungsStartDatum" ("BP_Plan_gid") ;
-
--- -----------------------------------------------------
--- Table "BP_Basisobjekte"."traegerbeteiligungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."traegerbeteiligungsEndDatum" (
-  "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "BP_Plan_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsEndDatum", "BP_Plan_gid") ,
-  CONSTRAINT "fk_traegerbeteiligungsenddatum_bp_plan1"
-    FOREIGN KEY ("BP_Plan_gid" )
-    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."traegerbeteiligungsEndDatum" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."traegerbeteiligungsEndDatum" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangeben spezifiziert werden.';
-CREATE INDEX "idx_fk_traegerbeteiligungsenddatum_bp_plan1" ON "BP_Basisobjekte"."traegerbeteiligungsEndDatum" ("BP_Plan_gid") ;
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Bereich"
@@ -575,6 +515,10 @@ CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."gemeinde" ("XP
 CREATE  TABLE  "BP_Raster"."BP_RasterplanAenderung" (
   "gid" BIGINT NOT NULL ,
   "aufstellungsbeschlussDatum" DATE NULL ,
+  "auslegungsStartDatum" DATE[],
+  "auslegungsEndDatum" DATE[],
+  "traegerbeteiligungsStartDatum" DATE[],
+  "traegerbeteiligungsEndDatum" DATE[],
   "veraenderungssperreDatum" DATE NULL ,
   "satzungsbeschlussDatum" DATE NULL ,
   "rechtsverordnungsDatum" DATE NULL ,
@@ -592,6 +536,10 @@ GRANT ALL ON "BP_Raster"."BP_RasterplanAenderung" TO bp_user;
 COMMENT ON TABLE  "BP_Raster"."BP_RasterplanAenderung" IS 'Georeferenziertes Rasterbild der Änderung eines Basisplans. Die abgeleitete Klasse besitzt Datums-Attribute, die spezifisch für Bebauungspläne sind.';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."aufstellungsbeschlussDatum" IS 'Datum des Aufstellungsbeschlusses';
+COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
+COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
+COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
+COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."veraenderungssperreDatum" IS 'Datum einer Veränderungssperre';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."satzungsbeschlussDatum" IS 'Datum des Satzungsbeschlusses der Änderung.';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."rechtsverordnungsDatum" IS 'Datum der Rechtsverordnung';
@@ -599,75 +547,6 @@ COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."inkrafttretensDatum" IS
 CREATE INDEX "idx_fk_BP_RasterplanAenderung1" ON "BP_Raster"."BP_RasterplanAenderung" ("gid") ;
 CREATE TRIGGER "change_to_BP_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Raster"."BP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
 SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Raster','BP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
-
--- -----------------------------------------------------
--- Table "BP_Raster"."auslegungsStartDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Raster"."auslegungsStartDatum" (
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  "auslegungsStartDatum" DATE NOT NULL ,
-  PRIMARY KEY ("BP_RasterplanAenderung_id", "auslegungsStartDatum") ,
-  CONSTRAINT "fk_auslegungsStartDatum_BP_RasterplanAenderung"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
-    REFERENCES "BP_Raster"."BP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Raster"."auslegungsStartDatum" TO xp_gast;
-GRANT ALL ON "BP_Raster"."auslegungsStartDatum" TO bp_user;
-COMMENT ON TABLE "BP_Raster"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
-CREATE INDEX "idx_fk_auslegungsStartDatum1" ON "BP_Raster"."auslegungsStartDatum" ("BP_RasterplanAenderung_id") ;
-
-
--- -----------------------------------------------------
--- Table "BP_Raster"."auslegungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Raster"."auslegungsEndDatum" (
-  "auslegungsEndDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("auslegungsEndDatum", "BP_RasterplanAenderung_id") ,
-  CONSTRAINT "fk_auslegungsEndDatum1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
-    REFERENCES "BP_Raster"."BP_RasterplanAenderung" ("gid" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-GRANT SELECT ON "BP_Raster"."auslegungsEndDatum" TO xp_gast;
-GRANT ALL ON "BP_Raster"."auslegungsEndDatum" TO bp_user;
-COMMENT ON TABLE "BP_Raster"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
-CREATE INDEX "idx_fk_auslegungsEndDatum1" ON "BP_Raster"."auslegungsEndDatum" ("BP_RasterplanAenderung_id") ;
-
--- -----------------------------------------------------
--- Table "BP_Raster"."traegerbeteiligungsStartDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Raster"."traegerbeteiligungsStartDatum" (
-  "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsStartDatum", "BP_RasterplanAenderung_id") ,
-  CONSTRAINT "fk_traegerbeteiligungsStartDatum1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
-    REFERENCES "BP_Raster"."BP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Raster"."traegerbeteiligungsStartDatum" TO xp_gast;
-GRANT ALL ON "BP_Raster"."traegerbeteiligungsStartDatum" TO bp_user;
-COMMENT ON TABLE "BP_Raster"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
-CREATE INDEX "idx_fk_traegerbeteiligungsStartDatum1" ON "BP_Raster"."traegerbeteiligungsStartDatum" ("BP_RasterplanAenderung_id") ;
-
--- -----------------------------------------------------
--- Table "BP_Raster"."traegerbeteiligungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Raster"."traegerbeteiligungsEndDatum" (
-  "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "BP_RasterplanAenderung_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsEndDatum", "BP_RasterplanAenderung_id") ,
-  CONSTRAINT "fk_traegerbeteiligungsEndDatum1"
-    FOREIGN KEY ("BP_RasterplanAenderung_id" )
-    REFERENCES "BP_Raster"."BP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Raster"."traegerbeteiligungsEndDatum" TO xp_gast;
-GRANT ALL ON "BP_Raster"."traegerbeteiligungsEndDatum" TO bp_user;
-COMMENT ON TABLE "BP_Raster"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
-CREATE INDEX "idx_fk_traegerbeteiligungsEndDatum1" ON "BP_Raster"."traegerbeteiligungsEndDatum" ("BP_RasterplanAenderung_id") ;
 
 -- *****************************************************
 -- INSERT DATA
