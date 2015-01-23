@@ -62,7 +62,7 @@ BEGIN
     IF (TG_OP = 'UPDATE') OR (TG_OP = 'INSERT') THEN
         EXECUTE 'SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "QGIS"."XP_Bereich_gesperrt"
         WHERE "XP_Bereich_gid" = new.' || quote_ident(bereich_gid_fld) || ' LIMIT 1' INTO gesperrt;
-    ELSIF (TG_OP = 'DELETE')
+    ELSIF (TG_OP = 'DELETE') THEN
         EXECUTE 'SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "QGIS"."XP_Bereich_gesperrt"
         WHERE "XP_Bereich_gid" = old.' || quote_ident(bereich_gid_fld) || ' LIMIT 1' INTO gesperrt;
     END IF;
