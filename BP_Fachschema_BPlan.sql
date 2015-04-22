@@ -279,7 +279,6 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refSatzung" IS 'Referenz auf die
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGruenordnungsplan" IS 'Referenz auf den Grünordnungsplan .';
 CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "BP_Plan_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Plan', 'raeumlicherGeltungsbereich','MULTIPOLYGON',2);
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_PlanArt"
@@ -357,9 +356,7 @@ CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich1" ON "BP_Basisobjekte"."BP_Bereich" (
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich2" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE TRIGGER "change_to_BP_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "insert_into_BP_Bereich" BEFORE INSERT ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "BP_Basisobjekte"."new_BP_Bereich"();
-CREATE TRIGGER "BP_Bereich_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Basisobjekte','BP_Bereich', 'geltungsbereich','MULTIPOLYGON',2);
-  
+CREATE TRIGGER "BP_Bereich_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();  
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Rechtscharakter"
@@ -391,7 +388,7 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumRelativ" IS
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Punktobjekt" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipoint,25832) NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO bp_user;
@@ -402,7 +399,7 @@ CREATE TRIGGER "BP_Punktobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."B
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Linienobjekt" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multilinestring,25832) NOT NULL ,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO bp_user;
@@ -413,7 +410,7 @@ CREATE TRIGGER "BP_Linienobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Flaechenobjekt" (
   "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY NOT NULL ,
+  "position" GEOMETRY(Multipolygon,25832) NOT NULL ,
   "flaechenschluss" BOOLEAN NOT NULL,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Flaechenobjekt" TO xp_gast;
@@ -546,7 +543,6 @@ COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."rechtsverordnungsDatum"
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."inkrafttretensDatum" IS 'Datum des Inkrafttretens der Änderung';
 CREATE INDEX "idx_fk_BP_RasterplanAenderung1" ON "BP_Raster"."BP_RasterplanAenderung" ("gid") ;
 CREATE TRIGGER "change_to_BP_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Raster"."BP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
-SELECT "XP_Basisobjekte".registergeometrycolumn('','BP_Raster','BP_RasterplanAenderung', 'geltungsbereichAenderung','MULTIPOLYGON',2);
 
 -- *****************************************************
 -- INSERT DATA
