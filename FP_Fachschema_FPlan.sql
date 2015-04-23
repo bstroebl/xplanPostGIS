@@ -188,7 +188,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Plan_XP_Plan1"
+  CONSTRAINT "fk_FP_Plan_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
     ON DELETE CASCADE
@@ -254,7 +254,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
     REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Bereich_XP_Bereich1"
+  CONSTRAINT "fk_FP_Bereich_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
     ON DELETE CASCADE
@@ -336,7 +336,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
     REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT "fk_FP_Objekt_XP_Objekt1"
+  CONSTRAINT "fk_FP_Objekt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -358,7 +358,7 @@ COMMENT ON COLUMN  "FP_Basisobjekte"."FP_Objekt"."spezifischePraegung" IS 'Spezi
 CREATE TRIGGER "change_to_FP_Objekt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Basisobjekte"."FP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Basisobjekte"."gehoertZuFP_Bereich"
+-- Table "FP_Basisobjekte"."gehoertZuFP_Bereich" invers zu inhaltFPlan
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."gehoertZuFP_Bereich" (
   "FP_Bereich_gid" BIGINT NOT NULL ,
@@ -409,12 +409,16 @@ COMMENT ON TABLE  "FP_Basisobjekte"."gemeinde" IS 'Zuständige Gemeinde';
 CREATE  TABLE  "FP_Raster"."FP_RasterplanAenderung" (
   "gid" BIGINT NOT NULL ,
   "aufstellungbeschlussDatum" DATE NULL ,
+  "auslegungsStartDatum" DATE[] NULL,
+  "auslegungsEndDatum" DATE[] NULL,
+  "traegerbeteiligungsStartDatum" DATE[] NULL,
+  "traegerbeteiligungsEndDatum" DATE[] NULL,
   "aenderungenBisDatum" DATE NULL ,
   "entwurfsbeschlussDatum" DATE NULL ,
   "planbeschlussDatum" DATE NULL ,
   "wirksamkeitsDatum" DATE NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_RasterplanAenderung1"
+  CONSTRAINT "fk_FP_RasterplanAenderung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid" )
     ON DELETE CASCADE
@@ -426,6 +430,10 @@ GRANT ALL ON TABLE "FP_Raster"."FP_RasterplanAenderung" TO fp_user;
 COMMENT ON TABLE "FP_Raster"."FP_RasterplanAenderung" IS 'Georeferenziertes Rasterbild der Änderung eines Basisplans. Die abgeleitete Klasse besitzt Datums-Attribute, die spezifisch für Flächennutzungspläne sind.';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."aufstellungbeschlussDatum" IS '';
+COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
+COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
+COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
+COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."aenderungenBisDatum" IS '';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."entwurfsbeschlussDatum" IS '';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."planbeschlussDatum" IS '';
@@ -494,16 +502,16 @@ CREATE TRIGGER "FP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
   "gid" BIGINT NOT NULL ,
-  "ziel" INTEGER NULL ,
   "refMassnahmenText" INTEGER NULL ,
   "refLandschaftsplan" INTEGER NULL ,
+  "ziel" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEZiele1"
     FOREIGN KEY ("ziel" )
     REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_AusgleichsFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_AusgleichsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -554,7 +562,6 @@ GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" TO xp_ga
 GRANT ALL ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" TO fp_user;
 COMMENT ON TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" IS 'Auf der Fläche durchzuführende Maßnahmen.';
 
-
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche"
 -- -----------------------------------------------------
@@ -585,9 +592,6 @@ COMMENT ON TABLE "FP_Basisobjekte"."wirdAusgeglichenDurchFlaeche" IS 'Relation a
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
-  "massnahme" INTEGER NULL ,
-  "weitereMassnahme1" INTEGER NULL ,
-  "weitereMassnahme2" INTEGER NULL ,
   "istAusgleich" BOOLEAN  NULL DEFAULT false,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele"
@@ -595,39 +599,18 @@ CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
     REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten1"
-    FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten2"
-    FOREIGN KEY ("weitereMassnahme1" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten3"
-    FOREIGN KEY ("weitereMassnahme2" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_FP_Objekt1"
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("ziel") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten1" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("massnahme") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten2" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("weitereMassnahme1") ;
-CREATE INDEX "idx_fk_FP_SchutzPflegeEntwicklung_XP_SPEMassnahmenDaten3" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("weitereMassnahme2") ;
 GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" TO fp_user;
 COMMENT ON TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."massnahme" IS 'Durchzuführende Maßnahme';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."weitereMassnahme1" IS 'Weitere durchzuführende Massnahme.';
-COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."weitereMassnahme2" IS 'Weitere durchzuführende Massnahme.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."istAusgleich" IS 'Gibt an, ob die Maßnahme zum Ausgkeich eines Eingriffs benutzt wird.';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -677,93 +660,23 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."wirdAusgeglichenDurchSPE" TO fp_user;
 COMMENT ON TABLE  "FP_Basisobjekte"."wirdAusgeglichenDurchSPE" IS 'Relation auf Maßnahmen (FP_SchutzPflegeEntwicklung), durch den ein Eingriff ausgeglichen wird.';
 
 -- -----------------------------------------------------
--- Table "FP_Raster"."auslegungsStartDatum"
+-- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Raster"."auslegungsStartDatum" (
-  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  "auslegungsStartDatum" DATE NOT NULL ,
-  PRIMARY KEY ("FP_RasterplanAenderung_gid", "auslegungsStartDatum") ,
-  CONSTRAINT "fk_auslegungsStartDatum_FP_RasterplanAenderung"
-    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
-    REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_auslegungsStartDatum_FP_RasterplanAenderung" ON "FP_Raster"."auslegungsStartDatum" ("FP_RasterplanAenderung_gid") ;
-GRANT SELECT ON TABLE "FP_Raster"."auslegungsStartDatum" TO xp_gast;
-GRANT ALL ON TABLE "FP_Raster"."auslegungsStartDatum" TO fp_user;
-COMMENT ON TABLE  "FP_Raster"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
-
--- -----------------------------------------------------
--- Table "FP_Raster"."auslegungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Raster"."auslegungsEndDatum" (
-  "auslegungsEndDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("auslegungsEndDatum", "FP_RasterplanAenderung_gid") ,
-  CONSTRAINT "fk_auslegungsEndDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
-    REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
-CREATE INDEX "idx_fk_auslegungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."auslegungsEndDatum" ("FP_RasterplanAenderung_gid") ;
-GRANT SELECT ON TABLE "FP_Raster"."auslegungsEndDatum" TO xp_gast;
-GRANT ALL ON TABLE "FP_Raster"."auslegungsEndDatum" TO fp_user;
-COMMENT ON TABLE  "FP_Raster"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
-
-
--- -----------------------------------------------------
--- Table "FP_Raster"."traegerbeteiligungsStartDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" (
-  "traegerbeteiligungsStartDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsStartDatum", "FP_RasterplanAenderung_gid") ,
-  CONSTRAINT "fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
-    REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_traegerbeteiligungsStartDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsStartDatum" ("FP_RasterplanAenderung_gid") ;
-GRANT SELECT ON TABLE "FP_Raster"."traegerbeteiligungsStartDatum" TO xp_gast;
-GRANT ALL ON TABLE "FP_Raster"."traegerbeteiligungsStartDatum" TO fp_user;
-COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
-
--- -----------------------------------------------------
--- Table "FP_Raster"."traegerbeteiligungsEndDatum"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" (
-  "traegerbeteiligungsEndDatum" DATE NOT NULL ,
-  "FP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("traegerbeteiligungsEndDatum", "FP_RasterplanAenderung_gid") ,
-  CONSTRAINT "fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1"
-    FOREIGN KEY ("FP_RasterplanAenderung_gid" )
-    REFERENCES "FP_Raster"."FP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_traegerbeteiligungsEndDatum_FP_RasterplanAenderung1" ON "FP_Raster"."traegerbeteiligungsEndDatum" ("FP_RasterplanAenderung_gid") ;
-GRANT SELECT ON TABLE "FP_Raster"."traegerbeteiligungsEndDatum" TO xp_gast;
-GRANT ALL ON TABLE "FP_Raster"."traegerbeteiligungsEndDatum" TO fp_user;
-COMMENT ON TABLE  "FP_Raster"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
-
--- -----------------------------------------------------
--- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" (
+CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungPunkt1"
-    FOREIGN KEY ("gid")
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungFlaeche_parent"
+    FOREIGN KEY ("gid" )
     REFERENCES "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("FP_Basisobjekte"."FP_Punktobjekt");
+INHERITS("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO fp_user;
-COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" TO fp_user;
+COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_SchutzPflegeEntwicklungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie"
@@ -771,7 +684,7 @@ CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungPunkt" BEFORE INSERT OR UPDA
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungLinie"
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("gid" )
     ON DELETE CASCADE
@@ -784,23 +697,22 @@ COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie"."gid" IS 'P
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"
+-- Table "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" (
+CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungFlaeche"
-    FOREIGN KEY ("gid" )
+  CONSTRAINT "fk_FP_SchutzPflegeEntwicklungPunkt_parent"
+    FOREIGN KEY ("gid")
     REFERENCES "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("FP_Basisobjekte"."FP_Flaechenobjekt");
+INHERITS("FP_Basisobjekte"."FP_Punktobjekt");
 
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" TO fp_user;
-COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_SchutzPflegeEntwicklungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" TO fp_user;
+COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Bebauung"."FP_DetailArtDerBaulNutzung"
@@ -843,7 +755,7 @@ CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
     REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_BebauungsFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_BebauungsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -883,7 +795,7 @@ CREATE TRIGGER "FP_BebauungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "
 CREATE  TABLE  "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_KeineZentrAbwasserBeseitigungFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_KeineZentrAbwasserBeseitigungFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -912,7 +824,7 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestG
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Gemeinbedarf_FP_Objekt1"
+  CONSTRAINT "fk_FP_Gemeinbedarf_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1003,7 +915,7 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestS
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SpielSportanlage_FP_Objekt1"
+  CONSTRAINT "fk_FP_SpielSportanlage_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1057,6 +969,57 @@ GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanl
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" TO fp_user;
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_SpielSportanlageFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_SpielSportanlageFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_SpielSportanlageFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_SpielSportanlageLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_SpielSportanlageLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_SpielSportanlagePunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_SpielSportanlagePunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"
@@ -1064,7 +1027,7 @@ COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AnpassungKlimawandel_FP_Objekt1"
+  CONSTRAINT "fk_FP_AnpassungKlimawandel_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1075,6 +1038,58 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawa
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" IS 'Anlagen, Einrichtungen und sonstige Maßnahmen, die der Anpassung an den Klimawandel dienen.';
 COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_AnpassungKlimawandel" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_AnpassungKlimawandelFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AnpassungKlimawandelPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_AnpassungKlimawandelPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche"
@@ -1129,110 +1144,6 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunk
 CREATE TRIGGER "change_to_FP_GemeinbedarfPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SpielSportanlageFlaeche_FP_SpielSportanlage1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" TO fp_user;
-CREATE TRIGGER "change_to_FP_SpielSportanlageFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_SpielSportanlageFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-
--- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SpielSportanlageLinie_FP_SpielSportanlage1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" TO fp_user;
-CREATE TRIGGER "change_to_FP_SpielSportanlageLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_SpielSportanlagePunkt_FP_SpielSportanlage1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" TO fp_user;
-CREATE TRIGGER "change_to_FP_SpielSportanlagePunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AnpassungKlimawandelFlaeche_FP_AnpassungKlimawandel1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" TO fp_user;
-CREATE TRIGGER "change_to_FP_AnpassungKlimawandelFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_AnpassungKlimawandelFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-
--- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AnpassungKlimawandelLinie_FP_AnpassungKlimawandel1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" TO fp_user;
-CREATE TRIGGER "change_to_FP_AnpassungKlimawandelLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_AnpassungKlimawandelPunkt_FP_AnpassungKlimawandel1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
-
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" TO fp_user;
-CREATE TRIGGER "change_to_FP_AnpassungKlimawandelPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" (
@@ -1248,7 +1159,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFla
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_WaldFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_WaldFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1261,7 +1172,6 @@ COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" IS 'Darste
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
-CREATE TRIGGER "FP_WaldFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung"
@@ -1322,7 +1232,7 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwir
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1334,7 +1244,6 @@ COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
-CREATE TRIGGER "FP_LandwirtschaftsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung"
@@ -1396,7 +1305,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" (
   "gid" BIGINT NOT NULL ,
   "nutzungsform" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Gruen_FP_Objekt1"
+  CONSTRAINT "fk_FP_Gruen_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1484,7 +1393,7 @@ COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweck
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GruenFlaeche_FP_Gruen1"
+  CONSTRAINT "fk_FP_GruenFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
     ON DELETE CASCADE
@@ -1502,7 +1411,7 @@ CREATE TRIGGER "FP_GruenFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_L
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GruenLinie_FP_Gruen1"
+  CONSTRAINT "fk_FP_GruenLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
     ON DELETE CASCADE
@@ -1519,7 +1428,7 @@ CREATE TRIGGER "change_to_FP_GruenLinie" BEFORE INSERT OR UPDATE OR DELETE ON "F
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GruenPunkt_FP_Gruen1"
+  CONSTRAINT "fk_FP_GruenPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
     ON DELETE CASCADE
@@ -1546,7 +1455,7 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO fp_us
 CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GenerischesObjekt_FP_Objekt1"
+  CONSTRAINT "fk_FP_GenerischesObjekt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1580,12 +1489,64 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" TO fp_u
 COMMENT ON TABLE  "FP_Sonstiges"."FP_GenerischesObjekt_zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmungen des Objekts.';
 
 -- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_GenerischesObjektFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GenerischesObjektFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_GenerischesObjektFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_GenerischesObjektLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GenerischesObjektLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_GenerischesObjektPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GenerischesObjektPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_Kennzeichnung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Kennzeichnung_FP_Objekt1"
+  CONSTRAINT "fk_FP_Kennzeichnung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1619,64 +1580,12 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" TO fp_user;
 COMMENT ON TABLE  "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" IS 'Über eine ExternalCodeList definierte Zweckbestimmungen des Objekts.';
 
 -- -----------------------------------------------------
--- Table "FP_Sonstiges"."FP_GenerischesObjektFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GenerischesObjektFlaeche_FP_GenerischesObjekt1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche" TO fp_user;
-CREATE TRIGGER "change_to_FP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_GenerischesObjektFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-
--- -----------------------------------------------------
--- Table "FP_Sonstiges"."FP_GenerischesObjektLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GenerischesObjektLinie_FP_GenerischesObjekt1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
-
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO xp_gast;
-GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie" TO fp_user;
-CREATE TRIGGER "change_to_FP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "FP_Sonstiges"."FP_GenerischesObjektPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Sonstiges"."FP_GenerischesObjektPunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GenerischesObjektPunkt_FP_GenerischesObjekt1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Sonstiges"."FP_GenerischesObjekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
-
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt" TO fp_user;
-CREATE TRIGGER "change_to_FP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_KennzeichnungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_KennzeichnungFlaeche_FP_Kennzeichnung1"
+  CONSTRAINT "fk_FP_KennzeichnungFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_Kennzeichnung" ("gid" )
     ON DELETE CASCADE
@@ -1694,7 +1603,7 @@ CREATE TRIGGER "FP_KennzeichnungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE 
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_KennzeichnungLinie_FP_Kennzeichnung1"
+  CONSTRAINT "fk_FP_KennzeichnungLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_Kennzeichnung" ("gid" )
     ON DELETE CASCADE
@@ -1711,7 +1620,7 @@ CREATE TRIGGER "change_to_FP_KennzeichnungLinie" BEFORE INSERT OR UPDATE OR DELE
 CREATE  TABLE  "FP_Sonstiges"."FP_KennzeichnungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_KennzeichnungPunkt_FP_Kennzeichnung1"
+  CONSTRAINT "fk_FP_KennzeichnungPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_Kennzeichnung" ("gid" )
     ON DELETE CASCADE
@@ -1728,7 +1637,7 @@ CREATE TRIGGER "change_to_FP_KennzeichnungPunkt" BEFORE INSERT OR UPDATE OR DELE
 CREATE  TABLE  "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_NutzungsbeschraenkungsFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_NutzungsbeschraenkungsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1740,7 +1649,6 @@ GRANT ALL ON TABLE "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" IS 'Umgrenzungen der Flächen für besondere Anlagen und Vorkehrungen zum Schutz vor schädlichen Umwelteinwirkungen im Sinne des Bundes-Immissionsschutzgesetzes (§ 5, Abs. 2, Nr. 6 BauGB)';
 CREATE TRIGGER "change_to_FP_NutzungsbeschraenkungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_FP_NutzungsbeschraenkungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
-CREATE TRIGGER "FP_NutzungsbeschraenkungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben"
@@ -1767,7 +1675,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" (
   "gid" BIGINT NOT NULL ,
   "vorhaben" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_FP_Objekt1"
+  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1828,7 +1736,7 @@ COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestim
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_PrivVorhaFlaeche_FP_PrivilegiertesVorhaben1"
+  CONSTRAINT "fk_FP_PrivilegiertesVorhabenFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
     ON DELETE CASCADE
@@ -1846,7 +1754,7 @@ CREATE TRIGGER "FP_PrivilegiertesVorhabenFlaeche_Flaechenobjekt" BEFORE INSERT O
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_PrivVorhaLinie_FP_PrivilegiertesVorhaben1"
+  CONSTRAINT "fk_FP_PrivilegiertesVorhabenLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
     ON DELETE CASCADE
@@ -1863,7 +1771,7 @@ CREATE TRIGGER "change_to_FP_PrivilegiertesVorhabenLinie" BEFORE INSERT OR UPDAT
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_PrivVorhaPunkt_FP_PrivilegiertesVorhaben1"
+  CONSTRAINT "fk_FP_PrivilegiertesVorhabenPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
     ON DELETE CASCADE
@@ -1881,7 +1789,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_VorbehalteFlaeche" (
   "gid" BIGINT NOT NULL ,
   "vorbehalt" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_VorbehalteFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_VorbehalteFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1903,7 +1811,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkung" (
   "gid" BIGINT NOT NULL ,
   "vormerkung" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_UnverbindlicheVormerkung_FP_Objekt1"
+  CONSTRAINT "fk_FP_UnverbindlicheVormerkung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1922,7 +1830,7 @@ CREATE TRIGGER "change_to_FP_UnverbindlicheVormerkung" BEFORE INSERT OR UPDATE O
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_UnverVormerFlaeche_FP_UnverVormer1"
+  CONSTRAINT "fk_FP_UnverbindlicheVormerkungFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_UnverbindlicheVormerkung" ("gid" )
     ON DELETE CASCADE
@@ -1940,7 +1848,7 @@ CREATE TRIGGER "FP_UnverbindlicheVormerkungFlaeche_Flaechenobjekt" BEFORE INSERT
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_UnverVormerLinie_FP_UnverVormer1"
+  CONSTRAINT "fk_FP_UnverbindlicheVormerkungLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_UnverbindlicheVormerkung" ("gid" )
     ON DELETE CASCADE
@@ -1957,7 +1865,7 @@ CREATE TRIGGER "change_to_FP_UnverbindlicheVormerkungLinie" BEFORE INSERT OR UPD
 CREATE  TABLE  "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_UnverVormerPunkt_FP_UnverVormer1"
+  CONSTRAINT "fk_FP_UnverbindlicheVormerkungPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Sonstiges"."FP_UnverbindlicheVormerkung" ("gid" )
     ON DELETE CASCADE
@@ -1974,7 +1882,7 @@ CREATE TRIGGER "change_to_FP_FP_UnverbindlicheVormerkungPunkt" BEFORE INSERT OR 
 CREATE  TABLE  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_TextlicheDarstellungsFlaeche_FP_Objekt1"
+  CONSTRAINT "fk_FP_TextlicheDarstellungsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -1987,7 +1895,6 @@ COMMENT ON TABLE  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" IS 'Bereich i
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_TextlicheDarstellungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_FP_TextlicheDarstellungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
-CREATE TRIGGER "FP_TextlicheDarstellungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung"
@@ -2004,8 +1911,9 @@ GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO 
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" (
   "gid" BIGINT NOT NULL ,
+  "textlicheErgaenzung" VARCHAR(256) NULL,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_VerEntsorgung_FP_Objekt"
+  CONSTRAINT "fk_FP_VerEntsorgung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -2015,6 +1923,7 @@ GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" TO fp_user;
 COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" IS 'Flächen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung sowie für Ablagerungen (§5, Abs. 2, Nr. 4 BauGB).';
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."textlicheErgaenzung" IS 'Textliche Ergänzung der Flächenazusweisung.';
 CREATE TRIGGER "change_to_FP_VerEntsorgung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
@@ -2087,7 +1996,7 @@ COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbes
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_VerEntsorgungFlaeche_FP_VerEntsorgung1"
+  CONSTRAINT "fk_FP_VerEntsorgungFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
     ON DELETE CASCADE
@@ -2105,7 +2014,7 @@ CREATE TRIGGER "FP_VerEntsorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE 
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_VerEntsorgungLinie_FP_VerEntsorgung1"
+  CONSTRAINT "fk_FP_VerEntsorgungLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
     ON DELETE CASCADE
@@ -2191,7 +2100,7 @@ CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
     REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Strassenverkehr_FP_Objekt1"
+  CONSTRAINT "fk_FP_Strassenverkehr_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -2217,7 +2126,7 @@ CREATE TRIGGER "change_to_FP_Strassenverkehr" BEFORE INSERT OR UPDATE OR DELETE 
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_StrassenverkehrFlaeche_FP_Strassenverkehr1"
+  CONSTRAINT "fk_FP_StrassenverkehrFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid" )
     ON DELETE CASCADE
@@ -2235,7 +2144,7 @@ CREATE TRIGGER "FP_StrassenverkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDAT
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_StrassenverkehrLinie_FP_Strassenverkehr1"
+  CONSTRAINT "fk_FP_StrassenverkehrLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid" )
     ON DELETE CASCADE
@@ -2252,7 +2161,7 @@ CREATE TRIGGER "change_to_FP_StrassenverkehrLinie" BEFORE INSERT OR UPDATE OR DE
 CREATE  TABLE  "FP_Verkehr"."FP_StrassenverkehrPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_StrassenverkehrPunkt_FP_Strassenverkehr1"
+  CONSTRAINT "fk_FP_StrassenverkehrPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid" )
     ON DELETE CASCADE
@@ -2291,7 +2200,7 @@ CREATE  TABLE  "FP_Wasser"."FP_Gewaesser" (
     REFERENCES "FP_Wasser"."FP_DetailZweckbestGewaesser" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gewaesser_FP_Objekt1"
+  CONSTRAINT "fk_FP_Gewaesser_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -2306,6 +2215,58 @@ COMMENT ON COLUMN  "FP_Wasser"."FP_Gewaesser"."gid" IS 'Primärschlüssel, wird 
 COMMENT ON COLUMN  "FP_Wasser"."FP_Gewaesser"."zweckbestimmung" IS 'Zweckbestimmung des Gewässers.';
 COMMENT ON COLUMN  "FP_Wasser"."FP_Gewaesser"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung des Objektes.';
 CREATE TRIGGER "change_to_FP_Gewaesser" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Wasser"."FP_GewaesserFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Wasser"."FP_GewaesserFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GewaesserFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_GewaesserFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_GewaesserFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Wasser"."FP_GewaesserLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Wasser"."FP_GewaesserLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GewaesserLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_GewaesserLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Wasser"."FP_GewaesserPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Wasser"."FP_GewaesserPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_GewaesserPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_GewaesserPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft"
@@ -2335,7 +2296,7 @@ CREATE  TABLE  "FP_Wasser"."FP_Wasserwirtschaft" (
     REFERENCES "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT "fk_FP_Wasserwirtschaft_FP_Objekt1"
+  CONSTRAINT "fk_FP_Wasserwirtschaft_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
@@ -2352,64 +2313,12 @@ COMMENT ON COLUMN  "FP_Wasser"."FP_Wasserwirtschaft"."detaillierteZweckbestimmun
 CREATE TRIGGER "change_to_FP_Wasserwirtschaft" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Wasser"."FP_GewaesserFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Wasser"."FP_GewaesserFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GewaesserFlaeche_FP_Gewaesser1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserFlaeche" TO fp_user;
-CREATE TRIGGER "change_to_FP_GewaesserFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_GewaesserFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
-
--- -----------------------------------------------------
--- Table "FP_Wasser"."FP_GewaesserLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Wasser"."FP_GewaesserLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GewaesserLinie_FP_Gewaesser1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
-
-GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO xp_gast;
-GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserLinie" TO fp_user;
-CREATE TRIGGER "change_to_FP_GewaesserLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "FP_Wasser"."FP_GewaesserPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Wasser"."FP_GewaesserPunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_GewaesserPunkt_FP_Gewaesser1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "FP_Wasser"."FP_Gewaesser" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
-
-GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Wasser"."FP_GewaesserPunkt" TO fp_user;
-CREATE TRIGGER "change_to_FP_GewaesserPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_WasserwirtschaftFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_WasserwirtschaftFlaeche_FP_Wasserwirtschaft1"
+  CONSTRAINT "fk_FP_WasserwirtschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Wasser"."FP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
@@ -2427,7 +2336,7 @@ CREATE TRIGGER "FP_WasserwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDA
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_WasserwirtschaftLinie_FP_Wasserwirtschaft1"
+  CONSTRAINT "fk_FP_WasserwirtschaftLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Wasser"."FP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
@@ -2444,7 +2353,7 @@ CREATE TRIGGER "change_to_FP_WasserwirtschaftLinie" BEFORE INSERT OR UPDATE OR D
 CREATE  TABLE  "FP_Wasser"."FP_WasserwirtschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_WasserwirtschaftPunkt_FP_Wasserwirtschaft1"
+  CONSTRAINT "fk_FP_WasserwirtschaftPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Wasser"."FP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
@@ -2456,6 +2365,42 @@ GRANT ALL ON TABLE "FP_Wasser"."FP_WasserwirtschaftPunkt" TO fp_user;
 CREATE TRIGGER "change_to_FP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Wasser"."FP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" (
+  "gid" BIGINT NOT NULL ,
+  "auspraegung" INTEGER NULL,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_ZentralerVersorgungsbereich_auspraegung"
+    FOREIGN KEY ("auspraegung" )
+    REFERENCES "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_ZentralerVersorgungsbereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" TO fp_user;
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" IS 'Darstellung nach § 5 Abs. 2 Nr. 2d (Ausstattung des Gemeindegebietes mit zentralen Versorgungsbereichen).';
+COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"."auspraegung" IS '';
+CREATE TRIGGER "change_to_FP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_FP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" (
@@ -2465,15 +2410,65 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" (
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
-
+    ON UPDATE CASCADE);
+    
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO fp_user;
 COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AufschuettungFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_AufschuettungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_AufschuettungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AufschuettungLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_AufschuettungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AufschuettungPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_AufschuettungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"
@@ -2481,19 +2476,69 @@ CREATE TRIGGER "FP_Aufschuettung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Abgrabung_FP_Objekt0"
+  CONSTRAINT "fk_FP_Abgrabung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+    ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" TO fp_user;
 COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Abgrabung_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AbgrabungFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_AbgrabungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_AbgrabungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AbgrabungLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_AbgrabungLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_AbgrabungPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_AbgrabungPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"
@@ -2506,8 +2551,7 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" (
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+    ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO fp_user;
@@ -2515,7 +2559,59 @@ COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" 
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "FP_Bodenschaetze_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_BodenschaetzeFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" TO fp_user;
+CREATE TRIGGER "change_to_FP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "FP_BodenschaetzeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_BodenschaetzeLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_BodenschaetzeLinie" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_BodenschaetzePunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_BodenschaetzePunkt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
 
 -- *****************************************************
 -- CREATE VIEWs
