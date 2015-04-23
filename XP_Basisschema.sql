@@ -230,21 +230,6 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() 
-RETURNS trigger AS
-$BODY$ 
- BEGIN
-    IF (TG_OP = 'DELETE') THEN
-        RETURN old;
-    ELSE
-        new.flaechenschluss := true;
-        RETURN new;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
-
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() 
 RETURNS trigger AS
 $BODY$ 
@@ -559,6 +544,25 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+	IF new."position" IS NOT NULL THEN
+        new."position" := ST_ForceRHR(new."position");
+    END IF;
+    
+    IF (TG_OP = 'DELETE') THEN
+        RETURN old;
+    ELSE
+        new.flaechenschluss := true;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() 
 RETURNS trigger AS
