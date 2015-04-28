@@ -181,6 +181,7 @@ JOIN (
 SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich" 
 UNION SELECT gid, "gehoertZuPlan" FROM "BP_Basisobjekte"."BP_Bereich"
 UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich"
+UNION SELECT gid, "gehoertZuPlan" FROM "SO_Basisobjekte"."SO_Bereich"
 ) b ON xb.gid = b.gid
 JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
 GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
