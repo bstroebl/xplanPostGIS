@@ -81,7 +81,8 @@ INHERITS("XP_Raster"."XP_GeltungsbereichAenderung");
 GRANT SELECT ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO xp_gast;
 GRANT ALL ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO so_user;
 COMMENT ON TABLE "SO_Raster"."SO_RasterplanAenderung" IS '';
-CREATE TRIGGER "change_to_SO_RasterplanAenderung" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
+CREATE TRIGGER "change_to_SO_RasterplanAenderung" BEFORE INSERT OR UPDATE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
+CREATE TRIGGER "delete_SO_RasterplanAenderung" AFTER DELETE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
@@ -158,7 +159,8 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."rechtscharacter" IS 'Rechtschar
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."sonstRechtscharacter" IS 'Klassifizierung des Rechtscharakters wenn das Attribut rechtscharakter den Wert Sonstiges (1000) hat.
 FestsetzungBPlan: Wird spezifiziert, wenn das Objekt den rechtlichen Charakter einer BPlan Festsetzung hat.
 DarstellungFPlan: Wird spezifiziert, wenn das Objekt den rechtlichen Charakter einer FPlan Darstellung hat.';
-CREATE TRIGGER "change_to_SO_Objekt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Objekt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Objekt" AFTER DELETE ON "SO_Basisobjekte"."SO_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Punktobjekt"
@@ -217,7 +219,8 @@ GRANT ALL ON TABLE "SO_Basisobjekte"."SO_TextAbschnitt" TO so_user;
 COMMENT ON TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Sonstigen Plans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut "rechtscharakter" des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
 COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts. ';
-CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+CREATE TRIGGER "delete_SO_TextAbschnitt" AFTER DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
@@ -274,7 +277,8 @@ COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"."detailAr
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"."zone" IS 'Klassifizierung der Schutzzone';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"."name" IS 'Informeller Name des Schutzgebiets';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"."nummer" IS 'Amtlicher Name / Kennziffer des Gebiets.';
-CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrecht" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt"
@@ -292,7 +296,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtPunkt" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"
@@ -310,7 +315,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtFlaeche" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietNaturschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -393,7 +399,8 @@ Zone 3b existiert nur bei Wasserschutzgebieten.
 Zone 4 existiert nur bei Heilquellen.';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht"."name" IS 'Informelle Bezeichnung des Gebiets';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer des Gebiets.';
-CREATE TRIGGER "change_to_SO_SchutzgebietWasserrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietWasserrecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietWasserrecht" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt"
@@ -411,7 +418,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietWasserrechtPunkt" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche"
@@ -429,7 +437,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietWasserrechtFlaeche" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietWasserrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -489,7 +498,8 @@ COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."artDerFest
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."name" IS 'Informelle Bezeichnung des Gebiets';
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer des Gebiets.';
-CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietSonstigesRecht" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche"
@@ -507,7 +517,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchutzgebietSonstigesRechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietSonstigesRechtFlaeche" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchutzgebietSonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -558,7 +569,8 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primärschlüssel, wird au
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planTyp" IS 'Typ des Plans';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Für den Plan zuständige Stelle.';
-CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
+CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
+CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
 -- -----------------------------------------------------
@@ -588,7 +600,8 @@ COMMENT ON TABLE "SO_Basisobjekte"."SO_Bereich" IS 'Bereich eines sonstigen raum
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Bereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Bereich"."name" IS 'Bezeichnung des Bereiches. Die Bezeichnung kann hier oder in XP_Bereich geändert werden.';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Bereich"."gehoertZuPlan" IS '';
-CREATE TRIGGER "change_to_SO_Bereich" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
+CREATE TRIGGER "change_to_SO_Bereich" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
+CREATE TRIGGER "delete_SO_Bereich" AFTER DELETE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "insert_into_SO_Bereich" BEFORE INSERT ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "SO_Basisobjekte"."new_SO_Bereich"();
 CREATE TRIGGER "SO_Bereich_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
@@ -675,7 +688,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht"."art
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht"."detailArtDerFestlegung" IS 'Detaillierte rechtliche Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Strassenverkehrsrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Strassenverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Strassenverkehrsrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"
@@ -694,7 +708,8 @@ CREATE INDEX "idx_fk_SO_StrassenverkehrsrechtLinie_parent_idx" ON "SO_Nachrichtl
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_StrassenverkehrsrechtLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche"
@@ -712,7 +727,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_StrassenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_StrassenverkehrsrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_StrassenverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -778,7 +794,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."detailArtDerF
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."istNatuerlichesUberschwemmungsgebiet" IS 'Gibt an, ob es sich bei der Fläche um ein natürliches Überschwemmungsgebiet handelt.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Wasserrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Wasserrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Wasserrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt"
@@ -796,7 +813,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();    
+CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();   
+CREATE TRIGGER "delete_SO_WasserrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();    
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"
@@ -814,7 +832,8 @@ INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_WasserrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_WasserrechtLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_WasserrechtLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche"
@@ -832,7 +851,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_WasserrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_WasserrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_WasserrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_WasserrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -893,7 +913,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."artDerFestlegu
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Forstrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Forstrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Forstrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt"
@@ -911,7 +932,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_ForstrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_ForstrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_ForstrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche"
@@ -929,7 +951,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_ForstrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_ForstrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_ForstrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_ForstrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -991,7 +1014,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht"."detail
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht"."weltkulturerbe" IS '';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Denkmalschutzrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Denkmalschutzrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Denkmalschutzrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 
 -- -----------------------------------------------------
@@ -1010,7 +1034,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_DenkmalschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_DenkmalschutzrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_DenkmalschutzrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie"
@@ -1028,7 +1053,8 @@ INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_DenkmalschutzrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_DenkmalschutzrechtLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_DenkmalschutzrechtLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"
@@ -1046,7 +1072,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_DenkmalschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_DenkmalschutzrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_DenkmalschutzrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_DenkmalschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1111,7 +1138,8 @@ VermessungsKatasterrecht: Beschränkungen nach Vermessungs- und Katasterrecht';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"."detailArtDerFestlegung" IS 'Detaillierte rechtliche Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_SonstigesRecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SonstigesRecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SonstigesRecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt"
@@ -1129,7 +1157,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SonstigesRechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SonstigesRechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SonstigesRechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie"
@@ -1147,7 +1176,8 @@ INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SonstigesRechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SonstigesRechtLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SonstigesRechtLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche"
@@ -1165,7 +1195,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SonstigesRechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SonstigesRechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SonstigesRechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1241,7 +1272,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."bes
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Schienenverkehrsrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Schienenverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Schienenverkehrsrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt"
@@ -1259,7 +1291,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchienenverkehrsrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie"
@@ -1277,7 +1310,8 @@ INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtLinie" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchienenverkehrsrechtLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche"
@@ -1295,7 +1329,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_SchienenverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchienenverkehrsrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_SchienenverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1372,7 +1407,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."detailA
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht"."laermschutzzone" IS 'Lärmschutzzone nach LuftVG';
-CREATE TRIGGER "change_to_SO_Luftverkehrsrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Luftverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Luftverkehrsrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt"
@@ -1390,7 +1426,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_LuftverkehrsrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_LuftverkehrsrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_LuftverkehrsrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche"
@@ -1408,7 +1445,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_LuftverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_LuftverkehrsrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_LuftverkehrsrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_LuftverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1470,7 +1508,8 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."detailAr
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."istVerdachtsflaeche" IS 'Angabe ob es sich um eine Verdachtsfläche handelt.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
-CREATE TRIGGER "change_to_SO_Bodenschutzrecht" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Bodenschutzrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Bodenschutzrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt"
@@ -1488,7 +1527,8 @@ INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_BodenschutzrechtPunkt" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_BodenschutzrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_BodenschutzrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche"
@@ -1506,7 +1546,8 @@ INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_BodenschutzrechtFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_BodenschutzrechtFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_BodenschutzrechtFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_BodenschutzrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1616,7 +1657,8 @@ COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."aufstellungsbeschhlussDatum"
 COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."durchfuehrungStartDatum" IS 'Start-Datum der Durchführung';
 COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."durchfuehrungEndDatum" IS 'End-Datum der Durchführung';
 COMMENT ON COLUMN "SO_SonstigeGebiete"."SO_Gebiet"."traegerMassnahme" IS '';
-CREATE TRIGGER "change_to_SO_Gebiet" BEFORE INSERT OR UPDATE OR DELETE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Gebiet" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Gebiet" AFTER DELETE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "SO_Gebiet_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
@@ -1673,7 +1715,8 @@ COMMENT ON TABLE "SO_Sonstiges"."SO_Grenze" IS 'Grenze einer Verwaltungseinheit 
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."typ" IS 'Typ der Grenze';
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."sonstTyp" IS '';
-CREATE TRIGGER "change_to_SO_Grenze" BEFORE INSERT OR UPDATE OR DELETE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_SO_Grenze" BEFORE INSERT OR UPDATE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Grenze" AFTER DELETE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"

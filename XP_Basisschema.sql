@@ -1752,7 +1752,8 @@ COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" IS 'Punktförmiges Präsent
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."skalierung" IS 'Skalierungsfaktor für Symbole.';
-CREATE TRIGGER "XP_PPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_PPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "change_to_XP_PPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_PPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "delete_XP_PPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_PPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_user;
 
@@ -1771,7 +1772,8 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_FPO" (
 INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" IS 'Flächenförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_FPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "XP_FPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "change_to_XP_FPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "delete_XP_FPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 CREATE TRIGGER "XP_FPO_RHR" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
@@ -1791,7 +1793,8 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
 INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" IS 'Linienförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "XP_LPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "change_to_XP_LPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "delete_XP_LPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_user;
 
@@ -1863,7 +1866,8 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."hat" IS 'Die Relation erm
 CREATE INDEX "idx_fk_XP_TPO_XP_VertikaleAusrichtung1" ON "XP_Praesentationsobjekte"."XP_TPO" ("vertikaleAusrichtung") ;
 CREATE INDEX "idx_fk_XP_TPO_XP_HorizontaleAusrichtung1" ON "XP_Praesentationsobjekte"."XP_TPO" ("horizontaleAusrichtung") ;
 CREATE INDEX "idx_fk_XP_TPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_TPO" ("hat") ;
-CREATE TRIGGER "XP_TPO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_TPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "change_to_XP_TPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_TPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "delete_XP_TPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_TPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_gast; 
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_user;
 
@@ -1885,7 +1889,8 @@ COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" IS 'Textförmiges Präsenta
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist.
 Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
-CREATE TRIGGER "XP_PTO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_PTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "change_to_XP_PTO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_PTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "delete_XP_PTO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_PTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 
@@ -1912,7 +1917,8 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."drehwinkel"
 Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."spaltenAnz" IS 'Anzahl der Spalten in der Nutzungsschablone';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_Nutzungsschablone"."zeilenAnz" IS 'Anzahl der Zeilen in der Nutzungsschablone';
-CREATE TRIGGER "XP_Nutzungsschablone_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_Nutzungsschablone" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "change_to_XP_Nutzungsschablone" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_Nutzungsschablone" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "delete_XP_Nutzungsschablone" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_Nutzungsschablone" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_Nutzungsschablone" TO xp_user;
 
@@ -1931,7 +1937,8 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LTO" (
     INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LTO" IS 'Textförmiges Präsentationsobjekt mit linienförmiger Textgeometrie.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "XP_LTO_hasInsert" BEFORE INSERT OR UPDATE OR DELETE ON "XP_Praesentationsobjekte"."XP_LTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "change_to_XP_LTO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_LTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
+CREATE TRIGGER "delete_XP_LTO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_LTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LTO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_LTO" TO xp_user;
 
