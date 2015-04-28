@@ -502,7 +502,7 @@ $BODY$
         
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-        PERFORM "XP_Basisobjekte"."XP_RasterplanAenderung_deleted"(old.gid);   
+        DELETE FROM "XP_Raster"."XP_RasterplanAenderung" WHERE gid = old.gid;   
         RETURN old;
     END IF;
  END; $BODY$
