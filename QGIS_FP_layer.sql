@@ -1,4 +1,5 @@
 -- Insert für FP-Standardstile
+-- Die id ist irrelevant, da sie durch einen Trigger automatisch aus der Sequenz vergeben wird
 
 INSERT INTO layer VALUES (25, 'FP_Sonstiges', 'FP_KennzeichnungFlaeche', '<qgis version="2.8.1-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
