@@ -93,6 +93,17 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."new_BP_Bereich"() TO bp_user;
 
+CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."new_BP_Plan"() 
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    INSERT INTO "BP_Basisobjekte"."planArt"("BP_Plan_gid", "BP_Planart_Wert") VALUES(NEW.gid, 1000);
+    RETURN NEW;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."new_BP_Plan"() TO bp_user;
+
 -- *****************************************************
 -- CREATE TABLEs 
 -- *****************************************************
@@ -278,6 +289,7 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refUmweltbericht" IS 'Referenz a
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refSatzung" IS 'Referenz auf die Satzung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGruenordnungsplan" IS 'Referenz auf den Grünordnungsplan .';
 CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
+CREATE TRIGGER "new_BP_Plan" AFTER INSERT ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "BP_Basisobjekte"."new_BP_Plan"();
 CREATE TRIGGER "delete_BP_Plan" AFTER DELETE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "BP_Plan_propagate_name" AFTER UPDATE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
