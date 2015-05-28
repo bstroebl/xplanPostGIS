@@ -535,9 +535,11 @@ CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"()
 RETURNS trigger AS
 $BODY$ 
  BEGIN
-    IF new."position" IS NOT NULL THEN
-        new."position" := ST_ForceRHR(new."position");
-    END IF;
+    IF (TG_OP = 'INSERT' or TG_OP = 'UPDATE') THEN
+		IF new."position" IS NOT NULL THEN
+			new."position" := ST_ForceRHR(new."position");
+		END IF;
+	END IF;
     
     IF (TG_OP = 'INSERT') THEN
         IF new."flaechenschluss" IS NULL THEN
@@ -555,13 +557,13 @@ CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
 $BODY$ 
  BEGIN
-	IF new."position" IS NOT NULL THEN
-        new."position" := ST_ForceRHR(new."position");
-    END IF;
-    
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
+		IF new."position" IS NOT NULL THEN
+			new."position" := ST_ForceRHR(new."position");
+		END IF;
+		
         new.flaechenschluss := true;
         RETURN new;
     END IF;
@@ -574,13 +576,13 @@ CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"()
 RETURNS trigger AS
 $BODY$ 
  BEGIN
-	IF new."position" IS NOT NULL THEN
-        new."position" := ST_ForceRHR(new."position");
-    END IF;
-    
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
+		IF new."position" IS NOT NULL THEN
+			new."position" := ST_ForceRHR(new."position");
+		END IF;
+		
         new.flaechenschluss := false;
         RETURN new;
     END IF;
