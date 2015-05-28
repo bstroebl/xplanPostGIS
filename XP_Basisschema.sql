@@ -354,6 +354,27 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() 
+RETURNS trigger AS
+$BODY$ 
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        IF new.gid IS NULL THEN
+            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+        END IF;
+        
+        new.uuid := "XP_Basisobjekte"."create_uuid"();
+        RETURN new;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new.gid := old.gid; --no change in gid allowed
+        new.uuid := old.uuid;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() TO xp_user;
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() 
 RETURNS trigger AS
 $BODY$ 
@@ -1192,6 +1213,7 @@ Nur unter diesen Objekten wird der Flächenschluss hergestellt.
 Bei Plan-Objekten, die unterirdische Bereiche (z.B. Tunnel) modellieren, ist ebene < 0.
 Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
 
+CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
 CREATE INDEX "idx_fk_XP_Objekt_xp_gesetzlichegrundlage1" ON "XP_Basisobjekte"."XP_Objekt" ("gesetzlicheGrundlage") ;
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_gast; 
