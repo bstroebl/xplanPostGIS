@@ -9,8 +9,7 @@
 
 -- editierende Rolle für SO_SonstigePlanwerke
 CREATE ROLE so_user
-  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
-GRANT xp_gast TO so_user;
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_user TO so_user;
 
 -- *****************************************************

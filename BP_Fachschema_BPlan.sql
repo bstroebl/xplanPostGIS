@@ -10,8 +10,7 @@
 
 -- editierende Rolle für BP_Fachschema_BPlan
 CREATE ROLE bp_user
-  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
-GRANT xp_gast TO bp_user;
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_user TO bp_user;
 
 -- *****************************************************

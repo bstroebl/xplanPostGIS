@@ -9,8 +9,7 @@
 
 -- editierende Rolle für FP_Fachschema_FPlan
 CREATE ROLE fp_user
-  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
-GRANT xp_gast TO fp_user;
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_user TO fp_user;
 
 -- *****************************************************

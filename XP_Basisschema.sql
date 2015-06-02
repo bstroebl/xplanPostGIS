@@ -21,7 +21,7 @@ CREATE ROLE xp_gast
 
 -- allgemein editierende Rolle, spezielle editierende Rollen werden in den jeweiligen Objektbereichen erzeugt
 CREATE ROLE xp_user
-  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_gast TO xp_user;
 
 -- *****************************************************
