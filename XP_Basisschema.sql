@@ -57,14 +57,14 @@ $BODY$
     str_trigger varchar;
  BEGIN
         str_trigger := 'CREATE FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
-			'() RETURNS TRIGGER AS $ensure_sequence$' || E'\n';
+            '() RETURNS TRIGGER AS $ensure_sequence$' || E'\n';
         str_trigger := str_trigger || 'DECLARE' || E'\n';
         str_trigger := str_trigger || '    str_execute text;' || E'\n';
         str_trigger := str_trigger || 'BEGIN' || E'\n'; 
         str_trigger := str_trigger || '    IF (TG_OP = ' || quote_literal('INSERT') || ') THEN' || E'\n';
         str_trigger := str_trigger || '        NEW.' || pk_column || ' := nextval(' || 
-		quote_literal(quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_' || 
-		pk_column || '_seq')) || ');' || E'\n';
+        quote_literal(quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_' || 
+        pk_column || '_seq')) || ');' || E'\n';
         str_trigger := str_trigger || '    ELSIF (TG_OP = ' || quote_literal('UPDATE') || ') THEN' || E'\n';
         str_trigger := str_trigger || '        NEW.' || pk_column || ' := ' || 'OLD.' || pk_column || ';' || E'\n';
         str_trigger := str_trigger || '    END IF;' || E'\n';
@@ -74,13 +74,13 @@ $BODY$
         EXECUTE str_trigger;
 
         EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' || 
-		quote_ident(name_of_table || '_ensure_sequence') || '() TO grp_gast;';
+        quote_ident(name_of_table || '_ensure_sequence') || '() TO grp_gast;';
         EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
-		'() OWNER TO grp_admin;';
+        '() OWNER TO grp_admin;';
         EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' || 
-		quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) || 
-		' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' || 
-			quote_ident(name_of_table || '_ensure_sequence') || '();';
+        quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) || 
+        ' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' || 
+            quote_ident(name_of_table || '_ensure_sequence') || '();';
         RETURN 'OK'; --*/
  END; $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -93,8 +93,8 @@ vom Nutzer nicht geändert werden kann.';
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte".create_uuid()
   RETURNS character varying AS
 $BODY$
-	import uuid
-	return uuid.uuid1()
+    import uuid
+    return uuid.uuid1()
 $BODY$
   LANGUAGE 'plpython2u' VOLATILE
   COST 100;
@@ -237,8 +237,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
+            END IF;
         END IF;
         
         IF new.name IS NULL THEN
@@ -326,8 +330,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
+            END IF;
         END IF;
         
         INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, 'XP_Bereich ' || CAST(new.gid as varchar));
@@ -403,8 +411,12 @@ $BODY$
     END LOOP;
     
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+            END IF;
         END IF;
         
         IF parent_nspname IS NOT NULL THEN
@@ -434,8 +446,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+            END IF;
         END IF;
         
         INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
@@ -457,8 +473,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+            END IF;
         END IF;
         
         INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
@@ -480,8 +500,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.id IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
+        ELSE
+            IF new.id IS NULL THEN
+                new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
+            END IF;
         END IF;
         
         INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
@@ -503,8 +527,12 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.gid IS NULL THEN
+        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"');
+        ELSE
+            IF new.gid IS NULL THEN
+                new.gid := nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"');
+            END IF;
         END IF;
         
         INSERT INTO "XP_Raster"."XP_RasterplanAenderung" (gid) VALUES (new.gid);
@@ -536,10 +564,10 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT' or TG_OP = 'UPDATE') THEN
-		IF new."position" IS NOT NULL THEN
-			new."position" := ST_ForceRHR(new."position");
-		END IF;
-	END IF;
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+    END IF;
     
     IF (TG_OP = 'INSERT') THEN
         IF new."flaechenschluss" IS NULL THEN
@@ -560,10 +588,10 @@ $BODY$
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
-		IF new."position" IS NOT NULL THEN
-			new."position" := ST_ForceRHR(new."position");
-		END IF;
-		
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+        
         new.flaechenschluss := true;
         RETURN new;
     END IF;
@@ -579,10 +607,10 @@ $BODY$
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
     ELSE
-		IF new."position" IS NOT NULL THEN
-			new."position" := ST_ForceRHR(new."position");
-		END IF;
-		
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+        
         new.flaechenschluss := false;
         RETURN new;
     END IF;
@@ -606,17 +634,17 @@ $BODY$
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() 
-RETURNS trigger AS
+RETURNS trigger AS 
 $BODY$
  BEGIN
     If (TG_OP = 'INSERT') THEN
-      IF new.id IS NULL THEN
-        new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
-      END IF;
+        IF new.id IS NULL THEN
+            new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+        END IF;
 
-      IF new."referenzName" IS NULL THEN
-        new."referenzName" := 'Externe Referenz ' || CAST(new.id as varchar);
-      END IF;
+        IF new."referenzName" IS NULL THEN
+            new."referenzName" := 'Externe Referenz ' || CAST(new.id as varchar);
+        END IF;
     ELSIf (TG_OP = 'UPDATE') THEN
         new.id := old.id;
     END IF;
