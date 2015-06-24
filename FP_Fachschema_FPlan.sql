@@ -512,7 +512,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEZiele1"
     FOREIGN KEY ("ziel" )
-    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
+    REFERENCES "XP_Enumerationen"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_parent"
@@ -601,7 +601,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele"
     FOREIGN KEY ("ziel" )
-    REFERENCES "XP_Sonstiges"."XP_SPEZiele" ("Code" )
+    REFERENCES "XP_Enumerationen"."XP_SPEZiele" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_parent"

@@ -2029,24 +2029,24 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_Plangeber" TO xp_gast;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Plangeber" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Sonstiges"."XP_SPEMassnamenTypen"
+-- Table "XP_Basisobjekte"."XP_SPEMassnamenTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnamenTypen" (
+CREATE  TABLE  "XP_Basisobjekte"."XP_SPEMassnamenTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-COMMENT ON TABLE  "XP_Sonstiges"."XP_SPEMassnamenTypen" IS 'Klassifikation der Maßnahme';
-GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEMassnamenTypen" TO xp_gast;
+COMMENT ON TABLE  "XP_Basisobjekte"."XP_SPEMassnamenTypen" IS 'Klassifikation der Maßnahme';
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_SPEMassnamenTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "XP_Sonstiges"."XP_SPEZiele"
+-- Table "XP_Enumerationen"."XP_SPEZiele"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Sonstiges"."XP_SPEZiele" (
+CREATE  TABLE  "XP_Enumerationen"."XP_SPEZiele" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 
-GRANT SELECT ON TABLE "XP_Sonstiges"."XP_SPEZiele" TO xp_gast;
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_SPEZiele" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Sonstiges"."XP_ArtHoehenbezug"
@@ -2116,7 +2116,7 @@ CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" (
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1"
     FOREIGN KEY ("klassifizMassnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" IS 'Spezifikation der Attribute für einer Schutz-, Pflege- oder Entwicklungsmaßnahme.';
@@ -2624,32 +2624,32 @@ INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bez
 INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('zentrisch', 'zentrisch');
 
 -- -----------------------------------------------------
--- Data for table "XP_Sonstiges"."XP_SPEMassnamenTypen"
+-- Data for table "XP_Basisobjekte"."XP_SPEMassnamenTypen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1400', 'Obstwiese');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ackerbrache');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2200', 'Trockenrasen');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2300', 'Heide');
-INSERT INTO "XP_Sonstiges"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1400', 'Obstwiese');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ackerbrache');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2200', 'Trockenrasen');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2300', 'Heide');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
--- Data for table "XP_Sonstiges"."XP_SPEZiele"
+-- Data for table "XP_Enumerationen"."XP_SPEZiele"
 -- -----------------------------------------------------
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('1000', 'SchutzPflege');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('2000', 'Entwicklung');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('3000', 'Anlage');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
-INSERT INTO "XP_Sonstiges"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('1000', 'SchutzPflege');
+INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('2000', 'Entwicklung');
+INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('3000', 'Anlage');
+INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
+INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezug"
