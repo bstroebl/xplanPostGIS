@@ -2049,6 +2049,26 @@ CREATE  TABLE  "XP_Enumerationen"."XP_SPEZiele" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_SPEZiele" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_ABEMassnahmenTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_ABEMassnahmenTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+COMMENT ON TABLE  "XP_Enumerationen"."XP_ABEMassnahmenTypen" IS 'Anpflanzung, Bindung, Erhaltung: Art der Maßnahme';
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ABEMassnahmenTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+COMMENT ON TABLE  "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" IS 'Anpflanzung, Bindung, Erhaltung: Gegenstände der Maßnahme ';
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Sonstiges"."XP_ArtHoehenbezug"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezug" (
@@ -2650,6 +2670,27 @@ INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('200
 INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('3000', 'Anlage');
 INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('4000', 'SchutzPflegeEntwicklung');
 INSERT INTO "XP_Enumerationen"."XP_SPEZiele" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_ABEMassnahmenTypen"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_ABEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1000', 'BindungErhaltung');
+INSERT INTO "XP_Enumerationen"."XP_ABEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Anpflanzung');
+INSERT INTO "XP_Enumerationen"."XP_ABEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('3000', 'AnpflanzungBindungErhaltung');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('1000', 'Baeume');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('1100', 'Kopfbaeume');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('1200', 'Baumreihe');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2000', 'Straeucher');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2100', 'Hecke');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2200', 'Knick');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('3000', 'SonstBepflanzung');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('4000', 'Gewaesser');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('5000', 'Fassadenbegruenung');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('6000', 'Dachbegruenung');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezug"
