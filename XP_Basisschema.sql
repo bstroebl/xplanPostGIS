@@ -228,6 +228,7 @@ $BODY$
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
 		DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE gid = old.gid;
+		RETURN old;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
@@ -340,7 +341,7 @@ $BODY$
             END IF;
         END IF;
         
-        INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, 'XP_Bereich ' || CAST(new.gid as varchar));
+        INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, COALESCE(new.name,'XP_Bereich ' || CAST(new.gid as varchar)));
 
         IF new."geltungsbereich" IS NOT NULL THEN
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
