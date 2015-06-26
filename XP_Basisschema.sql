@@ -220,7 +220,7 @@ RETURNS trigger AS
 $BODY$ 
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"(gid, "planName") VALUES(new.gid, 'XP_Plan ' || CAST(new.gid as varchar));
+        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"(gid, "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
