@@ -38,23 +38,23 @@ DECLARE
   bereich_gid_fld varchar;
   objekt_gid_fld varchar;
 BEGIN
-    IF TG_TABLE_NAME = 'gehoertNachrichtlichZuBereich' THEN
-        bereich_gid_fld := 'XP_Bereich_gid';
+    IF TG_TABLE_NAME = 'XP_Objekt_gehoertNachrichtlichZuBereich' THEN
+        bereich_gid_fld := 'gehoertNachrichtlichZuBereich';
         objekt_gid_fld := 'XP_Objekt_gid';
-    ELSIF TG_TABLE_NAME = 'gehoertZuFP_Bereich' THEN
-        bereich_gid_fld := 'FP_Bereich_gid';
+    ELSIF TG_TABLE_NAME = 'FP_Objekt_gehoertZuFP_Bereich' THEN
+        bereich_gid_fld := 'gehoertZuFP_Bereich';
         objekt_gid_fld := 'FP_Objekt_gid';
-    ELSIF TG_TABLE_NAME = 'gehoertZuBP_Bereich' THEN
-        bereich_gid_fld := 'BP_Bereich_gid';
+    ELSIF TG_TABLE_NAME = 'BP_Objekt_gehoertZuBP_Bereich' THEN
+        bereich_gid_fld := 'gehoertZuBP_Bereich';
         objekt_gid_fld := 'BP_Objekt_gid';
-    ELSIF TG_TABLE_NAME = 'gehoertZuLP_Bereich' THEN
-        bereich_gid_fld := 'LP_Bereich_gid';
+    ELSIF TG_TABLE_NAME = 'LP_Objekt_gehoertZuLP_Bereich' THEN
+        bereich_gid_fld := 'gehoertZuLP_Bereich';
         objekt_gid_fld := 'LP_Objekt_gid';
-    ELSIF TG_TABLE_NAME = 'gehoertZuRP_Bereich' THEN
-        bereich_gid_fld := 'RP_Bereich_gid';
+    ELSIF TG_TABLE_NAME = 'RP_Objekt_gehoertZuRP_Bereich' THEN
+        bereich_gid_fld := 'gehoertZuRP_Bereich';
         objekt_gid_fld := 'RP_Objekt_gid';
-    ELSIF TG_TABLE_NAME = 'gehoertZuSO_Bereich' THEN
-        bereich_gid_fld := 'SO_Bereich_gid';
+    ELSIF TG_TABLE_NAME = 'SO_Objekt_gehoertZuSO_Bereich' THEN
+        bereich_gid_fld := 'gehoertZuSO_Bereich';
         objekt_gid_fld := 'SO_Objekt_gid';
     END IF;
     

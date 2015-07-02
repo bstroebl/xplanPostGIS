@@ -605,28 +605,25 @@ CREATE TRIGGER "insert_into_SO_Bereich" BEFORE INSERT ON "SO_Basisobjekte"."SO_B
 CREATE TRIGGER "SO_Bereich_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
 -- -----------------------------------------------------
--- Table "SO_Basisobjekte"."gehoertZuSO_Bereich"
+-- Table "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich"
 -- -----------------------------------------------------
-CREATE TABLE  "SO_Basisobjekte"."gehoertZuSO_Bereich" (
+CREATE TABLE  "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" (
   "SO_Objekt_gid" BIGINT NOT NULL,
-  "SO_Bereich_gid" BIGINT NOT NULL,
-  PRIMARY KEY ("SO_Objekt_gid", "SO_Bereich_gid"),
+  "gehoertZuSO_Bereich" BIGINT NOT NULL,
+  PRIMARY KEY ("SO_Objekt_gid", "gehoertZuSO_Bereich"),
   CONSTRAINT "fk_SO_Objekt_hatSO_Bereich_SO_Objekt1"
     FOREIGN KEY ("SO_Objekt_gid")
     REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Objekt_hatSO_Bereich_SO_Bereich1"
-    FOREIGN KEY ("SO_Bereich_gid")
+    FOREIGN KEY ("gehoertZuSO_Bereich")
     REFERENCES "SO_Basisobjekte"."SO_Bereich" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_SO_Objekt_hatSO_Bereich_SO_Bereich1_idx" ON "SO_Basisobjekte"."gehoertZuSO_Bereich" ("SO_Bereich_gid");
-
-CREATE INDEX "idx_fk_SO_Objekt_hatSO_Bereich_SO_Objekt1_idx" ON "SO_Basisobjekte"."gehoertZuSO_Bereich" ("SO_Objekt_gid");
-GRANT SELECT ON TABLE "SO_Basisobjekte"."gehoertZuSO_Bereich" TO xp_gast;
-GRANT ALL ON TABLE "SO_Basisobjekte"."gehoertZuSO_Bereich" TO so_user;
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" TO so_user;
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht"
@@ -1213,7 +1210,7 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenve
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" (
   "Code" INTEGER NOT NULL,
-  "bezeichner" VARCHAR(64) NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" TO xp_gast;
 

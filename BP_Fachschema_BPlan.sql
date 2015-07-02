@@ -96,7 +96,7 @@ CREATE OR REPLACE FUNCTION "BP_Basisobjekte"."new_BP_Plan"()
 RETURNS trigger AS
 $BODY$
  BEGIN
-    INSERT INTO "BP_Basisobjekte"."planArt"("BP_Plan_gid", "BP_Planart_Wert") VALUES(NEW.gid, 1000);
+    INSERT INTO "BP_Basisobjekte"."BP_Plan_planArt"("BP_Plan_gid", "planArt") VALUES(NEW.gid, 1000);
     RETURN NEW;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
@@ -302,27 +302,27 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_PlanArt" (
 GRANT SELECT ON "BP_Basisobjekte"."BP_PlanArt" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."planArt"
+-- Table "BP_Basisobjekte"."BP_Plan_planArt"
 -- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."planArt" (
+CREATE  TABLE  "BP_Basisobjekte"."BP_Plan_planArt" (
   "BP_Plan_gid" BIGINT NOT NULL ,
-  "BP_Planart_Wert" INTEGER NOT NULL ,
-  PRIMARY KEY ("BP_Plan_gid", "BP_Planart_Wert") ,
+  "planArt" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Plan_gid", "planArt") ,
   CONSTRAINT "fk_planArt_BP_Plan"
     FOREIGN KEY ("BP_Plan_gid" )
     REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_planArt_BP_PlanArt"
-    FOREIGN KEY ("BP_Planart_Wert" )
+    FOREIGN KEY ("planArt" )
     REFERENCES "BP_Basisobjekte"."BP_PlanArt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."planArt" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."planArt" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."planArt" IS 'Typ des vorliegenden BPlans.';
-CREATE INDEX "idx_fk_planArt_BP_Plan" ON "BP_Basisobjekte"."planArt" ("BP_Plan_gid") ;
-CREATE INDEX "idx_fk_planArt_BP_PlanArt" ON "BP_Basisobjekte"."planArt" ("BP_Planart_Wert") ;
+GRANT SELECT ON "BP_Basisobjekte"."BP_Plan_planArt" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Plan_planArt" TO bp_user;
+COMMENT ON TABLE  "BP_Basisobjekte"."BP_Plan_planArt" IS 'Typ des vorliegenden BPlans.';
+CREATE INDEX "idx_fk_planArt_BP_Plan" ON "BP_Basisobjekte"."BP_Plan_planArt" ("BP_Plan_gid") ;
+CREATE INDEX "idx_fk_planArt_BP_PlanArt" ON "BP_Basisobjekte"."BP_Plan_planArt" ("planArt") ;
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Bereich"
@@ -475,14 +475,14 @@ CREATE TRIGGER "change_to_BP_Objekt" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte
 CREATE TRIGGER "delete_BP_Objekt" AFTER DELETE ON "BP_Basisobjekte"."BP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"(); 
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."gehoertZuBP_Bereich"
+-- Table "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich"
 -- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."gehoertZuBP_Bereich" (
-  "BP_Bereich_gid" BIGINT NOT NULL ,
+CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" (
+  "gehoertZuBP_Bereich" BIGINT NOT NULL ,
   "BP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("BP_Bereich_gid", "BP_Objekt_gid") ,
+  PRIMARY KEY ("gehoertZuBP_Bereich", "BP_Objekt_gid") ,
   CONSTRAINT "fk_gehoertzubp_bereich_bp_bereich1"
-    FOREIGN KEY ("BP_Bereich_gid" )
+    FOREIGN KEY ("gehoertZuBP_Bereich" )
     REFERENCES "BP_Basisobjekte"."BP_Bereich" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -491,34 +491,34 @@ CREATE  TABLE  "BP_Basisobjekte"."gehoertZuBP_Bereich" (
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."BP_Objekt" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."gehoertZuBP_Bereich" IS 'Die Relation zeigt an, dass das BPlan-Fachobjekt vom referierten Planbereich als originärer Planinhalt referiert wird.';
-CREATE INDEX "idx_fk_gehoertzubp_bereich_bp_bereich1" ON "BP_Basisobjekte"."gehoertZuBP_Bereich" ("BP_Bereich_gid") ;
-CREATE INDEX "idx_fk_gehoertZuBP_Bereich_BP_Objekt1" ON "BP_Basisobjekte"."gehoertZuBP_Bereich" ("BP_Objekt_gid") ;
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" TO bp_user;
+COMMENT ON TABLE  "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" IS 'Die Relation zeigt an, dass das BPlan-Fachobjekt vom referierten Planbereich als originärer Planinhalt referiert wird.';
+CREATE INDEX "idx_fk_gehoertzubp_bereich_bp_bereich1" ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" ("gehoertZuBP_Bereich") ;
+CREATE INDEX "idx_fk_gehoertZuBP_Bereich_BP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" ("BP_Objekt_gid") ;
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."gemeinde"
+-- Table "BP_Basisobjekte"."BP_Plan_gemeinde"
 -- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."gemeinde" (
+CREATE  TABLE  "BP_Basisobjekte"."BP_Plan_gemeinde" (
   "BP_Plan_gid" BIGINT NOT NULL ,
-  "XP_Gemeinde_id" INTEGER NOT NULL ,
-  PRIMARY KEY ("BP_Plan_gid", "XP_Gemeinde_id") ,
+  "gemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Plan_gid", "gemeinde") ,
   CONSTRAINT "fk_gemeinde_BP_Plan1"
     FOREIGN KEY ("BP_Plan_gid" )
     REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_gemeinde_XP_Gemeinde1"
-    FOREIGN KEY ("XP_Gemeinde_id" )
+    FOREIGN KEY ("gemeinde" )
     REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."gemeinde" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."gemeinde" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."gemeinde" IS 'Die für den Plan zuständige Gemeinde.';
-CREATE INDEX "idx_fk_gemeinde_BP_Plan1" ON "BP_Basisobjekte"."gemeinde" ("BP_Plan_gid") ;
-CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."gemeinde" ("XP_Gemeinde_id") ;
+GRANT SELECT ON "BP_Basisobjekte"."BP_Plan_gemeinde" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Plan_gemeinde" TO bp_user;
+COMMENT ON TABLE  "BP_Basisobjekte"."BP_Plan_gemeinde" IS 'Die für den Plan zuständige Gemeinde.';
+CREATE INDEX "idx_fk_gemeinde_BP_Plan1" ON "BP_Basisobjekte"."BP_Plan_gemeinde" ("BP_Plan_gid") ;
+CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."BP_Plan_gemeinde" ("gemeinde") ;
 
 -- -----------------------------------------------------
 -- Table "BP_Raster"."BP_RasterplanAenderung"
