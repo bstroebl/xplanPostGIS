@@ -834,6 +834,9 @@ COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Ausgleichs
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."refMassnahmenText" IS 'Referenz auf ein Dokument, das die durchzuführenden Massnahmen beschreibt.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
+CREATE INDEX "idx_fk_BP_AusgleichsFlaeche_XP_SPEZiele1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" ("ziel") ;
+CREATE INDEX "idx_fk_BP_AusgleichsFlaeche_externeReferenz1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" ("refMassnahmenText") ;
+CREATE INDEX "idx_fk_BP_AusgleichsFlaeche_externeReferenz2" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" ("refLandschaftsplan") ;
 CREATE TRIGGER "change_to_BP_AusgleichsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_AusgleichsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -896,6 +899,9 @@ COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Ausgleichs
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."ziel" IS 'Ziel der Ausgleichsmassnahme';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."refMassnahmenText" IS 'Referenz auf ein Dokument, das die durchzuführenden Maßnahmen beschreibt.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
+CREATE INDEX "idx_fk_BP_AusgleichsMassnahme_XP_SPEZiele1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" ("ziel") ;
+CREATE INDEX "idx_fk_BP_AusgleichsMassnahme_externeReferenz1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" ("refMassnahmenText") ;
+CREATE INDEX "idx_fk_BP_AusgleichsMassnahme_externeReferenz2" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" ("refLandschaftsplan") ;
 CREATE TRIGGER "change_to_BP_AusgleichsMassnahme" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsMassnahme" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -975,6 +981,388 @@ GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Ausgleichs
 CREATE TRIGGER "change_to_BP_AusgleichsMassnahmePunkt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsMassnahmePunkt" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" (
+  "gid" BIGINT NOT NULL ,
+  "typ" INTEGER,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_BereichOhneEinAusfahrtLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BereichOhneEinAusfahrtLinie_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" IS 'Bereich ohne Ein- und Ausfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie"."typ" IS 'Typ der EIn- oder Ausfahrt.';
+CREATE INDEX "idx_fk_BP_BereichOhneEinAusfahrtLinie_typ" ON "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" ("typ") ;
+CREATE TRIGGER "change_to_BP_BereichOhneEinAusfahrtLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BereichOhneEinAusfahrtLinie" AFTER DELETE ON "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "abbaugut" CHARACTER VARYING(64),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_BodenschaetzeFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Gewinnung von Bodenschätzen ';
+COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
+CREATE TRIGGER "change_to_BP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BodenschaetzeFlaeche" AFTER DELETE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_BodenschaetzeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" (
+  "gid" BIGINT NOT NULL ,
+  "denkmal" CHARACTER VARYING(64),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_DenkmalschutzEinzelanlage_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" TO bp_user;
+COMMENT ON TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" IS 'Denkmalgeschützte Einzelanlage, sofern es sich um eine Festsetzung des Bebauungsplans handelt (§9 Abs. 4 BauGB - landesrechtliche Regelung).';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage"."denkmal" IS 'Nähere Bezeichnung des Denkmals.';
+CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlage" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlage" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_DenkmalschutzEinzelanlageFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" TO bp_user;
+CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlageFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlageFlaeche" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_DenkmalschutzEinzelanlageFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_DenkmalschutzEinzelanlageLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" TO bp_user;
+CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlageLinie" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlageLinie" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_DenkmalschutzEinzelanlagePunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" TO bp_user;
+CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlagePunkt" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlagePunkt" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "denkmal" CHARACTER VARYING(64),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_DenkmalschutzEnsembleFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" IS 'Umgrenzung eines Denkmalgeschützten Ensembles, sofern es sich um eine Festsetzung des Bebauungsplans handelt (§9 Abs. 4 BauGB - landesrechtliche Regelung). Weltkulturerbe kann eigentlich nicht vorkommen.';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche"."denkmal" IS 'Nähere Bezeichnung des Denkmals.';
+CREATE TRIGGER "change_to_BP_DenkmalschutzEnsembleFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_DenkmalschutzEnsembleFlaeche" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_DenkmalschutzEnsembleFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_EinfahrtPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" (
+  "gid" BIGINT NOT NULL ,
+  "richtung" INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_EinfahrtPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" IS 'Einfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."richtung" IS 'Winkel-Richtung der Einfahrt (in Grad).';
+CREATE TRIGGER "change_to_BP_EinfahrtPunkt" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_EinfahrtPunkt" AFTER DELETE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_EinfahrtsbereichLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtsbereichLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_EinfahrtsbereichLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" IS 'Einfahrtsbereich (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtsbereichLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_EinfahrtsbereichLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_EinfahrtsbereichLinie" AFTER DELETE ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_EingriffsBereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" TO xp_gast;
+GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" TO bp_user;
+COMMENT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" IS 'Bestimmt einen Bereich, in dem ein Eingriff nach dem Naturschutzrecht zugelassen wird, der durch geeignete Flächen oder Maßnahmen ausgeglichen werden muss.';
+COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_EingriffsBereich" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_EingriffsBereich" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_EingriffsBereich" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "grund" INTEGER NOT NULL DEFAULT 1000,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_ErhaltungsBereichFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_ErhaltungsBereichFlaeche_grund"
+    FOREIGN KEY ("grund" )
+    REFERENCES "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" IS 'Bestimmt einen Bereich, in dem ein Eingriff nach dem Naturschutzrecht zugelassen wird, der durch geeignete Flächen oder Maßnahmen ausgeglichen werden muss.';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche"."grund" IS 'Erhaltungsgrund';
+CREATE INDEX "idx_fk_BP_ErhaltungsBereichFlaeche_grund" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" ("grund") ;
+CREATE TRIGGER "change_to_BP_ErhaltungsBereichFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ErhaltungsBereichFlaeche" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_ErhaltungsBereichFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "technischeMassnahme" CHARACTER VARYING(256),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_ErneuerbareEnergieFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" IS 'Festsetzung nach §9 Abs. 1 Nr. 23b: Gebiete in denen bei der Errichtung von Gebäuden bestimmte bauliche Maßnahmen für den Einsatz erneuerbarer Energien wie insbesondere Solarenergie getroffen werden müssen.';
+COMMENT ON COLUMN  "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche"."technischeMassnahme" IS 'Beschreibung der baulichen oder sonstigen technischen Maßnahme.';
+CREATE TRIGGER "change_to_BP_ErneuerbareEnergieFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ErneuerbareEnergieFlaeche" AFTER DELETE ON "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_ErneuerbareEnergieFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FestsetzungNachLandesrecht"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" (
+  "gid" BIGINT NOT NULL ,
+  "kurzbeschreibung" CHARACTER VARYING(256),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FestsetzungNachLandesrecht_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" TO bp_user;
+COMMENT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" IS 'Festsetzung nach §9 Nr. (4) BauGB ';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht"."kurzbeschreibung" IS 'Kurzbeschreibung der Festsetzung';
+CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrecht" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FestsetzungNachLandesrecht" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FestsetzungNachLandesrechtFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" TO bp_user;
+CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_FestsetzungNachLandesrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FestsetzungNachLandesrechtLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" TO bp_user;
+CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtLinie" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FestsetzungNachLandesrechtPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" TO bp_user;
+CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FreiFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_FreiFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "nutzung" CHARACTER VARYING(256),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FreiFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" IS 'Umgrenzung der Flächen, die von der Bebauung freizuhalten sind, und ihre Nutzung (§ 9 Abs. 1 Nr. 10 BauGB).';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_FreiFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_FreiFlaeche"."nutzung" IS 'Festgesetzte Nutzung der Freifläche.';
+CREATE TRIGGER "change_to_BP_FreiFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FreiFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FreiFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_FreiFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_FreiFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FreiFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
 -- *****************************************************
 -- INSERT DATA
 -- *****************************************************
@@ -1022,3 +1410,20 @@ INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'Hinweis');
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'Vermerk');
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" ("Code", "Bezeichner") VALUES ('1000', 'KeineEinfahrt');
+INSERT INTO "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" ("Code", "Bezeichner") VALUES ('2000', 'KeineAusfahrt');
+INSERT INTO "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" ("Code", "Bezeichner") VALUES ('3000', 'KeineEinAusfahrt');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund"
+-- -----------------------------------------------------
+INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code", "Bezeichner") VALUES ('1000', 'StaedtebaulicheGestalt');
+INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code", "Bezeichner") VALUES ('2000', 'Wohnbevoelkerung');
+INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code", "Bezeichner") VALUES ('3000', 'Umstrukturierung');
+
+
+
