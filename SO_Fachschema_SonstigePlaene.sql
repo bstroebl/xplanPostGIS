@@ -222,16 +222,6 @@ CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE ON "SO_Basis
 CREATE TRIGGER "delete_SO_TextAbschnitt" AFTER DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
--- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
--- -----------------------------------------------------
-CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" (
-  "Code" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Code"));
-
-GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (
@@ -249,7 +239,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietNaturschutzrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code")
+    REFERENCES "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_SchutzgebietNaturschutzrecht_detailArtDerFestlegung"
@@ -1713,23 +1703,6 @@ COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."typ" IS 'Typ der Grenze';
 COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."sonstTyp" IS '';
 CREATE TRIGGER "change_to_SO_Grenze" BEFORE INSERT OR UPDATE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_Grenze" AFTER DELETE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Data for table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
--- -----------------------------------------------------
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'Naturschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1100, 'Nationalpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1200, 'Biosphaerenreservat');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1300, 'Landschaftsschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1400, 'Naturpark');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1500, 'Naturdenkmal');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1600, 'GeschuetzterLandschaftsBestandteil');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1700, 'GesetzlichGeschuetztesBiotop');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1800, 'Natura2000');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18000, 'GebietGemeinschaftlicherBedeutung');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18001, 'EuropaeischesVogelschutzgebiet');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'NationalesNaturmonument');
-INSERT INTO "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_Rechtscharakter"

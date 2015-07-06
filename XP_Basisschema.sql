@@ -735,6 +735,16 @@ CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht"
+-- -----------------------------------------------------
+CREATE TABLE  "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" (
@@ -2713,3 +2723,19 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALU
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('5500', 'UK');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6000', 'GBH');
 
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1000, 'Naturschutzgebiet');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1100, 'Nationalpark');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1200, 'Biosphaerenreservat');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1300, 'Landschaftsschutzgebiet');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1400, 'Naturpark');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1500, 'Naturdenkmal');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1600, 'GeschuetzterLandschaftsBestandteil');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1700, 'GesetzlichGeschuetztesBiotop');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (1800, 'Natura2000');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18000, 'GebietGemeinschaftlicherBedeutung');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18001, 'EuropaeischesVogelschutzgebiet');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'NationalesNaturmonument');
+INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
