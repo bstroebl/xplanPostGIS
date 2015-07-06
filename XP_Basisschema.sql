@@ -1628,7 +1628,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_TextAbschnitt" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_TextAbschnitt" IS 'Ein Abschnitt der textlich formulierten Inhalte des Plans.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."schluessel" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."schluessel" IS 'Schlüssel zur Referenzierung des Abschnitts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."gesetzlicheGrundlage" IS 'Gesetzliche Grundlage des Text-Abschnittes';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."text" IS 'Inhalt eines Abschnitts der textlichen Planinhalte';
