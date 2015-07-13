@@ -52,40 +52,40 @@ GRANT USAGE ON SCHEMA "XP_Raster" TO xp_gast;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte".ensure_sequence(name_of_schema character varying, name_of_table character varying, pk_column character varying)
   RETURNS character varying AS
-$BODY$ 
+$BODY$
  DECLARE
     str_trigger varchar;
  BEGIN
-        str_trigger := 'CREATE FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
+        str_trigger := 'CREATE FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') ||
             '() RETURNS TRIGGER AS $ensure_sequence$' || E'\n';
         str_trigger := str_trigger || 'DECLARE' || E'\n';
         str_trigger := str_trigger || '    str_execute text;' || E'\n';
-        str_trigger := str_trigger || 'BEGIN' || E'\n'; 
+        str_trigger := str_trigger || 'BEGIN' || E'\n';
         str_trigger := str_trigger || '    IF (TG_OP = ' || quote_literal('INSERT') || ') THEN' || E'\n';
-        str_trigger := str_trigger || '        NEW.' || pk_column || ' := nextval(' || 
-        quote_literal(quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_' || 
+        str_trigger := str_trigger || '        NEW.' || pk_column || ' := nextval(' ||
+        quote_literal(quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_' ||
         pk_column || '_seq')) || ');' || E'\n';
         str_trigger := str_trigger || '    ELSIF (TG_OP = ' || quote_literal('UPDATE') || ') THEN' || E'\n';
         str_trigger := str_trigger || '        NEW.' || pk_column || ' := ' || 'OLD.' || pk_column || ';' || E'\n';
         str_trigger := str_trigger || '    END IF;' || E'\n';
         str_trigger := str_trigger || '    RETURN NEW;' || E'\n';
-        str_trigger := str_trigger || 'END; $ensure_sequence$ LANGUAGE plpgsql;' || E'\n'; 
-        
+        str_trigger := str_trigger || 'END; $ensure_sequence$ LANGUAGE plpgsql;' || E'\n';
+
         EXECUTE str_trigger;
 
-        EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' || 
+        EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' ||
         quote_ident(name_of_table || '_ensure_sequence') || '() TO grp_gast;';
-        EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') || 
+        EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') ||
         '() OWNER TO grp_admin;';
-        EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' || 
-        quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) || 
-        ' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' || 
+        EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' ||
+        quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) ||
+        ' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' ||
             quote_ident(name_of_table || '_ensure_sequence') || '();';
         RETURN 'OK'; --*/
  END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-COMMENT ON FUNCTION "XP_Basisobjekte".ensure_sequence(character varying, character varying, character varying) IS 
+COMMENT ON FUNCTION "XP_Basisobjekte".ensure_sequence(character varying, character varying, character varying) IS
 'Erzeugt Trigger, die für das PK-Feld den nächsten Wert aus der Sequenz vergeben und sicherstellen, dass der PK-Wert
 vom Nutzer nicht geändert werden kann.';
 
@@ -106,7 +106,7 @@ $BODY$
 DECLARE
     retvalue integer;
 BEGIN
-    EXECUTE 'SELECT b."gehoertZuPlan" FROM ' || 
+    EXECUTE 'SELECT b."gehoertZuPlan" FROM ' ||
         quote_ident(nspname) || '.' || quote_ident(relname) || ' b ' ||
         ' WHERE b.gid = ' || CAST(gid as varchar) || ';' INTO retvalue;
     RETURN retvalue;
@@ -123,8 +123,8 @@ $BODY$
 DECLARE
     retvalue character varying;
 BEGIN
-    EXECUTE 'SELECT CAST(' || quote_ident(art) || ' as varchar) FROM ' || 
-        quote_ident(nspname) || '.' || quote_ident(relname) || 
+    EXECUTE 'SELECT CAST(' || quote_ident(art) || ' as varchar) FROM ' ||
+        quote_ident(nspname) || '.' || quote_ident(relname) ||
         ' WHERE gid = ' || CAST(gid as varchar) || ';' INTO retvalue;
     RETURN retvalue;
 END;
@@ -202,9 +202,9 @@ GRANT ALL ON TABLE "XP_Sonstiges"."XP_SPEMassnahmenDaten_id_seq" TO GROUP xp_use
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isAbstract"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isAbstract"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         RAISE EXCEPTION 'Einfügen in abstrakte Klasse ist nicht zulässig';
@@ -215,9 +215,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isAbstract"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"(gid, "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
@@ -227,17 +227,17 @@ $BODY$
         UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE gid = old.gid;
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-		DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE gid = old.gid;
-		RETURN old;
+        DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE gid = old.gid;
+        RETURN old;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -247,17 +247,17 @@ $BODY$
                 new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
             END IF;
         END IF;
-        
+
         IF new.name IS NULL THEN
             new.name := 'XP_Plan ' || CAST(new.gid as varchar);
         END IF;
 
         INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, new.name);
-        
+
         IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
             new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -265,7 +265,7 @@ $BODY$
         IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
             new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Plan" WHERE gid = old.gid;
@@ -276,9 +276,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF new.name != old.name THEN
         IF TG_TABLE_NAME LIKE '%Plan' THEN
@@ -293,32 +293,32 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_child"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_child"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
 DECLARE
     rec record;
  BEGIN
     IF new.name != old.name THEN
         IF TG_TABLE_NAME = 'XP_Plan' THEN
-            FOR rec IN 
-                SELECT nspname, relname 
-                FROM pg_class c 
+            FOR rec IN
+                SELECT nspname, relname
+                FROM pg_class c
                     JOIN pg_namespace n ON c.relnamespace = n.oid
                 WHERE relname IN ('FP_Plan', 'BP_Plan', 'LP_Plan', 'RP_Plan', 'SO_Plan')
             LOOP
-                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) || 
-                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';'; 
+                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
+                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
             END LOOP;
         ELSIF TG_TABLE_NAME = 'XP_Bereich' THEN
-            FOR rec IN 
-                SELECT nspname, relname 
-                FROM pg_class c 
+            FOR rec IN
+                SELECT nspname, relname
+                FROM pg_class c
                     JOIN pg_namespace n ON c.relnamespace = n.oid
                 WHERE relname IN ('FP_Bereich', 'BP_Bereich', 'LP_Bereich', 'RP_Bereich', 'SO_Bereich')
             LOOP
-                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) || 
-                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';'; 
+                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
+                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
             END LOOP;
         END IF;
     END IF;
@@ -328,9 +328,9 @@ DECLARE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."propagate_name_to_child"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -340,13 +340,13 @@ $BODY$
                 new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
             END IF;
         END IF;
-        
+
         INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, COALESCE(new.name,'XP_Bereich ' || CAST(new.gid as varchar)));
 
         IF new."geltungsbereich" IS NOT NULL THEN
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in id allowed
@@ -354,7 +354,7 @@ $BODY$
         IF new."geltungsbereich" IS NOT NULL THEN
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Bereich" WHERE gid = old.gid;
@@ -365,15 +365,15 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
         END IF;
-        
+
         new.uuid := "XP_Basisobjekte"."create_uuid"();
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
@@ -386,9 +386,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  DECLARE
     parent_nspname varchar;
     parent_relname varchar;
@@ -396,23 +396,23 @@ $BODY$
  BEGIN
     parent_nspname := NULL;
     -- die Elterntabelle rauskriegen und in Variablen speichern
-    For rec IN 
-        SELECT 
-           ns.nspname, c.relname 
-        FROM pg_attribute att 
-            JOIN (SELECT * FROM pg_constraint WHERE contype = 'f') fcon ON att.attrelid = fcon.conrelid AND att.attnum = ANY (fcon.conkey) 
-            JOIN (SELECT * FROM pg_constraint WHERE contype = 'p') pcon ON att.attrelid = pcon.conrelid AND att.attnum = ANY (pcon.conkey) 
-            JOIN pg_class c ON fcon.confrelid = c.oid 
-            JOIN pg_namespace ns ON c.relnamespace = ns.oid 
-        WHERE att.attnum > 0 
-            AND att.attisdropped = false 
-            AND att.attrelid = TG_RELID 
-            AND array_length(pcon.conkey, 1) = 1 
+    For rec IN
+        SELECT
+           ns.nspname, c.relname
+        FROM pg_attribute att
+            JOIN (SELECT * FROM pg_constraint WHERE contype = 'f') fcon ON att.attrelid = fcon.conrelid AND att.attnum = ANY (fcon.conkey)
+            JOIN (SELECT * FROM pg_constraint WHERE contype = 'p') pcon ON att.attrelid = pcon.conrelid AND att.attnum = ANY (pcon.conkey)
+            JOIN pg_class c ON fcon.confrelid = c.oid
+            JOIN pg_namespace ns ON c.relnamespace = ns.oid
+        WHERE att.attnum > 0
+            AND att.attisdropped = false
+            AND att.attrelid = TG_RELID
+            AND array_length(pcon.conkey, 1) = 1
     LOOP
         parent_nspname := rec.nspname;
         parent_relname := rec.relname;
     END LOOP;
-    
+
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
             new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
@@ -421,10 +421,10 @@ $BODY$
                 new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
             END IF;
         END IF;
-        
+
         IF parent_nspname IS NOT NULL THEN
             -- Elternobjekt anlegen
-            EXECUTE 'INSERT INTO ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) || 
+            EXECUTE 'INSERT INTO ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
                 '(gid) VALUES(' || CAST(new.gid as varchar) || ');';
         END IF;
         RETURN new;
@@ -434,7 +434,7 @@ $BODY$
     ELSIF (TG_OP = 'DELETE') THEN
         IF parent_nspname IS NOT NULL THEN
             -- Elternobjekt löschen
-            EXECUTE 'DELETE FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) || 
+            EXECUTE 'DELETE FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
             ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
         END IF;
         RETURN old;
@@ -444,9 +444,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"() 
+CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -456,7 +456,7 @@ $BODY$
                 new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
             END IF;
         END IF;
-        
+
         INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
@@ -471,9 +471,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() 
+CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -483,7 +483,7 @@ $BODY$
                 new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
             END IF;
         END IF;
-        
+
         INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
@@ -498,9 +498,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -510,7 +510,7 @@ $BODY$
                 new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
             END IF;
         END IF;
-        
+
         INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
@@ -525,9 +525,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() 
+CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -537,13 +537,13 @@ $BODY$
                 new.gid := nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"');
             END IF;
         END IF;
-        
+
         INSERT INTO "XP_Raster"."XP_RasterplanAenderung" (gid) VALUES (new.gid);
 
         IF new."geltungsbereichAenderung" IS NOT NULL THEN
             new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -551,10 +551,10 @@ $BODY$
         IF new."geltungsbereichAenderung" IS NOT NULL THEN
             new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "XP_Raster"."XP_RasterplanAenderung" WHERE gid = old.gid;   
+        DELETE FROM "XP_Raster"."XP_RasterplanAenderung" WHERE gid = old.gid;
         RETURN old;
     END IF;
  END; $BODY$
@@ -562,31 +562,31 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'INSERT' or TG_OP = 'UPDATE') THEN
         IF new."position" IS NOT NULL THEN
             new."position" := ST_ForceRHR(new."position");
         END IF;
     END IF;
-    
+
     IF (TG_OP = 'INSERT') THEN
         IF new."flaechenschluss" IS NULL THEN
             new."flaechenschluss" := false;
-        END IF;   
+        END IF;
     END IF;
-    
+
     RETURN new;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
@@ -594,7 +594,7 @@ $BODY$
         IF new."position" IS NOT NULL THEN
             new."position" := ST_ForceRHR(new."position");
         END IF;
-        
+
         new.flaechenschluss := true;
         RETURN new;
     END IF;
@@ -603,9 +603,9 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
@@ -613,7 +613,7 @@ $BODY$
         IF new."position" IS NOT NULL THEN
             new."position" := ST_ForceRHR(new."position");
         END IF;
-        
+
         new.flaechenschluss := false;
         RETURN new;
     END IF;
@@ -622,22 +622,22 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."positionFollowsRHR"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     IF new."position" IS NOT NULL THEN
         new."position" := ST_ForceRHR(new."position");
     END IF;
-    
+
     RETURN new;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() 
-RETURNS trigger AS 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"()
+RETURNS trigger AS
 $BODY$
  BEGIN
     If (TG_OP = 'INSERT') THEN
@@ -659,7 +659,7 @@ $BODY$
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() TO xp_user;
 
 -- *****************************************************
--- CREATE TABLEs 
+-- CREATE TABLEs
 -- *****************************************************
 
 -- -----------------------------------------------------
@@ -1084,8 +1084,8 @@ COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheiten" IS 'Bes
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz1" ON "XP_Raster"."XP_RasterplanAenderung" ("refBeschreibung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz2" ON "XP_Raster"."XP_RasterplanAenderung" ("refBegruendung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz3" ON "XP_Raster"."XP_RasterplanAenderung" ("refText") ;
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_gast; 
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_user; 
+GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Raster"."XP_RasterplanAenderung_refScan"
@@ -1172,11 +1172,11 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei 
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."xPlanGMLVersion" IS 'Version des XPlanGML-Schemas, nach dem der Datensatz erstellt wurde.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugshöhe (absolut NhN) für relative Höhenangaben von Planinhalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
-    
+
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
 CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
 CREATE TRIGGER "XP_Plan_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_gast; 
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan" TO xp_user;
 
 -- -----------------------------------------------------
@@ -1211,7 +1211,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."erstellungsMassstab" IS 'Der b
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."rasterBasis" IS 'Ein Plan kann optional eine georeferenzierte Rasterkarte referieren.';
 CREATE INDEX "idx_fk_XP_Bereich_XP_BedeutungenBereich1" ON "XP_Basisobjekte"."XP_Bereich" ("bedeutung") ;
 CREATE INDEX "idx_fk_XP_Bereich_XP_RasterplanBasis1" ON "XP_Basisobjekte"."XP_Bereich" ("rasterBasis") ;
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast; 
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
 
@@ -1259,8 +1259,8 @@ Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
 CREATE INDEX "idx_fk_XP_Objekt_xp_gesetzlichegrundlage1" ON "XP_Basisobjekte"."XP_Objekt" ("gesetzlicheGrundlage") ;
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_gast; 
-GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_user; 
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung"
@@ -1762,7 +1762,7 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"
 CREATE INDEX "idx_fk_xp_abstraktespraesentationsobjekt_XP_Bereich1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_AbstraktesPraesentationsobjekt_xp_stylesheetliste1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("stylesheetId") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_gast;
-GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_user; 
+GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
@@ -1867,7 +1867,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" (
   "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-  
+
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1877,7 +1877,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" (
   "Code" VARCHAR(64) NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-  
+
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1930,7 +1930,7 @@ CREATE INDEX "idx_fk_XP_TPO_XP_HorizontaleAusrichtung1" ON "XP_Praesentationsobj
 CREATE INDEX "idx_fk_XP_TPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_TPO" ("hat") ;
 CREATE TRIGGER "change_to_XP_TPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_TPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 CREATE TRIGGER "delete_XP_TPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_TPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
-GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_gast; 
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_TPO" TO xp_user;
 
 -- -----------------------------------------------------
@@ -2057,6 +2057,16 @@ CREATE  TABLE  "XP_Enumerationen"."XP_SPEZiele" (
   PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_SPEZiele" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ABEMassnahmenTypen"
@@ -2193,7 +2203,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
 SELECT g.gid, g."raeumlicherGeltungsbereich", name, nummer, "internalId", beschreibung,  kommentar,
   "technHerstellDatum",  "untergangsDatum",  "erstellungsMassstab" ,
-  "xPlanGMLVersion",  bezugshoehe , CAST(c.relname as varchar) as "Objektart" 
+  "xPlanGMLVersion",  bezugshoehe , CAST(c.relname as varchar) as "Objektart"
 FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;
@@ -2227,12 +2237,12 @@ CREATE OR REPLACE RULE _update AS
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
   WHERE gid = old.gid;
-  
+
 -- -----------------------------------------------------
 -- View "XP_Raster"."XP_RasterplanAenderungen"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Raster"."XP_RasterplanAenderungen" AS
-SELECT g.*, p."nameAenderung", CAST(c.relname as varchar) as "Objektart" 
+SELECT g.*, p."nameAenderung", CAST(c.relname as varchar) as "Objektart"
 FROM  "XP_Raster"."XP_GeltungsbereichAenderung" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Raster"."XP_RasterplanAenderung" p ON g.gid = p.gid;
@@ -2388,6 +2398,13 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Be
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('2000', 'Spielanlage');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('3000', 'SpielSportanlage');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" ("Code", "Bezeichner") VALUES ('1000', 'Keine');
+INSERT INTO "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" ("Code", "Bezeichner") VALUES ('2000', 'ErsteVerlaengerung');
+INSERT INTO "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" ("Code", "Bezeichner") VALUES ('3000', 'ZweiteVerlaengerung');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGruen"
