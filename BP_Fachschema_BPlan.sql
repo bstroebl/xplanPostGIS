@@ -103,6 +103,184 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "BP_Basisobjekte"."new_BP_Plan"() TO bp_user;
 
+CREATE OR REPLACE FUNCTION "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF NEW."GFZmin" IS NOT NULL AND NEW."GFZmax" IS NULL THEN
+        IF NEW."GFZ" IS NOT NULL THEN
+            NEW."GFZmax" := NEW."GFZ";
+        ELSE
+            NEW."GFZmax" := NEW."GFZmin";
+        END IF;
+    ELSIF NEW."GFZmin" IS NULL AND NEW."GFZmax" IS NOT NULL THEN
+        NEW."GFZmin" := NEW."GFZmax";
+    ELSE
+        IF NEW."GFZmin" > NEW."GFZmax" THEN
+            NEW."GFZmin" := NEW."GFZmax";
+        END IF;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GFmax" IS NULL THEN
+        IF NEW."GF" IS NOT NULL THEN
+            NEW."GFmax" := NEW."GF";
+        ELSE
+            NEW."GFmax" := NEW."GFmin";
+        END IF;
+    ELSIF NEW."GFmin" IS NULL AND NEW."GFmax" IS NOT NULL THEN
+        NEW."GFmin" := NEW."GFmax";
+    ELSE
+        IF NEW."GFmin" > NEW."GFmax" THEN
+            NEW."GFmin" := NEW."GFmax";
+        END IF;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."BMZmin" IS NOT NULL AND NEW."BMZmax" IS NULL THEN
+        IF NEW."BMZ" IS NOT NULL THEN
+            NEW."BMZmax" := NEW."BMZ";
+        ELSE
+            NEW."BMZmax" := NEW."BMZmin";
+        END IF;
+    ELSIF NEW."BMZmin" IS NULL AND NEW."BMZmax" IS NOT NULL THEN
+        NEW."BMZmin" := NEW."BMZmax";
+    ELSE
+        IF NEW."BMZmin" > NEW."BMZmax" THEN
+            NEW."BMZmin" := NEW."BMZmax";
+        END IF;
+    END IF;
+
+    IF NEW."BMZmin" IS NOT NULL AND NEW."BMZ" IS NOT NULL THEN
+        NEW."BMZ" := NULL;
+    END IF;
+
+    IF NEW."BMmin" IS NOT NULL AND NEW."BM" IS NOT NULL THEN
+        NEW."BM" := NULL;
+    END IF;
+
+    IF NEW."BMmin" IS NOT NULL AND NEW."BMmax" IS NULL THEN
+        IF NEW."BM" IS NOT NULL THEN
+            NEW."BMmax" := NEW."BM";
+        ELSE
+            NEW."BMmax" := NEW."BMmin";
+        END IF;
+    ELSIF NEW."BMmin" IS NULL AND NEW."BMmax" IS NOT NULL THEN
+        NEW."BMmin" := NEW."BMmax";
+    ELSE
+        IF NEW."BMmin" > NEW."BMmax" THEN
+            NEW."BMmin" := NEW."BMmax";
+        END IF;
+    END IF;
+
+    IF NEW."BMmin" IS NOT NULL AND NEW."BM" IS NOT NULL THEN
+        NEW."BM" := NULL;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZ" IS NOT NULL THEN
+        NEW."GRZ" := NULL;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZmax" IS NULL THEN
+        IF NEW."GRZ" IS NOT NULL THEN
+            NEW."GRZmax" := NEW."GRZ";
+        ELSE
+            NEW."GRZmax" := NEW."GRZmin";
+        END IF;
+    ELSIF NEW."GRZmin" IS NULL AND NEW."GRZmax" IS NOT NULL THEN
+        NEW."GRZmin" := NEW."GRZmax";
+    ELSE
+        IF NEW."GRZmin" > NEW."GRZmax" THEN
+            NEW."GRZmin" := NEW."GRZmax";
+        END IF;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZ" IS NOT NULL THEN
+        NEW."GRZ" := NULL;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GR" IS NOT NULL THEN
+        NEW."GR" := NULL;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GRmax" IS NULL THEN
+        IF NEW."GR" IS NOT NULL THEN
+            NEW."GRmax" := NEW."GR";
+        ELSE
+            NEW."GRmax" := NEW."GRmin";
+        END IF;
+    ELSIF NEW."GRmin" IS NULL AND NEW."GRmax" IS NOT NULL THEN
+        NEW."GRmin" := NEW."GRmax";
+    ELSE
+        IF NEW."GRmin" > NEW."GRmax" THEN
+            NEW."GRmin" := NEW."GRmax";
+        END IF;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GR" IS NOT NULL THEN
+        NEW."GR" := NULL;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Z" IS NOT NULL THEN
+        NEW."Z" := NULL;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Zmax" IS NULL THEN
+        IF NEW."Z" IS NOT NULL THEN
+            NEW."Zmax" := NEW."Z";
+        ELSE
+            NEW."Zmax" := NEW."Zmin";
+        END IF;
+    ELSIF NEW."Zmin" IS NULL AND NEW."Zmax" IS NOT NULL THEN
+        NEW."Zmin" := NEW."Zmax";
+    ELSE
+        IF NEW."Zmin" > NEW."Zmax" THEN
+            NEW."Zmin" := NEW."Zmax";
+        END IF;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Z" IS NOT NULL THEN
+        NEW."Z" := NULL;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZU" IS NOT NULL THEN
+        NEW."ZU" := NULL;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZUmax" IS NULL THEN
+        IF NEW."ZU" IS NOT NULL THEN
+            NEW."ZUmax" := NEW."ZU";
+        ELSE
+            NEW."ZUmax" := NEW."ZUmin";
+        END IF;
+    ELSIF NEW."ZUmin" IS NULL AND NEW."ZUmax" IS NOT NULL THEN
+        NEW."ZUmin" := NEW."ZUmax";
+    ELSE
+        IF NEW."ZUmin" > NEW."ZUmax" THEN
+            NEW."ZUmin" := NEW."ZUmax";
+        END IF;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZU" IS NOT NULL THEN
+        NEW."ZU" := NULL;
+    END IF;
+
+    RETURN NEW;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"() TO bp_user;
+
 -- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************
@@ -479,7 +657,7 @@ CREATE TRIGGER "delete_BP_Objekt" AFTER DELETE ON "BP_Basisobjekte"."BP_Objekt" 
 CREATE  TABLE  "BP_Basisobjekte"."BP_TextAbschnitt" (
   "id" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NULL ,
-  PRIMARY KEY ("gid") ,
+  PRIMARY KEY ("id") ,
   CONSTRAINT "fk_BP_TextAbschnitt_rechtscharakter"
     FOREIGN KEY ("rechtscharakter" )
     REFERENCES "BP_Basisobjekte"."BP_Rechtscharakter" ("Code" )
@@ -496,7 +674,7 @@ GRANT ALL ON "BP_Basisobjekte"."BP_TextAbschnitt" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Bebauungsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut rechtscharakter des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
-CREATE INDEX "idx_fk_bp_objekt_bp_rechtscharakter1" ON "BP_Basisobjekte"."BP_TextAbschnitt" ("rechtscharakter") ;
+CREATE INDEX "idx_fk_BP_TextAbschnitt_rechtscharakter" ON "BP_Basisobjekte"."BP_TextAbschnitt" ("rechtscharakter") ;
 CREATE TRIGGER "change_to_BP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 CREATE TRIGGER "delete_BP_TextAbschnitt" AFTER DELETE ON "BP_Basisobjekte"."BP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
@@ -721,7 +899,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBin
   "gegenstand" INTEGER,
   "kronendurchmesser" NUMERIC(6,2) NOT NULL,
   "pflanztiefe" NUMERIC(6,2) NOT NULL,
-  "istAusgleich" BOOLEAN
+  "istAusgleich" BOOLEAN,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_AnpflanzungBindungErhaltung_parent"
     FOREIGN KEY ("gid" )
@@ -733,7 +911,7 @@ GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Anpflan
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" TO bp_user;
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" IS 'Für einzelne Flächen oder für ein Bebauungsplangebiet oder Teile davon sowie für Teile baulicher Anlagen mit Ausnahme der für landwirtschaftliche Nutzungen oder Wald festgesetzten Flächen:\n
 a) Festsetzung des Anpflanzens von Bäumen, Sträuchern und sonstigen Bepflanzungen;\n
-b) Festsetzung von Bindungen für Bepflanzungen und für die Erhaltung von Bäumen, Sträuchern und sonstigen Bepflanzungen sowie von Gewässern; (§9 Abs. 1 Nr. 25 und Abs. 4 BauGB) ';
+b) Festsetzung von Bindungen für Bepflanzungen und für die Erhaltung von Bäumen, Sträuchern und sonstigen Bepflanzungen sowie von Gewässern; (§9 Abs. 1 Nr. 25 und Abs. 4 BauGB)';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."massnahme" IS 'Art der Maßnahme';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."gegenstand" IS 'Gegenstände der Maßnahme';
@@ -869,7 +1047,7 @@ CREATE TRIGGER "BP_AusgleichsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON 
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche_massnahme" (
   "BP_AusgleichsFlaeche_gid" BIGINT NOT NULL ,
-  "massnahme" INTEGER NULL ,
+  "massnahme" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_AusgleichsFlaeche_gid", "massnahme"),
   CONSTRAINT "fk_BP_AusgleichsFlaeche_massnahme1"
     FOREIGN KEY ("BP_AusgleichsFlaeche_gid" )
@@ -933,7 +1111,7 @@ CREATE TRIGGER "delete_BP_AusgleichsMassnahme" AFTER DELETE ON "BP_Naturschutz_L
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme_massnahme" (
   "BP_AusgleichsMassnahme_gid" BIGINT NOT NULL ,
-  "massnahme" INTEGER NULL ,
+  "massnahme" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_AusgleichsMassnahme_gid", "massnahme"),
   CONSTRAINT "fk_BP_AusgleichsMassnahme_massnahme1"
     FOREIGN KEY ("BP_AusgleichsMassnahme_gid" )
@@ -1057,7 +1235,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO bp_user;
-COMMENT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Gewinnung von Bodenschätzen ';
+COMMENT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Gewinnung von Bodenschätzen';
 COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_BP_BodenschaetzeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1302,7 +1480,7 @@ CREATE  TABLE  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" (
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" TO bp_user;
-COMMENT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" IS 'Festsetzung nach §9 Nr. (4) BauGB ';
+COMMENT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" IS 'Festsetzung nach §9 Nr. (4) BauGB';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_FestsetzungNachLandesrecht"."kurzbeschreibung" IS 'Kurzbeschreibung der Festsetzung';
 CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrecht" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1410,7 +1588,7 @@ CREATE  TABLE  "BP_Sonstiges"."BP_GenerischesObjekt" (
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_GenerischesObjekt" TO bp_user;
-COMMENT ON TABLE "BP_Sonstiges"."BP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des BPlans, die keine nachrichtliche Übernahmen aus anderen Rechtsbereichen sind, aber durch keine andere Klasse des BPlan-Fachschemas dargestellt werden können. ';
+COMMENT ON TABLE "BP_Sonstiges"."BP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des BPlans, die keine nachrichtliche Übernahmen aus anderen Rechtsbereichen sind, aber durch keine andere Klasse des BPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GenerischesObjekt" AFTER DELETE ON "BP_Sonstiges"."BP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1420,7 +1598,7 @@ CREATE TRIGGER "delete_BP_GenerischesObjekt" AFTER DELETE ON "BP_Sonstiges"."BP_
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_GenerischesObjekt_zweckbestimmung" (
   "BP_GenerischesObjekt_gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
+  "zweckbestimmung" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_GenerischesObjekt_gid", "zweckbestimmung"),
   CONSTRAINT "fk_BP_GenerischesObjekt_zweckbestimmung1"
     FOREIGN KEY ("BP_GenerischesObjekt_gid" )
@@ -1529,10 +1707,10 @@ CREATE INDEX "idx_fk_BP_GewaesserFlaeche_XP_ZweckbestimmungGewaesser" ON "BP_Was
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_BP_DetailZweckbestGewaesser1" ON "BP_Wasser"."BP_GewaesserFlaeche" ("detaillierteZweckbestimmung") ;
 GRANT SELECT ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" TO bp_user;
-COMMENT ON TABLE  "BP_Wasser"."BP_GewaesserFlaeche" IS 'Wasserfläche (§9 Abs. 1 Nr. 16 und Abs. 6 BauGB). ';
+COMMENT ON TABLE  "BP_Wasser"."BP_GewaesserFlaeche" IS 'Wasserfläche (§9 Abs. 1 Nr. 16 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Wasserfläche.';
-COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche. ';
+COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';
 CREATE TRIGGER "change_to_BP_GewaesserFlaeche" BEFORE INSERT OR UPDATE ON "BP_Wasser"."BP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GewaesserFlaeche" AFTER DELETE ON "BP_Wasser"."BP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_BP_GewaesserFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Wasser"."BP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
@@ -1713,7 +1891,7 @@ CREATE TRIGGER "BP_KennzeichnungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_KennzeichnungsFlaeche_zweckbestimmung" (
   "BP_KennzeichnungsFlaeche_gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
+  "zweckbestimmung" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_KennzeichnungsFlaeche_gid", "zweckbestimmung"),
   CONSTRAINT "fk_BP_KennzeichnungsFlaeche_zweckbestimmung1"
     FOREIGN KEY ("BP_KennzeichnungsFlaeche_gid" )
@@ -1782,7 +1960,7 @@ GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestLand
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_zweckbestimmung" (
   "BP_Landwirtschaft_gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
+  "zweckbestimmung" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_Landwirtschaft_gid", "zweckbestimmung"),
   CONSTRAINT "fk_BP_Landwirtschaft_zweckbestimmung1"
     FOREIGN KEY ("BP_Landwirtschaft_gid" )
@@ -1803,7 +1981,7 @@ COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_zweckbes
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_detaillierteZweckbestimmung" (
   "BP_Landwirtschaft_gid" BIGINT NOT NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_Landwirtschaft_gid", "detaillierteZweckbestimmung"),
   CONSTRAINT "fk_BP_Landwirtschaft_detaillierteZweckbestimmung1"
     FOREIGN KEY ("BP_Landwirtschaft_gid" )
@@ -1962,7 +2140,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" TO bp_user;
-COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" IS 'Rekultivierungs-Fläche ';
+COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" IS 'Rekultivierungs-Fläche';
 COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_RekultivierungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_RekultivierungsFlaeche" AFTER DELETE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2114,7 +2292,7 @@ CREATE TRIGGER "BP_SchutzPflegeEntwicklungsFlaeche_Flaechenobjekt" BEFORE INSERT
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche_massnahme" (
   "BP_SchutzPflegeEntwicklungsFlaeche_gid" BIGINT NOT NULL ,
-  "massnahme" INTEGER NULL ,
+  "massnahme" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_SchutzPflegeEntwicklungsFlaeche_gid", "massnahme"),
   CONSTRAINT "fk_BP_SchutzPflegeEntwicklungsFlaeche_massnahme1"
     FOREIGN KEY ("BP_SchutzPflegeEntwicklungsFlaeche_gid" )
@@ -2180,7 +2358,7 @@ CREATE TRIGGER "delete_BP_SchutzPflegeEntwicklungsMassnahme" AFTER DELETE ON "BP
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme_massnahme" (
   "BP_SchutzPflegeEntwicklungsMassnahme_gid" BIGINT NOT NULL ,
-  "massnahme" INTEGER NULL ,
+  "massnahme" INTEGER NOT NULL ,
   PRIMARY KEY ("BP_SchutzPflegeEntwicklungsMassnahme_gid", "massnahme"),
   CONSTRAINT "fk_BP_SchutzPflegeEntwicklungsMassnahme_massnahme1"
     FOREIGN KEY ("BP_SchutzPflegeEntwicklungsMassnahme_gid" )
@@ -2293,8 +2471,8 @@ CREATE  TABLE  "BP_Verkehr"."BP_Strassenkoerper" (
   "typ" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_Strassenkoerper_typ"
-    FOREIGN KEY ("ziel" )
-    REFERENCES "XP_Enumerationen"."XP_SPEZiele" ("Code" )
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Strassenkoerper_parent"
@@ -2469,6 +2647,1983 @@ COMMENT ON COLUMN "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt"."gid" IS 'Pr
 CREATE TRIGGER "change_to_BP_UnverbindlicheVormerkungPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_UnverbindlicheVormerkungPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_Veraenderungssperre"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_Veraenderungssperre" (
+  "gid" BIGINT NOT NULL ,
+  "gueltigkeitsDatum" DATE NOT NULL default current_date,
+  "verlaengerung" INTEGER NOT NULL default 1000,
+  "refBeschluss" INTEGER,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_Veraenderungssperre_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Veraenderungssperre_XP_ExterneReferenz1"
+    FOREIGN KEY ("refBeschluss" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Veraenderungssperre_verlaengerung"
+    FOREIGN KEY ("verlaengerung" )
+    REFERENCES "XP_Enumerationen"."XP_VerlaengerungVeraenderungssperre" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" TO bp_user;
+CREATE INDEX "idx_fk_BP_Veraenderungssperre1" ON "BP_Sonstiges"."BP_Veraenderungssperre" ("refBeschluss") ;
+COMMENT ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" IS 'Ausweisung einer Veränderungssperre, die nicht den gesamten Geltungsbereich des Plans umfasst. Bei Verwendung dieser Klasse muss das Attribut "veraenderungssperre" des zugehörigen Plans (Klasse BP_Plan) auf "false" gesetzt werden.';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Veraenderungssperre"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Veraenderungssperre"."gueltigkeitsDatum" IS 'Datum bis zu dem die Veränderungssperre bestehen bleibt.';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Veraenderungssperre"."verlaengerung" IS 'Gibt an, ob die Veränderungssperre bereits ein- oder zweimal verlängert wurde.';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Veraenderungssperre"."refBeschluss" IS 'Referenz auf das Dokument mit dem zug. Beschluss.';
+CREATE TRIGGER "change_to_BP_Veraenderungssperre" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Veraenderungssperre" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_Veraenderungssperre" AFTER DELETE ON "BP_Sonstiges"."BP_Veraenderungssperre" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_Veraenderungssperre" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Veraenderungssperre" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_WaldFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" IS 'Festsetzung von Waldflächen (§9, Abs. 1, Nr. 18b BauGB).';
+COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_WaldFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_WaldFlaeche" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_zweckbestimmung" (
+  "BP_WaldFlaeche_gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_WaldFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_WaldFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("BP_WaldFlaeche_gid" )
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_WaldFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Waldfläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung" (
+  "BP_WaldFlaeche_gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_WaldFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_WaldFlaeche_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_WaldFlaeche_gid" )
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_WaldFlaeche_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung.';
+
+-- -----------------------------------------------------
+-- Table "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Wasser"."BP_WasserwirtschaftsFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Wasser"."BP_WasserwirtschaftsFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER,
+  "detaillierteZweckbestimmung" INTEGER,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_WasserwirtschaftsFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_WasserwirtschaftsFlaeche_zweckbestimmung"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_WasserwirtschaftsFlaeche_detaillierteZweckbestimmung"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" TO bp_user;
+CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche1" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("zweckbestimmung") ;
+CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche2" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
+COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft, den Hochwasserschutz und die Regelungen des Wasserabflusses (§9 Abs. 1 Nr. 16 und Abs. 6a BauGB).';
+COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Fläche.';
+COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';
+CREATE TRIGGER "change_to_BP_WasserwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_WasserwirtschaftsFlaeche" AFTER DELETE ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_WasserwirtschaftsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_WegerechtTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_WegerechtTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_Wegerecht"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_Wegerecht" (
+  "gid" BIGINT NOT NULL ,
+  "typ" INTEGER,
+  "zugunstenVon" CHARACTER VARYING(64),
+  "thema" CHARACTER VARYING(256) ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_Wegerecht_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Wegerecht_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Sonstiges"."BP_WegerechtTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO bp_user;
+CREATE INDEX "idx_fk_BP_Wegerecht_typ" ON "BP_Sonstiges"."BP_Wegerecht" ("typ") ;
+COMMENT ON TABLE  "BP_Sonstiges"."BP_Wegerecht" IS 'Unverbindliche Vormerkung späterer Planungsabsichten.';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."typ" IS 'Typ des Wegerechts';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."zugunstenVon" IS 'Inhaber der Rechte.';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."thema" IS 'Beschreibung des Rechtes.';
+CREATE TRIGGER "change_to_BP_Wegerecht" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Wegerecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_Wegerecht" AFTER DELETE ON "BP_Sonstiges"."BP_Wegerecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_WegerechtFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_WegerechtFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_WegerechtFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_Wegerecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtFlaeche" TO bp_user;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_WegerechtFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_WegerechtFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_WegerechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_WegerechtLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_WegerechtLinie" (
+  "gid" BIGINT NOT NULL ,
+  "breite" NUMERIC (10,2),
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_WegerechtLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_Wegerecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtLinie" TO bp_user;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Sonstiges"."BP_WegerechtLinie"."breite" IS 'Breite des Wegerechts bei linienförmiger Ausweisung der Geometrie.';
+CREATE TRIGGER "change_to_BP_WegerechtLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_WegerechtLinie" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_WegerechtPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_WegerechtPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_WegerechtPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Sonstiges"."BP_Wegerecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtPunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtPunkt" TO bp_user;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_WegerechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_WegerechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Bauweise"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Bauweise" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_Bauweise" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BebauungsArt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BebauungsArt" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_BebauungsArt" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GrenzBebauung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GrenzBebauung" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_GrenzBebauung" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Dachform"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Dachform" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_Dachform" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_DetailDachform"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_DetailDachform" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_DetailDachform" TO xp_gast;
+
+-- ----------------------------------------------------
+-- Table "BP_Bebauung"."BP_DetailArtDerBaulNutzung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_DetailArtDerBaulNutzung" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_DetailArtDerBaulNutzung" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_AbweichendeBauweise"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_AbweichendeBauweise" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_AbweichendeBauweise" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_FestsetzungenBaugebiet"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_FestsetzungenBaugebiet" (
+  "gid" BIGINT NOT NULL,
+  "MaxZahlWohnungen" INTEGER,
+  "Fmin" NUMERIC (10,2),
+  "Fmax" NUMERIC (10,2),
+  "Bmin" NUMERIC (10,2),
+  "Bmax" NUMERIC (10,2),
+  "Tmin" NUMERIC (10,2),
+  "Tmax" NUMERIC (10,2),
+  "GFZmin" NUMERIC (10,2),
+  "GFZmax" NUMERIC (10,2),
+  "GFZ" NUMERIC (10,2),
+  "GFZ_Ausn" NUMERIC (10,2),
+  "GFmin" NUMERIC (10,2),
+  "GFmax" NUMERIC (10,2),
+  "GF" NUMERIC (10,2),
+  "GF_Ausn" NUMERIC (10,2),
+  "BMZmin" NUMERIC (10,2),
+  "BMZmax" NUMERIC (10,2),
+  "BMZ" NUMERIC (10,2),
+  "BMZ_Ausn" NUMERIC (10,2),
+  "BMmin" NUMERIC (10,2),
+  "BMmax" NUMERIC (10,2),
+  "BM" NUMERIC (10,2),
+  "BM_Ausn" NUMERIC (10,2),
+  "GRZmin" NUMERIC (10,2),
+  "GRZmax" NUMERIC (10,2),
+  "GRZ" NUMERIC (10,2),
+  "GRZ_Ausn" NUMERIC (10,2),
+  "GRmin" NUMERIC (10,2),
+  "GRmax" NUMERIC (10,2),
+  "GR" NUMERIC (10,2),
+  "GR_Ausn" NUMERIC (10,2),
+  "Zmin" INTEGER,
+  "Zmax" INTEGER,
+  "Zzwingend" INTEGER,
+  "Z" INTEGER,
+  "Z_Ausn" INTEGER,
+  "Z_Staffel" INTEGER,
+  "Z_Dach" INTEGER,
+  "ZUmin" INTEGER,
+  "ZUmax" INTEGER,
+  "ZUzwingend" INTEGER,
+  "ZU" INTEGER,
+  "ZU_Ausn" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_FestsetzungenBaugebiet_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_FestsetzungenBaugebiet" IS '';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."MaxZahlWohnungen" IS 'Höchstzulässige Zahl der Wohnungen in Wohngebäuden';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Fmin" IS 'Mindestmaß für die Größe (Fläche) eines Baugrundstücks.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Fmax" IS 'Höchstmaß für die Größe (Fläche) eines Baugrundstücks.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Bmin" IS 'Minimale Breite von Baugrundstücken';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Bmax" IS 'Maximale Breite von Baugrundstücken.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Tmin" IS 'Minimale Tiefe von Baugrundstücken.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Tmax" IS 'Maximale Tiefe von Baugrundstücken.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFZmin" IS 'Minimal zulässige Geschossflächenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFZmax" IS 'Maximal zulässige Geschossflächenzahl bei einer Bereichsangabe. Das Attribut GFZmin muss ebenfalls belegt sein.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFZ" IS 'Maximal zulässige Geschossflächenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFZ_Ausn" IS 'Maximal zulässige Geschossflächenzahl als Ausnahme.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFmin" IS 'Minimal zulässige Geschossfläche';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFmax" IS 'Maximal zulässige Geschossfläche bei einer Bereichsabgabe. Das Attribut GFmin muss ebenfalls belegt sein.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GF" IS 'Maximal zulässige Geschossfläche.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GF_Ausn" IS 'Ausnahmsweise maximal zulässige Geschossfläche.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZmin" IS 'Minimal zulässige Baumassenzahl';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZmax" IS 'Maximal zulässige Baumassenzahl bei einer Bereichsangabe. Das Attribut BMZmin muss ebenfalls spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZ" IS 'Maximal zulässige Baumassenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZ_Ausn" IS 'Ausnahmsweise maximal zulässige Baumassenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMmin" IS 'Minimal zulässige Baumasse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMmax" IS 'Maximal zulässinge Baumasse bei einer Bereichsangabe. Das Attribut BMmin muss ebenfalls spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BM" IS 'Maximal zulässige Baumasse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BM_Ausn" IS 'Ausnahmsweise maximal zulässige Baumasse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRZmin" IS 'Minimal zulässige Grundflächenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRZmax" IS 'Maximal zulässige Grundflächenzahl bei einer Bereichsangabe. Das Attribut GRZmin muss ebenfalls spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRZ" IS 'Maximal zulässige Grundflächenzahl';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRZ_Ausn" IS 'Ausnahmsweise maximal zulässige Grundflächenzahl.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRmin" IS 'Minimal zulässige Grundfläche.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRmax" IS 'Maximal zulässige Grundfläche bei einer Bereichsangabe. Das Attribut GRmin muss ebenfalls spezifiziert werden.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GR" IS 'Maximal zulässige Grundfläche.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GR_Ausn" IS 'Ausnahmsweise maximal zulässige Grundfläche.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Zmin" IS 'Minimal zulässige Zahl der oberirdischen Vollgeschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Zmax" IS 'Maximal zulässige Zahl der oberirdischen Vollgeschosse bei einer Bereichsangabe. Das Attribut Zmin muss ebenfalls belegt sein.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Zzwingend" IS 'Zwingend vorgeschriebene Zahl der oberirdischen Vollgeschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Z" IS 'Maximalzahl der oberirdischen Vollgeschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Z_Ausn" IS 'Ausnahmsweise maximal zulässige Zahl der oberirdischen Vollgeschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Z_Staffel" IS 'Maximalzahl von oberirdischen zurückgesetzten Vollgeschossen als Staffelgeschoss.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."Z_Dach" IS 'Maximalzahl der zusätzlich erlaubten Dachgeschosse, die gleichzeitig Vollgeschosse sind.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."ZUmin" IS 'Minimal zulässige Zahl der unterirdischen Geschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."ZUmax" IS 'Maximal zulässige Zahl der unterirdischen Geschosse bei einer Bereichsangabe. Das Attribut ZUmin muss ebenfalls belegt sein.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."ZUzwingend" IS 'Zwingend vorgeschriebene Zahl der unterirdischen Geschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."ZU" IS 'Maximal zulässige Zahl der unterirdischen Geschosse.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."ZU_Ausn" IS 'Ausnahmsweise maximal zulässige Zahl der unterirdischen Geschosse.';
+CREATE TRIGGER "change_to_BP_FestsetzungenBaugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FestsetzungenBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "consistancy_BP_FestsetzungenBaugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FestsetzungenBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"();
+CREATE TRIGGER "delete_BP_FestsetzungenBaugebiet" AFTER DELETE ON "BP_Bebauung"."BP_FestsetzungenBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GestaltungBaugebiet"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet" (
+  "gid" BIGINT NOT NULL,
+  "DNmin" INTEGER,
+  "DNmax" INTEGER,
+  "DN" INTEGER,
+  "DNZwingend" INTEGER,
+  "FR" INTEGER,
+  "detaillierteDachform" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_Baugebiet_BP_DetailDachform10"
+    FOREIGN KEY ("detaillierteDachform")
+    REFERENCES "BP_Bebauung"."BP_DetailDachform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" TO bp_user;
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailDachform1_idx" ON "BP_Bebauung"."BP_GestaltungBaugebiet" ("detaillierteDachform");
+COMMENT ON TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet" IS '';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmin" IS 'Minimal zulässige Dachneigung bei einer Bereichsangabe.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmax" IS 'Maximal zulässige Dachneigung bei einer Bereichsangabe.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DN" IS 'Maximal zulässige Dachneigung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNZwingend" IS 'Zwingend vorgeschriebene Dachneigung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."FR" IS 'Vorgeschriebene Firstrichtung (Gradangabe)';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."detaillierteDachform" IS 'Über eine CodeList definierte Dachform.';
+CREATE TRIGGER "change_to_BP_GestaltungBaugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GestaltungBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GestaltungBaugebiet" AFTER DELETE ON "BP_Bebauung"."BP_GestaltungBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GestaltungBaugebiet_dachform"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" (
+  "BP_GestaltungBaugebiet_gid" BIGINT NOT NULL ,
+  "dachform" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_GestaltungBaugebiet_gid", "dachform"),
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_dachform1"
+    FOREIGN KEY ("BP_GestaltungBaugebiet_gid" )
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_dachform2"
+    FOREIGN KEY ("dachform" )
+    REFERENCES "BP_Bebauung"."BP_Dachform" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" IS 'Vorgeschriebene Dachformen';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietObjekt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BaugebietObjekt" (
+  "gid" BIGINT NOT NULL,
+  "allgArtDerBaulNutzung" INTEGER,
+  "besondereArtDerBaulNutzung" INTEGER,
+  "sondernutzung" INTEGER,
+  "detaillierteArtDerBaulNutzung" INTEGER,
+  "nutzungText" VARCHAR(256),
+  "abweichungBauNVO" INTEGER,
+  "bauweise" INTEGER,
+  "abweichendeBauweise" INTEGER,
+  "vertikaleDifferenzierung" BOOLEAN,
+  "bebauungsArt" INTEGER,
+  "bebauungVordereGrenze" INTEGER,
+  "bebauungRueckwaertigeGrenze" INTEGER,
+  "bebauungSeitlicheGrenze" INTEGER,
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_Baugebiet_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1"
+    FOREIGN KEY ("allgArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1"
+    FOREIGN KEY ("besondereArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_Sondernutzungen1"
+    FOREIGN KEY ("sondernutzung")
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1"
+    FOREIGN KEY ("detaillierteArtDerBaulNutzung")
+    REFERENCES "BP_Bebauung"."BP_DetailArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1"
+    FOREIGN KEY ("abweichungBauNVO")
+    REFERENCES "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_GrenzBebauung1"
+    FOREIGN KEY ("bebauungVordereGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_GrenzBebauung2"
+    FOREIGN KEY ("bebauungRueckwaertigeGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_GrenzBebauung3"
+    FOREIGN KEY ("bebauungSeitlicheGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("allgArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("besondereArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_Sondernutzungen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("sondernutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("detaillierteArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("abweichungBauNVO");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_Bauweise1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("bauweise");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_AbweichendeBauweise1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("abweichendeBauweise");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_BebauungsArt1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("bebauungsArt");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_GrenzBebauung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("bebauungVordereGrenze");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_GrenzBebauung2_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("bebauungRueckwaertigeGrenze");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_GrenzBebauung3_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("bebauungSeitlicheGrenze");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt" IS '';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Nutzungsform "Sondergebiet": Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise".';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."vertikaleDifferenzierung" IS 'Gibt an, ob eine vertikale Differenzierung des Gebäudes vorgeschrieben ist.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."bebauungVordereGrenze" IS 'Festsetzung der Bebauung der vorderen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."bebauungRueckwaertigeGrenze" IS 'Festsetzung der Bebauung der rückwärtigen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."bebauungSeitlicheGrenze" IS 'Festsetzung der Bebauung der seitlichen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_BaugebietObjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BaugebietObjekt" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" (
+  "BP_BaugebietObjekt_gid" BIGINT NOT NULL,
+  "refGebauedequerschnitt" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_BaugebietObjekt_gid", "refGebauedequerschnitt"),
+  CONSTRAINT "fk_BP_Baugebiet_refGebauedequerschnitt1"
+    FOREIGN KEY ("BP_BaugebietObjekt_gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_refGebauedequerschnitt"
+    FOREIGN KEY ("refGebauedequerschnitt")
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_Baugebiet_refGebauedequerschnitt1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" ("refGebauedequerschnitt");
+CREATE INDEX "idx_fk_BP_Baugebiet_refGebauedequerschnitt2_idx" ON "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" ("BP_BaugebietObjekt_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" IS 'Referenz auf ein Dokument mit vorgeschriebenen Gebäudequerschnitten.';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietsTeilFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BaugebietsTeilFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Baugebiet"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Baugebiet" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_Baugebiet_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet" IS 'Aggregation verschiedener Teilflächen eines Baugebiets. Die spezifizierten Attribute gelten für alle aggregierten Objekte BP_BaugebietsTeilFlaeche, in denen das Attribut nicht belegt ist.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_Baugebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_Baugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_Baugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_Baugebiet" AFTER DELETE ON "BP_Bebauung"."BP_Baugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Baugebiet_abweichungText"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Baugebiet_abweichungText" (
+  "BP_Baugebiet_gid" BIGINT NOT NULL,
+  "abweichungText" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_Baugebiet_gid", "abweichungText"),
+  CONSTRAINT "fk_abweichungTextt_BP_Baugebiet1"
+    FOREIGN KEY ("BP_Baugebiet_gid")
+    REFERENCES "BP_Bebauung"."BP_Baugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_abweichungText_XP_Textabschnitt1"
+    FOREIGN KEY ("abweichungText")
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_abweichungTextt_XP_Textabschnitt1_idx" ON "BP_Bebauung"."BP_Baugebiet_abweichungText" ("abweichungText");
+CREATE INDEX "idx_fk_abweichungTextt_BP_Baugebiet1_idx" ON "BP_Bebauung"."BP_Baugebiet_abweichungText" ("BP_Baugebiet_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet_abweichungText" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet_abweichungText" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet_abweichungText" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BauLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BauLinie" (
+  "gid" BIGINT NOT NULL,
+  "bautiefe" NUMERIC(10,2),
+  "geschossMin" INTEGER,
+  "geschossMax" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_BauLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BauLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BauLinie" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BauLinie" IS 'Festsetzung einer Baulinie (§9 Abs. 1 Nr. 2 BauGB, §22 und 23 BauNVO). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."bautiefe" IS 'Angabe einer Bautiefe.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."geschossMax" IS 'Gibt bei geschossweiser Feststzung die Nummer des Geschosses an, bis zu der die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse ab einschl. geschossMin.';
+CREATE TRIGGER "change_to_BP_BauLinie" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BauLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BauLinie" AFTER DELETE ON "BP_Bebauung"."BP_BauLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "zweckbestimmung" VARCHAR(256),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" IS 'Festsetzung einer Fläche mit besonderem Nutzungszweck, der durch besondere städtebauliche Gründe erfordert wird (§9 Abs. 1 Nr. 9 BauGB.)';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."zweckbestimmung" IS 'Angabe des besonderen Nutzungszwecks';
+CREATE TRIGGER "change_to_BP_BesondererNutzungszweckFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BesondererNutzungszweckFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_BesondererNutzungszweckFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_FirstRichtungsLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_FirstRichtungsLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_FirstRichtungsLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_FirstRichtungsLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_FirstRichtungsLinie" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_FirstRichtungsLinie" IS 'Gestaltungs-Festsetzung der Firstrichtung, beruhend auf Landesrecht, gemäß §9 Abs. 4 BauGB.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_FirstRichtungsLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_FirstRichtungsLinie" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FirstRichtungsLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FirstRichtungsLinie" AFTER DELETE ON "BP_Bebauung"."BP_FirstRichtungsLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_FoerderungsFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_FoerderungsFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_FoerderungsFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_FoerderungsFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_FoerderungsFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_FoerderungsFlaeche" IS 'Fläche, auf der ganz oder teilweise nur Wohngebäude, die mit Mitteln der sozialen Wohnraumförderung gefördert werden könnten, errichtet werden dürfen (§9, Abs. 1, Nr. 7 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_FoerderungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_FoerderungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FoerderungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FoerderungsFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_FoerderungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_FoerderungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FoerderungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GebaeudeFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GebaeudeFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GebaeudeFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GebaeudeFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GebaeudeFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GebaeudeFlaeche" IS 'Grundrissfläche eines existierenden Gebäudes';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GebaeudeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_GebaeudeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GebaeudeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GebaeudeFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_GebaeudeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_GebaeudeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GebaeudeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "Zmax" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" IS 'Fläche für Gemeinschaftsanlagen für bestimmte räumliche Bereiche wie Kinderspielplätze, Freizeiteinrichtungen, Stellplätze und Garagen (§9 Abs. 22 BauGB)';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche"."Zmax" IS 'Maximale Anzahl von Garagen-Geschossen';
+CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinschaftsanlagenFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_GemeinschaftsanlagenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" (
+  "BP_GemeinschaftsanlagenFlaeche_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GemeinschaftsanlagenFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("BP_GemeinschaftsanlagenFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenFlaeche_zweckbestimmung1_idx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenFlaeche_zweckbestimmung2_idx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" ("BP_GemeinschaftsanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" (
+  "BP_GemeinschaftsanlagenFlaeche_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GemeinschaftsanlagenFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_GemeinanlFlaeche_detaillierteZweckbest1"
+    FOREIGN KEY ("BP_GemeinschaftsanlagenFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinanlFlaeche_detaillierteZweckbest2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinanlFlaeche_detaillierteZweckbest1" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_GemeinanlFlaeche_detaillierteZweckbest2" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" ("BP_GemeinschaftsanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung.';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Baugebiet_flaechenteil"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Baugebiet_flaechenteil" (
+  "BP_Baugebiet_gid" BIGINT NOT NULL,
+  "flaechenteil" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_Baugebiet_gid", "flaechenteil"),
+  CONSTRAINT "fk_BP_Baugebiet_flaechenteil1"
+    FOREIGN KEY ("BP_Baugebiet_gid")
+    REFERENCES "BP_Bebauung"."BP_Baugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_flaechenteil2"
+    FOREIGN KEY ("flaechenteil")
+    REFERENCES "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_Baugebiet_flaechenteil1_idx" ON "BP_Bebauung"."BP_Baugebiet_flaechenteil" ("flaechenteil");
+CREATE INDEX "idx_fk_BP_Baugebiet_flaechenteil2_idx" ON "BP_Bebauung"."BP_Baugebiet_flaechenteil" ("BP_Baugebiet_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet_flaechenteil" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet_flaechenteil" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet_flaechenteil" IS 'Teilflächen des Baugebiets.';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" (
+  "BP_GemeinschaftsanlagenFlaeche_gid" BIGINT NOT NULL,
+  "eigentuemer" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_GemeinschaftsanlagenFlaeche_gid", "eigentuemer"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenFlaeche_eigentuemer1"
+    FOREIGN KEY ("BP_GemeinschaftsanlagenFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenFlaeche_eigentuemer2"
+    FOREIGN KEY ("eigentuemer")
+    REFERENCES "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenFlaeche_eigentuemer1_idx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" ("eigentuemer");
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenFlaeche_eigentuemer2_idx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" ("BP_GemeinschaftsanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnung_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" IS 'Zuordnung von Gemeinschaftsanlagen zu Grundstücken.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnung" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnung" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" (
+  "BP_GemeinschaftsanlagenZuordnung_gid" BIGINT NOT NULL,
+  "zuordnung" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_GemeinschaftsanlagenZuordnung_gid", "zuordnung"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnung_zuordnung1"
+    FOREIGN KEY ("BP_GemeinschaftsanlagenZuordnung_gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnung_zuordnung2"
+    FOREIGN KEY ("zuordnung")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenZuordnung_zuordnung1" ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" ("zuordnung");
+CREATE INDEX "idx_fk_BP_GemeinschaftsanlagenZuordnung_zuordnung2" ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" ("BP_GemeinschaftsanlagenZuordnung_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung_zuordnung" IS 'Relation auf die zugeordneten Gemeinschaftsanlagen-Flächen, die außerhalb des Baugebiets liegen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnungFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" TO bp_user;
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_GemeinschaftsanlagenZuordnungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnungLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" TO bp_user;
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungLinie" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungLinie" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinschaftsanlagenZuordnungPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" TO bp_user;
+COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungPunkt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungPunkt" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlangenAusschlussTyp"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "typ" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" IS 'Festsetzung einer Fläche für die Einschränkung oder den Ausschluss von Nebenanlagen.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche"."typ" IS 'Art des Ausschlusses.';
+CREATE TRIGGER "change_to_BP_NebenanlagenAusschlussFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_NebenanlagenAusschlussFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_NebenanlagenAusschlussFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" (
+  "BP_NebenanlagenAusschlussFlaeche_gid" BIGINT NOT NULL,
+  "abweichungText" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_NebenanlagenAusschlussFlaeche_gid", "abweichungText"),
+  CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_abweichungText1"
+    FOREIGN KEY ("BP_NebenanlagenAusschlussFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_abweichungText2"
+    FOREIGN KEY ("abweichungText")
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_NebenanlagenAusschlussFlaeche_abweichungText1_idx" ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" ("abweichungText");
+CREATE INDEX "idx_fk_BP_NebenanlagenAusschlussFlaeche_abweichungText2_idx" ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" ("BP_NebenanlagenAusschlussFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlagenFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "Zmax" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_NebenanlagenFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche" IS 'Fläche für Nebenanlagen, die auf Grund anderer Vorschriften für die Nutzung von Grundstücken erforderlich sind, wie Spiel-, Freizeit- und Erholungsflächen sowie die Fläche für Stellplätze und Garagen mit ihren Einfahrten (§9 Abs. 4 BauGB)';
+COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenFlaeche"."Zmax" IS 'Maximale Anzahl der Garagengeschosse.';
+CREATE TRIGGER "change_to_BP_NebenanlagenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NebenanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_NebenanlagenFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_NebenanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_NebenanlagenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NebenanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_DetailZweckbestNebenanlagen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" (
+  "BP_NebenanlagenFlaeche_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_NebenanlagenFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_NebenanlagenFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("BP_NebenanlagenFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_NebenanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_NebenanlagenFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_NebenanlagenFlaeche_zweckbestimmung1_idx" ON "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_NebenanlagenFlaeche_zweckbestimmung2_idx" ON "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" ("BP_NebenanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Nebenanlagen-Fläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" (
+  "BP_NebenanlagenFlaeche_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_NebenanlagenFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_NebenanlagenFlaeche_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_NebenanlagenFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_NebenanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_NebenanlagenFlaeche_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_NebenanlagenFlaeche_detaillierteZweckbestimmung1_idx" ON "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_NebenanlagenFlaeche_detaillierteZweckbestimmung2_idx" ON "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" ("BP_NebenanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung.';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_PersGruppenBestimmteFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" IS 'Fläche, auf denen ganz oder teilweise nur Wohngebäude errichtet werden dürfen, die für Personengruppen mit besonderem Wohnbedarf bestimmt sind (§9, Abs. 1, Nr. 8 BauGB)';
+COMMENT ON COLUMN "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_PersGruppenBestimmteFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_PersGruppenBestimmteFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_PersGruppenBestimmteFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_RegelungVergnuegungsstaetten"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" (
+  "gid" BIGINT NOT NULL,
+  "zulaessigkeit" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_RegelungVergneugungsstaetten_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_RegelungVergneugungsstaetten_zulaessigkeit"
+    FOREIGN KEY ("zulaessigkeit")
+    REFERENCES "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" IS 'Festsetzung nach §9 Abs. 2b BauGB (Zulässigkeit von Vergnügungsstätten)';
+COMMENT ON COLUMN "BP_Bebauung"."BP_RegelungVergnuegungsstaetten"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_RegelungVergnuegungsstaetten"."zulaessigkeit" IS 'Zulässigkeit von Vergnügungsstätten.';
+CREATE TRIGGER "change_to_BP_RegelungVergnuegungsstaetten" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_RegelungVergnuegungsstaetten" AFTER DELETE ON "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_RegelungVergnuegungsstaetten" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_SpezielleBauweiseTypen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_SpezielleBauweiseTypen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweiseTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_spezielleBauweiseSonstTypen"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_SpezielleBauweise"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_SpezielleBauweise" (
+  "gid" BIGINT NOT NULL,
+  "typ" INTEGER,
+  "sonstTyp" INTEGER,
+  "Bmin" NUMERIC (10,2),
+  "Bmax" NUMERIC (10,2),
+  "Tmin" NUMERIC (10,2),
+  "Tmax" NUMERIC (10,2),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_SpezielleBauweise_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpezielleBauweise_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpezielleBauweise_sonstTyp"
+    FOREIGN KEY ("sonstTyp")
+    REFERENCES "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+CREATE INDEX "idx_fk_BP_SpezielleBauweise_typ_idx" ON "BP_Bebauung"."BP_SpezielleBauweise" ("typ");
+CREATE INDEX "idx_fk_BP_SpezielleBauweise_sonstTyp_idx" ON "BP_Bebauung"."BP_SpezielleBauweise" ("sonstTyp");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_SpezielleBauweise" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_SpezielleBauweise" IS 'Festsetzung der speziellen Bauweise / baulichen Besonderheit eines Gebäudes oder Bauwerks.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."typ" IS 'Typ der speziellen Bauweise.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."sonstTyp" IS 'Über eine CodeList definierter Typ der speziellen Bauweise.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."Bmin" IS 'Minimale Breite von Baugrundstücken.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."Bmax" IS 'Maximale Breite von Baugrundstücken.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."Tmin" IS 'Minimale Tiefe von Baugrundstücken.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_SpezielleBauweise"."Tmax" IS 'Maximale Tiefe von Baugrundstücken.';
+CREATE TRIGGER "change_to_BP_SpezielleBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_SpezielleBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_SpezielleBauweise" AFTER DELETE ON "BP_Bebauung"."BP_SpezielleBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_SpezielleBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_SpezielleBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "geschossMin" INTEGER,
+  "geschossMax" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festsetzung der überbaubaren Grundstücksfläche (§9, Abs. 1, Nr. 2 BauGB). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMax" IS 'Gibt bei geschossweiser Feststzung die Nummer des Geschosses an, bis zu der die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse ab einschl. geschossMin.';
+CREATE TRIGGER "change_to_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_UeberbaubareGrundstuecksFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BauGrenze"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BauGrenze" (
+  "gid" BIGINT NOT NULL,
+  "bautiefe" NUMERIC(10,2),
+  "geschossMin" INTEGER,
+  "geschossMax" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_BauGrenze_parent0"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BauGrenze" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BauGrenze" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BauGrenze" IS 'Festsetzung einer Baulinie (§9 Abs. 1 Nr. 2 BauGB, §22 und 23 BauNVO). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."bautiefe" IS 'Angabe einer Bautiefe.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."geschossMax" IS 'Gibt bei geschossweiser Feststzung die Nummer des Geschosses an, bis zu der die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse ab einschl. geschossMin.';
+CREATE TRIGGER "change_to_BP_BauGrenze" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BauGrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BauGrenze" AFTER DELETE ON "BP_Bebauung"."BP_BauGrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" (
+  "BP_UeberbaubareGrundstuecksFlaeche_gid" BIGINT NOT NULL,
+  "baulinie" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_UeberbaubareGrundstuecksFlaeche_gid", "baulinie"),
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_baulinie1"
+    FOREIGN KEY ("BP_UeberbaubareGrundstuecksFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_baulinie2"
+    FOREIGN KEY ("baulinie")
+    REFERENCES "BP_Bebauung"."BP_BauLinie" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "fk_BP_UeberbaubareGrundstuecksFlaeche_baulinie1_idx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" ("baulinie");
+CREATE INDEX "fk_BP_UeberbaubareGrundstuecksFlaeche_baulinie2_idx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" ("BP_UeberbaubareGrundstuecksFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baulinie" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" (
+  "BP_UeberbaubareGrundstuecksFlaeche_gid" BIGINT NOT NULL,
+  "baugrenze" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_UeberbaubareGrundstuecksFlaeche_gid", "baugrenze"),
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_baugrenze1"
+    FOREIGN KEY ("BP_UeberbaubareGrundstuecksFlaeche_gid")
+    REFERENCES "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_baugrenze2"
+    FOREIGN KEY ("baugrenze")
+    REFERENCES "BP_Bebauung"."BP_BauGrenze" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "fk_BP_UeberbaubareGrundstuecksFlaeche_baugrenze1_idx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" ("baugrenze");
+CREATE INDEX "fk_BP_UeberbaubareGrundstuecksFlaeche_baugrenze2_idx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" ("BP_UeberbaubareGrundstuecksFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" IS 'Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, hier Flächen für den Gemeindebedarf (§9, Abs. 1, Nr.5 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_GemeinbedarfsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GemeinbedarfsFlaeche" AFTER DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_GemeinbedarfsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" (
+  "BP_GemeinbedarfsFlaeche_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GemeinbedarfsFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_zweckbestimmung_1"
+    FOREIGN KEY ("BP_GemeinbedarfsFlaeche_gid")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_zweckbestimmung_2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_zweckbestimmung1_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_zweckbestimmung2_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" ("BP_GemeinbedarfsFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der festgesetzten Fläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" (
+  "BP_GemeinbedarfsFlaeche_gid" BIGINT NOT NULL,
+  "besondereZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GemeinbedarfsFlaeche_gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_besZweckbest1"
+    FOREIGN KEY ("BP_GemeinbedarfsFlaeche_gid")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_besZweckbest2"
+    FOREIGN KEY ("besondereZweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_besZweckbest1_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" ("besondereZweckbestimmung");
+CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_besZweckbest2_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" ("BP_GemeinbedarfsFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der festgesetzten Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_SpielSportanlagenFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" IS 'Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, hier Flächen für Sport- und Spielanlagen (§9, Abs. 1, Nr. 5 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_SpielSportanlagenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_SpielSportanlagenFlaeche" AFTER DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_SpielSportanlagenFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" (
+  "BP_SpielSportanlagenFlaeche_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_SpielSportanlagenFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_SpielSportanlagenFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("BP_SpielSportanlagenFlaeche_gid")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpielSportanlagenFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_SpielSportanlagenFlaeche_zweckbestimmung1_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_SpielSportanlagenFlaeche_zweckbestimmung2_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" ("BP_SpielSportanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der festgesetzten Fläche.';
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" (
+  "BP_SpielSportanlagenFlaeche_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_SpielSportanlagenFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_SpielSportanlagenFlaeche_detaillierteZweckbes1"
+    FOREIGN KEY ("BP_SpielSportanlagenFlaeche_gid")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpielSportanlagenFlaeche_detaillierteZweckbes2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_SpielSportanlagenFlaeche_detaillierteZweckbes1_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_SpielSportanlagenFlaeche_detaillierteZweckbest2_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" ("BP_SpielSportanlagenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "nutzungsform" INTEGER,
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_GruenFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GruenFlaeche_XP_Nutzungsform1"
+    FOREIGN KEY ("nutzungsform")
+    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" IS 'Festsetzungen von öffentlichen und privaten Grünflächen(§9, Abs. 1, Nr. 15 BauGB) und von Flächen für die Kleintierhaltung (§9, Abs. 1, Nr. 19 BauGB).';
+COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"."nutzungsform" IS 'Nutzungform der festgesetzten Fläche.';
+COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_GruenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_GruenFlaeche" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_GruenFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" (
+  "BP_GruenFlaeche_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GruenFlaeche_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_GruenFlaeche_zweckbestimmung1"
+    FOREIGN KEY ("BP_GruenFlaeche_gid")
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GruenFlaeche_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GruenFlaeche_zweckbestimmung1_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_GruenFlaeche_zweckbestimmung2_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" ("BP_GruenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Grünfläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" (
+  "BP_GruenFlaeche_gid" BIGINT NOT NULL,
+  "besondereZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GruenFlaeche_gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_BP_GruenFlaeche_besondereZweckbestimmung1"
+    FOREIGN KEY ("BP_GruenFlaeche_gid")
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GruenFlaeche_besondereZweckbestimmung2"
+    FOREIGN KEY ("besondereZweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GruenFlaeche_besondereZweckbestimmung1_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" ("besondereZweckbestimmung");
+CREATE INDEX "idx_fk_BP_GruenFlaeche_besondereZweckbestimmung2_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" ("BP_GruenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Grünfläche, die die zugehörige allgemeine Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" (
+  "BP_GruenFlaeche_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GruenFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_GruenFlaeche_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_GruenFlaeche_gid")
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GruenFlaeche_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_GruenFlaeche_detaillierteZweckbestimmung1_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_GruenFlaeche_detaillierteZweckbestimmung2_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" ("BP_GruenFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_StrassenVerkehrsFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" (
+  "gid" BIGINT NOT NULL,
+  "nutzungsform" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_StrassenVerkehrsFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_StrassenVerkehrsFlaeche_nutzungsform"
+    FOREIGN KEY ("nutzungsform")
+    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" TO bp_user;
+COMMENT ON TABLE  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" IS 'Strassenverkehrsfläche (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche"."nutzungsform" IS 'Nutzungform der Fläche.';
+CREATE TRIGGER "change_to_BP_StrassenVerkehrsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_StrassenVerkehrsFlaeche" AFTER DELETE ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_StrassenVerkehrsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" (
+  "BP_StrassenVerkehrsFlaeche_gid" BIGINT NOT NULL,
+  "begrenzungsLinie" BIGINT NOT NULL,
+  PRIMARY KEY ("BP_StrassenVerkehrsFlaeche_gid", "begrenzungsLinie"),
+  CONSTRAINT "fk_BP_StrassenVerkehrsFlaeche_begrenzungsLinie1"
+    FOREIGN KEY ("BP_StrassenVerkehrsFlaeche_gid")
+    REFERENCES "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_StrassenVerkehrsFlaeche_begrenzungsLinie2"
+    FOREIGN KEY ("begrenzungsLinie")
+    REFERENCES "BP_Verkehr"."BP_StrassenbegrenzungsLinie" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_StrassenVerkehrsFlaeche_begrenzungsLinie1_idx" ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" ("begrenzungsLinie");
+CREATE INDEX "idx_fk_BP_StrassenVerkehrsFlaeche_begrenzungsLinie2_idx" ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" ("BP_StrassenVerkehrsFlaeche_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche_begrenzungsLinie" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" (
+  "gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER,
+  "detaillierteZweckbestimmung" INTEGER,
+  "nutzungsform" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesondererZweckbestimmung_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_nutzungsform"
+    FOREIGN KEY ("nutzungsform")
+    REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_zweckbestimmung"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_detaillierteZweckbestimmung"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_zweckbestimmung_idx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_detaillierteZweckbestimmung_idx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("detaillierteZweckbestimmung");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" IS 'Strassenverkehrsfläche (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."nutzungsform" IS 'Nutzungform der Fläche.';
+CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmung" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmung" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_VerkehrsFlaecheBesondererZweckbestimmung" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" (
+  "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid" BIGINT NOT NULL,
+  "begrenzungslinie" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "begrenzungslinie"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_begrenzungslinie1"
+    FOREIGN KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_begrenzungslinie2"
+    FOREIGN KEY ("begrenzungslinie")
+    REFERENCES "BP_Verkehr"."BP_StrassenbegrenzungsLinie" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_begrenzungslinie1_idx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" ("begrenzungslinie");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_begrenzungslinie2_idx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" TO bp_user;
+COMMENT ON TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_begrenzungslinie" IS '';
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" (
+  "gid" BIGINT NOT NULL,
+  "textlicheErgaenzung" VARCHAR(156),
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerEntsorgung_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" TO bp_user;
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" IS 'Flächen und Leitungen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung sowie für Ablagerungen (§9 Abs. 1, Nr. 12, 14 und Abs. 6 BauGB)';
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung"."textlicheErgaenzung" IS 'Zusätzliche textliche Beschreibung der Ver- bzw. Entsorgungseinrichtung.';
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_VerEntsorgung" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerEntsorgung" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerEntsorgungFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" TO bp_user;
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_VerEntsorgungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerEntsorgungFlaeche" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_VerEntsorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerEntsorgungLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" TO bp_user;
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_VerEntsorgungLinie" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerEntsorgungLinie" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerEntsorgungPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" TO bp_user;
+COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_VerEntsorgungPunkt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerEntsorgungPunkt" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" (
+  "BP_VerEntsorgung_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerEntsorgung_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_VerEntsorgung_zweckbestimmung1"
+    FOREIGN KEY ("BP_VerEntsorgung_gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerEntsorgung_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerEntsorgung_zweckbestimmung1_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerEntsorgung_zweckbestimmung2_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ("BP_VerEntsorgung_gid");
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" (
+  "BP_VerEntsorgung_gid" BIGINT NOT NULL,
+  "besondereZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerEntsorgung_gid", "besondereZweckbestimmung"),
+  CONSTRAINT "fk_BP_VerEntsorgung_besondereZweckbestimmung1"
+    FOREIGN KEY ("BP_VerEntsorgung_gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerEntsorgung_besondereZweckbestimmung2"
+    FOREIGN KEY ("besondereZweckbestimmung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerEntsorgung_besondereZweckbestimmung1_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" ("besondereZweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerEntsorgung_besondereZweckbestimmung2_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" ("BP_VerEntsorgung_gid");
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörige allgemeine Zweckbestimmungen detaillieren oder ersetzen.';
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" (
+  "BP_VerEntsorgung_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerEntsorgung_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_VerEntsorgung_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_VerEntsorgung_gid")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerEntsorgung_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerEntsorgung_detaillierteZweckbestimmung1_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerEntsorgung_detaillierteZweckbestimmung2_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" ("BP_VerEntsorgung_gid");
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
+
 -- *****************************************************
 -- CREATE VIEWs
 -- *****************************************************
@@ -2567,13 +4722,6 @@ GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 -- *****************************************************
 
 -- -----------------------------------------------------
--- Data for table "BP_Verkehr"."BP_StrassenkoerperHerstellung"
--- -----------------------------------------------------
-INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('1000', 'Aufschuettung');
-INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('2000', 'Abgrabung');
-INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('3000', 'Stuetzmauer');
-
--- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Verfahren"
 -- -----------------------------------------------------
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');
@@ -2618,6 +4766,13 @@ INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
 
 -- -----------------------------------------------------
+-- Data for table "BP_Verkehr"."BP_StrassenkoerperHerstellung"
+-- -----------------------------------------------------
+INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('1000', 'Aufschuettung');
+INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('2000', 'Abgrabung');
+INSERT INTO "BP_Verkehr"."BP_StrassenkoerperHerstellung" ("Code", "Bezeichner") VALUES ('3000', 'Stuetzmauer');
+
+-- -----------------------------------------------------
 -- Data for table "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen"
 -- -----------------------------------------------------
 INSERT INTO "BP_Verkehr"."BP_BereichOhneEinAusfahrtTypen" ("Code", "Bezeichner") VALUES ('1000', 'KeineEinfahrt');
@@ -2637,5 +4792,134 @@ INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('1000', 'Nutzungsartengrenze');
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAbgrenzung');
 
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_WegerechtTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('1000', 'Gehrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('2000', 'Fahrrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('3000', 'GehFahrrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4000', 'Leitungsrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4100', 'GehLeitungsrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4200', 'FahrLeitungsrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('5000', 'GehFahrLeitungsrecht');
 
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_Bauweise"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_Bauweise" ("Code", "Bezeichner") VALUES (1000, 'OffeneBauweise');
+INSERT INTO "BP_Bebauung"."BP_Bauweise" ("Code", "Bezeichner") VALUES (2000, 'GeschlosseneBauweise');
+INSERT INTO "BP_Bebauung"."BP_Bauweise" ("Code", "Bezeichner") VALUES (3000, 'AbweichendeBauweise');
 
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_BebauungsArt"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (1000, 'Einzelhaeuser');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (2000, 'Doppelhaeuser');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (3000, 'Hausgruppen');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (4000, 'EinzelDopplehaeuser');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (5000, 'EinzelhaeuserHausgruppen');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (6000, 'DoppelhaeuserHausgruppen');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (7000, 'Reihenhaeuser');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_GrenzBebauung"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_GrenzBebauung" ("Code", "Bezeichner") VALUES (1000, 'Verboten');
+INSERT INTO "BP_Bebauung"."BP_GrenzBebauung" ("Code", "Bezeichner") VALUES (2000, 'Erlaubt');
+INSERT INTO "BP_Bebauung"."BP_GrenzBebauung" ("Code", "Bezeichner") VALUES (3000, 'Erzwungen');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_Dachform"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (1000, 'Flachdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (2100, 'Pultdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (2200, 'Versetztes Pultdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3100, 'Satteldach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3200, 'Walmdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3300, 'Krüppelwalmdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3400, 'Masarddach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3500, 'Zeltdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3600, 'Kegeldach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3700, 'Kuppeldach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3800, 'Sheddach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3900, 'Bogendach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (4000, 'Turmdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (5000, 'Mischform');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (1000, 'Gemeinschaftsstellplaetze');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (2000, 'Gemeinschaftsgaragen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3000, 'Spielplatz');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3100, 'Carport');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3200, 'GemeinschaftsTiefgarage');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3300, 'Nebengebaeude');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3400, 'AbfallSammelanlagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3500, 'EnergieVerteilungsanlagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3600, 'AbfallWertstoffbehaelter');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3700, 'Freizeiteinrichtungen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3800, 'Laermschutzanlagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3900, 'AbwasserRegenwasser');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4000, 'Ausgleichsmassnahmen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_NebenanlangenAusschlussTyp"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" ("Code", "Bezeichner") VALUES (1000, 'Einschraenkung');
+INSERT INTO "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" ("Code", "Bezeichner") VALUES (2000, 'Ausschluss');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (1000, 'Stellplaetze');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (2000, 'Garagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3000, 'Spielplatz');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3100, 'Carport');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3200, 'Tiefgarage');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3300, 'Nebengebaeude');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3400, 'AbfallSammelanlagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3500, 'EnergieVerteilungsanlagen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3600, 'AbfallWertstoffbehaelter');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" ("Code", "Bezeichner") VALUES (1000, 'Zulaessig');
+INSERT INTO "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" ("Code", "Bezeichner") VALUES (2000, 'NichtZulaessig');
+INSERT INTO "BP_Bebauung"."BP_ZulaessigkeitVergnuegungsstaetten" ("Code", "Bezeichner") VALUES (3000, 'AusnahmsweiseZulaessig');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_SpezielleBauweiseTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1000, 'Durchfahrt');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1100, 'Durchgang');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1200, 'DurchfahrtDurchgang');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1300, 'Auskragung');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1400, 'Arkade');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1500, 'Luftgeschoss');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr"
+-- -----------------------------------------------------
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1000, 'Parkierungsflaeche');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1100, 'Fussgaengerbereich');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1200, 'VerkehrsberuhigterBereich');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1300, 'RadFussweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1400, 'Radweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1500, 'Fussweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1550, 'Wanderweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1580, 'Wirtschaftsweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1600, 'FahrradAbstellplatz');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1700, 'UeberfuehrenderVerkehrsweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1800, 'UnterfuehrenderVerkehrsweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2000, 'P_RAnlage');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2100, 'Platz');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2200, 'Anschlussflaeche');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2300, 'LandwirtschaftlicherVerkehr');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2400, 'Verkehrsgruen');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
