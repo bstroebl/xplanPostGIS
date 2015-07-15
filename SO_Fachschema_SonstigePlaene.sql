@@ -1738,6 +1738,96 @@ CREATE INDEX "SO_Gebiet_gidx" ON "SO_SonstigeGebiete"."SO_Gebiet" USING GIST (po
 CREATE INDEX "SO_Grenze_gidx" ON "SO_Sonstiges"."SO_Grenze" USING GIST (position);
 
 -- *****************************************************
+-- CREATE VIEWs
+-- *****************************************************
+
+-- -----------------------------------------------------
+-- View "SO_Basisobjekte"."SO_Punktobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "SO_Basisobjekte"."SO_Punktobjekte" AS
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
+FROM  "SO_Basisobjekte"."SO_Punktobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
+
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Punktobjekte" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Punktobjekte" TO fp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "SO_Basisobjekte"."SO_Punktobjekte" DO INSTEAD  UPDATE "SO_Basisobjekte"."SO_Punktobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "SO_Basisobjekte"."SO_Punktobjekte" DO INSTEAD  DELETE FROM "SO_Basisobjekte"."SO_Punktobjekt"
+  WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "SO_Basisobjekte"."SO_Linienobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "SO_Basisobjekte"."SO_Linienobjekte" AS
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
+FROM  "SO_Basisobjekte"."SO_Linienobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
+
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Linienobjekte" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Linienobjekte" TO fp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "SO_Basisobjekte"."SO_Linienobjekte" DO INSTEAD  UPDATE "SO_Basisobjekte"."SO_Linienobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "SO_Basisobjekte"."SO_Linienobjekte" DO INSTEAD  DELETE FROM "SO_Basisobjekte"."SO_Linienobjekt"
+  WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "SO_Basisobjekte"."SO_Flaechenobjekte"
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW "SO_Basisobjekte"."SO_Flaechenobjekte" AS
+SELECT g.*, CAST(c.relname as varchar) as "Objektart",
+CAST(n.nspname as varchar) as "Objektartengruppe"
+FROM  "SO_Basisobjekte"."SO_Flaechenobjekt" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN pg_namespace n ON c.relnamespace = n.oid;
+
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Flaechenobjekte" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Flaechenobjekte" TO fp_user;
+
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "SO_Basisobjekte"."SO_Flaechenobjekte" DO INSTEAD  UPDATE "SO_Basisobjekte"."SO_Flaechenobjekt" SET "position" = new."position"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "SO_Basisobjekte"."SO_Flaechenobjekte" DO INSTEAD  DELETE FROM "SO_Basisobjekte"."SO_Flaechenobjekt"
+  WHERE gid = old.gid;
+
+-- -----------------------------------------------------
+-- View "SO_Basisobjekte"."SO_Objekte"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
+ SELECT fp_o.gid,
+    g."gehoertZuSO_Bereich" AS "SO_Bereich_gid",
+    fp_o."Objektart",
+    fp_o."Objektartengruppe"
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n.nspname::character varying AS "Objektartengruppe"
+           FROM ( SELECT p.gid,
+                    p.tableoid
+                   FROM "SO_Basisobjekte"."SO_Punktobjekt" p
+                UNION
+                 SELECT "SO_Linienobjekt".gid,
+                    "SO_Linienobjekt".tableoid
+                   FROM "SO_Basisobjekte"."SO_Linienobjekt"
+                UNION
+                 SELECT "SO_Flaechenobjekt".gid,
+                    "SO_Flaechenobjekt".tableoid
+                   FROM "SO_Basisobjekte"."SO_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+     LEFT JOIN "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" g ON fp_o.gid = g."SO_Objekt_gid";
+
+-- *****************************************************
 -- DATA
 -- *****************************************************
 -- -----------------------------------------------------
