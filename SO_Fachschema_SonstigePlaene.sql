@@ -41,7 +41,7 @@ GRANT USAGE ON SCHEMA "SO_Sonstiges" TO xp_gast;
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
-CREATE OR REPLACE FUNCTION "SO_Basisobjekte"."new_SO_Bereich"() 
+CREATE OR REPLACE FUNCTION "SO_Basisobjekte"."new_SO_Bereich"()
 RETURNS trigger AS
 $BODY$
  DECLARE
@@ -79,6 +79,7 @@ INHERITS("XP_Raster"."XP_GeltungsbereichAenderung");
 
 GRANT SELECT ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO xp_gast;
 GRANT ALL ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO so_user;
+CREATE INDEX "SO_RasterplanAenderung_gidx" ON "SO_Raster"."SO_RasterplanAenderung" using gist ("geltungsbereichAenderung");
 COMMENT ON TABLE "SO_Raster"."SO_RasterplanAenderung" IS '';
 CREATE TRIGGER "change_to_SO_RasterplanAenderung" BEFORE INSERT OR UPDATE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
 CREATE TRIGGER "delete_SO_RasterplanAenderung" AFTER DELETE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
@@ -90,7 +91,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(255) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -100,7 +101,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(255) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO so_user;
 
@@ -111,7 +112,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Rechtscharakter" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Rechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -121,7 +122,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_SonstRechtscharakter" (
   "Code" VARCHAR(64) NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -168,7 +169,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Punktobjekt" (
   "gid" BIGINT NOT NULL,
   "position" GEOMETRY(Multipoint,25832) NOT NULL,
   PRIMARY KEY ("gid"));
-  
+
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Punktobjekt" TO xp_gast;
 CREATE TRIGGER "SO_Punktobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."SO_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
@@ -191,7 +192,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Flaechenobjekt" (
   "position" GEOMETRY(Multipolygon,25832) NOT NULL,
   "flaechenschluss" BOOLEAN NOT NULL,
   PRIMARY KEY ("gid"));
-  
+
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Flaechenobjekt" TO xp_gast;
 CREATE TRIGGER "SO_Flaechenobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."SO_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
@@ -300,7 +301,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -315,7 +316,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietWasserrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -437,7 +438,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_KlassifizSchutzgebietSonstRecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -447,7 +448,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO so_user;
 
@@ -550,7 +551,7 @@ INHERITS("XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich");
 CREATE INDEX "idx_fk_SO_Plan_planTyp_idx" ON "SO_Basisobjekte"."SO_Plan" ("planTyp");
 CREATE INDEX "idx_fk_SO_Plan_plangeber_idx" ON "SO_Basisobjekte"."SO_Plan" ("plangeber");
 CREATE INDEX "idx_fk_SO_Plan_XP_Plan1_idx" ON "SO_Basisobjekte"."SO_Plan" ("gid");
-
+CREATE INDEX "SO_Plan_gidx" ON "SO_Basisobjekte"."SO_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Plan" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Plan" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse für sonstige, z. B. länderspezifische raumbezogene Planwerke.';
@@ -583,6 +584,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Bereich" (
 INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");
 
 CREATE INDEX "idx_fk_SO_Bereich_SO_Plan1_idx" ON "SO_Basisobjekte"."SO_Bereich" ("gehoertZuPlan");
+CREATE INDEX "SO_Bereich_gidx" ON "SO_Basisobjekte"."SO_Bereich" using gist ("geltungsbereich");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Bereich" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Bereich" IS 'Bereich eines sonstigen raumbezogenen Plans.';
@@ -622,7 +624,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsre
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -632,7 +634,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverk
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO so_user;
 
@@ -708,8 +710,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -734,7 +736,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht"
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO so_user;
 
@@ -794,13 +796,13 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();   
-CREATE TRIGGER "delete_SO_WasserrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();    
+CREATE TRIGGER "change_to_SO_WasserrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_WasserrechtPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"
@@ -813,8 +815,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Linienobjekt");  
-    
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -833,7 +835,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -848,7 +850,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -913,8 +915,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -933,7 +935,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -948,7 +950,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1015,8 +1017,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1034,8 +1036,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Linienobjekt");  
-    
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1054,7 +1056,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1079,7 +1081,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRec
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO so_user;
 
@@ -1138,8 +1140,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1157,8 +1159,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Linienobjekt");  
-    
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1177,7 +1179,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1192,7 +1194,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsre
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1272,8 +1274,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1291,8 +1293,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Linienobjekt");  
-    
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1311,7 +1313,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1326,7 +1328,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1407,8 +1409,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1427,7 +1429,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1442,7 +1444,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" 
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachBodenschutzrecht" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1452,7 +1454,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzr
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO so_user;
 
@@ -1508,8 +1510,8 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS("SO_Basisobjekte"."SO_Punktobjekt");    
-    
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1528,7 +1530,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
-    
+
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" TO so_user;
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -1543,7 +1545,7 @@ CREATE TABLE  "SO_SonstigeGebiete"."SO_GebietsArt" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_GebietsArt" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1553,7 +1555,7 @@ CREATE TABLE  "SO_SonstigeGebiete"."SO_SonstGebietsArt" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO xp_gast;
 GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO so_user;
 
@@ -1654,7 +1656,7 @@ CREATE TABLE  "SO_Sonstiges"."SO_GrenzeTypen" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
-  
+
 GRANT SELECT ON TABLE "SO_Sonstiges"."SO_GrenzeTypen" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -1704,6 +1706,40 @@ COMMENT ON COLUMN "SO_Sonstiges"."SO_Grenze"."sonstTyp" IS '';
 CREATE TRIGGER "change_to_SO_Grenze" BEFORE INSERT OR UPDATE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_Grenze" AFTER DELETE ON "SO_Sonstiges"."SO_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
+-- *****************************************************
+-- CREATE spatial indices
+-- *****************************************************
+CREATE INDEX "SO_BodenschutzrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_BodenschutzrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_BodenschutzrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_DenkmalschutzrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_DenkmalschutzrechtLinie_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" USING GIST (position);
+CREATE INDEX "SO_DenkmalschutzrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_ForstrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_ForstrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_LuftverkehrsrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_LuftverkehrsrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_SchienenverkehrsrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_SchienenverkehrsrechtLinie_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtLinie" USING GIST (position);
+CREATE INDEX "SO_SchienenverkehrsrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SchienenverkehrsrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_SonstigesRechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_SonstigesRechtLinie_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtLinie" USING GIST (position);
+CREATE INDEX "SO_SonstigesRechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_SonstigesRechtPunkt" USING GIST (position);
+CREATE INDEX "SO_StrassenverkehrsrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_StrassenverkehrsrechtLinie_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtLinie" USING GIST (position);
+CREATE INDEX "SO_WasserrechtFlaeche_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_WasserrechtLinie_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtLinie" USING GIST (position);
+CREATE INDEX "SO_WasserrechtPunkt_gidx" ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_SchutzgebietNaturschutzrechtFlaeche_gidx" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_SchutzgebietNaturschutzrechtPunkt_gidx" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_SchutzgebietSonstigesRechtFlaeche_gidx" ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_SchutzgebietWasserrechtFlaeche_gidx" ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" USING GIST (position);
+CREATE INDEX "SO_SchutzgebietWasserrechtPunkt_gidx" ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" USING GIST (position);
+CREATE INDEX "SO_Gebiet_gidx" ON "SO_SonstigeGebiete"."SO_Gebiet" USING GIST (position);
+CREATE INDEX "SO_Grenze_gidx" ON "SO_Sonstiges"."SO_Grenze" USING GIST (position);
+
+-- *****************************************************
+-- DATA
+-- *****************************************************
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_Rechtscharakter"
 -- -----------------------------------------------------
