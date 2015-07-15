@@ -434,6 +434,7 @@ CREATE INDEX "idx_fk_bp_plan_xp_externereferenz4" ON "BP_Basisobjekte"."BP_Plan"
 CREATE INDEX "idx_fk_bp_plan_xp_externereferenz5" ON "BP_Basisobjekte"."BP_Plan" ("refSatzung") ;
 CREATE INDEX "idx_fk_bp_plan_xp_externereferenz6" ON "BP_Basisobjekte"."BP_Plan" ("refGruenordnungsplan") ;
 CREATE INDEX "idx_fk_BP_Plan_XP_Plan1" ON "BP_Basisobjekte"."BP_Plan" ("gid") ;
+CREATE INDEX "BP_Plan_gidx" ON "BP_Basisobjekte"."BP_Plan" using gist ("raeumlicherGeltungsbereich");
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Plan" IS 'Die Klasse modelliert einen Bebauungsplan';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
@@ -544,6 +545,7 @@ CREATE INDEX "idx_fk_BP_Bereich_BP_Plan1" ON "BP_Basisobjekte"."BP_Bereich" ("ge
 CREATE INDEX "idx_fk_BP_Bereich_XP_VersionBauNVO1" ON "BP_Basisobjekte"."BP_Bereich" ("versionBauNVO") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich1" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich2" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
+CREATE INDEX "BP_Bereich_gidx" ON "BP_Basisobjekte"."BP_Bereich" using gist ("geltungsbereich");
 CREATE TRIGGER "change_to_BP_Bereich" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "delete_BP_Bereich" AFTER DELETE ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "insert_into_BP_Bereich" BEFORE INSERT ON "BP_Basisobjekte"."BP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "BP_Basisobjekte"."new_BP_Bereich"();
@@ -760,6 +762,7 @@ COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."satzungsbeschlussDatum"
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."rechtsverordnungsDatum" IS 'Datum der Rechtsverordnung';
 COMMENT ON COLUMN  "BP_Raster"."BP_RasterplanAenderung"."inkrafttretensDatum" IS 'Datum des Inkrafttretens der Änderung';
 CREATE INDEX "idx_fk_BP_RasterplanAenderung1" ON "BP_Raster"."BP_RasterplanAenderung" ("gid") ;
+CREATE INDEX "BP_RasterplanAenderung_gidx" ON "BP_Raster"."BP_RasterplanAenderung" using gist ("geltungsbereichAenderung");
 CREATE TRIGGER "change_to_BP_RasterplanAenderung" BEFORE INSERT OR UPDATE ON "BP_Raster"."BP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
 CREATE TRIGGER "delete_BP_RasterplanAenderung" AFTER DELETE ON "BP_Raster"."BP_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
 
@@ -774,12 +777,12 @@ CREATE  TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche"
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE
-  )
+    ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" TO bp_user;
+CREATE INDEX "BP_AbgrabungsFlaeche_gidx" ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§9, Abs. 1, Nr. 17 BauGB)). Hier: Flächen für Abgrabungen.';
 COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_AbgrabungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -797,12 +800,12 @@ CREATE  TABLE  "BP_Bebauung"."BP_AbstandsFlaeche" (
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE
-  )
+    ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_AbstandsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_AbstandsFlaeche" TO bp_user;
+CREATE INDEX "BP_AbstandsFlaeche_gidx" ON "BP_Bebauung"."BP_AbstandsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_AbstandsFlaeche" IS 'Festsetzung eines vom Bauordnungsrecht abweichenden Maßes der Tiefe der Abstandsfläche gemäß § 9 Abs 1. Nr. 2a BauGB';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_AbstandsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_AbstandsFlaeche"."tiefe" IS 'Absolute Angabe derTiefe.';
@@ -850,6 +853,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_AbstandsMassFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_AbstandsMassFlaeche" TO bp_user;
+CREATE INDEX "BP_AbstandsMassFlaeche_gidx" ON "BP_Sonstiges"."BP_AbstandsMassFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_AbstandsMassFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_AbstandsMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AbstandsMassFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_AbstandsMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_AbstandsMassFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_AbstandsMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -869,6 +873,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_AbstandsMassLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_AbstandsMassLinie" TO bp_user;
+CREATE INDEX "BP_AbstandsMassLinie_gidx" ON "BP_Sonstiges"."BP_AbstandsMassLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_AbstandsMassLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_AbstandsMassLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AbstandsMassLinie" AFTER DELETE ON "BP_Sonstiges"."BP_AbstandsMassLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -887,6 +892,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_AbstandsMassPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_AbstandsMassPunkt" TO bp_user;
+CREATE INDEX "BP_AbstandsMassPunkt_gidx" ON "BP_Sonstiges"."BP_AbstandsMassPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_AbstandsMassPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_AbstandsMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AbstandsMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_AbstandsMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -936,6 +942,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" TO bp_user;
+CREATE INDEX "BP_AnpflanzungBindungErhaltungFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_AnpflanzungBindungErhaltungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltungFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_AnpflanzungBindungErhaltungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -955,6 +962,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" TO bp_user;
+CREATE INDEX "BP_AnpflanzungBindungErhaltungLinie_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_AnpflanzungBindungErhaltungLinie" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltungLinie" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -973,6 +981,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" TO bp_user;
+CREATE INDEX "BP_AnpflanzungBindungErhaltungPunkt_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_AnpflanzungBindungErhaltungPunkt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltungPunkt" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -992,6 +1001,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" TO bp_user;
+CREATE INDEX "BP_AufschuettungsFlaeche_gidx" ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Aufschüttungen';
 CREATE TRIGGER "change_to_BP_AufschuettungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AufschuettungsFlaeche" AFTER DELETE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1030,6 +1040,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" TO bp_user;
+CREATE INDEX "BP_AusgleichsFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" IS 'Festsetzung einer Fläche zum Ausgleich im Sinne des § 1a Abs.3 und §9 Abs. 1a BauGB.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
@@ -1142,6 +1153,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" TO bp_user;
+CREATE INDEX "BP_AusgleichsMassnahmeFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_AusgleichsMassnahmeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsMassnahmeFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_AusgleichsMassnahmeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1161,6 +1173,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeLinie" TO bp_user;
+CREATE INDEX "BP_AusgleichsMassnahmeLinie_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_AusgleichsMassnahmeLinie" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsMassnahmeLinie" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1179,6 +1192,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" TO bp_user;
+CREATE INDEX "BP_AusgleichsMassnahmePunkt_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_AusgleichsMassnahmePunkt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AusgleichsMassnahmePunkt" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1212,6 +1226,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" TO bp_user;
+CREATE INDEX "BP_BereichOhneEinAusfahrtLinie_gidx" ON "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" using gist ("position");
 COMMENT ON TABLE "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie" IS 'Bereich ohne Ein- und Ausfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Verkehr"."BP_BereichOhneEinAusfahrtLinie"."typ" IS 'Typ der EIn- oder Ausfahrt.';
@@ -1235,6 +1250,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" TO bp_user;
+CREATE INDEX "BP_BodenschaetzeFlaeche_gidx" ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Gewinnung von Bodenschätzen';
 COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_BodenschaetzeFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
@@ -1278,6 +1294,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" TO bp_user;
+CREATE INDEX "BP_DenkmalschutzEinzelanlageFlaeche_gidx" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlageFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlageFlaeche" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_DenkmalschutzEinzelanlageFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1297,6 +1314,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" TO bp_user;
+CREATE INDEX "BP_DenkmalschutzEinzelanlageLinie_gidx" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlageLinie" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlageLinie" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1315,6 +1333,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" TO bp_user;
+CREATE INDEX "BP_DenkmalschutzEinzelanlagePunkt_gidx" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_DenkmalschutzEinzelanlagePunkt" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_DenkmalschutzEinzelanlagePunkt" AFTER DELETE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1334,6 +1353,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" TO bp_user;
+CREATE INDEX "BP_DenkmalschutzEnsembleFlaeche_gidx" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" IS 'Umgrenzung eines Denkmalgeschützten Ensembles, sofern es sich um eine Festsetzung des Bebauungsplans handelt (§9 Abs. 4 BauGB - landesrechtliche Regelung). Weltkulturerbe kann eigentlich nicht vorkommen.';
 COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche"."denkmal" IS 'Nähere Bezeichnung des Denkmals.';
@@ -1357,6 +1377,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" TO bp_user;
+CREATE INDEX "BP_EinfahrtPunkt_gidx" ON "BP_Verkehr"."BP_EinfahrtPunkt" using gist ("position");
 COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" IS 'Einfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."richtung" IS 'Winkel-Richtung der Einfahrt (in Grad).';
@@ -1378,6 +1399,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" TO bp_user;
+CREATE INDEX "BP_EinfahrtsbereichLinie_gidx" ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" using gist ("position");
 COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" IS 'Einfahrtsbereich (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtsbereichLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_EinfahrtsbereichLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1398,6 +1420,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" TO bp_user;
+CREATE INDEX "BP_EingriffsBereich_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" using gist ("position");
 COMMENT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" IS 'Bestimmt einen Bereich, in dem ein Eingriff nach dem Naturschutzrecht zugelassen wird, der durch geeignete Flächen oder Maßnahmen ausgeglichen werden muss.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_EingriffsBereich" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_EingriffsBereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1434,6 +1457,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" TO bp_user;
+CREATE INDEX "BP_ErhaltungsBereichFlaeche_gidx" ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche" IS 'Bestimmt einen Bereich, in dem ein Eingriff nach dem Naturschutzrecht zugelassen wird, der durch geeignete Flächen oder Maßnahmen ausgeglichen werden muss.';
 COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsBereichFlaeche"."grund" IS 'Erhaltungsgrund';
@@ -1458,6 +1482,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" TO bp_user;
+CREATE INDEX "BP_ErneuerbareEnergieFlaeche_gidx" ON "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche" IS 'Festsetzung nach §9 Abs. 1 Nr. 23b: Gebiete in denen bei der Errichtung von Gebäuden bestimmte bauliche Maßnahmen für den Einsatz erneuerbarer Energien wie insbesondere Solarenergie getroffen werden müssen.';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_ErneuerbareEnergieFlaeche"."technischeMassnahme" IS 'Beschreibung der baulichen oder sonstigen technischen Maßnahme.';
@@ -1501,6 +1526,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" TO bp_user;
+CREATE INDEX "BP_FestsetzungNachLandesrechtFlaeche_gidx" ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_FestsetzungNachLandesrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1520,6 +1546,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" TO bp_user;
+CREATE INDEX "BP_FestsetzungNachLandesrechtLinie_gidx" ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtLinie" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1538,6 +1565,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" TO bp_user;
+CREATE INDEX "BP_FestsetzungNachLandesrechtPunkt_gidx" ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_FestsetzungNachLandesrechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_FestsetzungNachLandesrechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_FestsetzungNachLandesrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1557,6 +1585,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" TO bp_user;
+CREATE INDEX "BP_FreiFlaeche_gidx" ON "BP_Sonstiges"."BP_FreiFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Sonstiges"."BP_FreiFlaeche" IS 'Umgrenzung der Flächen, die von der Bebauung freizuhalten sind, und ihre Nutzung (§ 9 Abs. 1 Nr. 10 BauGB).';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_FreiFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_FreiFlaeche"."nutzung" IS 'Festgesetzte Nutzung der Freifläche.';
@@ -1629,6 +1658,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_GenerischesObjektFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_GenerischesObjektFlaeche" TO bp_user;
+CREATE INDEX "BP_GenerischesObjektFlaeche_gidx" ON "BP_Sonstiges"."BP_GenerischesObjektFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GenerischesObjektFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_GenerischesObjektFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1648,6 +1678,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_GenerischesObjektLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_GenerischesObjektLinie" TO bp_user;
+CREATE INDEX "BP_GenerischesObjektLinie_gidx" ON "BP_Sonstiges"."BP_GenerischesObjektLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GenerischesObjektLinie" AFTER DELETE ON "BP_Sonstiges"."BP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1666,6 +1697,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_GenerischesObjektPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_GenerischesObjektPunkt" TO bp_user;
+CREATE INDEX "BP_GenerischesObjektPunkt_gidx" ON "BP_Sonstiges"."BP_GenerischesObjektPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GenerischesObjektPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1749,6 +1781,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_HoehenMassFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_HoehenMassFlaeche" TO bp_user;
+CREATE INDEX "BP_HoehenMassFlaeche_gidx" ON "BP_Sonstiges"."BP_HoehenMassFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_HoehenMassFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_HoehenMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_HoehenMassFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_HoehenMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_HoehenMassFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_HoehenMassFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1768,6 +1801,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_HoehenMassLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_HoehenMassLinie" TO bp_user;
+CREATE INDEX "BP_HoehenMassLinie_gidx" ON "BP_Sonstiges"."BP_HoehenMassLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_HoehenMassLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_HoehenMassLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_HoehenMassLinie" AFTER DELETE ON "BP_Sonstiges"."BP_HoehenMassLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1786,6 +1820,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_HoehenMassPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_HoehenMassPunkt" TO bp_user;
+CREATE INDEX "BP_HoehenMassPunkt_gidx" ON "BP_Sonstiges"."BP_HoehenMassPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_HoehenMassPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_HoehenMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_HoehenMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_HoehenMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1825,6 +1860,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_ImmissionsschutzFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Umwelt"."BP_ImmissionsschutzFlaeche" TO bp_user;
+CREATE INDEX "BP_ImmissionsschutzFlaeche_gidx" ON "BP_Umwelt"."BP_ImmissionsschutzFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_ImmissionsschutzFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ImmissionsschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_ImmissionsschutzFlaeche" AFTER DELETE ON "BP_Umwelt"."BP_ImmissionsschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_ImmissionsschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ImmissionsschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -1844,6 +1880,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_ImmissionsschutzLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Umwelt"."BP_ImmissionsschutzLinie" TO bp_user;
+CREATE INDEX "BP_ImmissionsschutzLinie_gidx" ON "BP_Umwelt"."BP_ImmissionsschutzLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_ImmissionsschutzLinie" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ImmissionsschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_ImmissionsschutzLinie" AFTER DELETE ON "BP_Umwelt"."BP_ImmissionsschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1862,6 +1899,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_ImmissionsschutzPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Umwelt"."BP_ImmissionsschutzPunkt" TO bp_user;
+CREATE INDEX "BP_ImmissionsschutzPunkt_gidx" ON "BP_Umwelt"."BP_ImmissionsschutzPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_ImmissionsschutzPunkt" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_ImmissionsschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_ImmissionsschutzPunkt" AFTER DELETE ON "BP_Umwelt"."BP_ImmissionsschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -1880,6 +1918,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_KennzeichnungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_KennzeichnungsFlaeche" TO bp_user;
+CREATE INDEX "BP_KennzeichnungsFlaeche_gidx" ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Sonstiges"."BP_KennzeichnungsFlaeche" IS 'Flächen für Kennzeichnungen gemäß §9 Abs. 5 BauGB.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_KennzeichnungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2012,6 +2051,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" TO bp_user;
+CREATE INDEX "BP_LandwirtschaftFlaeche_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_LandwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_LandwirtschaftFlaeche" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_LandwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -2031,6 +2071,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" TO bp_user;
+CREATE INDEX "BP_LandwirtschaftLinie_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_LandwirtschaftLinie" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_LandwirtschaftLinie" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2049,6 +2090,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" TO bp_user;
+CREATE INDEX "BP_LandwirtschaftPunkt_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_LandwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_LandwirtschaftPunkt" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2067,6 +2109,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_LuftreinhalteFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Umwelt"."BP_LuftreinhalteFlaeche" TO bp_user;
+CREATE INDEX "BP_LuftreinhalteFlaeche_gidx" ON "BP_Umwelt"."BP_LuftreinhalteFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Umwelt"."BP_LuftreinhalteFlaeche" IS 'Festsetzung von Gebieten, in denen zum Schutz vor schädlichen Umwelteinwirkungen im Sinne des Bundes-Immissionsschutzgesetzes bestimmte Luft verunreinigende Stoffe nicht oder nur beschränkt verwendet werden dürfen (§9, Abs. 1, Nr. 23a BauGB).';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_LuftreinhalteFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_LuftreinhalteFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_LuftreinhalteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2118,6 +2161,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_NutzungsartenGrenze" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_NutzungsartenGrenze" TO bp_user;
+CREATE INDEX "BP_NutzungsartenGrenze_gidx" ON "BP_Sonstiges"."BP_NutzungsartenGrenze" using gist ("position");
 COMMENT ON TABLE  "BP_Sonstiges"."BP_NutzungsartenGrenze" IS 'Abgrenzung unterschiedlicher Nutzung, z.B. von Baugebieten wenn diese nach PlanzVO in der gleichen Farbe dargestellt werden, oder Abgrenzung unterschiedlicher Nutzungsmaße innerhalb eines Baugebiets ("Knödellinie", §1 Abs. 4, §16 Abs. 5 BauNVO).';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_NutzungsartenGrenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_NutzungsartenGrenze"."typ" IS 'Typ der Abgrenzung. Wenn das Attribut nicht belegt ist, ist die Abgrenzung eine Nutzungsarten-Grenze (Schlüsselnummer 1000).';
@@ -2140,6 +2184,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" TO bp_user;
+CREATE INDEX "BP_RekultivierungsFlaeche_gidx" ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" IS 'Rekultivierungs-Fläche';
 COMMENT ON COLUMN  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_RekultivierungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2203,6 +2248,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" TO bp_user;
+CREATE INDEX "BP_SchutzgebietFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_BP_SchutzgebietFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzgebietFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_SchutzgebietFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -2222,6 +2268,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie" TO bp_user;
+CREATE INDEX "BP_SchutzgebietLinie_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie" using gist ("position");
 CREATE TRIGGER "change_to_BP_SchutzgebietLinie" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzgebietLinie" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2240,6 +2287,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt" TO bp_user;
+CREATE INDEX "BP_SchutzgebietPunkt_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt" using gist ("position");
 CREATE TRIGGER "change_to_BP_SchutzgebietPunkt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzgebietPunkt" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2389,6 +2437,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" TO bp_user;
+CREATE INDEX "BP_SchutzPflegeEntwicklungsMassnahmeFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" using gist ("position");
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2409,6 +2458,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie" TO bp_user;
+CREATE INDEX "BP_SchutzPflegeEntwicklungsMassnahmeLinie_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie" using gist ("position");
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_SchutzPflegeEntwicklungsMassnahmeLinie" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzPflegeEntwicklungsMassnahmeLinie" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2428,6 +2478,7 @@ INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt" TO bp_user;
+CREATE INDEX "BP_SchutzPflegeEntwicklungsMassnahmePunkt_gidx" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt" using gist ("position");
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_SchutzPflegeEntwicklungsMassnahmePunkt" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzPflegeEntwicklungsMassnahmePunkt" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahmePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2448,6 +2499,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenbegrenzungsLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenbegrenzungsLinie" TO bp_user;
+CREATE INDEX "BP_StrassenbegrenzungsLinie_gidx" ON "BP_Verkehr"."BP_StrassenbegrenzungsLinie" using gist ("position");
 COMMENT ON TABLE  "BP_Verkehr"."BP_StrassenbegrenzungsLinie" IS 'Straßenbegrenzungslinie (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_StrassenbegrenzungsLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_StrassenbegrenzungsLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_StrassenbegrenzungsLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2504,6 +2556,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenkoerperFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenkoerperFlaeche" TO bp_user;
+CREATE INDEX "BP_StrassenkoerperFlaeche_gidx" ON "BP_Verkehr"."BP_StrassenkoerperFlaeche" using gist ("position");
 COMMENT ON COLUMN "BP_Verkehr"."BP_StrassenkoerperFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_StrassenkoerperFlaeche" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_StrassenkoerperFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_StrassenkoerperFlaeche" AFTER DELETE ON "BP_Verkehr"."BP_StrassenkoerperFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2524,6 +2577,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenkoerperLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenkoerperLinie" TO bp_user;
+CREATE INDEX "BP_StrassenkoerperLinie_gidx" ON "BP_Verkehr"."BP_StrassenkoerperLinie" using gist ("position");
 COMMENT ON COLUMN "BP_Verkehr"."BP_StrassenkoerperLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_StrassenkoerperLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_StrassenkoerperLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_StrassenkoerperLinie" AFTER DELETE ON "BP_Verkehr"."BP_StrassenkoerperLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2543,6 +2597,7 @@ INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenkoerperPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenkoerperPunkt" TO bp_user;
+CREATE INDEX "BP_StrassenkoerperPunkt_gidx" ON "BP_Verkehr"."BP_StrassenkoerperPunkt" using gist ("position");
 COMMENT ON COLUMN "BP_Verkehr"."BP_StrassenkoerperPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_StrassenkoerperPunkt" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_StrassenkoerperPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_StrassenkoerperPunkt" AFTER DELETE ON "BP_Verkehr"."BP_StrassenkoerperPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2562,6 +2617,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" TO bp_user;
+CREATE INDEX "BP_TextlicheFestsetzungsFlaeche_gidx" ON "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte Textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse XP_Objekt) spezifiziert werden.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_TextlicheFestsetzungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2604,6 +2660,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche" TO bp_user;
+CREATE INDEX "BP_UnverbindlicheVormerkungFlaeche_gidx" ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_UnverbindlicheVormerkungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_UnverbindlicheVormerkungFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2624,6 +2681,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie" TO bp_user;
+CREATE INDEX "BP_UnverbindlicheVormerkungLinie_gidx" ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_UnverbindlicheVormerkungLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_UnverbindlicheVormerkungLinie" AFTER DELETE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2643,6 +2701,7 @@ INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" TO bp_user;
+CREATE INDEX "BP_UnverbindlicheVormerkungPunkt_gidx" ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_UnverbindlicheVormerkungPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_UnverbindlicheVormerkungPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_UnverbindlicheVormerkungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2675,6 +2734,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" TO bp_user;
+CREATE INDEX "BP_Veraenderungssperre_gidx" ON "BP_Sonstiges"."BP_Veraenderungssperre" using gist ("position");
 CREATE INDEX "idx_fk_BP_Veraenderungssperre1" ON "BP_Sonstiges"."BP_Veraenderungssperre" ("refBeschluss") ;
 COMMENT ON TABLE "BP_Sonstiges"."BP_Veraenderungssperre" IS 'Ausweisung einer Veränderungssperre, die nicht den gesamten Geltungsbereich des Plans umfasst. Bei Verwendung dieser Klasse muss das Attribut "veraenderungssperre" des zugehörigen Plans (Klasse BP_Plan) auf "false" gesetzt werden.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Veraenderungssperre"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
@@ -2700,6 +2760,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" TO bp_user;
+CREATE INDEX "BP_WaldFlaeche_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" IS 'Festsetzung von Waldflächen (§9, Abs. 1, Nr. 18b BauGB).';
 COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_WaldFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2793,6 +2854,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" TO bp_user;
+CREATE INDEX "BP_WasserwirtschaftsFlaeche_gidx" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" using gist ("position");
 CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche1" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("zweckbestimmung") ;
 CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche2" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
 COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft, den Hochwasserschutz und die Regelungen des Wasserabflusses (§9 Abs. 1 Nr. 16 und Abs. 6a BauGB).';
@@ -2858,6 +2920,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtFlaeche" TO bp_user;
+CREATE INDEX "BP_WegerechtFlaeche_gidx" ON "BP_Sonstiges"."BP_WegerechtFlaeche" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_WegerechtFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_WegerechtFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2868,7 +2931,7 @@ CREATE TRIGGER "BP_WegerechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_WegerechtLinie" (
   "gid" BIGINT NOT NULL ,
-  "breite" NUMERIC (10,2),
+  "breite" REAL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_WegerechtLinie_parent"
     FOREIGN KEY ("gid" )
@@ -2879,6 +2942,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtLinie" TO bp_user;
+CREATE INDEX "BP_WegerechtLinie_gidx" ON "BP_Sonstiges"."BP_WegerechtLinie" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_WegerechtLinie"."breite" IS 'Breite des Wegerechts bei linienförmiger Ausweisung der Geometrie.';
 CREATE TRIGGER "change_to_BP_WegerechtLinie" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2899,6 +2963,7 @@ INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_WegerechtPunkt" TO bp_user;
+CREATE INDEX "BP_WegerechtPunkt_gidx" ON "BP_Sonstiges"."BP_WegerechtPunkt" using gist ("position");
 COMMENT ON COLUMN "BP_Sonstiges"."BP_WegerechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_WegerechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_WegerechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2972,36 +3037,36 @@ GRANT SELECT ON "BP_Bebauung"."BP_AbweichendeBauweise" TO xp_gast;
 CREATE TABLE  "BP_Bebauung"."BP_FestsetzungenBaugebiet" (
   "gid" BIGINT NOT NULL,
   "MaxZahlWohnungen" INTEGER,
-  "Fmin" NUMERIC (10,2),
-  "Fmax" NUMERIC (10,2),
-  "Bmin" NUMERIC (10,2),
-  "Bmax" NUMERIC (10,2),
-  "Tmin" NUMERIC (10,2),
-  "Tmax" NUMERIC (10,2),
-  "GFZmin" NUMERIC (10,2),
-  "GFZmax" NUMERIC (10,2),
-  "GFZ" NUMERIC (10,2),
-  "GFZ_Ausn" NUMERIC (10,2),
-  "GFmin" NUMERIC (10,2),
-  "GFmax" NUMERIC (10,2),
-  "GF" NUMERIC (10,2),
-  "GF_Ausn" NUMERIC (10,2),
-  "BMZmin" NUMERIC (10,2),
-  "BMZmax" NUMERIC (10,2),
-  "BMZ" NUMERIC (10,2),
-  "BMZ_Ausn" NUMERIC (10,2),
-  "BMmin" NUMERIC (10,2),
-  "BMmax" NUMERIC (10,2),
-  "BM" NUMERIC (10,2),
-  "BM_Ausn" NUMERIC (10,2),
-  "GRZmin" NUMERIC (10,2),
-  "GRZmax" NUMERIC (10,2),
-  "GRZ" NUMERIC (10,2),
-  "GRZ_Ausn" NUMERIC (10,2),
-  "GRmin" NUMERIC (10,2),
-  "GRmax" NUMERIC (10,2),
-  "GR" NUMERIC (10,2),
-  "GR_Ausn" NUMERIC (10,2),
+  "Fmin" REAL,
+  "Fmax" REAL,
+  "Bmin" REAL,
+  "Bmax" REAL,
+  "Tmin" REAL,
+  "Tmax" REAL,
+  "GFZmin" REAL,
+  "GFZmax" REAL,
+  "GFZ" REAL,
+  "GFZ_Ausn" REAL,
+  "GFmin" REAL,
+  "GFmax" REAL,
+  "GF" REAL,
+  "GF_Ausn" REAL,
+  "BMZmin" REAL,
+  "BMZmax" REAL,
+  "BMZ" REAL,
+  "BMZ_Ausn" REAL,
+  "BMmin" REAL,
+  "BMmax" REAL,
+  "BM" REAL,
+  "BM_Ausn" REAL,
+  "GRZmin" REAL,
+  "GRZmax" REAL,
+  "GRZ" REAL,
+  "GRZ_Ausn" REAL,
+  "GRmin" REAL,
+  "GRmax" REAL,
+  "GR" REAL,
+  "GR_Ausn" REAL,
   "Zmin" INTEGER,
   "Zmax" INTEGER,
   "Zzwingend" INTEGER,
@@ -3281,6 +3346,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO bp_user;
+CREATE INDEX "BP_BaugebietsTeilFlaeche_gidx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3348,6 +3414,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BauLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_BauLinie" TO bp_user;
+CREATE INDEX "BP_BauLinie_gidx" ON "BP_Bebauung"."BP_BauLinie" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BauLinie" IS 'Festsetzung einer Baulinie (§9 Abs. 1 Nr. 2 BauGB, §22 und 23 BauNVO). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BauLinie"."bautiefe" IS 'Angabe einer Bautiefe.';
@@ -3372,6 +3439,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" TO bp_user;
+CREATE INDEX "BP_BesondererNutzungszweckFlaeche_gidx" ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" IS 'Festsetzung einer Fläche mit besonderem Nutzungszweck, der durch besondere städtebauliche Gründe erfordert wird (§9 Abs. 1 Nr. 9 BauGB.)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."zweckbestimmung" IS 'Angabe des besonderen Nutzungszwecks';
@@ -3394,6 +3462,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_FirstRichtungsLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_FirstRichtungsLinie" TO bp_user;
+CREATE INDEX "BP_FirstRichtungsLinie_gidx" ON "BP_Bebauung"."BP_FirstRichtungsLinie" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_FirstRichtungsLinie" IS 'Gestaltungs-Festsetzung der Firstrichtung, beruhend auf Landesrecht, gemäß §9 Abs. 4 BauGB.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_FirstRichtungsLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_FirstRichtungsLinie" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FirstRichtungsLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3414,6 +3483,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_FoerderungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_FoerderungsFlaeche" TO bp_user;
+CREATE INDEX "BP_FoerderungsFlaeche_gidx" ON "BP_Bebauung"."BP_FoerderungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_FoerderungsFlaeche" IS 'Fläche, auf der ganz oder teilweise nur Wohngebäude, die mit Mitteln der sozialen Wohnraumförderung gefördert werden könnten, errichtet werden dürfen (§9, Abs. 1, Nr. 7 BauGB).';
 COMMENT ON COLUMN "BP_Bebauung"."BP_FoerderungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_FoerderungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_FoerderungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3435,6 +3505,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GebaeudeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GebaeudeFlaeche" TO bp_user;
+CREATE INDEX "BP_GebaeudeFlaeche_gidx" ON "BP_Bebauung"."BP_GebaeudeFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_GebaeudeFlaeche" IS 'Grundrissfläche eines existierenden Gebäudes';
 COMMENT ON COLUMN "BP_Bebauung"."BP_GebaeudeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_GebaeudeFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GebaeudeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3457,6 +3528,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" TO bp_user;
+CREATE INDEX "BP_GemeinschaftsanlagenFlaeche_gidx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche" IS 'Fläche für Gemeinschaftsanlagen für bestimmte räumliche Bereiche wie Kinderspielplätze, Freizeiteinrichtungen, Stellplätze und Garagen (§9 Abs. 22 BauGB)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche"."Zmax" IS 'Maximale Anzahl von Garagen-Geschossen';
@@ -3637,6 +3709,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" TO bp_user;
+CREATE INDEX "BP_GemeinschaftsanlagenZuordnungFlaeche_gidx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" using gist ("position");
 COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3658,6 +3731,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" TO bp_user;
+CREATE INDEX "BP_GemeinschaftsanlagenZuordnungLinie_gidx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" using gist ("position");
 COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungLinie" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungLinie" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3677,6 +3751,7 @@ INHERITS("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" TO bp_user;
+CREATE INDEX "BP_GemeinschaftsanlagenZuordnungPunkt_gidx" ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" using gist ("position");
 COMMENT ON COLUMN "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_GemeinschaftsanlagenZuordnungPunkt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GemeinschaftsanlagenZuordnungPunkt" AFTER DELETE ON "BP_Bebauung"."BP_GemeinschaftsanlagenZuordnungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3712,6 +3787,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" TO bp_user;
+CREATE INDEX "BP_NebenanlagenAusschlussFlaeche_gidx" ON "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche" IS 'Festsetzung einer Fläche für die Einschränkung oder den Ausschluss von Nebenanlagen.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche"."typ" IS 'Art des Ausschlusses.';
@@ -3759,6 +3835,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_NebenanlagenFlaeche" TO bp_user;
+CREATE INDEX "BP_NebenanlagenFlaeche_gidx" ON "BP_Bebauung"."BP_NebenanlagenFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_NebenanlagenFlaeche" IS 'Fläche für Nebenanlagen, die auf Grund anderer Vorschriften für die Nutzung von Grundstücken erforderlich sind, wie Spiel-, Freizeit- und Erholungsflächen sowie die Fläche für Stellplätze und Garagen mit ihren Einfahrten (§9 Abs. 4 BauGB)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_NebenanlagenFlaeche"."Zmax" IS 'Maximale Anzahl der Garagengeschosse.';
@@ -3849,6 +3926,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" TO bp_user;
+CREATE INDEX "BP_PersGruppenBestimmteFlaeche_gidx" ON "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" IS 'Fläche, auf denen ganz oder teilweise nur Wohngebäude errichtet werden dürfen, die für Personengruppen mit besonderem Wohnbedarf bestimmt sind (§9, Abs. 1, Nr. 8 BauGB)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_PersGruppenBestimmteFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_PersGruppenBestimmteFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3886,6 +3964,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" TO bp_user;
+CREATE INDEX "BP_RegelungVergnuegungsstaetten_gidx" ON "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_RegelungVergnuegungsstaetten" IS 'Festsetzung nach §9 Abs. 2b BauGB (Zulässigkeit von Vergnügungsstätten)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_RegelungVergnuegungsstaetten"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_RegelungVergnuegungsstaetten"."zulaessigkeit" IS 'Zulässigkeit von Vergnügungsstätten.';
@@ -3920,10 +3999,10 @@ CREATE TABLE  "BP_Bebauung"."BP_SpezielleBauweise" (
   "gid" BIGINT NOT NULL,
   "typ" INTEGER,
   "sonstTyp" INTEGER,
-  "Bmin" NUMERIC (10,2),
-  "Bmax" NUMERIC (10,2),
-  "Tmin" NUMERIC (10,2),
-  "Tmax" NUMERIC (10,2),
+  "Bmin" REAL,
+  "Bmax" REAL,
+  "Tmin" REAL,
+  "Tmax" REAL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_SpezielleBauweise_parent"
     FOREIGN KEY ("gid")
@@ -3944,6 +4023,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 CREATE INDEX "idx_fk_BP_SpezielleBauweise_typ_idx" ON "BP_Bebauung"."BP_SpezielleBauweise" ("typ");
 CREATE INDEX "idx_fk_BP_SpezielleBauweise_sonstTyp_idx" ON "BP_Bebauung"."BP_SpezielleBauweise" ("sonstTyp");
+CREATE INDEX "BP_SpezielleBauweise_gidx" ON "BP_Bebauung"."BP_SpezielleBauweise" using gist ("position");
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_SpezielleBauweise" TO bp_user;
 COMMENT ON TABLE  "BP_Bebauung"."BP_SpezielleBauweise" IS 'Festsetzung der speziellen Bauweise / baulichen Besonderheit eines Gebäudes oder Bauwerks.';
@@ -3975,6 +4055,7 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO bp_user;
+CREATE INDEX "BP_UeberbaubareGrundstuecksFlaeche_gidx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festsetzung der überbaubaren Grundstücksfläche (§9, Abs. 1, Nr. 2 BauGB). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
@@ -4001,6 +4082,7 @@ INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BauGrenze" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_BauGrenze" TO bp_user;
+CREATE INDEX "BP_BauGrenze_gidx" ON "BP_Bebauung"."BP_BauGrenze" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BauGrenze" IS 'Festsetzung einer Baulinie (§9 Abs. 1 Nr. 2 BauGB, §22 und 23 BauNVO). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BauGrenze"."bautiefe" IS 'Angabe einer Bautiefe.';
@@ -4073,6 +4155,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" TO bp_user;
+CREATE INDEX "BP_GemeinbedarfsFlaeche_gidx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" IS 'Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, hier Flächen für den Gemeindebedarf (§9, Abs. 1, Nr.5 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
@@ -4144,6 +4227,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" TO bp_user;
+CREATE INDEX "BP_SpielSportanlagenFlaeche_gidx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" IS 'Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, hier Flächen für Sport- und Spielanlagen (§9, Abs. 1, Nr. 5 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
@@ -4230,6 +4314,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" TO bp_user;
+CREATE INDEX "BP_GruenFlaeche_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" IS 'Festsetzungen von öffentlichen und privaten Grünflächen(§9, Abs. 1, Nr. 15 BauGB) und von Flächen für die Kleintierhaltung (§9, Abs. 1, Nr. 19 BauGB).';
 COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche"."nutzungsform" IS 'Nutzungform der festgesetzten Fläche.';
@@ -4341,6 +4426,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" TO bp_user;
+CREATE INDEX "BP_StrassenVerkehrsFlaeche_gidx" ON "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche" IS 'Strassenverkehrsfläche (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_StrassenVerkehrsFlaeche"."nutzungsform" IS 'Nutzungform der Fläche.';
@@ -4427,6 +4513,7 @@ CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_zweckbestimmung_idx" ON "BP_
 CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBesZweckbest_detaillierteZweckbestimmung_idx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("detaillierteZweckbestimmung");
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" TO bp_user;
+CREATE INDEX "BP_VerkehrsFlaecheBesondererZweckbestimmung_gidx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" using gist ("position");
 COMMENT ON TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" IS 'Strassenverkehrsfläche (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zweckbestimmung" IS 'Zweckbestimmung der Fläche';
@@ -4498,6 +4585,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" TO bp_user;
+CREATE INDEX "BP_VerEntsorgungFlaeche_gidx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" using gist ("position");
 COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_VerEntsorgungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerEntsorgungFlaeche" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4518,6 +4606,7 @@ INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
 GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" TO bp_user;
+CREATE INDEX "BP_VerEntsorgungLinie_gidx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" using gist ("position");
 COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_VerEntsorgungLinie" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerEntsorgungLinie" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4537,6 +4626,7 @@ INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
 GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" TO bp_user;
+CREATE INDEX "BP_VerEntsorgungPunkt_gidx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" using gist ("position");
 COMMENT ON COLUMN  "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_VerEntsorgungPunkt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerEntsorgungPunkt" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
