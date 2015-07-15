@@ -56,7 +56,7 @@ GRANT USAGE ON SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze" TO xp_gast;
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
-CREATE OR REPLACE FUNCTION "FP_Basisobjekte"."new_FP_Bereich"() 
+CREATE OR REPLACE FUNCTION "FP_Basisobjekte"."new_FP_Bereich"()
 RETURNS trigger AS
 $BODY$
  DECLARE
@@ -77,7 +77,7 @@ GRANT EXECUTE ON FUNCTION "FP_Basisobjekte"."new_FP_Bereich"() TO fp_user;
 
 
 -- *****************************************************
--- CREATE TABLEs 
+-- CREATE TABLEs
 -- *****************************************************
 
 -- -----------------------------------------------------
@@ -205,6 +205,7 @@ CREATE INDEX "idx_fk_fp_plan_fp_verfahren1" ON "FP_Basisobjekte"."FP_Plan" ("ver
 CREATE INDEX "idx_fk_fp_plan_fp_status1" ON "FP_Basisobjekte"."FP_Plan" ("status") ;
 CREATE INDEX "idx_fk_fp_plan_fp_rechtsstand1" ON "FP_Basisobjekte"."FP_Plan" ("rechtsstand") ;
 CREATE INDEX "idx_fk_fp_plan_xp_externereferenz4" ON "FP_Basisobjekte"."FP_Plan" ("refUmweltbericht") ;
+CREATE INDEX "FP_Plan_gidx" ON "FP_Basisobjekte"."FP_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Plan" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Plan" TO fp_user;
 COMMENT ON TABLE "FP_Basisobjekte"."FP_Plan" IS 'Klasse zur Modellierung eines gesamten Flächennutzungsplans.';
@@ -263,6 +264,7 @@ INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");
 
 CREATE INDEX "idx_fk_FP_Bereich_FP_Plan1" ON "FP_Basisobjekte"."FP_Bereich" ("gehoertZuPlan") ;
 CREATE INDEX "idx_fk_FP_Bereich_XP_VersionBauNVO1" ON "FP_Basisobjekte"."FP_Bereich" ("versionBauNVO") ;
+CREATE INDEX "FP_Bereich_gidx" ON "FP_Basisobjekte"."FP_Bereich" using gist ("geltungsbereich");
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Bereich" TO fp_user;
 COMMENT ON TABLE "FP_Basisobjekte"."FP_Bereich" IS 'Diese Klasse modelliert einen Bereich eines Flächennutzungsplans.';
@@ -277,7 +279,7 @@ CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE ON "FP_Basisobjekt
 CREATE TRIGGER "delete_FP_Bereich" AFTER DELETE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
 CREATE TRIGGER "insert_into_FP_Bereich" BEFORE INSERT ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "FP_Basisobjekte"."new_FP_Bereich"();
 CREATE TRIGGER "FP_Bereich_propagate_name" AFTER UPDATE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
-  
+
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Rechtscharakter"
 -- -----------------------------------------------------
@@ -430,6 +432,7 @@ INHERITS("XP_Raster"."XP_GeltungsbereichAenderung");
 
 GRANT SELECT ON TABLE "FP_Raster"."FP_RasterplanAenderung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Raster"."FP_RasterplanAenderung" TO fp_user;
+CREATE INDEX "FP_RasterplanAenderung_gidx" ON "FP_Raster"."FP_RasterplanAenderung" using gist ("geltungsbereichAenderung");
 COMMENT ON TABLE "FP_Raster"."FP_RasterplanAenderung" IS 'Georeferenziertes Rasterbild der Änderung eines Basisplans. Die abgeleitete Klasse besitzt Datums-Attribute, die spezifisch für Flächennutzungspläne sind.';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "FP_Raster"."FP_RasterplanAenderung"."aufstellungbeschlussDatum" IS '';
@@ -2477,7 +2480,7 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" (
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-    
+
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO fp_user;
 COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
@@ -2690,6 +2693,66 @@ GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeP
 CREATE TRIGGER "change_to_FP_BodenschaetzePunkt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_BodenschaetzePunkt" AFTER DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
+-- *****************************************************
+-- CREATE spatial indices
+-- *****************************************************
+CREATE INDEX "FP_AbgrabungFlaeche_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" USING GIST("position");
+CREATE INDEX "FP_AbgrabungLinie_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungLinie" USING GIST("position");
+CREATE INDEX "FP_AbgrabungPunkt_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungPunkt" USING GIST("position");
+CREATE INDEX "FP_AufschuettungFlaeche_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungFlaeche" USING GIST("position");
+CREATE INDEX "FP_AufschuettungLinie_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungLinie" USING GIST("position");
+CREATE INDEX "FP_AufschuettungPunkt_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AufschuettungPunkt" USING GIST("position");
+CREATE INDEX "FP_BodenschaetzeFlaeche_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" USING GIST("position");
+CREATE INDEX "FP_BodenschaetzeLinie_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeLinie" USING GIST("position");
+CREATE INDEX "FP_BodenschaetzePunkt_gidx" ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" USING GIST("position");
+CREATE INDEX "FP_BebauungsFlaeche_gidx" ON "FP_Bebauung"."FP_BebauungsFlaeche" USING GIST("position");
+CREATE INDEX "FP_KeineZentrAbwasserBeseitigungFlaeche_gidx" ON "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche" USING GIST("position");
+CREATE INDEX "FP_AnpassungKlimawandelFlaeche_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche" USING GIST("position");
+CREATE INDEX "FP_AnpassungKlimawandelLinie_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie" USING GIST("position");
+CREATE INDEX "FP_AnpassungKlimawandelPunkt_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt" USING GIST("position");
+CREATE INDEX "FP_GemeinbedarfFlaeche_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" USING GIST("position");
+CREATE INDEX "FP_GemeinbedarfLinie_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie" USING GIST("position");
+CREATE INDEX "FP_GemeinbedarfPunkt_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" USING GIST("position");
+CREATE INDEX "FP_SpielSportanlageFlaeche_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" USING GIST("position");
+CREATE INDEX "FP_SpielSportanlageLinie_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" USING GIST("position");
+CREATE INDEX "FP_SpielSportanlagePunkt_gidx" ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" USING GIST("position");
+CREATE INDEX "FP_GruenFlaeche_gidx" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" USING GIST("position");
+CREATE INDEX "FP_GruenLinie_gidx" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" USING GIST("position");
+CREATE INDEX "FP_GruenPunkt_gidx" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" USING GIST("position");
+CREATE INDEX "FP_LandwirtschaftsFlaeche_gidx" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" USING GIST("position");
+CREATE INDEX "FP_WaldFlaeche_gidx" ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" USING GIST("position");
+CREATE INDEX "FP_AusgleichsFlaeche_gidx" ON "FP_Naturschutz"."FP_AusgleichsFlaeche" USING GIST("position");
+CREATE INDEX "FP_SchutzPflegeEntwicklungFlaeche_gidx" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" USING GIST("position");
+CREATE INDEX "FP_SchutzPflegeEntwicklungLinie_gidx" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" USING GIST("position");
+CREATE INDEX "FP_SchutzPflegeEntwicklungPunkt_gidx" ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" USING GIST("position");
+CREATE INDEX "FP_GenerischesObjektFlaeche_gidx" ON "FP_Sonstiges"."FP_GenerischesObjektFlaeche" USING GIST("position");
+CREATE INDEX "FP_GenerischesObjektLinie_gidx" ON "FP_Sonstiges"."FP_GenerischesObjektLinie" USING GIST("position");
+CREATE INDEX "FP_GenerischesObjektPunkt_gidx" ON "FP_Sonstiges"."FP_GenerischesObjektPunkt" USING GIST("position");
+CREATE INDEX "FP_KennzeichnungFlaeche_gidx" ON "FP_Sonstiges"."FP_KennzeichnungFlaeche" USING GIST("position");
+CREATE INDEX "FP_KennzeichnungLinie_gidx" ON "FP_Sonstiges"."FP_KennzeichnungLinie" USING GIST("position");
+CREATE INDEX "FP_KennzeichnungPunkt_gidx" ON "FP_Sonstiges"."FP_KennzeichnungPunkt" USING GIST("position");
+CREATE INDEX "FP_NutzungsbeschraenkungsFlaeche_gidx" ON "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" USING GIST("position");
+CREATE INDEX "FP_PrivilegiertesVorhabenFlaeche_gidx" ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" USING GIST("position");
+CREATE INDEX "FP_PrivilegiertesVorhabenLinie_gidx" ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" USING GIST("position");
+CREATE INDEX "FP_PrivilegiertesVorhabenPunkt_gidx" ON "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" USING GIST("position");
+CREATE INDEX "FP_TextlicheDarstellungsFlaeche_gidx" ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" USING GIST("position");
+CREATE INDEX "FP_UnverbindlicheVormerkungFlaeche_gidx" ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" USING GIST("position");
+CREATE INDEX "FP_UnverbindlicheVormerkungLinie_gidx" ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" USING GIST("position");
+CREATE INDEX "FP_UnverbindlicheVormerkungPunkt_gidx" ON "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" USING GIST("position");
+CREATE INDEX "FP_VorbehalteFlaeche_gidx" ON "FP_Sonstiges"."FP_VorbehalteFlaeche" USING GIST("position");
+CREATE INDEX "FP_VerEntsorgungFlaeche_gidx" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungFlaeche" USING GIST("position");
+CREATE INDEX "FP_VerEntsorgungLinie_gidx" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungLinie" USING GIST("position");
+CREATE INDEX "FP_VerEntsorgungPunkt_gidx" ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" USING GIST("position");
+CREATE INDEX "FP_ZentralerVersorgungsbereich_gidx" ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" USING GIST("position");
+CREATE INDEX "FP_StrassenverkehrFlaeche_gidx" ON "FP_Verkehr"."FP_StrassenverkehrFlaeche" USING GIST("position");
+CREATE INDEX "FP_StrassenverkehrLinie_gidx" ON "FP_Verkehr"."FP_StrassenverkehrLinie" USING GIST("position");
+CREATE INDEX "FP_StrassenverkehrPunkt_gidx" ON "FP_Verkehr"."FP_StrassenverkehrPunkt" USING GIST("position");
+CREATE INDEX "FP_GewaesserFlaeche_gidx" ON "FP_Wasser"."FP_GewaesserFlaeche" USING GIST("position");
+CREATE INDEX "FP_GewaesserLinie_gidx" ON "FP_Wasser"."FP_GewaesserLinie" USING GIST("position");
+CREATE INDEX "FP_GewaesserPunkt_gidx" ON "FP_Wasser"."FP_GewaesserPunkt" USING GIST("position");
+CREATE INDEX "FP_WasserwirtschaftFlaeche_gidx" ON "FP_Wasser"."FP_WasserwirtschaftFlaeche" USING GIST("position");
+CREATE INDEX "FP_WasserwirtschaftLinie_gidx" ON "FP_Wasser"."FP_WasserwirtschaftLinie" USING GIST("position");
+CREATE INDEX "FP_WasserwirtschaftPunkt_gidx" ON "FP_Wasser"."FP_WasserwirtschaftPunkt" USING GIST("position");
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -2734,7 +2797,7 @@ CREATE OR REPLACE RULE _update AS
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "FP_Basisobjekte"."FP_Linienobjekte" DO INSTEAD  DELETE FROM "FP_Basisobjekte"."FP_Linienobjekt"
   WHERE gid = old.gid;
-  
+
 -- -----------------------------------------------------
 -- View "FP_Basisobjekte"."FP_Flaechenobjekte"
 -- -----------------------------------------------------
@@ -2758,16 +2821,16 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 -- View "FP_Basisobjekte"."FP_Objekte"
 -- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS 
+CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
  SELECT fp_o.gid, g."FP_Bereich_gid", fp_o."Objektart", fp_o."Objektartengruppe"
- FROM 
+ FROM
   ( SELECT o.gid, c.relname::character varying AS "Objektart", n.nspname::character varying AS "Objektartengruppe"
          FROM (        (         SELECT p.gid, p.tableoid
                                  FROM "FP_Basisobjekte"."FP_Punktobjekt" p
-                      UNION 
+                      UNION
                                SELECT "FP_Linienobjekt".gid, "FP_Linienobjekt".tableoid
                                  FROM "FP_Basisobjekte"."FP_Linienobjekt")
-              UNION 
+              UNION
                        SELECT "FP_Flaechenobjekt".gid, "FP_Flaechenobjekt".tableoid
                          FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
     JOIN pg_class c ON o.tableoid = c.oid
