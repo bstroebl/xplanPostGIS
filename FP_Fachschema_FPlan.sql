@@ -1588,8 +1588,8 @@ CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO xp_gast;
-GRANT ALL ON TABLE "FP_Sonstiges"."FP_GenerischesObjekt" TO fp_user;
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" TO fp_user;
 COMMENT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" IS 'Kennzeichnungen gemäß §5 Abs. 3 BauGB.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_Kennzeichnung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_Kennzeichnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
