@@ -280,11 +280,13 @@ CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."propagate_name_to_parent"()
 RETURNS trigger AS
 $BODY$
  BEGIN
-    IF new.name != old.name THEN
-        IF TG_TABLE_NAME LIKE '%Plan' THEN
-            UPDATE "XP_Basisobjekte"."XP_Plan" SET name = new.name;
-        ELSIF TG_TABLE_NAME LIKE '%Bereich' THEN
-            UPDATE "XP_Basisobjekte"."XP_Bereich" SET name = new.name;
+    IF pg_trigger_depth() = 1 THEN -- UPDATE-Statement wird nicht über einen anderen Trigger aufgerufen
+        IF new.name != old.name THEN
+            IF TG_TABLE_NAME LIKE '%Plan' THEN
+                UPDATE "XP_Basisobjekte"."XP_Plan" SET name = new.name;
+            ELSIF TG_TABLE_NAME LIKE '%Bereich' THEN
+                UPDATE "XP_Basisobjekte"."XP_Bereich" SET name = new.name;
+            END IF;
         END IF;
     END IF;
     RETURN new;
@@ -299,27 +301,29 @@ $BODY$
 DECLARE
     rec record;
  BEGIN
-    IF new.name != old.name THEN
-        IF TG_TABLE_NAME = 'XP_Plan' THEN
-            FOR rec IN
-                SELECT nspname, relname
-                FROM pg_class c
-                    JOIN pg_namespace n ON c.relnamespace = n.oid
-                WHERE relname IN ('FP_Plan', 'BP_Plan', 'LP_Plan', 'RP_Plan', 'SO_Plan')
-            LOOP
-                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
-                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
-            END LOOP;
-        ELSIF TG_TABLE_NAME = 'XP_Bereich' THEN
-            FOR rec IN
-                SELECT nspname, relname
-                FROM pg_class c
-                    JOIN pg_namespace n ON c.relnamespace = n.oid
-                WHERE relname IN ('FP_Bereich', 'BP_Bereich', 'LP_Bereich', 'RP_Bereich', 'SO_Bereich')
-            LOOP
-                EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
-                'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
-            END LOOP;
+    IF pg_trigger_depth() = 1 THEN -- UPDATE-Statement wird nicht über einen anderen Trigger aufgerufen
+        IF new.name != old.name THEN
+            IF TG_TABLE_NAME = 'XP_Plan' THEN
+                FOR rec IN
+                    SELECT nspname, relname
+                    FROM pg_class c
+                        JOIN pg_namespace n ON c.relnamespace = n.oid
+                    WHERE relname IN ('FP_Plan', 'BP_Plan', 'LP_Plan', 'RP_Plan', 'SO_Plan')
+                LOOP
+                    EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
+                    'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
+                END LOOP;
+            ELSIF TG_TABLE_NAME = 'XP_Bereich' THEN
+                FOR rec IN
+                    SELECT nspname, relname
+                    FROM pg_class c
+                        JOIN pg_namespace n ON c.relnamespace = n.oid
+                    WHERE relname IN ('FP_Bereich', 'BP_Bereich', 'LP_Bereich', 'RP_Bereich', 'SO_Bereich')
+                LOOP
+                    EXECUTE 'UPDATE ' || quote_ident(rec.nspname) || '.' || quote_ident(rec.relname) ||
+                    'SET name = ' || quote_literal(new.name) || ' WHERE gid = ' || CAST(old.gid as varchar) || ';';
+                END LOOP;
+            END IF;
         END IF;
     END IF;
     RETURN new;
