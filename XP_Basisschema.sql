@@ -283,9 +283,9 @@ $BODY$
     IF pg_trigger_depth() = 1 THEN -- UPDATE-Statement wird nicht über einen anderen Trigger aufgerufen
         IF new.name != old.name THEN
             IF TG_TABLE_NAME LIKE '%Plan' THEN
-                UPDATE "XP_Basisobjekte"."XP_Plan" SET name = new.name;
+                UPDATE "XP_Basisobjekte"."XP_Plan" SET name = new.name WHERE gid = old.gid;
             ELSIF TG_TABLE_NAME LIKE '%Bereich' THEN
-                UPDATE "XP_Basisobjekte"."XP_Bereich" SET name = new.name;
+                UPDATE "XP_Basisobjekte"."XP_Bereich" SET name = new.name WHERE gid = old.gid;
             END IF;
         END IF;
     END IF;
