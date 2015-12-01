@@ -194,9 +194,9 @@ CREATE SEQUENCE "XP_Sonstiges"."XP_Hoehenangabe_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Hoehenangabe_id_seq" TO GROUP xp_user;
 
-CREATE SEQUENCE "XP_Sonstiges"."XP_SPEMassnahmenDaten_id_seq"
+CREATE SEQUENCE "XP_Basisobjekte"."XP_SPEMassnahmenDaten_id_seq"
     MINVALUE 1;
-GRANT ALL ON TABLE "XP_Sonstiges"."XP_SPEMassnahmenDaten_id_seq" TO GROUP xp_user;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_SPEMassnahmenDaten_id_seq" TO GROUP xp_user;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -2150,10 +2150,10 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Sonstiges"."XP_SPEMassnahmenDaten"
+-- Table "XP_Basisobjekte"."XP_SPEMassnahmenDaten"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" (
-  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Sonstiges"."XP_SPEMassnahmenDaten_id_seq"'),
+CREATE  TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenDaten" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_SPEMassnahmenDaten_id_seq"'),
   "klassifizMassnahme" INTEGER NULL ,
   "massnahmeText" VARCHAR(1024) NULL ,
   "massnahmeKuerzel" VARCHAR(255) NULL ,
@@ -2163,12 +2163,12 @@ CREATE  TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" (
     REFERENCES "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Sonstiges"."XP_SPEMassnahmenDaten" IS 'Spezifikation der Attribute für einer Schutz-, Pflege- oder Entwicklungsmaßnahme.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_SPEMassnahmenDaten"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_SPEMassnahmenDaten"."klassifizMassnahme" IS 'Klassifikation der Maßnahme';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_SPEMassnahmenDaten"."massnahmeText" IS 'Durchzuführende Maßnahme als freier Text.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_SPEMassnahmenDaten"."massnahmeKuerzel" IS 'Kürzel der durchzuführenden Maßnahme.';
-CREATE INDEX "idx_fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1" ON "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("klassifizMassnahme") ;
+COMMENT ON TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenDaten" IS 'Spezifikation der Attribute für einer Schutz-, Pflege- oder Entwicklungsmaßnahme.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."klassifizMassnahme" IS 'Klassifikation der Maßnahme';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."massnahmeText" IS 'Durchzuführende Maßnahme als freier Text.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."massnahmeKuerzel" IS 'Kürzel der durchzuführenden Maßnahme.';
+CREATE INDEX "idx_fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1" ON "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("klassifizMassnahme") ;
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_user;

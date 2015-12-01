@@ -563,7 +563,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_massnahme" TO xp_gast;
@@ -637,7 +637,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung_massnahme" TO xp_gast;

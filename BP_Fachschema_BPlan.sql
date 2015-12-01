@@ -1067,7 +1067,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlae
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_AusgleichsFlaeche_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche_massnahme" TO xp_gast;
@@ -1131,7 +1131,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMass
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_AusgleichsMassnahme_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme_massnahme" TO xp_gast;
@@ -2349,7 +2349,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEn
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_SchutzPflegeEntwicklungsFlaeche_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche_massnahme" TO xp_gast;
@@ -2415,7 +2415,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEn
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_SchutzPflegeEntwicklungsMassnahme_massnahme2"
     FOREIGN KEY ("massnahme" )
-    REFERENCES "XP_Sonstiges"."XP_SPEMassnahmenDaten" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme_massnahme" TO xp_gast;
