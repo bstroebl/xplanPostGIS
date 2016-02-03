@@ -502,6 +502,25 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
+        IF new.text IS NULL AND new."refText" IS NULL THEN
+            RAISE EXCEPTION 'Entweder text oder refText muss belegt sein!';
+        ELSIF new.text IS NOT NULL AND new."refText" IS NOT NULL THEN
+            RAISE EXCEPTION 'text und refText dürfen nicht gleichzeitig belegt sein!';
+        ELSE
+            RETURN new;
+        END IF;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"() TO xp_user;
+
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"()
 RETURNS trigger AS
 $BODY$
@@ -1638,6 +1657,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."gesetzlicheGrundlage" IS
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."text" IS 'Inhalt eines Abschnitts der textlichen Planinhalte';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."refText" IS 'Referenz auf ein externes Dokument das den Textabschnitt enthält.';
 CREATE INDEX "idx_fk_XP_TextAbschnitt_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_TextAbschnitt" ("refText") ;
+CREATE TRIGGER "change_to_XP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"();
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_TextAbschnitt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_TextAbschnitt" TO xp_user;
@@ -1662,6 +1682,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_BegruendungAbschnitt"."schluessel" IS 'S
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_BegruendungAbschnitt"."text" IS 'Inhalt eines Abschnitts der Begründung.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_BegruendungAbschnitt"."refText" IS 'Referenz auf ein externes Dokument das den Begründungs-Abschnitt enthält.';
 CREATE INDEX "idx_fk_XP_BegruendungAbschnitt_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_BegruendungAbschnitt" ("refText") ;
+CREATE TRIGGER "change_to_XP_BegruendungAbschnitt" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_BegruendungAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"();
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_BegruendungAbschnitt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_BegruendungAbschnitt" TO xp_user;
