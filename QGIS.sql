@@ -15,9 +15,9 @@ GRANT ALL ON TABLE "QGIS"."layer_id_seq" TO GROUP xp_user;
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
 
-CREATE OR REPLACE FUNCTION "QGIS"."XP_Bereich_Sperre"() 
+CREATE OR REPLACE FUNCTION "QGIS"."XP_Bereich_Sperre"()
 RETURNS trigger AS
-$BODY$ 
+$BODY$
  BEGIN
     INSERT INTO "QGIS"."XP_Bereich_gesperrt"("XP_Bereich_gid") VALUES (new.gid);
     RETURN new;
@@ -30,7 +30,7 @@ GRANT EXECUTE ON FUNCTION "QGIS"."XP_Bereich_Sperre"() TO xp_user;
 -- Funktion noch nicht getestet, muß evtl noch angepasst, v.a. aber auf
 -- die entsprechenden Tabellen angewendet werden!!
 
-CREATE OR REPLACE FUNCTION "QGIS"."pruefe_Sperre"() 
+CREATE OR REPLACE FUNCTION "QGIS"."pruefe_Sperre"()
 RETURNS trigger AS
 $BODY$
 DECLARE
@@ -57,7 +57,7 @@ BEGIN
         bereich_gid_fld := 'gehoertZuSO_Bereich';
         objekt_gid_fld := 'SO_Objekt_gid';
     END IF;
-    
+
     --prüfen, ob das Objekt in einem gesperrten Bereich liegt
     IF (TG_OP = 'UPDATE') OR (TG_OP = 'INSERT') THEN
         EXECUTE 'SELECT COALESCE(CAST(g.gesperrt as integer), 0) as gesp FROM "QGIS"."XP_Bereich_gesperrt"
@@ -95,6 +95,7 @@ CREATE  TABLE  "QGIS"."layer" (
   "style" TEXT NOT NULL ,
   "XP_Bereich_gid" BIGINT NULL ,
   "loadorder" INTEGER NULL,
+  "default_color" character varying(16),
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_layer_XP_Bereich1"
     FOREIGN KEY ("XP_Bereich_gid" )
@@ -174,11 +175,11 @@ CREATE TRIGGER "XP_Bereich_hasInsert" AFTER INSERT ON "XP_Basisobjekte"."XP_Bere
 -- View "QGIS"."XP_Bereiche"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "QGIS"."XP_Bereiche" AS
-SELECT xb.gid, xb.name as bereichsname, xp.gid as plangid, xp.name as planname, xp."Objektart" as planart, 
-xp.beschreibung, xp."technHerstellDatum", xp."untergangsDatum" 
+SELECT xb.gid, xb.name as bereichsname, xp.gid as plangid, xp.name as planname, xp."Objektart" as planart,
+xp.beschreibung, xp."technHerstellDatum", xp."untergangsDatum"
 FROM "XP_Basisobjekte"."XP_Bereich" xb
 JOIN (
-SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich" 
+SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich"
 UNION SELECT gid, "gehoertZuPlan" FROM "BP_Basisobjekte"."BP_Bereich"
 UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich"
 UNION SELECT gid, "gehoertZuPlan" FROM "SO_Basisobjekte"."SO_Bereich"
