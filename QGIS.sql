@@ -4,6 +4,13 @@ COMMENT ON SCHEMA "QGIS" IS 'Hilfstabellen zur Nutzung von XPlan in QGIS';
 GRANT USAGE ON SCHEMA "QGIS" TO xp_gast;
 
 -- *****************************************************
+-- tabblefunc enthält crosstab für Views
+-- *****************************************************
+CREATE EXTENSION tablefunc
+  SCHEMA public
+  VERSION "1.0";
+
+-- *****************************************************
 -- CREATE Sequences
 -- *****************************************************
 
@@ -188,7 +195,6 @@ JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
 GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
 COMMENT ON VIEW "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
 Fachschemas nicht installiert sind, ist der View anzupassen!';
-
 
 -- -----------------------------------------------------
 -- Data for table "QGIS"."HorizontaleAusrichtung"
