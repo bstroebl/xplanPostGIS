@@ -12,46 +12,6 @@
 -- *****************************************************
 
 -- -----------------------------------------------------
--- View "FP_Bebauung"."FP_BebauungsFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Bebauung"."FP_BebauungsFlaeche_qv" AS
-SELECT *
-FROM "FP_Bebauung"."FP_BebauungsFlaeche";
-GRANT SELECT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche_qv" AS
-SELECT *
-FROM "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche";
-GRANT SELECT ON TABLE "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche_qv" AS
-SELECT *
-FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche";
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie_qv" AS
-SELECT *
-FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie";
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt_qv" AS
-SELECT *
-FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt";
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandelPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
 -- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" AS
@@ -95,14 +55,6 @@ JOIN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" p ON g.gid = 
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
--- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie_qv" AS
-SELECT *
-FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie";
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
 -- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt_qv" AS
@@ -137,14 +89,6 @@ SELECT g.position, p.*
   FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche" g
  JOIN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie_qv" AS
-SELECT g.*
-  FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie" g;
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlageLinie_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt_qv"
@@ -216,14 +160,6 @@ SELECT g.position, p.*
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
--- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie_qv" AS
-SELECT g.*
-  FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie" g;
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
 -- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv" AS
@@ -231,14 +167,6 @@ SELECT g.position, p.*
   FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" g
  JOIN "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" g;
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_qv"
@@ -253,62 +181,6 @@ SELECT g.gid, g.position, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zw
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
  ON g.gid=zt.zgid;
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Naturschutz"."FP_AusgleichsFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Naturschutz"."FP_AusgleichsFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Naturschutz"."FP_AusgleichsFlaeche" g;
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche" g;
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie_qv" AS
-SELECT g.*
-  FROM "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie" g;
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt_qv" AS
-SELECT g.*
-  FROM "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt" g;
-GRANT SELECT ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklungPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_GenerischesObjektFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_GenerischesObjektFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_GenerischesObjektFlaeche" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_GenerischesObjektLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_GenerischesObjektLinie_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_GenerischesObjektLinie" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_GenerischesObjektPunkt_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_GenerischesObjektPunkt_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_GenerischesObjektPunkt" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_GenerischesObjektPunkt_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Sonstiges"."FP_Kennzeichnung_qv"
@@ -350,14 +222,6 @@ SELECT g.position, p.*
   FROM "FP_Sonstiges"."FP_KennzeichnungPunkt" g
  JOIN "FP_Sonstiges"."FP_Kennzeichnung_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_KennzeichnungPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_NutzungsbeschraenkungsFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv"
@@ -414,46 +278,6 @@ SELECT g.position, p.*
   FROM "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" g
  JOIN "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungFlaeche_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungLinie_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_UnverbindlicheVormerkungPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Sonstiges"."FP_VorbehalteFlaeche_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_VorbehalteFlaeche_qv" AS
-SELECT g.*
-  FROM "FP_Sonstiges"."FP_VorbehalteFlaeche" g;
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_VorbehalteFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv"
@@ -515,14 +339,6 @@ SELECT g.position, p.*
   FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt" g
  JOIN "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt_qv" TO xp_gast;
-
--- -----------------------------------------------------
--- View "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich_qv"
--- -----------------------------------------------------
-CREATE OR REPLACE VIEW "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich_qv" AS
-SELECT g.*
-  FROM "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" g;
-GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv"
@@ -598,7 +414,7 @@ GRANT SELECT ON TABLE "FP_Wasser"."FP_GewaesserPunkt_qv" TO xp_gast;
 CREATE OR REPLACE VIEW "FP_Wasser"."FP_WasserwirtschaftFlaeche_qv" AS 
  SELECT g.gid, g.position, p.zweckbestimmung as zweckbestimmung1
 FROM "FP_Wasser"."FP_WasserwirtschaftFlaeche" g
-    JOIN "FP_Wasser"."FP_Gewaesser" p ON g.gid = p.gid;
+    JOIN "FP_Wasser"."FP_Wasserwirtschaft" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -607,7 +423,7 @@ GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftFlaeche_qv" TO xp_gast;
 CREATE OR REPLACE VIEW "FP_Wasser"."FP_WasserwirtschaftLinie_qv" AS 
  SELECT g.gid, g.position, p.zweckbestimmung as zweckbestimmung1
 FROM "FP_Wasser"."FP_WasserwirtschaftLinie" g
-    JOIN "FP_Wasser"."FP_Gewaesser" p ON g.gid = p.gid;
+    JOIN "FP_Wasser"."FP_Wasserwirtschaft" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftLinie_qv" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -616,5 +432,5 @@ GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftLinie_qv" TO xp_gast;
 CREATE OR REPLACE VIEW "FP_Wasser"."FP_WasserwirtschaftPunkt_qv" AS 
  SELECT g.gid, g.position, p.zweckbestimmung as zweckbestimmung1
 FROM "FP_Wasser"."FP_WasserwirtschaftPunkt" g
-    JOIN "FP_Wasser"."FP_Gewaesser" p ON g.gid = p.gid;
+    JOIN "FP_Wasser"."FP_Wasserwirtschaft" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Wasser"."FP_WasserwirtschaftPunkt_qv" TO xp_gast;
