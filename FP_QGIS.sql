@@ -200,12 +200,12 @@ END	as label4
  "FP_Sonstiges"."FP_Kennzeichnung" g
  LEFT JOIN
  crosstab('SELECT "FP_Kennzeichnung_gid", "FP_Kennzeichnung_gid", zweckbestimmung FROM "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" ORDER BY 1,3') zt 
- (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer) 
+  ON g.gid=zt.zgid
     LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl1 ON zt.z1 = zl1."Code"
     LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl2 ON zt.z2 = zl2."Code"
     LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl3 ON zt.z3 = zl3."Code"
     LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl4 ON zt.z4 = zl4."Code";
- ON g.gid=zt.zgid;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_qv" TO xp_gast;
 
 -- -----------------------------------------------------
