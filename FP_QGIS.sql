@@ -315,7 +315,7 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv" TO xp_g
 -- View "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" AS 
- SELECT g.gid, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ SELECT g.gid, xpo.ebene, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
  bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
  coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
@@ -331,6 +331,7 @@ bzl3."Bezeichner" as label3,
 bzl4."Bezeichner" as label4
   FROM 
  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" g
+ JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid
  LEFT JOIN
  crosstab('SELECT "FP_VerEntsorgung_gid", "FP_VerEntsorgung_gid", zweckbestimmung FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" ORDER BY 1,3') zt 
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
