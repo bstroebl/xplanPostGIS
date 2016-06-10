@@ -243,10 +243,26 @@ CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" AS
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
  bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
  coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
-bzl1."Bezeichner" as label1,
-bzl2."Bezeichner" as label2,
-bzl3."Bezeichner" as label3,
-bzl4."Bezeichner" as label4
+CASE WHEN bz1 IS NULL THEN
+    zl1."Bezeichner"
+ELSE
+    bzl1."Bezeichner"
+END as label1,
+CASE WHEN bz1 IS NULL THEN
+    zl2."Bezeichner"
+ELSE
+    bzl2."Bezeichner"
+END as label2,
+CASE WHEN bz1 IS NULL THEN
+    zl3."Bezeichner"
+ELSE
+    bzl3."Bezeichner"
+END as label3,
+CASE WHEN bz1 IS NULL THEN
+    zl4."Bezeichner"
+ELSE
+    bzl4."Bezeichner"
+END as label4
   FROM 
  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" g
  LEFT JOIN
@@ -260,7 +276,11 @@ bzl4."Bezeichner" as label4
   LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl1 ON bzt.bz1 = bzl1."Code"
   LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl2 ON bzt.bz2 = bzl2."Code"
   LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl3 ON bzt.bz3 = bzl3."Code"
-  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl4 ON bzt.bz4 = bzl4."Code";
+  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl4 ON bzt.bz4 = bzl4."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl4 ON zt.z4 = zl4."Code";
   
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" TO xp_gast;
 
