@@ -187,12 +187,24 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_qv" TO 
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_Kennzeichnung_qv" AS
 SELECT g.gid, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
- coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+CASE WHEN z1 != 4000 THEN zl1."Bezeichner"
+END	as label1,
+CASE WHEN z2 != 4000 THEN zl2."Bezeichner"
+END	as label2,
+CASE WHEN z3 != 4000 THEN zl3."Bezeichner"
+END	as label3,
+CASE WHEN z4 != 4000 THEN zl4."Bezeichner"
+END	as label4
   FROM 
  "FP_Sonstiges"."FP_Kennzeichnung" g
  LEFT JOIN
  crosstab('SELECT "FP_Kennzeichnung_gid", "FP_Kennzeichnung_gid", zweckbestimmung FROM "FP_Sonstiges"."FP_Kennzeichnung_zweckbestimmung" ORDER BY 1,3') zt 
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl1 ON zt.z1 = zl1."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl2 ON zt.z2 = zl2."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl3 ON zt.z3 = zl3."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" zl4 ON zt.z4 = zl4."Code";
  ON g.gid=zt.zgid;
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung_qv" TO xp_gast;
 
