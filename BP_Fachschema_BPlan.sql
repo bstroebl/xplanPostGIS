@@ -911,8 +911,8 @@ CREATE TRIGGER "delete_BP_AbstandsMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" (
   "gid" BIGINT NOT NULL ,
   "massnahme" INTEGER,
-  "kronendurchmesser" NUMERIC(6,2) NOT NULL,
-  "pflanztiefe" NUMERIC(6,2) NOT NULL,
+  "kronendurchmesser" NUMERIC(6,2),
+  "pflanztiefe" NUMERIC(6,2),
   "istAusgleich" BOOLEAN,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_AnpflanzungBindungErhaltung_parent"
