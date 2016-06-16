@@ -911,7 +911,6 @@ CREATE TRIGGER "delete_BP_AbstandsMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" (
   "gid" BIGINT NOT NULL ,
   "massnahme" INTEGER,
-  "gegenstand" INTEGER,
   "kronendurchmesser" NUMERIC(6,2) NOT NULL,
   "pflanztiefe" NUMERIC(6,2) NOT NULL,
   "istAusgleich" BOOLEAN,
@@ -920,6 +919,11 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBin
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_massnahme"
+    FOREIGN KEY ("massnahme" )
+    REFERENCES "XP_Enumerationen"."XP_ABEMassnahmenTypen" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" TO xp_gast;
@@ -929,12 +933,32 @@ a) Festsetzung des Anpflanzens von Bäumen, Sträuchern und sonstigen Bepflanzun
 b) Festsetzung von Bindungen für Bepflanzungen und für die Erhaltung von Bäumen, Sträuchern und sonstigen Bepflanzungen sowie von Gewässern; (§9 Abs. 1 Nr. 25 und Abs. 4 BauGB)';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."massnahme" IS 'Art der Maßnahme';
-COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."gegenstand" IS 'Gegenstände der Maßnahme';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."kronendurchmesser" IS 'Durchmesser der Baumkrone bei zu erhaltenden Bäumen.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."pflanztiefe" IS 'Pflanztiefe';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."istAusgleich" IS 'Gibt an, ob die Fläche oder Maßnahme zum Ausgleich von Eingriffen genutzt wird.';
 CREATE TRIGGER "change_to_BP_AnpflanzungBindungErhaltung" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltung" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand" (
+  "BP_AnpflanzungBindungErhaltung_gid" BIGINT NOT NULL ,
+  "gegenstand" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_AnpflanzungBindungErhaltung_gid", "gegenstand"),
+  CONSTRAINT "fk_BP_AnpflanzungBindungErhaltung_gegenstand1"
+    FOREIGN KEY ("BP_AnpflanzungBindungErhaltung_gid" )
+    REFERENCES "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_AnpflanzungBindungErhaltung_gegenstand2"
+    FOREIGN KEY ("gegenstand" )
+    REFERENCES "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand" TO xp_gast;
+GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand" TO bp_user;
+COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand" IS 'Gegenstände der Maßnahme';
 
 -- -----------------------------------------------------
 -- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche"

@@ -143,17 +143,31 @@ SELECT g.gid,g.position,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zwec
  ON g.gid=zt.zgid;
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_qv" TO xp_gast;
 
+-- -----------------------------------------------------
+-- View "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv" AS
+SELECT g.gid,g.massnahme,z1 as gegenstand1,z2 as gegenstand2,z3 as gegenstand3,z4 as gegenstand4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_gegenstand
+  FROM 
+ "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" g
+  LEFT JOIN
+ crosstab('SELECT "BP_AnpflanzungBindungErhaltung_gid", "BP_AnpflanzungBindungErhaltung_gid", gegenstand FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_gegenstand" ORDER BY 1,3') zt 
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid;
+GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche_qv"
 -- -----------------------------------------------------
 
 CREATE OR REPLACE VIEW "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche_qv" AS
-SELECT g.gid,g.position,p.massnahme,p.gegenstand
+SELECT g.position,p.*
   FROM 
  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche" g
   JOIN
- "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" p
+ "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv" p
  ON g.gid=p.gid;
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungFlaeche_qv" TO xp_gast;
 
@@ -162,11 +176,11 @@ GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Anpflan
 -- -----------------------------------------------------
 
 CREATE OR REPLACE VIEW "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie_qv" AS
-SELECT g.gid,g.position,p.massnahme,p.gegenstand
+SELECT g.position,p.*
   FROM 
  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie" g
   JOIN
- "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" p
+ "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv" p
  ON g.gid=p.gid;
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungLinie_qv" TO xp_gast;
 
@@ -175,11 +189,11 @@ GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Anpflan
 -- -----------------------------------------------------
 
 CREATE OR REPLACE VIEW "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt_qv" AS
-SELECT g.gid,g.position,p.massnahme,p.gegenstand
+SELECT g.position,p.*
   FROM 
  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt" g
   JOIN
- "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" p
+ "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung_qv" p
  ON g.gid=p.gid;
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltungPunkt_qv" TO xp_gast;
 
