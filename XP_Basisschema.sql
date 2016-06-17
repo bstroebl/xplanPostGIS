@@ -2073,14 +2073,14 @@ GRANT SELECT ON TABLE "XP_Sonstiges"."XP_Plangeber" TO xp_gast;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Plangeber" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Basisobjekte"."XP_SPEMassnamenTypen"
+-- Table "XP_Basisobjekte"."XP_SPEMassnahmenTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Basisobjekte"."XP_SPEMassnamenTypen" (
+CREATE  TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-COMMENT ON TABLE  "XP_Basisobjekte"."XP_SPEMassnamenTypen" IS 'Klassifikation der Maßnahme';
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_SPEMassnamenTypen" TO xp_gast;
+COMMENT ON TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenTypen" IS 'Klassifikation der Maßnahme';
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_SPEMassnahmenTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_SPEZiele"
@@ -2188,9 +2188,9 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenDaten" (
   "massnahmeText" VARCHAR(1024) NULL ,
   "massnahmeKuerzel" VARCHAR(255) NULL ,
   PRIMARY KEY ("id") ,
-  CONSTRAINT "fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1"
+  CONSTRAINT "fk_XP_SPEMassnahmenDaten_XP_SPEMassnahmenTypen1"
     FOREIGN KEY ("klassifizMassnahme" )
-    REFERENCES "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code" )
+    REFERENCES "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE  "XP_Basisobjekte"."XP_SPEMassnahmenDaten" IS 'Spezifikation der Attribute für einer Schutz-, Pflege- oder Entwicklungsmaßnahme.';
@@ -2198,7 +2198,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."id" IS 'Primärschl
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."klassifizMassnahme" IS 'Klassifikation der Maßnahme';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."massnahmeText" IS 'Durchzuführende Maßnahme als freier Text.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_SPEMassnahmenDaten"."massnahmeKuerzel" IS 'Kürzel der durchzuführenden Maßnahme.';
-CREATE INDEX "idx_fk_XP_SPEMassnahmenDaten_XP_SPEMassnamenTypen1" ON "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("klassifizMassnahme") ;
+CREATE INDEX "idx_fk_XP_SPEMassnahmenDaten_XP_SPEMassnahmenTypen1" ON "XP_Basisobjekte"."XP_SPEMassnahmenDaten" ("klassifizMassnahme") ;
 
 GRANT SELECT ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Sonstiges"."XP_Hoehenangabe" TO xp_user;
@@ -2705,23 +2705,23 @@ INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bez
 INSERT INTO "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" ("Code", "Bezeichner") VALUES ('zentrisch', 'zentrisch');
 
 -- -----------------------------------------------------
--- Data for table "XP_Basisobjekte"."XP_SPEMassnamenTypen"
+-- Data for table "XP_Basisobjekte"."XP_SPEMassnahmenTypen"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1400', 'Obstwiese');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ackerbrache');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2200', 'Trockenrasen');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('2300', 'Heide');
-INSERT INTO "XP_Basisobjekte"."XP_SPEMassnamenTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1000', 'ArtentreicherGehoelzbestand');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturnaherWald');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1200', 'ExtensivesGruenland');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1300', 'Feuchtgruenland');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1400', 'Obstwiese');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1500', 'NaturnaherUferbereich');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1600', 'Roehrichtzone');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ackerrandstreifen');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ackerbrache');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('1900', 'Gruenlandbrache');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sukzessionsflaeche');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('2100', 'Hochstaudenflur');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('2200', 'Trockenrasen');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('2300', 'Heide');
+INSERT INTO "XP_Basisobjekte"."XP_SPEMassnahmenTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_SPEZiele"
