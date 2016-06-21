@@ -349,7 +349,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
     FOREIGN KEY ("rechtscharakter" )
     REFERENCES "FP_Basisobjekte"."FP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Objekt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
@@ -359,7 +359,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
     FOREIGN KEY ("spezifischePraegung" )
     REFERENCES "FP_Basisobjekte"."FP_SpezifischePraegungTypen" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_fp_objekt_fp_rechtscharakter1" ON "FP_Basisobjekte"."FP_Objekt" ("rechtscharakter") ;
 CREATE INDEX "idx_fk_FP_Objekt_FP_SpezifischePraegungTypen1" ON "FP_Basisobjekte"."FP_Objekt" ("spezifischePraegung") ;
