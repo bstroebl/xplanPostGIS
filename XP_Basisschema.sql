@@ -2123,6 +2123,16 @@ COMMENT ON TABLE  "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand"
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_GrenzeTypen"
+-- -----------------------------------------------------
+CREATE TABLE  "XP_Enumerationen"."XP_GrenzeTypen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_GrenzeTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Sonstiges"."XP_ArtHoehenbezug"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Sonstiges"."XP_ArtHoehenbezug" (
@@ -2790,3 +2800,21 @@ INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code
 INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (18001, 'EuropaeischesVogelschutzgebiet');
 INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (2000, 'NationalesNaturmonument');
 INSERT INTO "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_GrenzeTypen"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1000, 'Bundesgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1100, 'Landesgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1200, 'Regierungsbezirksgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1250, 'Bezirksgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1300, 'Kreisgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1400, 'Gemeindegrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1450, 'Verbandsgemeindegrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1500, 'Samtgemeindegrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1510, 'Mitgliedsgemeindegrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1550, 'Amtsgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (1600, 'Stadtteilgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (2000, 'VorgeschlageneGrundstuecksgrenze');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (2100, 'GrenzeBestehenderBebauungsplan');
+INSERT INTO "XP_Enumerationen"."XP_GrenzeTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstGrenze');

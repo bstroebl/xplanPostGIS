@@ -1660,16 +1660,6 @@ CREATE TRIGGER "delete_SO_Gebiet" AFTER DELETE ON "SO_SonstigeGebiete"."SO_Gebie
 CREATE TRIGGER "SO_Gebiet_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_Gebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
--- Table "SO_Sonstiges"."SO_GrenzeTypen"
--- -----------------------------------------------------
-CREATE TABLE  "SO_Sonstiges"."SO_GrenzeTypen" (
-  "Code" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Code"));
-
-GRANT SELECT ON TABLE "SO_Sonstiges"."SO_GrenzeTypen" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "SO_Sonstiges"."SO_SonstGrenzeTypen"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Sonstiges"."SO_SonstGrenzeTypen" (
@@ -1695,7 +1685,7 @@ CREATE TABLE  "SO_Sonstiges"."SO_Grenze" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Grenze_typ"
     FOREIGN KEY ("typ")
-    REFERENCES "SO_Sonstiges"."SO_GrenzeTypen" ("Code")
+    REFERENCES "XP_Enumerationen"."XP_GrenzeTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Grenze_sonstTyp"
@@ -2018,21 +2008,3 @@ INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner"
 INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (4000, 'Abgeschlossen');
 INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (5000, 'Verstetigung');
 INSERT INTO "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "SO_Sonstiges"."SO_GrenzeTypen"
--- -----------------------------------------------------
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1000, 'Bundesgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1100, 'Landesgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1200, 'Regierungsbezirksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1250, 'Bezirksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1300, 'Kreisgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1400, 'Gemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1450, 'Verbandsgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1500, 'Samtgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1510, 'Mitgliedsgemeindegrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1550, 'Amtsgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (1600, 'Stadtteilgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (2000, 'VorgeschlageneGrundstuecksgrenze');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (2100, 'GrenzeBestehenderBebauungsplan');
-INSERT INTO "SO_Sonstiges"."SO_GrenzeTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstGrenze');
