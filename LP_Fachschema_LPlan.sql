@@ -112,7 +112,7 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_Plan" (
   "rechtlicheAussenwirkung" BOOLEAN NOT NULL DEFAULT 'f',
   "sonstPlanArt" INTEGER NULL ,
   "planungstraegerGKZ" VARCHAR(32) NOT NULL DEFAULT 'k.A.',
-  "planungstraeger" VARCHAR(256) NOT NULL DEFAULT 'k.A.',
+  "planungstraeger" VARCHAR(256) NULL,
   "rechtsstand" INTEGER NULL ,
   "aufstellungsbechlussDatum" DATE NULL ,
   "auslegungsDatum" DATE NULL ,
