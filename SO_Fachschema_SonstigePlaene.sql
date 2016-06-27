@@ -140,8 +140,8 @@ GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO xp_gast;
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Objekt" (
   "gid" BIGINT NOT NULL,
-  "rechtscharacter" INTEGER NULL,
-  "sonstRechtscharacter" VARCHAR(64) NULL,
+  "rechtscharakter" INTEGER NULL,
+  "sonstRechtscharakter" VARCHAR(64) NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Objekt_XP_Objekt1"
     FOREIGN KEY ("gid")
@@ -149,24 +149,24 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Objekt" (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Objekt_rechtscharacter"
-    FOREIGN KEY ("rechtscharacter")
+    FOREIGN KEY ("rechtscharakter")
     REFERENCES "SO_Basisobjekte"."SO_Rechtscharakter" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Objekt_sonstRechtscharacter"
-    FOREIGN KEY ("sonstRechtscharacter")
+    FOREIGN KEY ("sonstRechtscharakter")
     REFERENCES "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_SO_Objekt_SO_Rechtscharakter1_idx" ON "SO_Basisobjekte"."SO_Objekt" ("rechtscharacter");
+CREATE INDEX "idx_fk_SO_Objekt_SO_Rechtscharakter1_idx" ON "SO_Basisobjekte"."SO_Objekt" ("rechtscharakter");
 CREATE INDEX "idx_fk_SO_Objekt_sonstRechtscharacter_idx" ON "SO_Basisobjekte"."SO_Objekt" ("sonstRechtscharacter");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Objekt" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Objekt" IS 'Basisklasse für die Inhalte sonstiger raumbezogener Planwerke sowie von Klassen zur Modellierung nachrichtlicher Übernahmen.';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."rechtscharacter" IS 'Rechtscharakter des Planinhalts.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."sonstRechtscharacter" IS 'Klassifizierung des Rechtscharakters wenn das Attribut rechtscharakter den Wert Sonstiges (1000) hat.
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."rechtscharakter" IS 'Rechtscharakter des Planinhalts.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Objekt"."sonstRechtscharakter" IS 'Klassifizierung des Rechtscharakters wenn das Attribut rechtscharakter den Wert Sonstiges (1000) hat.
 FestsetzungBPlan: Wird spezifiziert, wenn das Objekt den rechtlichen Charakter einer BPlan Festsetzung hat.
 DarstellungFPlan: Wird spezifiziert, wenn das Objekt den rechtlichen Charakter einer FPlan Darstellung hat.';
 CREATE TRIGGER "change_to_SO_Objekt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
