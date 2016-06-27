@@ -124,6 +124,11 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_Plan" (
   "inkrafttretenDatum" DATE NULL ,
   "sonstVerfahrensDatum" DATE NULL ,
   PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_LP_Plan_XP_Plan1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_lp_plan_bundesland1"
     FOREIGN KEY ("bundesland" )
     REFERENCES "XP_Enumerationen"."XP_Bundeslaender" ("Code" )
@@ -198,6 +203,11 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_Bereich" (
   "name" VARCHAR (256) NOT NULL,
   "gehoertZuPlan" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_LP_Bereich_XP_Bereich1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_LP_Bereich_LP_Plan1"
     FOREIGN KEY ("gehoertZuPlan" )
     REFERENCES "LP_Basisobjekte"."LP_Plan" ("gid" )
