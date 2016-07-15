@@ -1548,8 +1548,8 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_refBeschreibung" IS 'Referenz auf di
 CREATE INDEX "idx_fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan3" ON "XP_Basisobjekte"."XP_Plan_refBeschreibung" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_XP_Plan_has_XP_ExterneReferenz_XP_ExterneReferenz3" ON "XP_Basisobjekte"."XP_Plan_refBeschreibung" ("refBeschreibung") ;
 
-GRANT SELECT ON TABLE "XP_Basisobjekte"."refBeschreibung" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."refBeschreibung" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan_refBeschreibung" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_refBeschreibung" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan_refBegruendung"
