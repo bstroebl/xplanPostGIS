@@ -1428,8 +1428,8 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" IS 
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" ("gehoertNachrichtlichZuBereich") ;
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" ("XP_Objekt_gid") ;
 
-GRANT SELECT ON TABLE "XP_Basisobjekte"."gehoertNachrichtlichZuBereich" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."gehoertNachrichtlichZuBereich" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich"
@@ -1641,8 +1641,8 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_refPlangrundlage" (
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_refPlangrundlage" IS 'Referenz auf eine elektronische Version der Plangrundlage, z.B. ein Katasterplan.';
 CREATE INDEX "idx_fk_XP_Plan_has_XP_ExterneReferenz_XP_Plan7" ON "XP_Basisobjekte"."XP_Plan_refPlangrundlage" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_XP_Plan_has_XP_ExterneReferenz_XP_ExterneReferenz7" ON "XP_Basisobjekte"."XP_Plan_refPlangrundlage" ("refPlangrundlage") ;
-GRANT SELECT ON TABLE "XP_Basisobjekte"."refPlangrundlage" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."refPlangrundlage" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan_refPlangrundlage" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_refPlangrundlage" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_TextAbschnitt"
@@ -1717,8 +1717,8 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Verweis auf e
 CREATE INDEX "idx_fk_begruendungsTexte_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_begruendungsTexte_XP_BegruendungAbschnitt1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("begruendungsTexte") ;
 
-GRANT SELECT ON TABLE "XP_Basisobjekte"."begruendungsTexte" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."begruendungsTexte" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan_texte"
@@ -1819,8 +1819,8 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" (
     ON UPDATE CASCADE);
 
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" IS 'Relation zu XP_Objekt';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."dientZurDarstellungVon" IS 'Verweis auf das Präsentationsobjekt';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."XP_Objekt_gid" IS 'Verweis auf das Fachobjekt';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."dientZurDarstellungVon" IS 'Verweis auf das Fachobjekt';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."XP_APObjekt_gid" IS 'Verweis auf das Präsentationsobjekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
 Die Attributart "Art" darf nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht.';
@@ -2234,8 +2234,8 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_hoehenangabe" IS 'Angaben zur vert
 CREATE INDEX "fk_hoehenangabe_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_hoehenangabe" ("XP_Objekt_gid");
 CREATE INDEX "fk_hoehenangabe_XP_Hoehenangabe1" ON "XP_Basisobjekte"."XP_Objekt_hoehenangabe" ("hoehenangabe");
 
-GRANT SELECT ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."hoehenangabe" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_hoehenangabe" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_hoehenangabe" TO xp_user;
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -2308,7 +2308,7 @@ SELECT g.gid, p."gehoertZuBereich", CAST(c.relname as varchar) as "Objektart" , 
 FROM  "XP_Praesentationsobjekte"."XP_APO" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" p ON g.gid = p.gid
-LEFT JOIN (SELECT DISTINCT "XP_APObjekt_gid" as gid, "XP_Objekt_gid" FROM "XP_Praesentationsobjekte"."dientZurDarstellungVon") d ON g.gid = d.gid;
+LEFT JOIN (SELECT DISTINCT "XP_APObjekt_gid" as gid, "dientZurDarstellungVon" as "XP_Objekt_gid" FROM "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon") d ON g.gid = d.gid;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktePraesentationsobjekte" TO xp_gast;
 
 -- *****************************************************
