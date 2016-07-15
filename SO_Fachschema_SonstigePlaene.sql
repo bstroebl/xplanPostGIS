@@ -160,7 +160,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Objekt" (
     ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_SO_Objekt_SO_Rechtscharakter1_idx" ON "SO_Basisobjekte"."SO_Objekt" ("rechtscharakter");
-CREATE INDEX "idx_fk_SO_Objekt_sonstRechtscharacter_idx" ON "SO_Basisobjekte"."SO_Objekt" ("sonstRechtscharacter");
+CREATE INDEX "idx_fk_SO_Objekt_sonstRechtscharacter_idx" ON "SO_Basisobjekte"."SO_Objekt" ("sonstRechtscharakter");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Objekt" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Objekt" IS 'Basisklasse für die Inhalte sonstiger raumbezogener Planwerke sowie von Klassen zur Modellierung nachrichtlicher Übernahmen.';
