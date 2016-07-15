@@ -1,6 +1,6 @@
 -- -----------------------------------------------------
 -- Objektbereich:SonstigePlanwerke
--- Fachschema zur Modellierung nachrichtlicher Übernahmen aus anderen Rechtsbereichen 
+-- Fachschema zur Modellierung nachrichtlicher Übernahmen aus anderen Rechtsbereichen
 -- und sonstiger raumbezogener Pläne nach BauGB.
 -- -----------------------------------------------------
 
@@ -231,6 +231,16 @@ COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."id" IS 'Primärschlüssel
 COMMENT ON COLUMN  "SO_Basisobjekte"."SO_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts. ';
 CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 CREATE TRIGGER "delete_SO_TextAbschnitt" AFTER DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+
+-- -----------------------------------------------------
+-- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht"
