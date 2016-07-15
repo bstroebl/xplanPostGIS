@@ -1948,20 +1948,20 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrech
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10000, 'DB_Bahnanlage');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10001, 'Personenbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10002, 'Fernbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (10003, 'Gueterbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12000, 'Personenbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12001, 'Regionalbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12002, 'Kleinbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12003, 'Gueterbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12004, 'WerksHafenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (12005, 'Seilbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14000, 'Strassenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14001, 'UBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14002, 'SBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10000, 'DB_Bahnanlage');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10001, 'Personenbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10002, 'Fernbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10003, 'Gueterbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12000, 'Personenbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12001, 'Regionalbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12002, 'Kleinbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12003, 'Gueterbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12004, 'WerksHafenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12005, 'Seilbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14000, 'Strassenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14001, 'UBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14002, 'SBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
