@@ -992,7 +992,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (
   "artDerFestlegung" INTEGER NULL,
   "detailArtDerFestlegung" INTEGER NULL,
   "weltkulturerbe" BOOLEAN NULL DEFAULT 'f',
-  "name" VARCHAR(64) NULL,
+  "name" VARCHAR(256) NULL,
   "nummer" VARCHAR(64) NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Denkmalschutzrecht_SO_Objekt1"
