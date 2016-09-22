@@ -476,7 +476,7 @@ COMMENT ON TABLE  "LP_Erholung"."LP_ErholungFreizeit_funktion" IS 'Funktion der 
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" (
   "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
+  "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" TO xp_gast;
 
