@@ -67,6 +67,20 @@ FROM "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" g
     JOIN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt_qv" TO xp_gast;
 
+-- -----------------------------------------------------
+-- View "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung"
+FROM "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt" g
+    JOIN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtPunkt_qv" TO xp_gast;
 
-
-
+-- -----------------------------------------------------
+-- View "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche_qv" AS 
+ SELECT g.gid, g.position, g.flaechenschluss, p."artDerFestlegung"
+FROM "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" g
+    JOIN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche_qv" TO xp_gast;
