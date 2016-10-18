@@ -84,3 +84,30 @@ CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche_qv"
 FROM "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" g
     JOIN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung", p."zone"
+FROM "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" g
+    JOIN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung", p."zone"
+FROM "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" g
+    JOIN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung", p."zone"
+FROM "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" g
+    JOIN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie_qv" TO xp_gast;
