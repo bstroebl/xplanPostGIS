@@ -432,6 +432,25 @@ CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtPunkt" BEFORE INSERT OR UPDA
 CREATE TRIGGER "delete_SO_SchutzgebietWasserrechtPunkt" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_SchutzgebietWasserrechtLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" TO xp_gast;
+GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" TO so_user;
+COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_SchutzgebietWasserrechtLinie" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietWasserrechtLinie" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtFlaeche" (
