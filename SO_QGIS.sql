@@ -111,3 +111,21 @@ CREATE OR REPLACE VIEW "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie_qv" A
 FROM "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie" g
     JOIN "SO_Schutzgebiete"."SO_SchutzgebietWasserrecht" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietWasserrechtLinie_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung"
+FROM "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche" g
+    JOIN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtFlaeche_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt_qv" AS 
+ SELECT g.gid, g.position, p."artDerFestlegung"
+FROM "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt" g
+    JOIN "SO_NachrichtlicheUebernahmen"."SO_Luftverkehrsrecht" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_LuftverkehrsrechtPunkt_qv" TO xp_gast;
