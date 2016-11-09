@@ -7,724 +7,7 @@
  *                                                                         *
  ************************************************************************* */
 
-INSERT INTO "QGIS".layer VALUES (59, 'SO_NachrichtlicheUebernahmen', 'SO_LuftverkehrsrechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.laermschutzzone">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{ca28e0a1-a6f4-4e3c-aa5d-8d32c54cb842}">
-   <rule key="{b3979f60-9c54-4846-8369-eb645ea3cc7b}" symbol="0">
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 1000" key="{3c65884a-4cc3-401f-92af-d5a24ffde1c9}" symbol="1" label="Flughafen"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 2000" key="{d13f44df-dd8a-40ca-b586-eabf8c1f995e}" symbol="2" label="Landeplatz"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 3000" key="{6b53bb29-88df-44b0-af5a-28c8740784e8}" symbol="3" label="Segelfluggelände"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 4000" key="{e432e178-e16d-453c-a1f6-3fb877d81fa5}" symbol="4" label="Hubschrauberlandeplatz"/>
-   </rule>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0"/>
-     <prop k="color" v="235,221,234,255"/>
-     <prop k="joinstyle" v="miter"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="205,53,150,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="1.5"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="1">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@1@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_1000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="2">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@2@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_2000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="3">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@3@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_3000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="4">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@4@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_4000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="CASE WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5000 THEN ''Ballonstartplatz''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5200 THEN ''Hängegleiter''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5400 THEN ''Gleitsegler''&#xa;END"/>
-  <property key="labeling/fontBold" value="true"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="63"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="1"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform>.</editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform>.</annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (60, 'SO_NachrichtlicheUebernahmen', 'SO_LuftverkehrsrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Luftverkehrsrecht.laermschutzzone">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{0a537577-ee8a-40be-8f75-85a8276f73ea}">
-   <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; IS NOT NULL" key="{af0fac9a-bd64-4bc9-81f1-7a79dfa0f95e}" symbol="0" label="mit artDerFestlegung">
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 1000" key="{b35db2c3-101f-4a47-868e-83d1aed0c466}" symbol="1" label="Flughafen"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 2000" key="{5d2c6df2-760c-4f0f-938f-406c5602a3fe}" symbol="2" label="Landeplatz"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 3000" key="{ede436cc-472c-496e-a289-56a665b0c701}" symbol="3" label="Segelfluggelände"/>
-    <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 4000" key="{dfb3f082-d119-4fbe-b52c-2aabb7ece155}" symbol="4" label="Hubschrauberlandeplatz"/>
-   </rule>
-   <rule filter=" &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; IS NULL" key="{aba7443e-bd34-483f-b90e-b1ca1c1d5564}" symbol="5" label="keine artDerFestlegung"/>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="marker" name="0">
-    <layer pass="0" class="SimpleMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="108,136,65,255"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="circle"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="0"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="1">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_1000.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="2">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_2000.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="3">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_3000.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="4">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_4000.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="5">
-    <layer pass="0" class="SimpleMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="205,53,150,255"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="circle"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="2"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="CASE WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5000 THEN ''Ballonstartplatz''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5200 THEN ''Hängegleiter''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5400 THEN ''Gleitsegler''&#xa;END"/>
-  <property key="labeling/fontBold" value="true"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="63"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="0"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform></editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform></annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (7, 'FP_Basisobjekte', 'FP_Bereich', '<qgis version="2.8.1-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (7, 'FP_Basisobjekte', 'FP_Bereich', '<qgis version="2.8.1-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -1013,550 +296,7 @@ INSERT INTO "QGIS".layer VALUES (7, 'FP_Basisobjekte', 'FP_Bereich', '<qgis vers
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (61, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.istNatuerlichesUberschwemmungsgebiet">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{5aa341b2-41f7-477a-b608-627baca31118}">
-   <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; &lt; 2000 and  &quot;flaechenschluss&quot; = ''t''" key="{80bb8295-c485-4b34-9428-567884470d34}" symbol="0" label="Gewässer (Flächenschluss = true)">
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 1000" key="{e88b75b2-593f-4683-bc49-4c83e1adde25}" symbol="1" label="Gewässer 1 Ordnung"/>
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 1100" key="{4ae621bd-ba71-4aa0-accf-f0bf3810cce8}" symbol="2" label="Gewässer 2 Ordnung"/>
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 1300" key="{303bd06a-cdf8-490c-b466-3e297e5419b8}" symbol="3" label="Gewässer 3 Ordnung"/>
-   </rule>
-   <rule filter=" (&quot;SO_Wasserrecht.artDerFestlegung&quot; = 2000 or &quot;SO_Wasserrecht.artDerFestlegung&quot; >= 20000) and  &quot;flaechenschluss&quot; = ''f''" key="{b361fb85-668e-4fb0-a6de-8a52264fb41b}" symbol="4" label="Überschwemmungsgebiet (Flächenschluss = false)">
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 2000" key="{3d1d225d-2559-43f3-93ff-856b66f23fe9}" symbol="5" label="Überschwemmungsgebiet"/>
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 20000" key="{b065281a-5402-4168-80ee-c4b062721d9c}" symbol="6" label="festgesetztes Überschwemmungsgebiet"/>
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 20001" key="{a7b3ad47-de08-4c28-ab17-812b82a2aa72}" symbol="7" label="noch nicht festgesetztes Überschwemmungsgebiet"/>
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 20002" key="{7918a0c3-410f-4b91-a916-230cf43e8afa}" symbol="8" label="überschwemmungsgefährdetes Gebiet"/>
-   </rule>
-   <rule filter="ELSE" key="{9510c055-6b7d-47a4-a6dd-ff75a1aecd7a}" symbol="9"/>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0"/>
-     <prop k="color" v="107,199,253,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="1">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@1@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1000_flaechenschluss_true.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="2">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@2@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1100_flaechenschluss_true.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="3">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@3@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1300_flaechenschluss_true.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="4">
-    <layer pass="0" class="MarkerLine" locked="0">
-     <prop k="interval" v="3"/>
-     <prop k="interval_map_unit_scale" v="0,0"/>
-     <prop k="interval_unit" v="MM"/>
-     <prop k="offset" v="1"/>
-     <prop k="offset_along_line" v="0"/>
-     <prop k="offset_along_line_map_unit_scale" v="0,0"/>
-     <prop k="offset_along_line_unit" v="MM"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="placement" v="interval"/>
-     <prop k="rotate" v="1"/>
-     <symbol alpha="1" type="marker" name="@4@0">
-      <layer pass="0" class="SimpleMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,122,199,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="equilateral_triangle"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,0"/>
-       <prop k="outline_style" v="solid"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="3.3"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="5">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@5@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_2000_flaechenschluss_false.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="6">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@6@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20000_flaechenschluss_false.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="7">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@7@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20001_flaechenschluss_false.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="8">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
-     <symbol alpha="1" type="marker" name="@8@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20002_flaechenschluss_false.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="9">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0"/>
-     <prop k="color" v="107,199,253,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,122,199,255"/>
-     <prop k="outline_style" v="no"/>
-     <prop k="outline_width" v="3"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="1"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,122,199,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="3"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@9@2">
-      <layer pass="0" class="FontMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="chr" v="?"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="font" v="FreeSans"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="false"/>
-  <property key="labeling/fieldName" value=""/>
-  <property key="labeling/fontBold" value="true"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="63"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="1"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform>.</editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform>.</annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions>
-  <actionsetting action="app=QgsApplication.instance();ddManager=app.ddManager;ddManager.showDdForm([% $id %]);" icon="" capture="0" type="1" name="Eingabemaske anzeigen"/>
- </attributeactions>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (37, 'FP_Wasser', 'FP_WasserwirtschaftPunkt', '<qgis version="2.8.1-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (37, 'FP_Wasser', 'FP_WasserwirtschaftPunkt', '<qgis version="2.8.1-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -1932,7 +672,7 @@ INSERT INTO "QGIS".layer VALUES (37, 'FP_Wasser', 'FP_WasserwirtschaftPunkt', '<
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (47, 'FP_Wasser', 'FP_WasserwirtschaftLinie', '<qgis version="2.8.1-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (47, 'FP_Wasser', 'FP_WasserwirtschaftLinie', '<qgis version="2.8.1-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -2141,7 +881,7 @@ INSERT INTO "QGIS".layer VALUES (47, 'FP_Wasser', 'FP_WasserwirtschaftLinie', '<
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (62, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (62, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -2392,295 +1132,7 @@ INSERT INTO "QGIS".layer VALUES (62, 'SO_NachrichtlicheUebernahmen', 'SO_Wasserr
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (55, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Schienenverkehrsrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Schienenverkehrsrecht.besondereArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Schienenverkehrsrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Schienenverkehrsrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Schienenverkehrsrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{ceffa152-0166-4f59-88b0-4756cc65530c}">
-   <rule filter=" &quot;flaechenschluss&quot;  = true" key="{c000fd2d-fb4c-47e7-8334-bd034c24d8eb}" symbol="0" label="flaechenschluss"/>
-   <rule filter=" &quot;flaechenschluss&quot; = false" key="{4877a4d4-80e8-480a-ae86-d19cb5f619fc}" symbol="1" label="kein Flächenschluss"/>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0"/>
-     <prop k="color" v="255,181,229,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="no"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="1">
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="255,181,229,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.5"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0.4"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="false"/>
-  <property key="labeling/fieldName" value=""/>
-  <property key="labeling/fontBold" value="false"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="50"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="1"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform></editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform></annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (56, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (56, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -2931,7 +1383,7 @@ INSERT INTO "QGIS".layer VALUES (56, 'SO_NachrichtlicheUebernahmen', 'SO_Schiene
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (57, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (57, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -3184,808 +1636,7 @@ INSERT INTO "QGIS".layer VALUES (57, 'SO_NachrichtlicheUebernahmen', 'SO_Schiene
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (63, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.istNatuerlichesUberschwemmungsgebiet">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_Wasserrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{0d862e94-2e5f-45c5-8107-d3a9efeb158a}">
-   <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; IS NOT NULL" key="{2159f12e-1ccd-481d-a8fb-8f4bceedf17f}" symbol="0" label="mit Art der Festlegung">
-    <rule filter=" &quot;SO_Wasserrecht.artDerFestlegung&quot; = 1000" key="{fbb98cb4-f7b5-4a11-ad08-da2f8de56285}" symbol="1" label="Gewässer 1 Ordnung"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 1100" key="{ccc60dff-1f9b-4e6c-b49a-de59cfc47997}" symbol="2" label="Gewässer 2 Ordnung"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 1300" key="{a60f2450-7b25-4077-a913-72431e30a180}" symbol="3" label="Gewässer 3 Ordnung"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 2000" key="{f386093f-7c06-4217-bd11-5f5203418da5}" symbol="4" label="Überschwemmungsgebiet"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 20000" key="{b0250189-0ed3-4b93-bad6-7571cf8d7c9d}" symbol="5" label="festgesetztes Überschwemmungsgebiet"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 20001" key="{ce42a337-fabc-4f37-be6f-2bad4a059fbe}" symbol="6" label="noch nicht festgesetztes Überschwemmungsgebiet"/>
-    <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; = 20002" key="{63e829ac-8243-4a5e-a5d8-eaed5570e44d}" symbol="7" label="überschwemmungsgefährdetes Gebiet"/>
-   </rule>
-   <rule filter="&quot;SO_Wasserrecht.artDerFestlegung&quot; IS NULL" key="{313a15be-6827-41a5-a9e1-c477bf1f9eb6}" symbol="8" label="ohne Art der Festlegung"/>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="marker" name="0">
-    <layer pass="0" class="SimpleMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="107,199,253,255"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="circle"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="0"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="1">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1000_flaechenschluss_true.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="2">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1100_flaechenschluss_true.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="3">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1300_flaechenschluss_true.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="4">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_2000_flaechenschluss_false.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="5">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20000_flaechenschluss_false.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="6">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20001_flaechenschluss_false.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="7">
-    <layer pass="0" class="SvgMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="#000000"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20002_flaechenschluss_false.svg"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="#000000"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="8"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="marker" name="8">
-    <layer pass="0" class="SimpleMarker" locked="0">
-     <prop k="angle" v="0"/>
-     <prop k="color" v="107,199,253,255"/>
-     <prop k="horizontal_anchor_point" v="1"/>
-     <prop k="name" v="circle"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0"/>
-     <prop k="outline_width_map_unit_scale" v="0,0"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="scale_method" v="area"/>
-     <prop k="size" v="2"/>
-     <prop k="size_map_unit_scale" v="0,0"/>
-     <prop k="size_unit" v="MM"/>
-     <prop k="vertical_anchor_point" v="1"/>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="false"/>
-  <property key="labeling/fieldName" value=""/>
-  <property key="labeling/fontBold" value="false"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="50"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="0"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform></editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform></annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (64, 'SO_Schutzgebiete', 'SO_SchutzgebietWasserrechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_SchutzgebietWasserrecht.artDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_SchutzgebietWasserrecht.detailArtDerFestlegung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_SchutzgebietWasserrecht.zone">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_SchutzgebietWasserrecht.name">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="SO_SchutzgebietWasserrecht.nummer">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.uuid">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.text">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.rechtsstand">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gesetzlicheGrundlage">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluessel">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.textSchluesselBegruendung">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung1">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.gliederung2">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="XP_Objekt.ebene">
-   <widgetv2config IsMultiline="0" fieldEditable="0" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 symbollevels="0" type="RuleRenderer">
-  <rules key="{afd4459c-e893-4d9f-8a1f-c4d4238cdb24}">
-   <rule key="{28090a5c-6d26-4c6e-bc26-caec5d4cfdb6}" symbol="0">
-    <rule filter=" &quot;SO_SchutzgebietWasserrecht.artDerFestlegung&quot; = 1000 and  &quot;SO_SchutzgebietWasserrecht.zone&quot; IS NULL" key="{a7704f70-138a-4782-946b-c5d6f3866021}" symbol="1" label="Wasserschutzgebiet"/>
-    <rule filter=" &quot;SO_SchutzgebietWasserrecht.artDerFestlegung&quot; = 10001" key="{46c5a746-a36c-4205-8535-417aef014ac5}" symbol="2" label="Oberflächengewässerschutzgebiet"/>
-    <rule filter=" &quot;SO_SchutzgebietWasserrecht.artDerFestlegung&quot; = 10000" key="{86c13d18-2e48-435a-88c9-9ba9df81f98a}" symbol="3" label="Quell-/Grundwasserschutzgebiet"/>
-    <rule filter=" &quot;SO_SchutzgebietWasserrecht.artDerFestlegung&quot; = 2000" key="{b9ef40ca-6ef7-4768-8ccd-2398c58c9751}" symbol="4" label="Heilquellenschutzgebiet"/>
-   </rule>
-  </rules>
-  <symbols>
-   <symbol alpha="1" type="fill" name="0">
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="1"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,122,199,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="3"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="1">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@1@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_1000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="2">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@2@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_10001.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="3">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@3@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_10000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" type="fill" name="4">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" type="marker" name="@4@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="#000000"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_2000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="#000000"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="CASE WHEN  &quot;SO_SchutzgebietWasserrecht.artDerFestlegung&quot; = 1000 THEN&#xa;&#x9;CASE WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1000 THEN ''Zone 1''&#xa;&#x9;WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1100 THEN ''Zone 2''&#xa;&#x9;WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1200 THEN ''Zone 3''&#xa;&#x9;WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1300 THEN ''Zone 3a''&#xa;&#x9;WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1400 THEN ''Zone 3b''&#xa;&#x9;WHEN  &quot;SO_SchutzgebietWasserrecht.zone&quot; = 1500 THEN ''Zone 4''&#xa;&#x9;END&#xa;END&#xa;&#x9;"/>
-  <property key="labeling/fontBold" value="true"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="63"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="1"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Ubuntu"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <editform></editform>
- <editforminit/>
- <featformsuppress>0</featformsuppress>
- <annotationform></annotationform>
- <editorlayout>generatedlayout</editorlayout>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
-</qgis>
-', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (65, 'SO_Schutzgebiete', 'SO_SchutzgebietWasserrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (65, 'SO_Schutzgebiete', 'SO_SchutzgebietWasserrechtPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -4260,7 +1911,7 @@ INSERT INTO "QGIS".layer VALUES (65, 'SO_Schutzgebiete', 'SO_SchutzgebietWasserr
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (79, 'SO_Sonstiges', 'SO_Grenze', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (79, 'SO_Sonstiges', 'SO_Grenze', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -4508,7 +2159,7 @@ INSERT INTO "QGIS".layer VALUES (79, 'SO_Sonstiges', 'SO_Grenze', '<qgis version
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (48, 'BP_Basisobjekte', 'BP_Plan', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (48, 'BP_Basisobjekte', 'BP_Plan', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -4830,7 +2481,7 @@ INSERT INTO "QGIS".layer VALUES (48, 'BP_Basisobjekte', 'BP_Plan', '<qgis versio
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#716e6e');
-INSERT INTO "QGIS".layer VALUES (49, 'BP_Basisobjekte', 'BP_Bereich', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (49, 'BP_Basisobjekte', 'BP_Bereich', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -5085,7 +2736,7 @@ INSERT INTO "QGIS".layer VALUES (49, 'BP_Basisobjekte', 'BP_Bereich', '<qgis ver
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#716e6e');
-INSERT INTO "QGIS".layer VALUES (83, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (83, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -5424,7 +3075,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffffff');
-INSERT INTO "QGIS".layer VALUES (94, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (94, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -7132,7 +4783,7 @@ INSERT INTO "QGIS".layer VALUES (94, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (38, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_AufschuettungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (38, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_AufschuettungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -7427,7 +5078,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (8, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_GemeinbedarfFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (8, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_GemeinbedarfFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -7980,7 +5631,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff0070');
-INSERT INTO "QGIS".layer VALUES (20, 'FP_Naturschutz', 'FP_AusgleichsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (20, 'FP_Naturschutz', 'FP_AusgleichsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -8255,65 +5906,81 @@ INSERT INTO "QGIS".layer VALUES (20, 'FP_Naturschutz', 'FP_AusgleichsFlaeche', '
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (13, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenFlaeche', '<qgis version="2.14.6-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung1">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="ValueMap" name="allgArtDerBaulNutzung">
-   <widgetv2config fieldEditable="1" labelOnTop="0">
-    <value key="GemischteBauflaeche" value="2000"/>
-    <value key="GewerblicheBauflaeche" value="3000"/>
-    <value key="SonderBauflaeche" value="4000"/>
-    <value key="SonstigeBauflaeche" value="9999"/>
-    <value key="WohnBauflaeche" value="1000"/>
-   </widgetv2config>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="besondereArtDerBaulNutzung">
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung2">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="sonderNutzung">
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung3">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="detaillierteArtDerBaulNutzung">
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung4">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="nutzungText">
+  <edittype widgetv2type="TextEdit" name="anz_zweckbestimmung">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="GFZ">
+  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung1">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="GFZmin">
+  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung2">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="GFZmax">
+  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung3">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="BMZ">
+  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung4">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="GRZ">
+  <edittype widgetv2type="TextEdit" name="anz_besondereZweckbestimmung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label1">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label2">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label3">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label4">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
   </edittype>
  </edittypes>
- <renderer-v2 attr="allgArtDerBaulNutzung" forceraster="0" symbollevels="0" type="categorizedSymbol" enableorderby="0">
-  <categories>
-   <category render="true" symbol="0" value="" label="keineAngabe"/>
-   <category render="true" symbol="1" value="1000" label="WohnBauflaeche"/>
-   <category render="true" symbol="2" value="2000" label="GemischteBauflaeche"/>
-   <category render="true" symbol="3" value="3000" label="GewerbelicheBauflaeche"/>
-   <category render="true" symbol="4" value="4000" label="SonderBauflaeche"/>
-   <category render="true" symbol="5" value="9999" label="SonstigeBauflaeche"/>
-  </categories>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{17f95079-01c5-404b-b023-26d879b9332a}">
+   <rule key="{3cc43094-9230-4930-a276-8fa196e69b30}" symbol="0">
+    <rule filter="&quot;besondereZweckbestimmung&quot; IS NULL" key="{69a3d1aa-2626-4fa7-87f7-dccaed0f4e19}" symbol="1" label="keine besondereZweckbestimmung">
+     <rule filter=" &quot;zweckbestimmung&quot; = 1000" key="{54c484c6-a65c-45ba-a2e3-ac22941e62f4}" symbol="2" label="Parkanalage"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1200" key="{f32c6721-458b-4b9a-9c44-6c27d170b5ba}" symbol="3" label="Dauerkleingaerten"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1400" key="{ecfc2f78-14e8-482b-82c2-f0fb84c26049}" symbol="4" label="Sportplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1600" key="{ecd06fc2-9216-4f5b-8dd7-f910ad7ada87}" symbol="5" label="Spielplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1800" key="{3edf4b92-f7ff-4915-822c-db6b4a598ccf}" symbol="6" label="Zeltplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 2000" key="{11c6ddea-b3c8-4b0f-8d12-5f63547ded83}" symbol="7" label="Badeplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 2600" key="{90a9a4fd-0e73-418d-b54c-38336694f237}" symbol="8" label="Friedhof"/>
+    </rule>
+    <rule filter="&quot;besondereZweckbestimmung&quot; IS NOT NULL" key="{8ea6fbd1-4af6-48c1-abd6-322b20ed5419}" symbol="9" label="besondere Zweckbestimmung">
+     <rule filter=" &quot;zweckbestimmung&quot; = 1200 AND  &quot;besondereZweckbestimmung&quot; = 12000" key="{ea0fa76e-2956-4d8f-9ad5-51302630fb47}" symbol="10" label="ErholungsGaerten"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1400 AND  &quot;besondereZweckbestimmung&quot; = 14004" key="{affef1b4-d2b9-4f4b-b161-dc7193e83dda}" symbol="11" label="Golfplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 1600 AND  &quot;besondereZweckbestimmung&quot; = 16000" key="{ff378e86-aa1f-464a-9132-41f9366f3151}" symbol="12" label="Bolzplatz"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 2200 AND  &quot;besondereZweckbestimmung&quot; = 22000" key="{fd453de6-6f41-422c-99b4-1e13daa64f50}" symbol="13" label="Kleintierhaltung"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 2400 AND  &quot;besondereZweckbestimmung&quot; = 24000" key="{6950160a-fa14-4a42-b151-107006f3d741}" symbol="14" label="StrassenbegleitGruen"/>
+     <rule filter=" &quot;zweckbestimmung&quot; = 2400 AND  &quot;besondereZweckbestimmung&quot; = 24001" key="{17ceef6c-d0e6-4102-acd4-bc8c2e8b31c9}" symbol="15" label="BoeschungsFlaeche"/>
+    </rule>
+   </rule>
+  </rules>
   <symbols>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
     <layer pass="0" class="SimpleFill" locked="0">
      <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="191,42,84,255"/>
+     <prop k="color" v="0,228,8,255"/>
      <prop k="joinstyle" v="bevel"/>
      <prop k="offset" v="0,0"/>
      <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -8324,19 +5991,40 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
      <prop k="outline_width_unit" v="MM"/>
      <prop k="style" v="solid"/>
     </layer>
-    <layer pass="0" class="CentroidFill" locked="0">
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="51,160,44,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="no"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="no"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="10">
+    <layer pass="1" class="CentroidFill" locked="0">
      <prop k="point_on_surface" v="0"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@0@1">
-      <layer pass="0" class="FontMarker" locked="0">
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@10@0">
+      <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
-       <prop k="chr" v="?"/>
        <prop k="color" v="0,0,0,255"/>
-       <prop k="font" v="DejaVu Sans"/>
        <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1200_besondereZweckbestimmung_12000.svg"/>
        <prop k="offset" v="0,0"/>
        <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
        <prop k="offset_unit" v="MM"/>
-       <prop k="size" v="20"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
        <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
        <prop k="size_unit" v="MM"/>
        <prop k="vertical_anchor_point" v="1"/>
@@ -8344,108 +6032,322 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
      </symbol>
     </layer>
    </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="255,138,111,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="11">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@11@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1400_besondereZweckbestimmung_14004.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="12">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@12@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1600_besondereZweckbestimmung_16000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="13">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@13@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2200_besondereZweckbestimmung_22000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="14">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@14@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2400_besondereZweckbestimmung_24000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="15">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@15@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2400_besondereZweckbestimmung_24001.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
     </layer>
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="168,112,0,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
     </layer>
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="192,192,192,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1200.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
     </layer>
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="228,92,0,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1400.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
     </layer>
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@5@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1600.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="6">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@6@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1800.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="7">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@7@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="8">
+    <layer pass="1" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@8@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2600.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="9">
     <layer pass="0" class="SimpleFill" locked="0">
      <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="191,42,84,255"/>
+     <prop k="color" v="131,79,133,255"/>
      <prop k="joinstyle" v="bevel"/>
      <prop k="offset" v="0,0"/>
      <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
      <prop k="offset_unit" v="MM"/>
      <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
+     <prop k="outline_style" v="no"/>
      <prop k="outline_width" v="0.26"/>
      <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
+     <prop k="style" v="no"/>
     </layer>
    </symbol>
   </symbols>
-  <source-symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="54,150,105,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-   </symbol>
-  </source-symbol>
-  <colorramp type="gradient" name="[source]">
-   <prop k="color1" v="247,251,255,255"/>
-   <prop k="color2" v="8,48,107,255"/>
-   <prop k="discrete" v="0"/>
-   <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
-  </colorramp>
-  <invertedcolorramp value="0"/>
-  <rotation/>
-  <sizescale scalemethod="diameter"/>
  </renderer-v2>
  <labeling type="simple"/>
  <customproperties>
@@ -8478,11 +6380,11 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
   <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/drawLabels" value="true"/>
   <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 1000 THEN ''W'' ||&#xa;  CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1000 THEN ''S'' &#xa;  ELSE&#xa;    CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1100 THEN ''R''&#xa;    ELSE&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1200 THEN ''A''&#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1300 THEN ''B'' &#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    END&#xa;  END&#xa;ELSE&#xa;  CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 2000 THEN ''M'' ||&#xa;    CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1400 THEN ''D'' &#xa;    ELSE&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1500 THEN ''I''&#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1600 THEN ''K''&#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    END&#xa;  ELSE&#xa;    CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 3000 THEN ''G'' ||&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1700 THEN ''E'' &#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1800 THEN ''I''&#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    ELSE&#xa;      CASE WHEN &quot;allgArtDerBaulNutzung&quot; = 4000 THEN&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 2000 THEN ''SOE'' &#xa;        ELSE&#xa;          CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 2100 THEN ''SO''&#xa;          ELSE&#xa;            CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 3000 THEN ''Wochenendhausgebiet''&#xa;            ELSE&#xa;              CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 4000 THEN ''Sondergebiet'' &#xa;              ELSE ''S''&#xa;              END&#xa;            END&#xa;          END&#xa;        END&#xa;      ELSE&#xa;        CASE WHEN &quot;allgArtDerBaulNutzung&quot; = 9999 THEN ''Sonstige''&#xa;        END&#xa;      END&#xa;    END&#xa;  END&#xa;END&#xa;"/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;besondereZweckbestimmung&quot; IS NOT NULL THEN &#xa;&#x9;CASE WHEN  &quot;zweckbestimmung&quot; = 1000 THEN&#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 10000 THEN ''ParkanlageHistorisch''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 10001 THEN ''ParkanlageNaturnah''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 10002 THEN ''ParkanlageWaldcharakter''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 10003 THEN ''Naturnahe Ufer-Parkanlage''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 1400 THEN&#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 14000 THEN ''Reitsportanlage''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14001 THEN ''Hundesportanlage''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14002 THEN ''Wassersportanlage''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14003 THEN ''Schiessstand''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14005 THEN ''Skisport''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14006 THEN ''Tennisanlage''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 14007 THEN ''SonstigerSportplatz''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 1600 THEN&#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 16001 THEN ''Abenteuerspielplatz''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 1800 THEN&#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 18000 THEN ''Campingplatz''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 2200 THEN&#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 22001 THEN ''Festplatz''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 2400 THEN &#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 24002 THEN ''Feld/Wald/Wiese''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 24003 THEN ''Uferschutzstreifen''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 24004 THEN ''Abschirmgrün''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 24005 THEN ''Schaugatter''&#xa;&#x9;&#x9;WHEN &quot;besondereZweckbestimmung&quot; = 24006 THEN ''Ruhender Verkehr''&#xa;&#x9;&#x9;END&#xa;&#x9;WHEN  &quot;zweckbestimmung&quot; = 9999 THEN &#xa;&#x9;&#x9;CASE WHEN &quot;besondereZweckbestimmung&quot; = 99990 THEN ''Gärtnerei''&#xa;&#x9;&#x9;END&#xa;&#x9;END&#xa;ELSE&#xa;&#x9;CASE WHEN &quot;zweckbestimmung&quot; = 2200 THEN ''Freizeit/Erholung''&#xa;&#x9;WHEN &quot;zweckbestimmung&quot; = 2400 THEN ''Spez. Grünfläche''&#xa;&#x9;END&#xa;END&#xa; "/>
   <property key="labeling/fitInPolygonOnly" value="false"/>
   <property key="labeling/fontBold" value="false"/>
   <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
   <property key="labeling/fontItalic" value="false"/>
   <property key="labeling/fontLetterSpacing" value="0"/>
   <property key="labeling/fontLimitPixelSize" value="false"/>
@@ -8513,7 +6415,7 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
   <property key="labeling/minFeatureSize" value="0"/>
   <property key="labeling/multilineAlign" value="0"/>
   <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Regular"/>
+  <property key="labeling/namedStyle" value="Normal"/>
   <property key="labeling/obstacle" value="true"/>
   <property key="labeling/obstacleFactor" value="1"/>
   <property key="labeling/obstacleType" value="0"/>
@@ -8617,7 +6519,7 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
  <displayfield>gid</displayfield>
  <label>0</label>
  <labelattributes>
-  <label fieldname="" text="Label"/>
+  <label fieldname="" text="Beschriftung"/>
   <family fieldname="" name="Cantarell"/>
   <size fieldname="" units="pt" value="12"/>
   <bold fieldname="" on="0"/>
@@ -8639,6 +6541,7 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
  <SingleCategoryDiagramRenderer diagramType="Pie">
   <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
    <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
+   <attribute field="" color="#000000" label=""/>
   </DiagramCategory>
  </SingleCategoryDiagramRenderer>
  <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
@@ -8649,7 +6552,7 @@ INSERT INTO "QGIS".layer VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis
  <editform>.</editform>
  <editforminit/>
  <editforminitcodesource>0</editforminitcodesource>
- <editforminitfilepath></editforminitfilepath>
+ <editforminitfilepath>.</editforminitfilepath>
  <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
@@ -8673,8 +6576,8 @@ def my_form_open(dialog, layer, feature):
   <fieldstyles/>
  </conditionalstyles>
 </qgis>
-', NULL, NULL, '#e31a1c');
-INSERT INTO "QGIS".layer VALUES (40, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_BodenschaetzeFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+', NULL, NULL, '#00e408');
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (40, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_BodenschaetzeFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -8969,7 +6872,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (24, 'FP_Sonstiges', 'FP_GenerischesObjektFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (24, 'FP_Sonstiges', 'FP_GenerischesObjektFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -9239,7 +7142,7 @@ INSERT INTO "QGIS".layer VALUES (24, 'FP_Sonstiges', 'FP_GenerischesObjektFlaech
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (16, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (16, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -9943,7 +7846,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#00e408');
-INSERT INTO "QGIS".layer VALUES (22, 'FP_Sonstiges', 'FP_GenerischesObjektPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (22, 'FP_Sonstiges', 'FP_GenerischesObjektPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -10162,7 +8065,7 @@ INSERT INTO "QGIS".layer VALUES (22, 'FP_Sonstiges', 'FP_GenerischesObjektPunkt'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (23, 'FP_Sonstiges', 'FP_GenerischesObjektLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (23, 'FP_Sonstiges', 'FP_GenerischesObjektLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -10355,7 +8258,7 @@ INSERT INTO "QGIS".layer VALUES (23, 'FP_Sonstiges', 'FP_GenerischesObjektLinie'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (15, 'FP_Wasser', 'FP_GewaesserFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (15, 'FP_Wasser', 'FP_GewaesserFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -10752,7 +8655,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6bc7fd');
-INSERT INTO "QGIS".layer VALUES (17, 'FP_Wasser', 'FP_GewaesserPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (17, 'FP_Wasser', 'FP_GewaesserPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -11102,785 +9005,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6bc7fd');
-INSERT INTO "QGIS".layer VALUES (13, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung1">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung2">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung3">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung4">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="anz_zweckbestimmung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung1">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung2">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung3">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="besondereZweckbestimmung4">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="anz_besondereZweckbestimmung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label1">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label2">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label3">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label4">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
-  <rules key="{17f95079-01c5-404b-b023-26d879b9332a}">
-   <rule key="{3cc43094-9230-4930-a276-8fa196e69b30}" symbol="0">
-    <rule filter="&quot;besondereZweckbestimmung1&quot; IS NULL" key="{69a3d1aa-2626-4fa7-87f7-dccaed0f4e19}" symbol="1" label="keine besondereZweckbestimmung">
-     <rule filter="1000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{54c484c6-a65c-45ba-a2e3-ac22941e62f4}" symbol="2" label="Parkanalage"/>
-     <rule filter="1200 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{f32c6721-458b-4b9a-9c44-6c27d170b5ba}" symbol="3" label="Dauerkleingaerten"/>
-     <rule filter="1400 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{ecfc2f78-14e8-482b-82c2-f0fb84c26049}" symbol="4" label="Sportplatz"/>
-     <rule filter="1600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{ecd06fc2-9216-4f5b-8dd7-f910ad7ada87}" symbol="5" label="Spielplatz"/>
-     <rule filter="1800 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{3edf4b92-f7ff-4915-822c-db6b4a598ccf}" symbol="6" label="Zeltplatz"/>
-     <rule filter="2000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{11c6ddea-b3c8-4b0f-8d12-5f63547ded83}" symbol="7" label="Badeplatz"/>
-     <rule filter="2600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{90a9a4fd-0e73-418d-b54c-38336694f237}" symbol="8" label="Friedhof"/>
-    </rule>
-    <rule filter="&quot;besondereZweckbestimmung1&quot; IS NOT NULL" key="{8ea6fbd1-4af6-48c1-abd6-322b20ed5419}" symbol="9" label="besondere Zweckbestimmung">
-     <rule filter="12000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{ea0fa76e-2956-4d8f-9ad5-51302630fb47}" symbol="10" label="ErholungsGaerten"/>
-     <rule filter="14004 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{affef1b4-d2b9-4f4b-b161-dc7193e83dda}" symbol="11" label="Golfplatz"/>
-     <rule filter="16000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{ff378e86-aa1f-464a-9132-41f9366f3151}" symbol="12" label="Bolzplatz"/>
-     <rule filter="22000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{fd453de6-6f41-422c-99b4-1e13daa64f50}" symbol="13" label="Kleintierhaltung"/>
-     <rule filter="24000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{6950160a-fa14-4a42-b151-107006f3d741}" symbol="14" label="StrassenbegleitGruen"/>
-     <rule filter="24001 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;,&quot;besondereZweckbestimmung3&quot;,&quot;besondereZweckbestimmung4&quot;)" key="{17ceef6c-d0e6-4102-acd4-bc8c2e8b31c9}" symbol="15" label="BoeschungsFlaeche"/>
-    </rule>
-   </rule>
-  </rules>
-  <symbols>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="0,228,8,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="solid"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="solid"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="51,160,44,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="no"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="no"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="10">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@10@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 12000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  12000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1200_besondereZweckbestimmung_12000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  12000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="11">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@11@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_besondereZweckbestimmung&quot; = 1) OR  (&quot;anz_besondereZweckbestimmung&quot; = 3 AND &quot;besondereZweckbestimmung3&quot; = 14004) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  14004 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1400_besondereZweckbestimmung_14004.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  14004 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="12">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@12@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_besondereZweckbestimmung&quot; = 1) OR  (&quot;anz_besondereZweckbestimmung&quot; = 3 AND &quot;besondereZweckbestimmung3&quot; = 16000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  16000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1600_besondereZweckbestimmung_16000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  16000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="13">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@13@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_besondereZweckbestimmung&quot; = 1) OR  (&quot;anz_besondereZweckbestimmung&quot; = 3 AND &quot;besondereZweckbestimmung3&quot; = 22000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  22000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2200_besondereZweckbestimmung_22000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  22000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="14">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@14@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_besondereZweckbestimmung&quot; = 1) OR  (&quot;anz_besondereZweckbestimmung&quot; = 3 AND &quot;besondereZweckbestimmung3&quot; = 24000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  24000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2400_besondereZweckbestimmung_24000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  24000 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="15">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@15@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_besondereZweckbestimmung&quot; = 1) OR  (&quot;anz_besondereZweckbestimmung&quot; = 3 AND &quot;besondereZweckbestimmung3&quot; = 24001) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  24001 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2400_besondereZweckbestimmung_24001.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_besondereZweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  24001 IN (&quot;besondereZweckbestimmung1&quot;,&quot;besondereZweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 1000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  1000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  1000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 1200) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  1200 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1200.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  1200 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 1400) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  1400 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1400.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  1400 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@5@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 1600) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  1600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1600.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  1600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="6">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@6@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 1600) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  1800 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_1800.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_dd_active" v="0"/>
-       <prop k="offset_dd_expression" v=""/>
-       <prop k="offset_dd_field" v=""/>
-       <prop k="offset_dd_useexpr" v="0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  1800 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="7">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@7@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 2000) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  2000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  2000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="8">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@8@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="horizontal_anchor_point_dd_active" v="1"/>
-       <prop k="horizontal_anchor_point_dd_expression" v="CASE WHEN (&quot;anz_zweckbestimmung&quot; = 1) OR  (&quot;anz_zweckbestimmung&quot; = 3 AND &quot;zweckbestimmung3&quot; = 2600) THEN&#xa;&#x9;''HCenter''&#xa;ELSE&#xa;&#x9;CASE WHEN  2600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung3&quot;) THEN &#xa;&#x9;&#x9;''Left''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Right'' &#xa;&#x9;END&#xa;END"/>
-       <prop k="horizontal_anchor_point_dd_field" v=""/>
-       <prop k="horizontal_anchor_point_dd_useexpr" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_BP_GruenFlaeche_zweckbestimmung_2600.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-       <prop k="vertical_anchor_point_dd_active" v="1"/>
-       <prop k="vertical_anchor_point_dd_expression" v="CASE WHEN &quot;anz_zweckbestimmung&quot; > 2 THEN&#xa;&#x9;CASE WHEN  2600 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;) THEN &#xa;&#x9;&#x9;''Top''&#xa;&#x9;ELSE&#xa;&#x9;&#x9;''Bottom'' &#xa;&#x9;END&#xa;ELSE ''VCenter'' &#xa;END"/>
-       <prop k="vertical_anchor_point_dd_field" v=""/>
-       <prop k="vertical_anchor_point_dd_useexpr" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="9">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="131,79,133,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="no"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="no"/>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <labeling type="simple"/>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/drawLabels" value="true"/>
-  <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="COALESCE(label1,'''')  || COALESCE( ''\n''  || label2,'''')  || COALESCE( ''\n''  || label3, '''')  || COALESCE(label4,'''')"/>
-  <property key="labeling/fitInPolygonOnly" value="false"/>
-  <property key="labeling/fontBold" value="false"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="50"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="0"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Regular"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/obstacleFactor" value="1"/>
-  <property key="labeling/obstacleType" value="0"/>
-  <property key="labeling/offsetType" value="0"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="0"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
-  <property key="labeling/zIndex" value="0"/>
-  <property key="variableNames" value="_fields_"/>
-  <property key="variableValues" value=""/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Cantarell"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <SingleCategoryDiagramRenderer diagramType="Pie">
-  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
-   <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
-  </DiagramCategory>
- </SingleCategoryDiagramRenderer>
- <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
- <annotationform>.</annotationform>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions/>
- <editform>.</editform>
- <editforminit/>
- <editforminitcodesource>0</editforminitcodesource>
- <editforminitfilepath></editforminitfilepath>
- <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
-"""
-QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
-
-Hier kann dem Formular Extra-Logik hinzugefügt werden.
-
-Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
-Ein Beispiel:
-"""
-from PyQt4.QtGui import QWidget
-
-def my_form_open(dialog, layer, feature):
-	geom = feature.geometry()
-	control = dialog.findChild(QWidget, "MyLineEdit")
-]]></editforminitcode>
- <featformsuppress>0</featformsuppress>
- <editorlayout>generatedlayout</editorlayout>
- <widgets/>
- <conditionalstyles>
-  <rowstyles/>
-  <fieldstyles/>
- </conditionalstyles>
-</qgis>
-', NULL, NULL, '#00e408');
-INSERT INTO "QGIS".layer VALUES (12, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (12, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_GruenLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -12098,7 +9223,7 @@ INSERT INTO "QGIS".layer VALUES (12, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_Gru
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#00e408');
-INSERT INTO "QGIS".layer VALUES (26, 'FP_Sonstiges', 'FP_KennzeichnungLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (26, 'FP_Sonstiges', 'FP_KennzeichnungLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -12513,7 +9638,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#818181');
-INSERT INTO "QGIS".layer VALUES (9, 'FP_Bebauung', 'FP_KeineZentrAbwasserBeseitigungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (9, 'FP_Bebauung', 'FP_KeineZentrAbwasserBeseitigungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -12751,447 +9876,7 @@ INSERT INTO "QGIS".layer VALUES (9, 'FP_Bebauung', 'FP_KeineZentrAbwasserBeseiti
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffff00');
-INSERT INTO "QGIS".layer VALUES (25, 'FP_Sonstiges', 'FP_KennzeichnungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
- <edittypes>
-  <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung1">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung2">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung3">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="zweckbestimmung4">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="anz_zweckbestimmung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label1">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label2">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label3">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="label4">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
- </edittypes>
- <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
-  <rules key="{02e29c89-8227-4f2b-bf0c-785e321b6986}">
-   <rule filter="&quot;zweckbestimmung1&quot; IS NOT NULL" key="{0efd1d81-cfed-43f0-b121-9027dea28d06}" symbol="0" label="Zweckbestimmung">
-    <rule filter="1000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{4a0b6e64-adde-4253-af9e-085c857cb474}" symbol="1" label="Naturgewalten"/>
-    <rule filter="1000 NOT IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{0148987f-9ba6-4583-9dbe-d4cbb4a59676}" symbol="2" label="keine Naturgewalten">
-     <rule filter="4000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{f55b4297-fbc5-43c1-93e5-97bccefdc5fd}" symbol="3" label="SchadstoffBelastBoden"/>
-    </rule>
-   </rule>
-   <rule filter="&quot;zweckbestimmung1&quot; IS NULL" key="{d4604e16-cdcf-41a6-8a52-f456ecf10f7b}" symbol="4" label="keine Zweckbestimmung"/>
-  </rules>
-  <symbols>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
-    <layer pass="0" class="SimpleFill" locked="0">
-     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="color" v="182,39,4,255"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="offset" v="0,0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="outline_color" v="0,0,0,255"/>
-     <prop k="outline_style" v="no"/>
-     <prop k="outline_width" v="0.26"/>
-     <prop k="outline_width_unit" v="MM"/>
-     <prop k="style" v="no"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
-    <layer pass="0" class="MarkerLine" locked="0">
-     <prop k="interval" v="3"/>
-     <prop k="interval_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="interval_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_along_line" v="0"/>
-     <prop k="offset_along_line_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_along_line_unit" v="MM"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="placement" v="interval"/>
-     <prop k="rotate" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
-      <layer pass="0" class="SimpleMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="255,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="cross2"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_style" v="solid"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="2"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="-1"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
-    <layer pass="0" class="MarkerLine" locked="0">
-     <prop k="interval" v="6"/>
-     <prop k="interval_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="interval_unit" v="MM"/>
-     <prop k="offset" v="1"/>
-     <prop k="offset_along_line" v="0"/>
-     <prop k="offset_along_line_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_along_line_unit" v="MM"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="placement" v="interval"/>
-     <prop k="rotate" v="1"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
-      <layer pass="0" class="SimpleMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="129,129,129,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="rectangle"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="168,168,168,255"/>
-       <prop k="outline_style" v="solid"/>
-       <prop k="outline_width" v="0"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="area"/>
-       <prop k="size" v="2"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
-    <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
-     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
-      <layer pass="0" class="SvgMarker" locked="0">
-       <prop k="angle" v="0"/>
-       <prop k="color" v="0,0,0,255"/>
-       <prop k="horizontal_anchor_point" v="1"/>
-       <prop k="name" v="XPlanung_qgis/F_FP_Kennzeichnung_zweckbestimmung_4000.svg"/>
-       <prop k="offset" v="0,0"/>
-       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="offset_unit" v="MM"/>
-       <prop k="outline_color" v="0,0,0,255"/>
-       <prop k="outline_width" v="1"/>
-       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="outline_width_unit" v="MM"/>
-       <prop k="scale_method" v="diameter"/>
-       <prop k="size" v="8"/>
-       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-       <prop k="size_unit" v="MM"/>
-       <prop k="vertical_anchor_point" v="1"/>
-      </layer>
-     </symbol>
-    </layer>
-   </symbol>
-   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
-    <layer pass="0" class="SimpleLine" locked="0">
-     <prop k="capstyle" v="square"/>
-     <prop k="customdash" v="5;2"/>
-     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="customdash_unit" v="MM"/>
-     <prop k="draw_inside_polygon" v="0"/>
-     <prop k="joinstyle" v="bevel"/>
-     <prop k="line_color" v="0,0,0,255"/>
-     <prop k="line_style" v="solid"/>
-     <prop k="line_width" v="0.26"/>
-     <prop k="line_width_unit" v="MM"/>
-     <prop k="offset" v="0"/>
-     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-     <prop k="offset_unit" v="MM"/>
-     <prop k="use_custom_dash" v="0"/>
-     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
-    </layer>
-   </symbol>
-  </symbols>
- </renderer-v2>
- <labeling type="simple"/>
- <customproperties>
-  <property key="labeling" value="pal"/>
-  <property key="labeling/addDirectionSymbol" value="false"/>
-  <property key="labeling/angleOffset" value="0"/>
-  <property key="labeling/blendMode" value="0"/>
-  <property key="labeling/bufferBlendMode" value="0"/>
-  <property key="labeling/bufferColorA" value="255"/>
-  <property key="labeling/bufferColorB" value="255"/>
-  <property key="labeling/bufferColorG" value="255"/>
-  <property key="labeling/bufferColorR" value="255"/>
-  <property key="labeling/bufferDraw" value="false"/>
-  <property key="labeling/bufferJoinStyle" value="64"/>
-  <property key="labeling/bufferNoFill" value="false"/>
-  <property key="labeling/bufferSize" value="1"/>
-  <property key="labeling/bufferSizeInMapUnits" value="false"/>
-  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/bufferTransp" value="0"/>
-  <property key="labeling/centroidInside" value="false"/>
-  <property key="labeling/centroidWhole" value="false"/>
-  <property key="labeling/decimals" value="3"/>
-  <property key="labeling/displayAll" value="false"/>
-  <property key="labeling/dist" value="0"/>
-  <property key="labeling/distInMapUnits" value="false"/>
-  <property key="labeling/distMapUnitMaxScale" value="0"/>
-  <property key="labeling/distMapUnitMinScale" value="0"/>
-  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/drawLabels" value="true"/>
-  <property key="labeling/enabled" value="true"/>
-  <property key="labeling/fieldName" value="COALESCE(label1,'''')  || COALESCE( ''\n''  || label2,'''')  || COALESCE( ''\n''  || label3, '''')  || COALESCE(label4,'''')"/>
-  <property key="labeling/fitInPolygonOnly" value="false"/>
-  <property key="labeling/fontBold" value="false"/>
-  <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
-  <property key="labeling/fontItalic" value="false"/>
-  <property key="labeling/fontLetterSpacing" value="0"/>
-  <property key="labeling/fontLimitPixelSize" value="false"/>
-  <property key="labeling/fontMaxPixelSize" value="10000"/>
-  <property key="labeling/fontMinPixelSize" value="3"/>
-  <property key="labeling/fontSize" value="11"/>
-  <property key="labeling/fontSizeInMapUnits" value="false"/>
-  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/fontStrikeout" value="false"/>
-  <property key="labeling/fontUnderline" value="false"/>
-  <property key="labeling/fontWeight" value="50"/>
-  <property key="labeling/fontWordSpacing" value="0"/>
-  <property key="labeling/formatNumbers" value="false"/>
-  <property key="labeling/isExpression" value="true"/>
-  <property key="labeling/labelOffsetInMapUnits" value="true"/>
-  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/labelPerPart" value="false"/>
-  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-  <property key="labeling/limitNumLabels" value="false"/>
-  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-  <property key="labeling/maxNumLabels" value="2000"/>
-  <property key="labeling/mergeLines" value="false"/>
-  <property key="labeling/minFeatureSize" value="0"/>
-  <property key="labeling/multilineAlign" value="1"/>
-  <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Regular"/>
-  <property key="labeling/obstacle" value="true"/>
-  <property key="labeling/obstacleFactor" value="1"/>
-  <property key="labeling/obstacleType" value="0"/>
-  <property key="labeling/offsetType" value="0"/>
-  <property key="labeling/placeDirectionSymbol" value="0"/>
-  <property key="labeling/placement" value="0"/>
-  <property key="labeling/placementFlags" value="0"/>
-  <property key="labeling/plussign" value="false"/>
-  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
-  <property key="labeling/preserveRotation" value="true"/>
-  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-  <property key="labeling/priority" value="5"/>
-  <property key="labeling/quadOffset" value="4"/>
-  <property key="labeling/repeatDistance" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/repeatDistanceUnit" value="1"/>
-  <property key="labeling/reverseDirectionSymbol" value="false"/>
-  <property key="labeling/rightDirectionSymbol" value=">"/>
-  <property key="labeling/scaleMax" value="10000000"/>
-  <property key="labeling/scaleMin" value="1"/>
-  <property key="labeling/scaleVisibility" value="false"/>
-  <property key="labeling/shadowBlendMode" value="6"/>
-  <property key="labeling/shadowColorB" value="0"/>
-  <property key="labeling/shadowColorG" value="0"/>
-  <property key="labeling/shadowColorR" value="0"/>
-  <property key="labeling/shadowDraw" value="false"/>
-  <property key="labeling/shadowOffsetAngle" value="135"/>
-  <property key="labeling/shadowOffsetDist" value="1"/>
-  <property key="labeling/shadowOffsetGlobal" value="true"/>
-  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shadowOffsetUnits" value="1"/>
-  <property key="labeling/shadowRadius" value="1.5"/>
-  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shadowRadiusUnits" value="1"/>
-  <property key="labeling/shadowScale" value="100"/>
-  <property key="labeling/shadowTransparency" value="30"/>
-  <property key="labeling/shadowUnder" value="0"/>
-  <property key="labeling/shapeBlendMode" value="0"/>
-  <property key="labeling/shapeBorderColorA" value="255"/>
-  <property key="labeling/shapeBorderColorB" value="128"/>
-  <property key="labeling/shapeBorderColorG" value="128"/>
-  <property key="labeling/shapeBorderColorR" value="128"/>
-  <property key="labeling/shapeBorderWidth" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeBorderWidthUnits" value="1"/>
-  <property key="labeling/shapeDraw" value="false"/>
-  <property key="labeling/shapeFillColorA" value="255"/>
-  <property key="labeling/shapeFillColorB" value="255"/>
-  <property key="labeling/shapeFillColorG" value="255"/>
-  <property key="labeling/shapeFillColorR" value="255"/>
-  <property key="labeling/shapeJoinStyle" value="64"/>
-  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeOffsetUnits" value="1"/>
-  <property key="labeling/shapeOffsetX" value="0"/>
-  <property key="labeling/shapeOffsetY" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeRadiiUnits" value="1"/>
-  <property key="labeling/shapeRadiiX" value="0"/>
-  <property key="labeling/shapeRadiiY" value="0"/>
-  <property key="labeling/shapeRotation" value="0"/>
-  <property key="labeling/shapeRotationType" value="0"/>
-  <property key="labeling/shapeSVGFile" value=""/>
-  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
-  <property key="labeling/shapeSizeType" value="0"/>
-  <property key="labeling/shapeSizeUnits" value="1"/>
-  <property key="labeling/shapeSizeX" value="0"/>
-  <property key="labeling/shapeSizeY" value="0"/>
-  <property key="labeling/shapeTransparency" value="0"/>
-  <property key="labeling/shapeType" value="0"/>
-  <property key="labeling/textColorA" value="255"/>
-  <property key="labeling/textColorB" value="0"/>
-  <property key="labeling/textColorG" value="0"/>
-  <property key="labeling/textColorR" value="0"/>
-  <property key="labeling/textTransp" value="0"/>
-  <property key="labeling/upsidedownLabels" value="0"/>
-  <property key="labeling/wrapChar" value=""/>
-  <property key="labeling/xOffset" value="0"/>
-  <property key="labeling/yOffset" value="0"/>
-  <property key="labeling/zIndex" value="0"/>
-  <property key="variableNames" value="_fields_"/>
-  <property key="variableValues" value=""/>
- </customproperties>
- <blendMode>0</blendMode>
- <featureBlendMode>0</featureBlendMode>
- <layerTransparency>0</layerTransparency>
- <displayfield>gid</displayfield>
- <label>0</label>
- <labelattributes>
-  <label fieldname="" text="Beschriftung"/>
-  <family fieldname="" name="Cantarell"/>
-  <size fieldname="" units="pt" value="12"/>
-  <bold fieldname="" on="0"/>
-  <italic fieldname="" on="0"/>
-  <underline fieldname="" on="0"/>
-  <strikeout fieldname="" on="0"/>
-  <color fieldname="" red="0" blue="0" green="0"/>
-  <x fieldname=""/>
-  <y fieldname=""/>
-  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-  <angle fieldname="" value="0" auto="0"/>
-  <alignment fieldname="" value="center"/>
-  <buffercolor fieldname="" red="255" blue="255" green="255"/>
-  <buffersize fieldname="" units="pt" value="1"/>
-  <bufferenabled fieldname="" on=""/>
-  <multilineenabled fieldname="" on=""/>
-  <selectedonly on=""/>
- </labelattributes>
- <SingleCategoryDiagramRenderer diagramType="Pie">
-  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
-   <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
-  </DiagramCategory>
- </SingleCategoryDiagramRenderer>
- <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
- <annotationform>.</annotationform>
- <excludeAttributesWMS/>
- <excludeAttributesWFS/>
- <attributeactions>
-  <actionsetting action="app=QgsApplication.instance();ddManager=app.ddManager;ddManager.showDdForm([% $id %]);" icon="" capture="0" type="1" name="Eingabemaske anzeigen"/>
- </attributeactions>
- <editform>.</editform>
- <editforminit/>
- <editforminitcodesource>0</editforminitcodesource>
- <editforminitfilepath>.</editforminitfilepath>
- <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
-"""
-QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
-
-Hier kann dem Formular Extra-Logik hinzugefügt werden.
-
-Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
-Ein Beispiel:
-"""
-from PyQt4.QtGui import QWidget
-
-def my_form_open(dialog, layer, feature):
-	geom = feature.geometry()
-	control = dialog.findChild(QWidget, "MyLineEdit")
-]]></editforminitcode>
- <featformsuppress>0</featformsuppress>
- <editorlayout>generatedlayout</editorlayout>
- <widgets/>
- <conditionalstyles>
-  <rowstyles/>
-  <fieldstyles/>
- </conditionalstyles>
-</qgis>
-', NULL, NULL, '#818181');
-INSERT INTO "QGIS".layer VALUES (29, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (29, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -13516,7 +10201,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff1571');
-INSERT INTO "QGIS".layer VALUES (11, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_LandwirtschaftsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (11, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_LandwirtschaftsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -13733,7 +10418,7 @@ INSERT INTO "QGIS".layer VALUES (11, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_Lan
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#99ca2e');
-INSERT INTO "QGIS".layer VALUES (42, 'FP_Sonstiges', 'FP_NutzungsbeschraenkungsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (42, 'FP_Sonstiges', 'FP_NutzungsbeschraenkungsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -13988,7 +10673,7 @@ INSERT INTO "QGIS".layer VALUES (42, 'FP_Sonstiges', 'FP_NutzungsbeschraenkungsF
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (43, 'FP_Basisobjekte', 'FP_Plan', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (43, 'FP_Basisobjekte', 'FP_Plan', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -14280,7 +10965,7 @@ INSERT INTO "QGIS".layer VALUES (43, 'FP_Basisobjekte', 'FP_Plan', '<qgis versio
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (1, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (1, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -14515,7 +11200,7 @@ INSERT INTO "QGIS".layer VALUES (1, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenLi
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff1571');
-INSERT INTO "QGIS".layer VALUES (46, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlageLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (46, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlageLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -14773,7 +11458,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#777676');
-INSERT INTO "QGIS".layer VALUES (21, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (21, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -15011,7 +11696,7 @@ INSERT INTO "QGIS".layer VALUES (21, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklu
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007f1c');
-INSERT INTO "QGIS".layer VALUES (45, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (45, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -15297,7 +11982,7 @@ INSERT INTO "QGIS".layer VALUES (45, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklu
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007f1c');
-INSERT INTO "QGIS".layer VALUES (44, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (44, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklungPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -15517,7 +12202,7 @@ INSERT INTO "QGIS".layer VALUES (44, 'FP_Naturschutz', 'FP_SchutzPflegeEntwicklu
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007f1c');
-INSERT INTO "QGIS".layer VALUES (19, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlagePunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (19, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlagePunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -15861,7 +12546,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#777676');
-INSERT INTO "QGIS".layer VALUES (6, 'FP_Verkehr', 'FP_StrassenverkehrFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (6, 'FP_Verkehr', 'FP_StrassenverkehrFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -16142,7 +12827,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffda54');
-INSERT INTO "QGIS".layer VALUES (14, 'FP_Verkehr', 'FP_StrassenverkehrPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (14, 'FP_Verkehr', 'FP_StrassenverkehrPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -16756,7 +13441,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffda54');
-INSERT INTO "QGIS".layer VALUES (4, 'FP_Verkehr', 'FP_StrassenverkehrLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (4, 'FP_Verkehr', 'FP_StrassenverkehrLinie', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -17319,7 +14004,427 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffda54');
-INSERT INTO "QGIS".layer VALUES (72, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (5, 'FP_Bebauung', 'FP_BebauungsFlaeche', '<qgis version="2.14.6-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="flaechenschluss">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="ValueMap" name="allgArtDerBaulNutzung">
+   <widgetv2config fieldEditable="1" labelOnTop="0">
+    <value key="GemischteBauflaeche" value="2000"/>
+    <value key="GewerblicheBauflaeche" value="3000"/>
+    <value key="SonderBauflaeche" value="4000"/>
+    <value key="SonstigeBauflaeche" value="9999"/>
+    <value key="WohnBauflaeche" value="1000"/>
+   </widgetv2config>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="besondereArtDerBaulNutzung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="sonderNutzung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="detaillierteArtDerBaulNutzung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="nutzungText">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="GFZ">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="GFZmin">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="GFZmax">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="BMZ">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="GRZ">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 attr="allgArtDerBaulNutzung" forceraster="0" symbollevels="0" type="categorizedSymbol" enableorderby="0">
+  <categories>
+   <category render="true" symbol="0" value="" label="keineAngabe"/>
+   <category render="true" symbol="1" value="1000" label="WohnBauflaeche"/>
+   <category render="true" symbol="2" value="2000" label="GemischteBauflaeche"/>
+   <category render="true" symbol="3" value="3000" label="GewerbelicheBauflaeche"/>
+   <category render="true" symbol="4" value="4000" label="SonderBauflaeche"/>
+   <category render="true" symbol="5" value="9999" label="SonstigeBauflaeche"/>
+  </categories>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="191,42,84,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@0@1">
+      <layer pass="0" class="FontMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="chr" v="?"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="font" v="DejaVu Sans"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="size" v="20"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="255,138,111,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="168,112,0,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="192,192,192,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="228,92,0,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="191,42,84,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+  </symbols>
+  <source-symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="54,150,105,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+  </source-symbol>
+  <colorramp type="gradient" name="[source]">
+   <prop k="color1" v="247,251,255,255"/>
+   <prop k="color2" v="8,48,107,255"/>
+   <prop k="discrete" v="0"/>
+   <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
+  </colorramp>
+  <invertedcolorramp value="0"/>
+  <rotation/>
+  <sizescale scalemethod="diameter"/>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="true"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="true"/>
+  <property key="labeling/enabled" value="true"/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 1000 THEN ''W'' ||&#xa;  CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1000 THEN ''S'' &#xa;  ELSE&#xa;    CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1100 THEN ''R''&#xa;    ELSE&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1200 THEN ''A''&#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1300 THEN ''B'' &#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    END&#xa;  END&#xa;ELSE&#xa;  CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 2000 THEN ''M'' ||&#xa;    CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1400 THEN ''D'' &#xa;    ELSE&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1500 THEN ''I''&#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1600 THEN ''K''&#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    END&#xa;  ELSE&#xa;    CASE WHEN  &quot;allgArtDerBaulNutzung&quot; = 3000 THEN ''G'' ||&#xa;      CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1700 THEN ''E'' &#xa;      ELSE&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 1800 THEN ''I''&#xa;        ELSE ''''&#xa;        END&#xa;      END&#xa;    ELSE&#xa;      CASE WHEN &quot;allgArtDerBaulNutzung&quot; = 4000 THEN&#xa;        CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 2000 THEN ''SOE'' &#xa;        ELSE&#xa;          CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 2100 THEN ''SO''&#xa;          ELSE&#xa;            CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 3000 THEN ''Wochenendhausgebiet''&#xa;            ELSE&#xa;              CASE WHEN &quot;besondereArtDerBaulNutzung&quot; = 4000 THEN ''Sondergebiet'' &#xa;              ELSE ''S''&#xa;              END&#xa;            END&#xa;          END&#xa;        END&#xa;      ELSE&#xa;        CASE WHEN &quot;allgArtDerBaulNutzung&quot; = 9999 THEN ''Sonstige''&#xa;        END&#xa;      END&#xa;    END&#xa;  END&#xa;END&#xa;"/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="false"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="50"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="0"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Label"/>
+  <family fieldname="" name="Cantarell"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
+   <attribute field="" color="#000000" label=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath>.</editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, '#e31a1c');
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (72, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -17646,7 +14751,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff2f16');
-INSERT INTO "QGIS".layer VALUES (34, 'FP_Sonstiges', 'FP_TextlicheDarstellungsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (34, 'FP_Sonstiges', 'FP_TextlicheDarstellungsFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -17867,7 +14972,7 @@ INSERT INTO "QGIS".layer VALUES (34, 'FP_Sonstiges', 'FP_TextlicheDarstellungsFl
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#cb05c8');
-INSERT INTO "QGIS".layer VALUES (31, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (31, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -18122,7 +15227,7 @@ INSERT INTO "QGIS".layer VALUES (31, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkun
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#cb05c8');
-INSERT INTO "QGIS".layer VALUES (33, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (33, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -18341,7 +15446,7 @@ INSERT INTO "QGIS".layer VALUES (33, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkun
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#cb05c8');
-INSERT INTO "QGIS".layer VALUES (3, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (3, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -18720,7 +15825,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (30, 'FP_Sonstiges', 'FP_VorbehalteFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (30, 'FP_Sonstiges', 'FP_VorbehalteFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -18978,7 +16083,7 @@ INSERT INTO "QGIS".layer VALUES (30, 'FP_Sonstiges', 'FP_VorbehalteFlaeche', '<q
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#646464');
-INSERT INTO "QGIS".layer VALUES (10, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_WaldFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (10, 'FP_Landwirtschaft_Wald_und_Gruen', 'FP_WaldFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -19419,7 +16524,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#339966');
-INSERT INTO "QGIS".layer VALUES (36, 'FP_Wasser', 'FP_WasserwirtschaftFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (36, 'FP_Wasser', 'FP_WasserwirtschaftFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -19853,7 +16958,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007bce');
-INSERT INTO "QGIS".layer VALUES (67, 'SO_Basisobjekte', 'SO_Plan', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (67, 'SO_Basisobjekte', 'SO_Plan', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -20097,7 +17202,7 @@ INSERT INTO "QGIS".layer VALUES (67, 'SO_Basisobjekte', 'SO_Plan', '<qgis versio
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (66, 'SO_Basisobjekte', 'SO_Bereich', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (66, 'SO_Basisobjekte', 'SO_Bereich', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -20338,7 +17443,7 @@ INSERT INTO "QGIS".layer VALUES (66, 'SO_Basisobjekte', 'SO_Bereich', '<qgis ver
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (68, 'SO_NachrichtlicheUebernahmen', 'SO_StrassenverkehrsrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (68, 'SO_NachrichtlicheUebernahmen', 'SO_StrassenverkehrsrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -20673,7 +17778,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffda54');
-INSERT INTO "QGIS".layer VALUES (70, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (70, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -20961,7 +18066,7 @@ INSERT INTO "QGIS".layer VALUES (70, 'SO_NachrichtlicheUebernahmen', 'SO_Denkmal
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff2f16');
-INSERT INTO "QGIS".layer VALUES (71, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (71, 'SO_NachrichtlicheUebernahmen', 'SO_DenkmalschutzrechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -21229,7 +18334,7 @@ INSERT INTO "QGIS".layer VALUES (71, 'SO_NachrichtlicheUebernahmen', 'SO_Denkmal
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff2f16');
-INSERT INTO "QGIS".layer VALUES (74, 'SO_NachrichtlicheUebernahmen', 'SO_ForstrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (74, 'SO_NachrichtlicheUebernahmen', 'SO_ForstrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -21535,7 +18640,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#319868');
-INSERT INTO "QGIS".layer VALUES (73, 'SO_NachrichtlicheUebernahmen', 'SO_ForstrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (73, 'SO_NachrichtlicheUebernahmen', 'SO_ForstrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -21752,7 +18857,7 @@ INSERT INTO "QGIS".layer VALUES (73, 'SO_NachrichtlicheUebernahmen', 'SO_Forstre
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#319868');
-INSERT INTO "QGIS".layer VALUES (75, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (75, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -22121,7 +19226,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff7d21');
-INSERT INTO "QGIS".layer VALUES (77, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (77, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -22409,7 +19514,7 @@ INSERT INTO "QGIS".layer VALUES (77, 'SO_NachrichtlicheUebernahmen', 'SO_Sonstig
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff7d21');
-INSERT INTO "QGIS".layer VALUES (76, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (76, 'SO_NachrichtlicheUebernahmen', 'SO_SonstigesRechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -22677,7 +19782,411 @@ INSERT INTO "QGIS".layer VALUES (76, 'SO_NachrichtlicheUebernahmen', 'SO_Sonstig
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff7d21');
-INSERT INTO "QGIS".layer VALUES (78, 'SO_SonstigeGebiete', 'SO_Gebiet', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (25, 'FP_Sonstiges', 'FP_KennzeichnungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung1">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung2">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung3">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung4">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="anz_zweckbestimmung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label1">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label2">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label3">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label4">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{02e29c89-8227-4f2b-bf0c-785e321b6986}">
+   <rule filter="1000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{29a5c7d7-aed3-4c8c-8d6a-acc593254b4c}" symbol="0" label="Naturgewalten"/>
+   <rule filter="ELSE" key="{28921b44-6962-4186-a97b-fe337bf752ef}" symbol="1" label="keine Naturgewalten">
+    <rule filter="4000 IN (&quot;zweckbestimmung1&quot;,&quot;zweckbestimmung2&quot;,&quot;zweckbestimmung3&quot;,&quot;zweckbestimmung4&quot;)" key="{62653ee7-99e6-4af1-a9e8-88b6c6f4161f}" symbol="2" label="SchadstoffBelastBoden"/>
+   </rule>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="MarkerLine" locked="0">
+     <prop k="interval" v="3"/>
+     <prop k="interval_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="interval_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_along_line" v="0"/>
+     <prop k="offset_along_line_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_along_line_unit" v="MM"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="placement" v="interval"/>
+     <prop k="rotate" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@0@0">
+      <layer pass="0" class="SimpleMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="255,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="cross2"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_style" v="solid"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="area"/>
+       <prop k="size" v="2"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="-1"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="MarkerLine" locked="0">
+     <prop k="interval" v="6"/>
+     <prop k="interval_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="interval_unit" v="MM"/>
+     <prop k="offset" v="1"/>
+     <prop k="offset_along_line" v="0"/>
+     <prop k="offset_along_line_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_along_line_unit" v="MM"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="placement" v="interval"/>
+     <prop k="rotate" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
+      <layer pass="0" class="SimpleMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="129,129,129,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="rectangle"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="168,168,168,255"/>
+       <prop k="outline_style" v="solid"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="area"/>
+       <prop k="size" v="2"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_FP_Kennzeichnung_zweckbestimmung_4000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="1"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="true"/>
+  <property key="labeling/enabled" value="true"/>
+  <property key="labeling/fieldName" value="COALESCE(label1,'''')  || COALESCE( ''\n''  || label2,'''')  || COALESCE( ''\n''  || label3, '''')  || COALESCE(label4,'''')"/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="false"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="Ubuntu"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="50"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="1"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Regular"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="0"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Cantarell"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
+   <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
+   <attribute field="" color="#000000" label=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions>
+  <actionsetting action="app=QgsApplication.instance();ddManager=app.ddManager;ddManager.showDdForm([% $id %]);" icon="" capture="0" type="1" name="Eingabemaske anzeigen"/>
+ </attributeactions>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath>.</editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, '#818181');
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (78, 'SO_SonstigeGebiete', 'SO_Gebiet', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -22993,7 +20502,2410 @@ INSERT INTO "QGIS".layer VALUES (78, 'SO_SonstigeGebiete', 'SO_Gebiet', '<qgis v
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#fd0012');
-INSERT INTO "QGIS".layer VALUES (96, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (55, 'SO_NachrichtlicheUebernahmen', 'SO_SchienenverkehrsrechtFlaeche', '<qgis version="2.14.7-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="flaechenschluss">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{ceffa152-0166-4f59-88b0-4756cc65530c}">
+   <rule filter=" &quot;flaechenschluss&quot;  = ''t''" key="{c000fd2d-fb4c-47e7-8334-bd034c24d8eb}" symbol="0" label="flaechenschluss"/>
+   <rule filter=" &quot;flaechenschluss&quot; = ''f''" key="{4877a4d4-80e8-480a-ae86-d19cb5f619fc}" symbol="1" label="kein Flächenschluss"/>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="255,181,229,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="no"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="255,181,229,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.5"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0.4"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="false"/>
+  <property key="labeling/enabled" value="false"/>
+  <property key="labeling/fieldName" value=""/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="false"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="50"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="1"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (61, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtFlaeche', '<qgis version="2.14.7-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="flaechenschluss">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="artDerFestlegung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{5aa341b2-41f7-477a-b608-627baca31118}">
+   <rule filter="&quot;artDerFestlegung&quot; &lt; 2000 and  &quot;flaechenschluss&quot; = ''t''" key="{80bb8295-c485-4b34-9428-567884470d34}" symbol="0" label="Gewässer (Flächenschluss = true)">
+    <rule filter=" &quot;artDerFestlegung&quot; = 1000" key="{e88b75b2-593f-4683-bc49-4c83e1adde25}" symbol="1" label="Gewässer 1 Ordnung"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 1100" key="{4ae621bd-ba71-4aa0-accf-f0bf3810cce8}" symbol="2" label="Gewässer 2 Ordnung"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 1300" key="{303bd06a-cdf8-490c-b466-3e297e5419b8}" symbol="3" label="Gewässer 3 Ordnung"/>
+   </rule>
+   <rule filter=" (&quot;artDerFestlegung&quot; = 2000 or &quot;artDerFestlegung&quot; >= 20000) and  &quot;flaechenschluss&quot; = ''f''" key="{b361fb85-668e-4fb0-a6de-8a52264fb41b}" symbol="4" label="Überschwemmungsgebiet (Flächenschluss = false)">
+    <rule filter=" &quot;artDerFestlegung&quot; = 2000" key="{3d1d225d-2559-43f3-93ff-856b66f23fe9}" symbol="5" label="Überschwemmungsgebiet"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 20000" key="{b065281a-5402-4168-80ee-c4b062721d9c}" symbol="6" label="festgesetztes Überschwemmungsgebiet"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 20001" key="{a7b3ad47-de08-4c28-ab17-812b82a2aa72}" symbol="7" label="noch nicht festgesetztes Überschwemmungsgebiet"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 20002" key="{7918a0c3-410f-4b91-a916-230cf43e8afa}" symbol="8" label="überschwemmungsgefährdetes Gebiet"/>
+   </rule>
+   <rule filter="ELSE" key="{9510c055-6b7d-47a4-a6dd-ff75a1aecd7a}" symbol="9"/>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="107,199,253,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1000_flaechenschluss_true.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1100_flaechenschluss_true.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1300_flaechenschluss_true.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
+    <layer pass="0" class="MarkerLine" locked="0">
+     <prop k="interval" v="3"/>
+     <prop k="interval_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="interval_unit" v="MM"/>
+     <prop k="offset" v="1"/>
+     <prop k="offset_along_line" v="0"/>
+     <prop k="offset_along_line_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_along_line_unit" v="MM"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="placement" v="interval"/>
+     <prop k="rotate" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
+      <layer pass="0" class="SimpleMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,122,199,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="equilateral_triangle"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,0"/>
+       <prop k="outline_style" v="solid"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="area"/>
+       <prop k="size" v="3.3"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@5@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_2000_flaechenschluss_false.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="6">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@6@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20000_flaechenschluss_false.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="7">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@7@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20001_flaechenschluss_false.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="8">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="0"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@8@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20002_flaechenschluss_false.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="9">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="107,199,253,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,122,199,255"/>
+     <prop k="outline_style" v="no"/>
+     <prop k="outline_width" v="3"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="1"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,122,199,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="3"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@9@2">
+      <layer pass="0" class="FontMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="chr" v="?"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="font" v="FreeSans"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="false"/>
+  <property key="labeling/enabled" value="false"/>
+  <property key="labeling/fieldName" value=""/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="true"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="63"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="1"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions>
+  <actionsetting action="app=QgsApplication.instance();ddManager=app.ddManager;ddManager.showDdForm([% $id %]);" icon="" capture="0" type="1" name="Eingabemaske anzeigen"/>
+ </attributeactions>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (63, 'SO_NachrichtlicheUebernahmen', 'SO_WasserrechtPunkt', '<qgis version="2.14.7-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="artDerFestlegung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{0d862e94-2e5f-45c5-8107-d3a9efeb158a}">
+   <rule filter=" &quot;artDerFestlegung&quot; IS NOT NULL" key="{2159f12e-1ccd-481d-a8fb-8f4bceedf17f}" symbol="0" label="mit Art der Festlegung">
+    <rule filter="&quot;artDerFestlegung&quot; = 1000" key="{fbb98cb4-f7b5-4a11-ad08-da2f8de56285}" symbol="1" label="Gewässer 1 Ordnung"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 1100" key="{ccc60dff-1f9b-4e6c-b49a-de59cfc47997}" symbol="2" label="Gewässer 2 Ordnung"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 1300" key="{a60f2450-7b25-4077-a913-72431e30a180}" symbol="3" label="Gewässer 3 Ordnung"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 2000" key="{f386093f-7c06-4217-bd11-5f5203418da5}" symbol="4" label="Überschwemmungsgebiet"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 20000" key="{b0250189-0ed3-4b93-bad6-7571cf8d7c9d}" symbol="5" label="festgesetztes Überschwemmungsgebiet"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 20001" key="{ce42a337-fabc-4f37-be6f-2bad4a059fbe}" symbol="6" label="noch nicht festgesetztes Überschwemmungsgebiet"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 20002" key="{63e829ac-8243-4a5e-a5d8-eaed5570e44d}" symbol="7" label="überschwemmungsgefährdetes Gebiet"/>
+   </rule>
+   <rule filter="&quot;artDerFestlegung&quot; IS NULL" key="{313a15be-6827-41a5-a9e1-c477bf1f9eb6}" symbol="8" label="ohne Art der Festlegung"/>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+    <layer pass="0" class="SimpleMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="107,199,253,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="circle"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="area"/>
+     <prop k="size" v="0"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="1">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1000_flaechenschluss_true.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="2">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1100_flaechenschluss_true.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="3">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_1300_flaechenschluss_true.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="4">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_2000_flaechenschluss_false.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="5">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20000_flaechenschluss_false.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="6">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20001_flaechenschluss_false.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="7">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/F_SO_Wasserrecht_artDerFestlegung_20002_flaechenschluss_false.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="8">
+    <layer pass="0" class="SimpleMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="107,199,253,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="circle"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="area"/>
+     <prop k="size" v="2"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="false"/>
+  <property key="labeling/enabled" value="false"/>
+  <property key="labeling/fieldName" value=""/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="false"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="50"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="0"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (64, 'SO_Schutzgebiete', 'SO_SchutzgebietWasserrechtFlaeche', '<qgis version="2.14.7-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="artDerFestlegung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zone">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{afd4459c-e893-4d9f-8a1f-c4d4238cdb24}">
+   <rule key="{28090a5c-6d26-4c6e-bc26-caec5d4cfdb6}" symbol="0">
+    <rule filter="&quot;artDerFestlegung&quot; = 1000 and  &quot;zone&quot; IS NULL" key="{a7704f70-138a-4782-946b-c5d6f3866021}" symbol="1" label="Wasserschutzgebiet"/>
+    <rule filter="artDerFestlegung&quot; = 10001" key="{46c5a746-a36c-4205-8535-417aef014ac5}" symbol="2" label="Oberflächengewässerschutzgebiet"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 10000" key="{86c13d18-2e48-435a-88c9-9ba9df81f98a}" symbol="3" label="Quell-/Grundwasserschutzgebiet"/>
+    <rule filter="&quot;artDerFestlegung&quot; = 2000" key="{b9ef40ca-6ef7-4768-8ccd-2398c58c9751}" symbol="4" label="Heilquellenschutzgebiet"/>
+   </rule>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="1"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,122,199,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="3"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_1000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_10001.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_10000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_SchutzgebietWasserrecht_artDerFestlegung_2000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="true"/>
+  <property key="labeling/enabled" value="true"/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;artDerFestlegung&quot; = 1000 THEN&#xa;&#x9;CASE WHEN  &quot;zone&quot; = 1000 THEN ''Zone 1''&#xa;&#x9;WHEN  &quot;zone&quot; = 1100 THEN ''Zone 2''&#xa;&#x9;WHEN  &quot;zone&quot; = 1200 THEN ''Zone 3''&#xa;&#x9;WHEN  &quot;zone&quot; = 1300 THEN ''Zone 3a''&#xa;&#x9;WHEN  &quot;zone&quot; = 1400 THEN ''Zone 3b''&#xa;&#x9;WHEN  &quot;zone&quot; = 1500 THEN ''Zone 4''&#xa;&#x9;END&#xa;END&#xa;&#x9;"/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="true"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="50"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="1"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (60, 'SO_NachrichtlicheUebernahmen', 'SO_LuftverkehrsrechtPunkt', '<qgis version="2.14.7-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="artDerFestlegung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{0a537577-ee8a-40be-8f75-85a8276f73ea}">
+   <rule filter=" &quot;artDerFestlegung&quot; IS NOT NULL" key="{af0fac9a-bd64-4bc9-81f1-7a79dfa0f95e}" symbol="0" label="mit artDerFestlegung">
+    <rule filter=" &quot;artDerFestlegung&quot; = 1000" key="{b35db2c3-101f-4a47-868e-83d1aed0c466}" symbol="1" label="Flughafen"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 2000" key="{5d2c6df2-760c-4f0f-938f-406c5602a3fe}" symbol="2" label="Landeplatz"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 3000" key="{ede436cc-472c-496e-a289-56a665b0c701}" symbol="3" label="Segelfluggelände"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 4000" key="{dfb3f082-d119-4fbe-b52c-2aabb7ece155}" symbol="4" label="Hubschrauberlandeplatz"/>
+   </rule>
+   <rule filter=" &quot;artDerFestlegung&quot; IS NULL" key="{aba7443e-bd34-483f-b90e-b1ca1c1d5564}" symbol="5" label="keine artDerFestlegung"/>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+    <layer pass="0" class="SimpleMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="108,136,65,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="circle"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="area"/>
+     <prop k="size" v="0"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="1">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_1000.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="2">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_2000.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="3">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_3000.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="4">
+    <layer pass="0" class="SvgMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="0,0,0,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_4000.svg"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="diameter"/>
+     <prop k="size" v="8"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="marker" name="5">
+    <layer pass="0" class="SimpleMarker" locked="0">
+     <prop k="angle" v="0"/>
+     <prop k="color" v="205,53,150,255"/>
+     <prop k="horizontal_anchor_point" v="1"/>
+     <prop k="name" v="circle"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="scale_method" v="area"/>
+     <prop k="size" v="2"/>
+     <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="size_unit" v="MM"/>
+     <prop k="vertical_anchor_point" v="1"/>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="true"/>
+  <property key="labeling/enabled" value="true"/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5000 THEN ''Ballonstartplatz''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5200 THEN ''Hängegleiter''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5400 THEN ''Gleitsegler''&#xa;END"/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="true"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="63"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="0"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (59, 'SO_NachrichtlicheUebernahmen', 'SO_LuftverkehrsrechtFlaeche', '<qgis version="2.14.7-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+ <edittypes>
+  <edittype widgetv2type="TextEdit" name="gid">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="artDerFestlegung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  </edittype>
+ </edittypes>
+ <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+  <rules key="{ca28e0a1-a6f4-4e3c-aa5d-8d32c54cb842}">
+   <rule key="{b3979f60-9c54-4846-8369-eb645ea3cc7b}" symbol="0">
+    <rule filter=" &quot;artDerFestlegung&quot; = 1000" key="{3c65884a-4cc3-401f-92af-d5a24ffde1c9}" symbol="1" label="Flughafen"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 2000" key="{d13f44df-dd8a-40ca-b586-eabf8c1f995e}" symbol="2" label="Landeplatz"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 3000" key="{6b53bb29-88df-44b0-af5a-28c8740784e8}" symbol="3" label="Segelfluggelände"/>
+    <rule filter=" &quot;artDerFestlegung&quot; = 4000" key="{e432e178-e16d-453c-a1f6-3fb877d81fa5}" symbol="4" label="Hubschrauberlandeplatz"/>
+   </rule>
+  </rules>
+  <symbols>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="235,221,234,255"/>
+     <prop k="joinstyle" v="miter"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="205,53,150,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="1.5"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_1000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_2000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_3000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
+    <layer pass="0" class="CentroidFill" locked="0">
+     <prop k="point_on_surface" v="1"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="0,0,0,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v="XPlanung_qgis/P_SO_Luftverkehrsrecht_artDerFestlegung_4000.svg"/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+   </symbol>
+  </symbols>
+ </renderer-v2>
+ <labeling type="simple"/>
+ <customproperties>
+  <property key="labeling" value="pal"/>
+  <property key="labeling/addDirectionSymbol" value="false"/>
+  <property key="labeling/angleOffset" value="0"/>
+  <property key="labeling/blendMode" value="0"/>
+  <property key="labeling/bufferBlendMode" value="0"/>
+  <property key="labeling/bufferColorA" value="255"/>
+  <property key="labeling/bufferColorB" value="255"/>
+  <property key="labeling/bufferColorG" value="255"/>
+  <property key="labeling/bufferColorR" value="255"/>
+  <property key="labeling/bufferDraw" value="false"/>
+  <property key="labeling/bufferJoinStyle" value="64"/>
+  <property key="labeling/bufferNoFill" value="false"/>
+  <property key="labeling/bufferSize" value="1"/>
+  <property key="labeling/bufferSizeInMapUnits" value="false"/>
+  <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/bufferTransp" value="0"/>
+  <property key="labeling/centroidInside" value="false"/>
+  <property key="labeling/centroidWhole" value="false"/>
+  <property key="labeling/decimals" value="3"/>
+  <property key="labeling/displayAll" value="false"/>
+  <property key="labeling/dist" value="0"/>
+  <property key="labeling/distInMapUnits" value="false"/>
+  <property key="labeling/distMapUnitMaxScale" value="0"/>
+  <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/drawLabels" value="true"/>
+  <property key="labeling/enabled" value="true"/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5000 THEN ''Ballonstartplatz''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5200 THEN ''Hängegleiter''&#xa;WHEN  &quot;SO_Luftverkehrsrecht.artDerFestlegung&quot; = 5400 THEN ''Gleitsegler''&#xa;END"/>
+  <property key="labeling/fitInPolygonOnly" value="false"/>
+  <property key="labeling/fontBold" value="true"/>
+  <property key="labeling/fontCapitals" value="0"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
+  <property key="labeling/fontItalic" value="false"/>
+  <property key="labeling/fontLetterSpacing" value="0"/>
+  <property key="labeling/fontLimitPixelSize" value="false"/>
+  <property key="labeling/fontMaxPixelSize" value="10000"/>
+  <property key="labeling/fontMinPixelSize" value="3"/>
+  <property key="labeling/fontSize" value="11"/>
+  <property key="labeling/fontSizeInMapUnits" value="false"/>
+  <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/fontStrikeout" value="false"/>
+  <property key="labeling/fontUnderline" value="false"/>
+  <property key="labeling/fontWeight" value="63"/>
+  <property key="labeling/fontWordSpacing" value="0"/>
+  <property key="labeling/formatNumbers" value="false"/>
+  <property key="labeling/isExpression" value="true"/>
+  <property key="labeling/labelOffsetInMapUnits" value="true"/>
+  <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/labelPerPart" value="false"/>
+  <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+  <property key="labeling/limitNumLabels" value="false"/>
+  <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+  <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+  <property key="labeling/maxNumLabels" value="2000"/>
+  <property key="labeling/mergeLines" value="false"/>
+  <property key="labeling/minFeatureSize" value="0"/>
+  <property key="labeling/multilineAlign" value="0"/>
+  <property key="labeling/multilineHeight" value="1"/>
+  <property key="labeling/namedStyle" value="Normal"/>
+  <property key="labeling/obstacle" value="true"/>
+  <property key="labeling/obstacleFactor" value="1"/>
+  <property key="labeling/obstacleType" value="0"/>
+  <property key="labeling/offsetType" value="0"/>
+  <property key="labeling/placeDirectionSymbol" value="0"/>
+  <property key="labeling/placement" value="1"/>
+  <property key="labeling/placementFlags" value="0"/>
+  <property key="labeling/plussign" value="false"/>
+  <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+  <property key="labeling/preserveRotation" value="true"/>
+  <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+  <property key="labeling/priority" value="5"/>
+  <property key="labeling/quadOffset" value="4"/>
+  <property key="labeling/repeatDistance" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/repeatDistanceUnit" value="1"/>
+  <property key="labeling/reverseDirectionSymbol" value="false"/>
+  <property key="labeling/rightDirectionSymbol" value=">"/>
+  <property key="labeling/scaleMax" value="10000000"/>
+  <property key="labeling/scaleMin" value="1"/>
+  <property key="labeling/scaleVisibility" value="false"/>
+  <property key="labeling/shadowBlendMode" value="6"/>
+  <property key="labeling/shadowColorB" value="0"/>
+  <property key="labeling/shadowColorG" value="0"/>
+  <property key="labeling/shadowColorR" value="0"/>
+  <property key="labeling/shadowDraw" value="false"/>
+  <property key="labeling/shadowOffsetAngle" value="135"/>
+  <property key="labeling/shadowOffsetDist" value="1"/>
+  <property key="labeling/shadowOffsetGlobal" value="true"/>
+  <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowOffsetUnits" value="1"/>
+  <property key="labeling/shadowRadius" value="1.5"/>
+  <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+  <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shadowRadiusUnits" value="1"/>
+  <property key="labeling/shadowScale" value="100"/>
+  <property key="labeling/shadowTransparency" value="30"/>
+  <property key="labeling/shadowUnder" value="0"/>
+  <property key="labeling/shapeBlendMode" value="0"/>
+  <property key="labeling/shapeBorderColorA" value="255"/>
+  <property key="labeling/shapeBorderColorB" value="128"/>
+  <property key="labeling/shapeBorderColorG" value="128"/>
+  <property key="labeling/shapeBorderColorR" value="128"/>
+  <property key="labeling/shapeBorderWidth" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeBorderWidthUnits" value="1"/>
+  <property key="labeling/shapeDraw" value="false"/>
+  <property key="labeling/shapeFillColorA" value="255"/>
+  <property key="labeling/shapeFillColorB" value="255"/>
+  <property key="labeling/shapeFillColorG" value="255"/>
+  <property key="labeling/shapeFillColorR" value="255"/>
+  <property key="labeling/shapeJoinStyle" value="64"/>
+  <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeOffsetUnits" value="1"/>
+  <property key="labeling/shapeOffsetX" value="0"/>
+  <property key="labeling/shapeOffsetY" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeRadiiUnits" value="1"/>
+  <property key="labeling/shapeRadiiX" value="0"/>
+  <property key="labeling/shapeRadiiY" value="0"/>
+  <property key="labeling/shapeRotation" value="0"/>
+  <property key="labeling/shapeRotationType" value="0"/>
+  <property key="labeling/shapeSVGFile" value=""/>
+  <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+  <property key="labeling/shapeSizeType" value="0"/>
+  <property key="labeling/shapeSizeUnits" value="1"/>
+  <property key="labeling/shapeSizeX" value="0"/>
+  <property key="labeling/shapeSizeY" value="0"/>
+  <property key="labeling/shapeTransparency" value="0"/>
+  <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/textColorA" value="255"/>
+  <property key="labeling/textColorB" value="0"/>
+  <property key="labeling/textColorG" value="0"/>
+  <property key="labeling/textColorR" value="0"/>
+  <property key="labeling/textTransp" value="0"/>
+  <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/wrapChar" value=""/>
+  <property key="labeling/xOffset" value="0"/>
+  <property key="labeling/yOffset" value="0"/>
+  <property key="labeling/zIndex" value="0"/>
+  <property key="variableNames" value="_fields_"/>
+  <property key="variableValues" value=""/>
+ </customproperties>
+ <blendMode>0</blendMode>
+ <featureBlendMode>0</featureBlendMode>
+ <layerTransparency>0</layerTransparency>
+ <displayfield>gid</displayfield>
+ <label>0</label>
+ <labelattributes>
+  <label fieldname="" text="Beschriftung"/>
+  <family fieldname="" name="Ubuntu"/>
+  <size fieldname="" units="pt" value="12"/>
+  <bold fieldname="" on="0"/>
+  <italic fieldname="" on="0"/>
+  <underline fieldname="" on="0"/>
+  <strikeout fieldname="" on="0"/>
+  <color fieldname="" red="0" blue="0" green="0"/>
+  <x fieldname=""/>
+  <y fieldname=""/>
+  <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+  <angle fieldname="" value="0" auto="0"/>
+  <alignment fieldname="" value="center"/>
+  <buffercolor fieldname="" red="255" blue="255" green="255"/>
+  <buffersize fieldname="" units="pt" value="1"/>
+  <bufferenabled fieldname="" on=""/>
+  <multilineenabled fieldname="" on=""/>
+  <selectedonly on=""/>
+ </labelattributes>
+ <SingleCategoryDiagramRenderer diagramType="Pie">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+   <fontProperties description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" style=""/>
+  </DiagramCategory>
+ </SingleCategoryDiagramRenderer>
+ <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <annotationform>.</annotationform>
+ <excludeAttributesWMS/>
+ <excludeAttributesWFS/>
+ <attributeactions/>
+ <editform>.</editform>
+ <editforminit/>
+ <editforminitcodesource>0</editforminitcodesource>
+ <editforminitfilepath></editforminitfilepath>
+ <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
+
+Hier kann dem Formular Extra-Logik hinzugefügt werden.
+
+Der Name der Funktion wird im Feld "Python-Init-Function" angegeben.
+Ein Beispiel:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+ <featformsuppress>0</featformsuppress>
+ <editorlayout>generatedlayout</editorlayout>
+ <widgets/>
+ <conditionalstyles>
+  <rowstyles/>
+  <fieldstyles/>
+ </conditionalstyles>
+</qgis>
+', NULL, NULL, NULL);
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (96, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -23581,7 +23493,7 @@ INSERT INTO "QGIS".layer VALUES (96, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (97, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (97, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -24190,7 +24102,7 @@ INSERT INTO "QGIS".layer VALUES (97, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (98, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (98, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -24799,7 +24711,7 @@ INSERT INTO "QGIS".layer VALUES (98, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (99, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (99, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -25408,7 +25320,7 @@ INSERT INTO "QGIS".layer VALUES (99, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (100, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (100, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -26017,7 +25929,7 @@ INSERT INTO "QGIS".layer VALUES (100, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (101, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (101, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -26626,7 +26538,7 @@ INSERT INTO "QGIS".layer VALUES (101, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (102, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (102, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -27235,7 +27147,7 @@ INSERT INTO "QGIS".layer VALUES (102, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (104, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (104, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -27844,7 +27756,7 @@ INSERT INTO "QGIS".layer VALUES (104, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (107, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (107, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -28453,7 +28365,7 @@ INSERT INTO "QGIS".layer VALUES (107, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (108, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (108, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -29062,7 +28974,7 @@ INSERT INTO "QGIS".layer VALUES (108, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (109, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (109, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -29671,7 +29583,7 @@ INSERT INTO "QGIS".layer VALUES (109, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (121, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (121, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -29974,7 +29886,7 @@ INSERT INTO "QGIS".layer VALUES (121, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (123, 'BP_Bebauung', 'BP_GebaeudeFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (123, 'BP_Bebauung', 'BP_GebaeudeFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -30222,7 +30134,7 @@ INSERT INTO "QGIS".layer VALUES (123, 'BP_Bebauung', 'BP_GebaeudeFlaeche', '<qgi
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (131, 'BP_Bebauung', 'BP_UeberbaubareGrundstuecksFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (131, 'BP_Bebauung', 'BP_UeberbaubareGrundstuecksFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -30664,7 +30576,7 @@ INSERT INTO "QGIS".layer VALUES (131, 'BP_Bebauung', 'BP_UeberbaubareGrundstueck
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (133, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AbgrabungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (133, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AbgrabungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -30946,7 +30858,7 @@ INSERT INTO "QGIS".layer VALUES (133, 'BP_Aufschuettung_Abgrabung_Bodenschaetze'
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (138, 'BP_Sonstiges', 'BP_FreiFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (138, 'BP_Sonstiges', 'BP_FreiFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -31231,7 +31143,7 @@ INSERT INTO "QGIS".layer VALUES (138, 'BP_Sonstiges', 'BP_FreiFlaeche', '<qgis v
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (141, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (141, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -31483,7 +31395,7 @@ INSERT INTO "QGIS".layer VALUES (141, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (142, 'BP_Sonstiges', 'BP_NutzungsartenGrenze', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (142, 'BP_Sonstiges', 'BP_NutzungsartenGrenze', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -31768,7 +31680,7 @@ INSERT INTO "QGIS".layer VALUES (142, 'BP_Sonstiges', 'BP_NutzungsartenGrenze', 
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (143, 'BP_Sonstiges', 'BP_TextlicheFestsetzungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (143, 'BP_Sonstiges', 'BP_TextlicheFestsetzungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -32016,7 +31928,7 @@ INSERT INTO "QGIS".layer VALUES (143, 'BP_Sonstiges', 'BP_TextlicheFestsetzungsF
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (148, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (148, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -32298,7 +32210,7 @@ INSERT INTO "QGIS".layer VALUES (148, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<q
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (117, 'BP_Bebauung', 'BP_AbstandsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (117, 'BP_Bebauung', 'BP_AbstandsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -32601,7 +32513,7 @@ INSERT INTO "QGIS".layer VALUES (117, 'BP_Bebauung', 'BP_AbstandsFlaeche', '<qgi
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (87, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (87, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -32848,7 +32760,7 @@ INSERT INTO "QGIS".layer VALUES (87, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#808080');
-INSERT INTO "QGIS".layer VALUES (88, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (88, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -33086,7 +32998,7 @@ INSERT INTO "QGIS".layer VALUES (88, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#808080');
-INSERT INTO "QGIS".layer VALUES (91, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmeLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (91, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmeLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -33321,7 +33233,7 @@ INSERT INTO "QGIS".layer VALUES (91, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#808080');
-INSERT INTO "QGIS".layer VALUES (93, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_EingriffsBereich', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (93, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_EingriffsBereich', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -33542,7 +33454,7 @@ INSERT INTO "QGIS".layer VALUES (93, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff0000');
-INSERT INTO "QGIS".layer VALUES (126, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (126, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -34156,7 +34068,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#005200');
-INSERT INTO "QGIS".layer VALUES (111, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_LandwirtschaftFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (111, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_LandwirtschaftFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -34390,7 +34302,7 @@ INSERT INTO "QGIS".layer VALUES (111, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_La
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#99cc00');
-INSERT INTO "QGIS".layer VALUES (114, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEinzelanlagePunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (114, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEinzelanlagePunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -34629,7 +34541,7 @@ INSERT INTO "QGIS".layer VALUES (114, 'BP_Erhaltungssatzung_und_Denkmalschutz', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#e31a1c');
-INSERT INTO "QGIS".layer VALUES (115, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEnsembleFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (115, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEnsembleFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -34903,7 +34815,7 @@ INSERT INTO "QGIS".layer VALUES (115, 'BP_Erhaltungssatzung_und_Denkmalschutz', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#e31a1c');
-INSERT INTO "QGIS".layer VALUES (116, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_ErhaltungsBereichFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (116, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_ErhaltungsBereichFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -35177,7 +35089,7 @@ INSERT INTO "QGIS".layer VALUES (116, 'BP_Erhaltungssatzung_und_Denkmalschutz', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#e31a1c');
-INSERT INTO "QGIS".layer VALUES (92, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmePunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (92, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AusgleichsMassnahmePunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -35397,7 +35309,7 @@ INSERT INTO "QGIS".layer VALUES (92, 'BP_Naturschutz_Landschaftsbild_Naturhausha
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#008000');
-INSERT INTO "QGIS".layer VALUES (118, 'BP_Bebauung', 'BP_BauGrenze', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (118, 'BP_Bebauung', 'BP_BauGrenze', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -35668,7 +35580,7 @@ INSERT INTO "QGIS".layer VALUES (118, 'BP_Bebauung', 'BP_BauGrenze', '<qgis vers
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (119, 'BP_Bebauung', 'BP_BauLinie', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (119, 'BP_Bebauung', 'BP_BauLinie', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -35939,7 +35851,7 @@ INSERT INTO "QGIS".layer VALUES (119, 'BP_Bebauung', 'BP_BauLinie', '<qgis versi
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (120, 'BP_Bebauung', 'BP_BesondererNutzungszweckFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (120, 'BP_Bebauung', 'BP_BesondererNutzungszweckFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -36267,7 +36179,7 @@ INSERT INTO "QGIS".layer VALUES (120, 'BP_Bebauung', 'BP_BesondererNutzungszweck
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (122, 'BP_Bebauung', 'BP_FoerderungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (122, 'BP_Bebauung', 'BP_FoerderungsFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -36515,7 +36427,7 @@ INSERT INTO "QGIS".layer VALUES (122, 'BP_Bebauung', 'BP_FoerderungsFlaeche', '<
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (124, 'BP_Bebauung', 'BP_GemeinschaftsanlagenFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (124, 'BP_Bebauung', 'BP_GemeinschaftsanlagenFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -36766,7 +36678,7 @@ INSERT INTO "QGIS".layer VALUES (124, 'BP_Bebauung', 'BP_GemeinschaftsanlagenFla
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (125, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuordnungFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (125, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuordnungFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -37005,7 +36917,7 @@ INSERT INTO "QGIS".layer VALUES (125, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuo
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (127, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuordnungLinie', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (127, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuordnungLinie', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -37241,7 +37153,7 @@ INSERT INTO "QGIS".layer VALUES (127, 'BP_Bebauung', 'BP_GemeinschaftsanlagenZuo
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (128, 'BP_Bebauung', 'BP_NebenanlagenAusschlussFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (128, 'BP_Bebauung', 'BP_NebenanlagenAusschlussFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -37526,7 +37438,7 @@ INSERT INTO "QGIS".layer VALUES (128, 'BP_Bebauung', 'BP_NebenanlagenAusschlussF
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (129, 'BP_Bebauung', 'BP_NebenanlagenFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (129, 'BP_Bebauung', 'BP_NebenanlagenFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -37777,7 +37689,7 @@ INSERT INTO "QGIS".layer VALUES (129, 'BP_Bebauung', 'BP_NebenanlagenFlaeche', '
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (130, 'BP_Bebauung', 'BP_PersGruppenBestimmteFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (130, 'BP_Bebauung', 'BP_PersGruppenBestimmteFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -38025,7 +37937,7 @@ INSERT INTO "QGIS".layer VALUES (130, 'BP_Bebauung', 'BP_PersGruppenBestimmteFla
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (132, 'BP_Bebauung', 'BP_SpezielleBauweise', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (132, 'BP_Bebauung', 'BP_SpezielleBauweise', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -38325,7 +38237,7 @@ INSERT INTO "QGIS".layer VALUES (132, 'BP_Bebauung', 'BP_SpezielleBauweise', '<q
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (140, 'BP_Sonstiges', 'BP_GenerischesObjektLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (140, 'BP_Sonstiges', 'BP_GenerischesObjektLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -38543,7 +38455,7 @@ INSERT INTO "QGIS".layer VALUES (140, 'BP_Sonstiges', 'BP_GenerischesObjektLinie
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (144, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (144, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -38798,7 +38710,7 @@ INSERT INTO "QGIS".layer VALUES (144, 'BP_Sonstiges', 'BP_UnverbindlicheVormerku
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff00ff');
-INSERT INTO "QGIS".layer VALUES (145, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (145, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -39016,7 +38928,7 @@ INSERT INTO "QGIS".layer VALUES (145, 'BP_Sonstiges', 'BP_UnverbindlicheVormerku
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff00ff');
-INSERT INTO "QGIS".layer VALUES (146, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (146, 'BP_Sonstiges', 'BP_UnverbindlicheVormerkungPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -39235,7 +39147,7 @@ INSERT INTO "QGIS".layer VALUES (146, 'BP_Sonstiges', 'BP_UnverbindlicheVormerku
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffff00');
-INSERT INTO "QGIS".layer VALUES (153, 'BP_Umwelt', 'BP_ErneuerbareEnergieFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (153, 'BP_Umwelt', 'BP_ErneuerbareEnergieFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -39493,7 +39405,7 @@ INSERT INTO "QGIS".layer VALUES (153, 'BP_Umwelt', 'BP_ErneuerbareEnergieFlaeche
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffff10');
-INSERT INTO "QGIS".layer VALUES (135, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AbgrabungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (135, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AbgrabungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -39748,7 +39660,7 @@ INSERT INTO "QGIS".layer VALUES (135, 'BP_Aufschuettung_Abgrabung_Bodenschaetze'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (136, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_BodenschaetzeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (136, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_BodenschaetzeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -40006,7 +39918,7 @@ INSERT INTO "QGIS".layer VALUES (136, 'BP_Aufschuettung_Abgrabung_Bodenschaetze'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (137, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_RekultivierungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (137, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_RekultivierungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -40295,7 +40207,7 @@ INSERT INTO "QGIS".layer VALUES (137, 'BP_Aufschuettung_Abgrabung_Bodenschaetze'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (112, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_LandwirtschaftLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (112, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_LandwirtschaftLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -40513,7 +40425,7 @@ INSERT INTO "QGIS".layer VALUES (112, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_La
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#3ec235');
-INSERT INTO "QGIS".layer VALUES (105, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmeLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (105, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmeLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -40782,7 +40694,7 @@ INSERT INTO "QGIS".layer VALUES (105, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007200');
-INSERT INTO "QGIS".layer VALUES (103, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (103, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmeFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -41020,7 +40932,7 @@ INSERT INTO "QGIS".layer VALUES (103, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007200');
-INSERT INTO "QGIS".layer VALUES (95, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (95, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzgebietPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -41500,7 +41412,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#005200');
-INSERT INTO "QGIS".layer VALUES (84, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661009752e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (84, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661009752e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -42422,7 +42334,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#33a02c');
-INSERT INTO "QGIS".layer VALUES (85, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (85, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_AnpflanzungBindungErhaltungPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -43049,7 +42961,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#33a02c');
-INSERT INTO "QGIS".layer VALUES (139, 'BP_Sonstiges', 'BP_GenerischesObjektFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (139, 'BP_Sonstiges', 'BP_GenerischesObjektFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -43321,7 +43233,7 @@ INSERT INTO "QGIS".layer VALUES (139, 'BP_Sonstiges', 'BP_GenerischesObjektFlaec
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (149, 'BP_Sonstiges', 'BP_WegerechtLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (149, 'BP_Sonstiges', 'BP_WegerechtLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -43559,7 +43471,7 @@ INSERT INTO "QGIS".layer VALUES (149, 'BP_Sonstiges', 'BP_WegerechtLinie', '<qgi
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (147, 'BP_Sonstiges', 'BP_Veraenderungssperre', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (147, 'BP_Sonstiges', 'BP_Veraenderungssperre', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -43789,7 +43701,7 @@ INSERT INTO "QGIS".layer VALUES (147, 'BP_Sonstiges', 'BP_Veraenderungssperre', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#af1ba5');
-INSERT INTO "QGIS".layer VALUES (151, 'BP_Umwelt', 'BP_ImmissionsschutzFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (151, 'BP_Umwelt', 'BP_ImmissionsschutzFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -44044,7 +43956,7 @@ INSERT INTO "QGIS".layer VALUES (151, 'BP_Umwelt', 'BP_ImmissionsschutzFlaeche',
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (152, 'BP_Umwelt', 'BP_ImmissionsschutzLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (152, 'BP_Umwelt', 'BP_ImmissionsschutzLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -44296,7 +44208,7 @@ INSERT INTO "QGIS".layer VALUES (152, 'BP_Umwelt', 'BP_ImmissionsschutzLinie', '
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (150, 'BP_Umwelt', 'BP_LuftreinhalteFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (150, 'BP_Umwelt', 'BP_LuftreinhalteFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -44551,7 +44463,7 @@ INSERT INTO "QGIS".layer VALUES (150, 'BP_Umwelt', 'BP_LuftreinhalteFlaeche', '<
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#f9f9f9');
-INSERT INTO "QGIS".layer VALUES (154, 'BP_Verkehr', 'BP_BereichOhneEinAusfahrtLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (154, 'BP_Verkehr', 'BP_BereichOhneEinAusfahrtLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -44833,7 +44745,7 @@ INSERT INTO "QGIS".layer VALUES (154, 'BP_Verkehr', 'BP_BereichOhneEinAusfahrtLi
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (155, 'BP_Verkehr', 'BP_EinfahrtPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (155, 'BP_Verkehr', 'BP_EinfahrtPunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -45056,7 +44968,7 @@ INSERT INTO "QGIS".layer VALUES (155, 'BP_Verkehr', 'BP_EinfahrtPunkt', '<qgis v
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (156, 'BP_Verkehr', 'BP_EinfahrtsbereichLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (156, 'BP_Verkehr', 'BP_EinfahrtsbereichLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -45274,7 +45186,7 @@ INSERT INTO "QGIS".layer VALUES (156, 'BP_Verkehr', 'BP_EinfahrtsbereichLinie', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (157, 'BP_Verkehr', 'BP_StrassenbegrenzungsLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (157, 'BP_Verkehr', 'BP_StrassenbegrenzungsLinie', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -45512,7 +45424,7 @@ INSERT INTO "QGIS".layer VALUES (157, 'BP_Verkehr', 'BP_StrassenbegrenzungsLinie
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#79c720');
-INSERT INTO "QGIS".layer VALUES (158, 'BP_Verkehr', 'BP_StrassenkoerperFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (158, 'BP_Verkehr', 'BP_StrassenkoerperFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -45995,7 +45907,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#716e6e');
-INSERT INTO "QGIS".layer VALUES (163, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (163, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -46232,7 +46144,7 @@ INSERT INTO "QGIS".layer VALUES (163, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (164, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (164, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -46469,7 +46381,7 @@ INSERT INTO "QGIS".layer VALUES (164, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (165, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (165, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -46706,7 +46618,7 @@ INSERT INTO "QGIS".layer VALUES (165, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (166, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (166, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -46943,7 +46855,7 @@ INSERT INTO "QGIS".layer VALUES (166, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (167, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (167, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -47230,7 +47142,7 @@ INSERT INTO "QGIS".layer VALUES (167, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<q
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (169, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (169, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -47467,7 +47379,7 @@ INSERT INTO "QGIS".layer VALUES (169, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (170, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (170, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -47704,7 +47616,7 @@ INSERT INTO "QGIS".layer VALUES (170, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (171, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (171, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -47941,7 +47853,7 @@ INSERT INTO "QGIS".layer VALUES (171, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (172, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (172, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -48178,7 +48090,7 @@ INSERT INTO "QGIS".layer VALUES (172, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (173, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (173, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -48415,7 +48327,7 @@ INSERT INTO "QGIS".layer VALUES (173, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (174, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (174, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -48652,7 +48564,7 @@ INSERT INTO "QGIS".layer VALUES (174, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (175, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (175, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -48889,7 +48801,7 @@ INSERT INTO "QGIS".layer VALUES (175, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (176, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (176, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.8.2-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -49126,7 +49038,7 @@ INSERT INTO "QGIS".layer VALUES (176, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (180, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '<qgis version="2.10.1-Pisa" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (180, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '<qgis version="2.10.1-Pisa" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -49781,7 +49693,7 @@ INSERT INTO "QGIS".layer VALUES (180, 'BP_Bebauung', 'BP_FirstRichtungsLinie', '
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (186, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungPunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (186, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungPunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -50156,7 +50068,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (106, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmePunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (106, 'BP_Naturschutz_Landschaftsbild_Naturhaushalt', 'BP_SchutzPflegeEntwicklungsMassnahmePunkt', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -50376,7 +50288,7 @@ INSERT INTO "QGIS".layer VALUES (106, 'BP_Naturschutz_Landschaftsbild_Naturhaush
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#007200');
-INSERT INTO "QGIS".layer VALUES (162, 'BP_Wasser', 'BP_WasserwirtschaftsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (162, 'BP_Wasser', 'BP_WasserwirtschaftsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -50720,7 +50632,7 @@ INSERT INTO "QGIS".layer VALUES (162, 'BP_Wasser', 'BP_WasserwirtschaftsFlaeche'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#087fd0');
-INSERT INTO "QGIS".layer VALUES (134, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AufschuettungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (134, 'BP_Aufschuettung_Abgrabung_Bodenschaetze', 'BP_AufschuettungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -50975,7 +50887,7 @@ INSERT INTO "QGIS".layer VALUES (134, 'BP_Aufschuettung_Abgrabung_Bodenschaetze'
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (183, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (183, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -51269,7 +51181,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff8a6f');
-INSERT INTO "QGIS".layer VALUES (113, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEinzelanlageFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (113, 'BP_Erhaltungssatzung_und_Denkmalschutz', 'BP_DenkmalschutzEinzelanlageFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -51540,7 +51452,7 @@ INSERT INTO "QGIS".layer VALUES (113, 'BP_Erhaltungssatzung_und_Denkmalschutz', 
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#e31a1c');
-INSERT INTO "QGIS".layer VALUES (192, 'FP_Basisobjekte', 'FP_Flaechenobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (192, 'FP_Basisobjekte', 'FP_Flaechenobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -52430,7 +52342,7 @@ INSERT INTO "QGIS".layer VALUES (192, 'FP_Basisobjekte', 'FP_Flaechenobjekte', '
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (193, 'FP_Basisobjekte', 'FP_Linienobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (193, 'FP_Basisobjekte', 'FP_Linienobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -52922,7 +52834,7 @@ INSERT INTO "QGIS".layer VALUES (193, 'FP_Basisobjekte', 'FP_Linienobjekte', '<q
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (194, 'FP_Basisobjekte', 'FP_Punktobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (194, 'FP_Basisobjekte', 'FP_Punktobjekte', '<qgis version="2.8.3-Wien" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -53398,7 +53310,7 @@ INSERT INTO "QGIS".layer VALUES (194, 'FP_Basisobjekte', 'FP_Punktobjekte', '<qg
  <attributeactions/>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (189, 'BP_Gemeinbedarf_Spiel_und_Sportanlagen', 'BP_GemeinbedarfsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (189, 'BP_Gemeinbedarf_Spiel_und_Sportanlagen', 'BP_GemeinbedarfsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -53833,7 +53745,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff0070');
-INSERT INTO "QGIS".layer VALUES (190, 'BP_Gemeinbedarf_Spiel_und_Sportanlagen', 'BP_SpielSportanlagenFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (190, 'BP_Gemeinbedarf_Spiel_und_Sportanlagen', 'BP_SpielSportanlagenFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -54140,7 +54052,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, NULL);
-INSERT INTO "QGIS".layer VALUES (191, 'BP_Sonstiges', 'BP_KennzeichnungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (191, 'BP_Sonstiges', 'BP_KennzeichnungsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -54477,7 +54389,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#808080');
-INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_GruenFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_GruenFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -55073,7 +54985,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#01e408');
-INSERT INTO "QGIS".layer VALUES (185, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_WaldFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (185, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_WaldFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -55451,7 +55363,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#339966');
-INSERT INTO "QGIS".layer VALUES (177, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (177, 'BP_Sonstiges', 'BP_GenerischesObjektPunkt', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -55714,7 +55626,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#6100c1');
-INSERT INTO "QGIS".layer VALUES (168, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (168, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -55974,7 +55886,7 @@ INSERT INTO "QGIS".layer VALUES (168, 'BP_Sonstiges', 'BP_WegerechtFlaeche', '<q
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#000000');
-INSERT INTO "QGIS".layer VALUES (159, 'BP_Verkehr', 'BP_StrassenkoerperLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (159, 'BP_Verkehr', 'BP_StrassenkoerperLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -56486,7 +56398,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#716e6e');
-INSERT INTO "QGIS".layer VALUES (160, 'BP_Verkehr', 'BP_StrassenVerkehrsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (160, 'BP_Verkehr', 'BP_StrassenVerkehrsFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -56810,7 +56722,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffd355');
-INSERT INTO "QGIS".layer VALUES (188, 'BP_Verkehr', 'BP_VerkehrsFlaecheBesondererZweckbestimmung', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (188, 'BP_Verkehr', 'BP_VerkehrsFlaecheBesondererZweckbestimmung', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -57126,7 +57038,7 @@ INSERT INTO "QGIS".layer VALUES (188, 'BP_Verkehr', 'BP_VerkehrsFlaecheBesondere
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffd355');
-INSERT INTO "QGIS".layer VALUES (187, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (187, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -57556,7 +57468,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (161, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (161, 'BP_Ver_und_Entsorgung', 'BP_VerEntsorgungLinie', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -57892,7 +57804,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (2, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (2, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -58506,7 +58418,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (35, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (35, 'FP_Ver_und_Entsorgung', 'FP_VerEntsorgungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -59127,7 +59039,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ffec99');
-INSERT INTO "QGIS".layer VALUES (69, 'SO_NachrichtlicheUebernahmen', 'SO_StrassenverkehrsrechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (69, 'SO_NachrichtlicheUebernahmen', 'SO_StrassenverkehrsrechtLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -59730,7 +59642,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#fd0012');
-INSERT INTO "QGIS".layer VALUES (39, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_AbgrabungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (39, 'FP_Aufschuettung_Abgrabung_Bodenschaetze', 'FP_AbgrabungFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -60025,7 +59937,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#afacac');
-INSERT INTO "QGIS".layer VALUES (41, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_GemeinbedarfPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (41, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_GemeinbedarfPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -60581,7 +60493,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff0070');
-INSERT INTO "QGIS".layer VALUES (58, 'SO_Schutzgebiete', 'SO_SchutzgebietNaturschutzrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (58, 'SO_Schutzgebiete', 'SO_SchutzgebietNaturschutzrechtFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -61206,7 +61118,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#008000');
-INSERT INTO "QGIS".layer VALUES (27, 'FP_Sonstiges', 'FP_KennzeichnungPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (27, 'FP_Sonstiges', 'FP_KennzeichnungPunkt', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -61515,7 +61427,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#818181');
-INSERT INTO "QGIS".layer VALUES (28, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (28, 'FP_Sonstiges', 'FP_PrivilegiertesVorhabenFlaeche', '<qgis version="2.14.3-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -61904,7 +61816,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#ff1571');
-INSERT INTO "QGIS".layer VALUES (18, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlageFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (18, 'FP_Gemeinbedarf_Spiel_und_Sportanlagen', 'FP_SpielSportanlageFlaeche', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -62234,7 +62146,7 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#777676');
-INSERT INTO "QGIS".layer VALUES (32, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (32, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkungLinie', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
@@ -62452,7 +62364,7 @@ INSERT INTO "QGIS".layer VALUES (32, 'FP_Sonstiges', 'FP_UnverbindlicheVormerkun
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#cb05c8');
-INSERT INTO "QGIS".layer VALUES (110, 'SO_Schutzgebiete', 'SO_SchutzgebietNaturschutzrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer (id, schemaname, tablename, style, "XP_Bereich_gid", loadorder, default_color) VALUES (110, 'SO_Schutzgebiete', 'SO_SchutzgebietNaturschutzrechtPunkt', '<qgis version="2.14.3-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
