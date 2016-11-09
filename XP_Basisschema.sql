@@ -1749,7 +1749,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_texte" TO xp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_StylesheetListe" (
   "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
+  "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_gast;
