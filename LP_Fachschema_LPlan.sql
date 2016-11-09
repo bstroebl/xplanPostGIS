@@ -1223,7 +1223,7 @@ CREATE TRIGGER "delete_LP_BodenschutzrechtPunkt" AFTER DELETE ON "LP_Schutzgebie
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtDetailTypen" (
   "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
+  "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtDetailTypen" TO xp_gast;
 
