@@ -152,7 +152,7 @@ CREATE INDEX "idx_fk_fp_plan_fp_rechtsstand1" ON "LP_Basisobjekte"."LP_Plan" ("r
 CREATE INDEX "LP_Plan_gidx" ON "LP_Basisobjekte"."LP_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Plan" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_Plan" TO lp_user;
-COMMENT ON TABLE "LP_Basisobjekte"."LP_Plan" IS 'Klasse zur Modellierung eines gesamten Flächennutzungsplans.';
+COMMENT ON TABLE "LP_Basisobjekte"."LP_Plan" IS 'Die Klasse modelliert ein Planwerk mit lanschaftsplanerischen Festlegungen, Darstellungen bzw. Festsetzungen.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."bundesland" IS 'Zuständiges Bundesland';
@@ -432,7 +432,12 @@ CREATE TRIGGER "LP_AllgGruenflaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Erholung"."LP_ErholungFreizeit" (
   "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid"));
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_LP_ErholungFreizeit_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "LP_Erholung"."LP_ErholungFreizeit" TO xp_gast;
 GRANT ALL ON TABLE "LP_Erholung"."LP_ErholungFreizeit" TO lp_user;
