@@ -1124,7 +1124,7 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" (
     REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
+INHERITS ("LP_Basisobjekte"."LP_Linienobjekt");
 
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" TO xp_gast;
 GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" TO lp_user;
@@ -1145,7 +1145,7 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" (
     REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
+INHERITS ("LP_Basisobjekte"."LP_Punktobjekt");
 
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" TO xp_gast;
 GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" TO lp_user;
