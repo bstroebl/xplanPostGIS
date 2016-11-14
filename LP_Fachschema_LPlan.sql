@@ -1092,26 +1092,68 @@ CREATE TRIGGER "change_to_LP_ZwischennutzungPunkt" BEFORE INSERT OR UPDATE ON "L
 CREATE TRIGGER "delete_LP_ZwischennutzungPunkt" AFTER DELETE ON "LP_MassnahmenNaturschutz"."LP_ZwischennutzungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche"
+-- Table "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" (
+CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_LP_Biotopverbundflaeche_parent"
+  CONSTRAINT "fk_LP_BiotopverbundflaecheFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" TO xp_gast;
-GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" TO lp_user;
-COMMENT ON TABLE  "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" IS 'Biotop-Verbundfläche';
-COMMENT ON COLUMN  "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE INDEX "LP_ZwischennutzungFlaeche_gidx" ON "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" using gist ("position");
-CREATE TRIGGER "change_to_LP_Biotopverbundflaeche" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_LP_Biotopverbundflaeche" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "LP_Biotopverbundflaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_Biotopverbundflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" TO lp_user;
+COMMENT ON TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" IS 'Biotop-Verbundfläche';
+COMMENT ON COLUMN  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE INDEX "LP_BiotopverbundflaecheFlaeche_gidx" ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" using gist ("position");
+CREATE TRIGGER "change_to_LP_BiotopverbundflaecheFlaeche" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_LP_BiotopverbundflaecheFlaeche" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "LP_BiotopverbundflaecheFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_LP_BiotopverbundflaecheLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" TO lp_user;
+COMMENT ON TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" IS 'Biotop-Verbundfläche';
+COMMENT ON COLUMN  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE INDEX "LP_BiotopverbundflaecheLinie_gidx" ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" using gist ("position");
+CREATE TRIGGER "change_to_LP_BiotopverbundflaecheLinie" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_LP_BiotopverbundflaecheLinie" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaecheLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_LP_BiotopverbundflaechePunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" TO lp_user;
+COMMENT ON TABLE  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" IS 'Biotop-Verbundfläche';
+COMMENT ON COLUMN  "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE INDEX "LP_BiotopverbundflaechePunkt_gidx" ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" using gist ("position");
+CREATE TRIGGER "change_to_LP_BiotopverbundflaechePunkt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_LP_BiotopverbundflaechePunkt" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_BiotopverbundflaechePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_BodenschutzrechtTypen"
