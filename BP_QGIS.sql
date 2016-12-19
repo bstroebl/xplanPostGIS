@@ -12,6 +12,22 @@
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- View "BP_Basisobjekte"."BP_Plan_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Plan_qv" AS
+SELECT x.gid, b."raeumlicherGeltungsbereich", x.name, x.nummer, x."internalId", x.beschreibung, x.kommentar,
+    x."technHerstellDatum", x."genehmigungsDatum", x."untergangsDatum", x."erstellungsMassstab", x."xPlanGMLVersion",
+    x.bezugshoehe, b."sonstPlanArt", b.verfahren, b.rechtsstand, b.status, b.hoehenbezug, b."aenderungenBisDatum",
+    b."aufstellungsbechlussDatum", b."veraenderungssperreDatum", b."satzungsbeschlussDatum", b."rechtsverordnungsDatum",
+    b."inkrafttretensDatum", b."ausfertigungsDatum", b.veraenderungssperre, b."staedtebaulicherVertrag",
+    b."erschliessungsVertrag",  b."durchfuehrungsVertrag", b.gruenordnungsplan
+FROM "BP_Basisobjekte"."BP_Plan" b
+    JOIN "XP_Basisobjekte"."XP_Plan" x ON b.gid = x.gid;
+
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Plan_qv" TO xp_gast;
+
+-- -----------------------------------------------------
 -- View "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
 -- -----------------------------------------------------
 
