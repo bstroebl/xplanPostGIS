@@ -4845,6 +4845,11 @@ GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Data for table public."XP_Modellbereich"
+-- -----------------------------------------------------
+INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('BP', 'Bebauungsplan');
+
+-- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Verfahren"
 -- -----------------------------------------------------
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');

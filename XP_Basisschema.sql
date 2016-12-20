@@ -695,6 +695,17 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() TO 
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Table "XP_Modellbereich"
+-- -----------------------------------------------------
+
+CREATE TABLE public."XP_Modellbereich" (
+  "Kurz" VARCHAR(2) NOT NULL ,
+  "Modellbereich" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Kurz") );
+COMMENT ON TABLE public."XP_Modellbereich" IS 'Auflistung der in dieser Datenbank enthaltenen Modellbereiche';
+GRANT SELECT ON TABLE public."XP_Modellbereich" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_Rechtsstand"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_Rechtsstand" (

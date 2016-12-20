@@ -1859,6 +1859,12 @@ CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
 -- *****************************************************
 -- DATA
 -- *****************************************************
+
+-- -----------------------------------------------------
+-- Data for table public."XP_Modellbereich"
+-- -----------------------------------------------------
+INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('SO', 'Sonstige Planwerke');
+
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_Rechtscharakter"
 -- -----------------------------------------------------

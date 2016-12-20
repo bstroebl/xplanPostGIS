@@ -3494,6 +3494,11 @@ GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekte" TO xp_gast;
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Data for table public."XP_Modellbereich"
+-- -----------------------------------------------------
+INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('RP', 'Regionalplan Kernmodell');
+
+-- -----------------------------------------------------
 -- Data for table "RP_Basisobjekte"."RP_PlanArt"
 -- -----------------------------------------------------
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (1000, 'Regionalplan');

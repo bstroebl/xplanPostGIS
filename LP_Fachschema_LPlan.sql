@@ -2784,6 +2784,11 @@ GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Objekte" TO xp_gast;
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Data for table public."XP_Modellbereich"
+-- -----------------------------------------------------
+INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('LP', 'Landschaftsplan Kernmodell');
+
+-- -----------------------------------------------------
 -- Data for table "LP_Basisobjekte"."LP_PlanArt"
 -- -----------------------------------------------------
 INSERT INTO "LP_Basisobjekte"."LP_PlanArt" ("Code", "Bezeichner") VALUES (1000, 'Landschaftsprogramm');

@@ -2860,6 +2860,11 @@ GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Data for table public."XP_Modellbereich"
+-- -----------------------------------------------------
+INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('FP', 'Flaechennutzungsplan');
+
+-- -----------------------------------------------------
 -- Data for table "FP_Basisobjekte"."FP_Verfahren"
 -- -----------------------------------------------------
 INSERT INTO "FP_Basisobjekte"."FP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');
