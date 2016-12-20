@@ -4817,6 +4817,7 @@ CREATE OR REPLACE RULE _delete AS
 CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
  SELECT bp_o.gid,
     g."gehoertZuBP_Bereich" AS "BP_Bereich_gid",
+    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
     bp_o."Objektart",
     bp_o."Objektartengruppe"
    FROM ( SELECT o.gid,
@@ -4835,9 +4836,9 @@ CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
                    FROM "BP_Basisobjekte"."BP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) bp_o
-     LEFT JOIN "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" g ON bp_o.gid = g."BP_Objekt_gid";
+     LEFT JOIN "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" g ON bp_o.gid = g."BP_Objekt_gid"
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON bp_o.gid = n."XP_Objekt_gid";
 
-GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Objekte" TO "StroeblB";
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 
 -- *****************************************************

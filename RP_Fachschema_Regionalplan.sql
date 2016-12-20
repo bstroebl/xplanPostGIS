@@ -3468,6 +3468,7 @@ CREATE OR REPLACE RULE _delete AS
 CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
  SELECT fp_o.gid,
     g."gehoertZuRP_Bereich" AS "RP_Bereich_gid",
+    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
     fp_o."Objektart",
     fp_o."Objektartengruppe"
    FROM ( SELECT o.gid,
@@ -3486,7 +3487,9 @@ CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
                    FROM "RP_Basisobjekte"."RP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-     LEFT JOIN "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" g ON fp_o.gid = g."RP_Objekt_gid";
+     LEFT JOIN "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" g ON fp_o.gid = g."RP_Objekt_gid"
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+     
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekte" TO xp_gast;
 
 -- *****************************************************
