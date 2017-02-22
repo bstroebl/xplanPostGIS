@@ -2389,7 +2389,7 @@ CREATE TRIGGER "delete_LP_GenerischesObjektPunkt" AFTER DELETE ON "LP_Sonstiges"
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" (
   "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
+  "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" TO xp_gast;
 
