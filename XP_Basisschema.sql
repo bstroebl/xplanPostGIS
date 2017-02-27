@@ -2277,7 +2277,7 @@ CREATE OR REPLACE RULE _delete AS
 -- View "XP_Basisobjekte"."XP_Bereiche"
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Bereiche" AS
-SELECT g.gid, COALESCE(g.geltungsbereich, p."raeumlicherGeltungsbereich") as geltungsbereich, p.name, CAST(c.relname as varchar) as "Objektart", p.gid as "planGid", p.name as "planName", p."Objektart" as "planArt"
+SELECT g.gid, COALESCE(g.geltungsbereich, p."raeumlicherGeltungsbereich") as geltungsbereich, b.name, CAST(c.relname as varchar) as "Objektart", p.gid as "planGid", p.name as "planName", p."Objektart" as "planArt"
    FROM "XP_Basisobjekte"."XP_Geltungsbereich" g
    JOIN pg_class c ON g.tableoid = c.oid
    JOIN pg_namespace n ON c.relnamespace = n.oid
