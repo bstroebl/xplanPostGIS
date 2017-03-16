@@ -1930,7 +1930,7 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_HorizontaleAusrichtung" TO 
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_TPO" (
   "gid" BIGINT NOT NULL ,
-  "schriftinhalt" VARCHAR(255) NULL ,
+  "schriftinhalt" VARCHAR(1024) NULL ,
   "fontSperrung" REAL NULL DEFAULT 0,
   "skalierung" REAL NULL DEFAULT 1,
   "horizontaleAusrichtung" VARCHAR(64) NULL DEFAULT 'linksbündig',
