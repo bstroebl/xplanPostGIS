@@ -2003,6 +2003,8 @@ GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_Nutzungsschablone"
+-- wird hier als Kind von XP_TPO definiert, und nicht als Kind von XP_PTO
+-- da die Geometrie nicht in einer Elterntabelle liegen kann
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_Nutzungsschablone" (
   "gid" BIGINT NOT NULL ,
