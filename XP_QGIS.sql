@@ -12,16 +12,54 @@
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- Table "QGIS"."XP_StylesheetParameter"
+-- -----------------------------------------------------
+CREATE  TABLE  "QGIS"."XP_StylesheetParameter" (
+  "Code" INTEGER NOT NULL ,
+  "strichfarbe" VARCHAR(16),
+  "strichbreite" REAL,
+  "fuellfarbe" VARCHAR(16),
+  "textstil" VARCHAR(32),
+  "SVG_Symbol" VARCHAR(256),
+  "darstellungsprioritaet" INTEGER,
+  PRIMARY KEY ("Code"),
+CONSTRAINT "fk_XP_stylesheetliste"
+    FOREIGN KEY ("Code" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_StylesheetListe" ("Code" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE  );
+    
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."strichfarbe" IS 'Farbe der (Rand-)Line oder des Textes, Eingabe als Hashcode';
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."strichbreite" IS 'Dicke der (Rand-)Linie';
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."fuellfarbe" IS 'Farbe der Flächenfüllung, Eingabe als Hashcode';
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."textstil" IS 'Schriftart, englisch: Normal, Bold, Bold Italic oder Italic';
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."SVG_Symbol" IS 'Dateiname der SVG-Datei; die Datei muß in einem der SVG_Suchpfade liegen';
+COMMENT ON COLUMN "QGIS"."XP_StylesheetParameter"."darstellungsprioritaet" IS 'Darstellungsprioritaet';
+
+GRANT SELECT ON TABLE "QGIS"."XP_StylesheetParameter" TO xp_gast;
+GRANT ALL ON TABLE "QGIS"."XP_StylesheetParameter" TO xp_user;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" AS
+SELECT p.gid, s."Bezeichner" as "stylesheet", sp.*
+FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" p
+    LEFT JOIN "XP_Praesentationsobjekte"."XP_StylesheetListe" s ON p."stylesheetId" = s."Code"
+    LEFT JOIN "QGIS"."XP_StylesheetParameter" sp ON p."stylesheetId" = sp."Code";
+
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" TO xp_gast;
+
+-- -----------------------------------------------------
 -- View "XP_Praesentationsobjekte"."XP_TPO_qv"
 -- -----------------------------------------------------
 
 CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_TPO_qv" AS
-SELECT p.gid, s."Bezeichner" as "stylesheet", b."schriftinhalt", b."fontSperrung",
+SELECT p.*, b."schriftinhalt", b."fontSperrung",
 	b."skalierung", b."horizontaleAusrichtung", b."vertikaleAusrichtung"
 FROM "XP_Praesentationsobjekte"."XP_TPO" b
-    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" p ON b.gid = p.gid
-    LEFT JOIN "XP_Praesentationsobjekte"."XP_StylesheetListe" s ON p."stylesheetId" = s."Code";
-
+    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO_qv" TO xp_gast;
 
 -- -----------------------------------------------------
