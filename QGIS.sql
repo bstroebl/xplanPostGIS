@@ -122,8 +122,12 @@ CREATE  TABLE  "QGIS"."layer" (
   -- NULL in XP_Bereich_gid kann mehrfach vorkommen!
 
 CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid") ;
--- eventuell ist ein Index auf (schemaname , layername , "XP_Bereich_gid") performanter
--- CREATE INDEX "onlyOneStyle_idx" ON "QGIS"."layer" (schemaname , layername , "XP_Bereich_gid") ;
+-- UNIQUE Indices, um den UNIQUE-Constraint auch bei XP_Bereich_gid = NULL sicherzustellen
+-- siehe http://stackoverflow.com/questions/8289100/create-unique-constraint-with-null-columns
+CREATE UNIQUE INDEX layer_3col_uni_idx ON "QGIS".layer (schemaname, tablename, "XP_Bereich_gid")
+	WHERE "XP_Bereich_gid" IS NOT NULL;
+CREATE UNIQUE INDEX layer_2col_uni_idx ON "QGIS".layer (schemaname, tablename)
+	WHERE "XP_Bereich_gid" IS NULL;
 GRANT SELECT ON TABLE "QGIS"."layer" TO xp_gast;
 GRANT ALL ON TABLE "QGIS"."layer" TO xp_user;
 COMMENT ON TABLE  "QGIS"."layer" IS 'Layersteuerung für QGIS; für einzelne Layer kann ein Stil (qml-xml) definiert werden, der angewendet wird, wenn dieser Layer in diesen Bereich geladen wird. Die loadorder legt optional fest, in welcher Reihenfolge die Layer geladen werden sollen (wichtig bei sich überlagernden Polygonlayern). Unabhängig von den hier getroffenen Einstellungen wird ein Layer nur in einen Bereich geladen, wenn er dafür Objekte hat.';
