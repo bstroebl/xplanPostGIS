@@ -4814,28 +4814,33 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 -- View "BP_Basisobjekte"."BP_Objekte"
 -- -----------------------------------------------------
-CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS 
  SELECT bp_o.gid,
     g."gehoertZuBP_Bereich" AS "BP_Bereich_gid",
     n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
     bp_o."Objektart",
-    bp_o."Objektartengruppe"
+    bp_o."Objektartengruppe",
+    bp_o.typ
    FROM ( SELECT o.gid,
             c.relname::character varying AS "Objektart",
-            n.nspname::character varying AS "Objektartengruppe"
+            n_1.nspname::character varying AS "Objektartengruppe",
+            o.typ
            FROM ( SELECT p.gid,
-                    p.tableoid
+                    p.tableoid,
+                    'Punkt' as typ
                    FROM "BP_Basisobjekte"."BP_Punktobjekt" p
                 UNION
                  SELECT "BP_Linienobjekt".gid,
-                    "BP_Linienobjekt".tableoid
+                    "BP_Linienobjekt".tableoid,
+                    'Linie' as typ
                    FROM "BP_Basisobjekte"."BP_Linienobjekt"
                 UNION
                  SELECT "BP_Flaechenobjekt".gid,
-                    "BP_Flaechenobjekt".tableoid
+                    "BP_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ
                    FROM "BP_Basisobjekte"."BP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
-             JOIN pg_namespace n ON c.relnamespace = n.oid) bp_o
+             JOIN pg_namespace n_1 ON c.relnamespace = n_1.oid) bp_o
      LEFT JOIN "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" g ON bp_o.gid = g."BP_Objekt_gid"
      LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON bp_o.gid = n."XP_Objekt_gid";
 

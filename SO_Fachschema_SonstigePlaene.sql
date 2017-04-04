@@ -1838,20 +1838,25 @@ CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
     g."gehoertZuSO_Bereich" AS "SO_Bereich_gid",
     n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
     fp_o."Objektart",
-    fp_o."Objektartengruppe"
+    fp_o."Objektartengruppe",
+    fp_o.typ
    FROM ( SELECT o.gid,
             c.relname::character varying AS "Objektart",
-            n.nspname::character varying AS "Objektartengruppe"
+            n.nspname::character varying AS "Objektartengruppe",
+            o.typ
            FROM ( SELECT p.gid,
-                    p.tableoid
+                    p.tableoid,
+                    'Punkt' as typ
                    FROM "SO_Basisobjekte"."SO_Punktobjekt" p
                 UNION
                  SELECT "SO_Linienobjekt".gid,
-                    "SO_Linienobjekt".tableoid
+                    "SO_Linienobjekt".tableoid,
+                    'Linie' as typ
                    FROM "SO_Basisobjekte"."SO_Linienobjekt"
                 UNION
                  SELECT "SO_Flaechenobjekt".gid,
-                    "SO_Flaechenobjekt".tableoid
+                    "SO_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ
                    FROM "SO_Basisobjekte"."SO_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
