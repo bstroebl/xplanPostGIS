@@ -2477,7 +2477,7 @@ COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"."gid
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"."auspraegung" IS '';
 CREATE TRIGGER "change_to_FP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_ZentralerVersorgungsbereich" AFTER DELETE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "flaechenschluss_FP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+CREATE TRIGGER "FP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
 -- Table "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"
