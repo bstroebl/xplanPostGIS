@@ -2761,24 +2761,29 @@ CREATE OR REPLACE VIEW "LP_Basisobjekte"."LP_Objekte" AS
     n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
     fp_o."Objektart",
     fp_o."Objektartengruppe",
-    fp_o.typ
+    fp_o.typ,
+    fp_o.flaechenschluss
    FROM ( SELECT o.gid,
             c.relname::character varying AS "Objektart",
             n.nspname::character varying AS "Objektartengruppe",
-            o.typ
+            o.typ,
+            o.flaechenschluss
            FROM ( SELECT p.gid,
                     p.tableoid,
-                    'Punkt' as typ
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
                    FROM "LP_Basisobjekte"."LP_Punktobjekt" p
                 UNION
                  SELECT "LP_Linienobjekt".gid,
                     "LP_Linienobjekt".tableoid,
-                    'Linie' as typ
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
                    FROM "LP_Basisobjekte"."LP_Linienobjekt"
                 UNION
                  SELECT "LP_Flaechenobjekt".gid,
                     "LP_Flaechenobjekt".tableoid,
-                    'Flaeche' as typ
+                    'Flaeche' as typ,
+                    false as flaechenschluss
                    FROM "LP_Basisobjekte"."LP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
