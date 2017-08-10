@@ -105,7 +105,9 @@ $BODY$
     import uuid
     return uuid.uuid1()
 $BODY$
-  LANGUAGE 'plpython2u' VOLATILE
+  LANGUAGE 'plpython2u' VOLATILE 
+  -- sollte Python3 installiert sein, so ist anstelle dieser Zeile die folgende zu benutzen
+  -- LANGUAGE 'plpython3u' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
 
