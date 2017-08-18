@@ -717,15 +717,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_Rechtsstand" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_Rechtsstand" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "XP_Enumerationen"."XP_VersionBauNVO"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Enumerationen"."XP_VersionBauNVO" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "XP_Enumerationen"."XP_VersionBauNVO" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_AllgArtDerBaulNutzung"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" (

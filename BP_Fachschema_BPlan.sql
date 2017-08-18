@@ -518,9 +518,9 @@ CREATE INDEX "idx_fk_planArt_BP_PlanArt" ON "BP_Basisobjekte"."BP_Plan_planArt" 
 CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
   "gid" BIGINT NOT NULL ,
   "name" VARCHAR (256) NOT NULL,
-  "versionBauNVO" INTEGER NULL ,
+  "versionBauNVODatum" DATE NULL ,
   "versionBauNVOText" VARCHAR(255) NULL ,
-  "versionBauGB" DATE NULL ,
+  "versionBauGBDatum" DATE NULL ,
   "versionBauGBText" VARCHAR(255) NULL ,
   "gehoertZuPlan" INTEGER NOT NULL ,
   PRIMARY KEY ("gid") ,
@@ -528,11 +528,6 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
     FOREIGN KEY ("gehoertZuPlan" )
     REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Bereich_XP_VersionBauNVO1"
-    FOREIGN KEY ("versionBauNVO" )
-    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Bereich_XP_Bereich1"
     FOREIGN KEY ("gid" )
@@ -546,12 +541,11 @@ GRANT ALL ON "BP_Basisobjekte"."BP_Bereich" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Bereich" IS 'Diese Klasse modelliert einen Bereich eines Bebauungsplans, z.B. eine vertikale Ebene.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."name" IS 'Bezeichnung des Bereiches. Die Bezeichnung kann hier oder in XP_Bereich geändert werden.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVO" IS 'Benutzte Version der BauNVO';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVOText" IS 'Textliche Spezifikation einer anderen Gesetzesgrundlage als der BauNVO. In diesem Fall muss das Attribut versionBauNVO den Wert 9999 haben.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGB" IS 'Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVODatum" IS 'Datum der zugrundeliegenden Version der BauNVO';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO';
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
 CREATE INDEX "idx_fk_BP_Bereich_BP_Plan1" ON "BP_Basisobjekte"."BP_Bereich" ("gehoertZuPlan") ;
-CREATE INDEX "idx_fk_BP_Bereich_XP_VersionBauNVO1" ON "BP_Basisobjekte"."BP_Bereich" ("versionBauNVO") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich1" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich2" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE INDEX "BP_Bereich_gidx" ON "BP_Basisobjekte"."BP_Bereich" using gist ("geltungsbereich");

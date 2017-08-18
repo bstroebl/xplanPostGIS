@@ -1,6 +1,6 @@
 -- -----------------------------------------------------
 -- Objektbereich:FP_ Fachschema FPlan
--- Dieses Paket enthält alle Klassen von FPlan-Fachobjekten. Jede dieser Klassen modelliert eine 
+-- Dieses Paket enthält alle Klassen von FPlan-Fachobjekten. Jede dieser Klassen modelliert eine
 -- nach BauGB mögliche Darstellung, Kennzeichnung, Vermerk oder eine Hinweis in einem Flächennutzungsplan.
 -- -----------------------------------------------------
 
@@ -249,9 +249,9 @@ CREATE TRIGGER "FP_Plan_propagate_name" AFTER UPDATE ON "FP_Basisobjekte"."FP_Pl
 CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
   "gid" BIGINT NOT NULL ,
   "name" VARCHAR (256) NOT NULL,
-  "versionBauNVO" INTEGER NULL ,
+  "versionBauNVODatum" DATE NULL ,
   "versionBauNVOText" VARCHAR(255) NULL ,
-  "versionBauGB" DATE NULL ,
+  "versionBauGBDatum" DATE NULL ,
   "versionBauGBText" VARCHAR(255) NULL ,
   "gehoertZuPlan" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
@@ -259,11 +259,6 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
     FOREIGN KEY ("gehoertZuPlan" )
     REFERENCES "FP_Basisobjekte"."FP_Plan" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Bereich_XP_VersionBauNVO1"
-    FOREIGN KEY ("versionBauNVO" )
-    REFERENCES "XP_Enumerationen"."XP_VersionBauNVO" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Bereich_parent"
     FOREIGN KEY ("gid" )
@@ -273,16 +268,15 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Bereich" (
 INHERITS("XP_Basisobjekte"."XP_Geltungsbereich");
 
 CREATE INDEX "idx_fk_FP_Bereich_FP_Plan1" ON "FP_Basisobjekte"."FP_Bereich" ("gehoertZuPlan") ;
-CREATE INDEX "idx_fk_FP_Bereich_XP_VersionBauNVO1" ON "FP_Basisobjekte"."FP_Bereich" ("versionBauNVO") ;
 CREATE INDEX "FP_Bereich_gidx" ON "FP_Basisobjekte"."FP_Bereich" using gist ("geltungsbereich");
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Bereich" TO fp_user;
 COMMENT ON TABLE "FP_Basisobjekte"."FP_Bereich" IS 'Diese Klasse modelliert einen Bereich eines Flächennutzungsplans.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."name" IS 'Bezeichnung des Bereiches. Die Bezeichnung kann hier oder in XP_Bereich geändert werden.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVO" IS 'Benutzte Version der BauNVO';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVOText" IS 'Textliche Spezifikation einer anderen Gesetzesgrundlage als der BauNVO. In diesem Fall muss das Attribut versionBauNVO den Wert 9999 haben.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGB" IS 'Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVODatum" IS 'Datum der zugrundeliegenden Version der BauNVO';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."gehoertZuPlan" IS '';
 CREATE TRIGGER "change_to_FP_Bereich" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte"."FP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Bereich"();
@@ -2865,7 +2859,7 @@ CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
      LEFT JOIN "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" g ON fp_o.gid = g."FP_Objekt_gid"
      LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
-     
+
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 
 -- *****************************************************
