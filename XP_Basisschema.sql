@@ -1098,7 +1098,7 @@ CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung" (
   "refBeschreibung" INTEGER NULL ,
   "refBegruendung" INTEGER NULL ,
   "refText" INTEGER NULL ,
-  "besonderheiten" VARCHAR(255) NULL ,
+  "besonderheit" VARCHAR(255) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_RasterplanAenderung_XP_ExterneReferenz1"
     FOREIGN KEY ("refBeschreibung" )
@@ -1125,7 +1125,7 @@ COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."beschreibung" IS 'Nähe
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBeschreibung" IS 'Referenz auf das Beschreibungs-Dokument';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBegruendung" IS 'Referenz auf das Begründungs-Dokument';
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refText" IS 'Referenz auf die textlichen Inhalte der Planänderung.';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheiten" IS 'Besonderheiten der Änderung';
+COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Besonderheit der Änderung';
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz1" ON "XP_Raster"."XP_RasterplanAenderung" ("refBeschreibung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz2" ON "XP_Raster"."XP_RasterplanAenderung" ("refBegruendung") ;
 CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz3" ON "XP_Raster"."XP_RasterplanAenderung" ("refText") ;
