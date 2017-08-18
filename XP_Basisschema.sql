@@ -1421,12 +1421,12 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_user;
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" (
-  "gehoertNachrichtlichZuBereich" BIGINT NOT NULL ,
+CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" (
+  "gehoertZuBereich" BIGINT NOT NULL ,
   "XP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gehoertNachrichtlichZuBereich", "XP_Objekt_gid") ,
+  PRIMARY KEY ("gehoertZuBereich", "XP_Objekt_gid") ,
   CONSTRAINT "fk_XP_Bereich_has_XP_Objekt_XP_Bereich1"
-    FOREIGN KEY ("gehoertNachrichtlichZuBereich" )
+    FOREIGN KEY ("gehoertZuBereich" )
     REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -1435,9 +1435,9 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" (
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" IS 'Über diese Relation wird angezeigt, dass ein Fachobjekt vom referierten Planbereich als "nachrichtlich übernommen" referiert wird.';
-CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" ("gehoertNachrichtlichZuBereich") ;
-CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" ("XP_Objekt_gid") ;
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört.';
+CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("gehoertZuBereich") ;
+CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("XP_Objekt_gid") ;
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_user;
