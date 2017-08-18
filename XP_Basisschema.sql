@@ -1194,7 +1194,6 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "genehmigungsDatum" DATE NULL ,
   "untergangsDatum" DATE NULL ,
   "erstellungsMassstab" INTEGER  NULL ,
-  "xPlanGMLVersion" VARCHAR(8) NULL DEFAULT '4.1' ,
   "bezugshoehe" REAL NULL ,
   "refExternalCodeList" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -1214,7 +1213,6 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."technHerstellDatum" IS 'Datum, an
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."genehmigungsDatum" IS 'Datum der Genehmigung des Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."untergangsDatum" IS 'Datum, an dem der Plan (z.B. durch Ratsbeschluss oder Gerichtsurteil) aufgehoben oder für nichtig erklärt wurde.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei der Erstellung des Plans benutzte Kartenmassstab.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."xPlanGMLVersion" IS 'Version des XPlanGML-Schemas, nach dem der Datensatz erstellt wurde.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugshöhe (absolut NhN) für relative Höhenangaben von Planinhalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
 

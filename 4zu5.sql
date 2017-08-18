@@ -8,3 +8,9 @@ Die Attributart "Art" darf im Regelfall nur bei "Freien Präsentationsobjekten" 
 -- Änderung CR-003
 ALTER "XP_Raster"."XP_RasterplanAenderung" RENAME besonderheiten TO besonderheit;
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Besonderheit der Änderung';
+
+-- Änderung CR-004
+-- war bereits implementiert
+
+-- Änderung CR-006
+ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN "xPlanGMLVersion";
