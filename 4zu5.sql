@@ -44,3 +44,49 @@ UPDATE "FP_Basisobjekte"."FP_Bereich" SET "versionBauNVODatum" = '1990-01-23'::d
 UPDATE "FP_Basisobjekte"."FP_Bereich" SET "versionBauNVOText" = 'AndereGesetzlicheBestimmung - ' || COALESCE("versionBauNVOText",'') WHERE "versionBauNVO" = 9999;
 ALTER TABLE "FP_Basisobjekte"."FP_Bereich" DROP COLUMN "versionBauNVO";
 DROP TABLE "XP_Enumerationen"."XP_VersionBauNVO" CASCADE;
+
+-- Änderung CR-009
+-- war bereits umgesetzt
+
+-- Änderung CR-010
+
+-- -----------------------------------------------------
+-- Table "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte"
+-- -----------------------------------------------------
+CREATE TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
+GRANT ALL ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO lp_user;
+
+-- -----------------------------------------------------
+-- Table "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE  TABLE  "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" (
+  "LP_GenerischesObjekt_gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("LP_GenerischesObjekt_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_LP_GenerischesObjekt_zweckbestimmung1"
+    FOREIGN KEY ("LP_GenerischesObjekt_gid" )
+    REFERENCES "LP_Sonstiges"."LP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_LP_GenerischesObjekt_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" TO LP_user;
+COMMENT ON TABLE  "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmungen des Generischen Objekts.';
+
+CREATE TEMP SEQUENCE "LP_Zweckbest_seq";
+INSERT INTO "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte"("Code","Bezeichner")
+SELECT nextval('"LP_Zweckbest_seq"'), v.* FROM (SELECT DISTINCT trim("zweckbestimmung")::VARCHAR(64) FROM "LP_Sonstiges"."LP_GenerischesObjekt") v;
+INSERT INTO "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung"("LP_GenerischesObjekt_gid","zweckbestimmung")
+SELECT gid,"Code"
+FROM "LP_Sonstiges"."LP_GenerischesObjekt" o
+JOIN "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" z ON trim(o."zweckbestimmung") = z."Bezeichner";
+DROP SEQUENCE "LP_Zweckbest_seq";
+ALTER TABLE "LP_Sonstiges"."LP_GenerischesObjekt" DROP COLUMN "zweckbestimmung";

@@ -138,7 +138,7 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_Plan" (
     FOREIGN KEY ("sonstPlanArt" )
     REFERENCES "LP_Basisobjekte"."LP_SonstPlanArt" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE, 
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_fp_plan_fp_rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
     REFERENCES "LP_Basisobjekte"."LP_Rechtsstand" ("Code" )
@@ -2313,7 +2313,6 @@ CREATE TRIGGER "delete_LP_WasserrechtWirtschaftAbflussHochwSchutzLinie" AFTER DE
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Sonstiges"."LP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" VARCHAR(64) NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_LP_GenerischesObjekt_parent"
     FOREIGN KEY ("gid" )
@@ -2325,9 +2324,39 @@ GRANT SELECT ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt" TO fp_user;
 COMMENT ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Landschaftsplans, die durch keine andere Klasse des LPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "LP_Sonstiges"."LP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "LP_Sonstiges"."LP_GenerischesObjekt"."zweckbestimmung" IS 'Zweckbestimmung';
 CREATE TRIGGER "change_to_LP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "LP_Sonstiges"."LP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_LP_GenerischesObjekt" AFTER DELETE ON "LP_Sonstiges"."LP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte"
+-- -----------------------------------------------------
+CREATE TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
+GRANT ALL ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO lp_user;
+
+-- -----------------------------------------------------
+-- Table LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" (
+  "LP_GenerischesObjekt_gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("LP_GenerischesObjekt_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_LP_GenerischesObjekt_zweckbestimmung1"
+    FOREIGN KEY ("LP_GenerischesObjekt_gid" )
+    REFERENCES "LP_Sonstiges"."LP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_LP_GenerischesObjekt_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" TO lp_user;
+COMMENT ON TABLE  "LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmungen des Generischen Objekts.';
 
 -- -----------------------------------------------------
 -- Table "LP_Sonstiges"."LP_GenerischesObjektFlaeche"
