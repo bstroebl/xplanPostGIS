@@ -2658,17 +2658,8 @@ INSERT INTO "XP_Enumerationen"."XP_Bundeslaender" ("Code", "Bezeichner") VALUES 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_BedeutungenBereich"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1000', 'Aenderungsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1500', 'Ergänzungsbereich');
 INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1600', 'Teilbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1650', 'Gesamtbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1700', 'Eingriffsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1800', 'Ausgleichsbereich');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('2000', 'Nebenzeichnung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('2500', 'Variante');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('3000', 'VertikaleGliederung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('3500', 'Erstnutzung');
-INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('4000', 'Folgenutzung');
+INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('1800', 'Kompensationsbereich');
 INSERT INTO "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------

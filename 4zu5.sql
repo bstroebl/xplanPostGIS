@@ -152,3 +152,11 @@ ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT
 DROP Table "BP_Bebauung"."BP_Baugebiet_abweichungText";
 DROP Table "BP_Bebauung"."BP_Baugebiet_flaechenteil";
 DROP TABLE "BP_Bebauung"."BP_Baugebiet";
+
+-- Änderung CR-018
+-- nicht relevant
+
+-- Änderung CR-019
+UPDATE "XP_Basisobjekte"."XP_Bereich" set "bedeutung" = 9999 WHERE "bedeutung" NOT IN (1600,1800) AND "bedeutung" IS NOT NULL;
+UPDATE "XP_Basisobjekte"."XP_BedeutungenBereich" SET "Bezeichner" = 'Kompensationsbereich' WHERE "Code" = 1800;
+DELETE FROM "XP_Basisobjekte"."XP_BedeutungenBereich" WHERE "Code" NOT IN (1600,1800,9999);
