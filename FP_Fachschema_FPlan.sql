@@ -1967,6 +1967,7 @@ GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO 
 CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" (
   "gid" BIGINT NOT NULL ,
   "textlicheErgaenzung" VARCHAR(256) NULL,
+  "zugunstenVon" VARCHAR(64),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_VerEntsorgung_parent"
     FOREIGN KEY ("gid" )
@@ -1979,6 +1980,7 @@ GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" TO fp_user;
 COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" IS 'Flächen für Versorgungsanlagen, für die Abfallentsorgung und Abwasserbeseitigung sowie für Ablagerungen (§5, Abs. 2, Nr. 4 BauGB).';
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."textlicheErgaenzung" IS 'Textliche Ergänzung der Flächenazusweisung.';
+COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
 CREATE TRIGGER "change_to_FP_VerEntsorgung" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_VerEntsorgung" AFTER DELETE ON "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

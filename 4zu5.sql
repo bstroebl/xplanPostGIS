@@ -315,3 +315,7 @@ COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Anpflanzun
 
 -- Änderung CR-027
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1400', 'Deich');
+
+-- Änderung CR-028
+ALTER TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ADD COLUMN "zugunstenVon" VARCHAR(64);
+COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
