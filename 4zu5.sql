@@ -169,5 +169,5 @@ ALTER TABLE "XP_Praesentationsobjekte"."XP_PPO" ADD CONSTRAINT "fk_XP_PPO_XP_LPO
     FOREIGN KEY ("hat" )
     REFERENCES "XP_Praesentationsobjekte"."XP_LPO" ("gid" )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION;
 CREATE INDEX "idx_fk_XP_PPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_PPO" ("hat") ;
