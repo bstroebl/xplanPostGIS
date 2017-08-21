@@ -1839,17 +1839,25 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
   "position" GEOMETRY(Multipoint,25832) NOT NULL ,
   "drehwinkel" INTEGER NULL DEFAULT 0 ,
   "skalierung" REAL NULL DEFAULT 1 ,
+  "hat" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_XP_PPO_XP_APO1"
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_PPO_XP_LPO1"
+    FOREIGN KEY ("hat" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_LPO" ("gid" )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" IS 'Punktförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."skalierung" IS 'Skalierungsfaktor für Symbole.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."hat" IS 'Die Relation ermöglicht es, einem punktförmigen Präsentationsobjekt ein linienförmiges Präsentationsobjekt zuzuweisen. Einziger bekannter Anwendungsfall ist der Zuordnungspfeil eines Symbols oder einer Nutzungsschablone.';
+CREATE INDEX "idx_fk_XP_PPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_PPO" ("hat") ;
 CREATE TRIGGER "change_to_XP_PPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_PPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 CREATE TRIGGER "delete_XP_PPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_PPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" TO xp_gast;
