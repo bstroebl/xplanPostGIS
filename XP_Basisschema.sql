@@ -984,7 +984,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL"
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name des referierten Dokuments.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzMimeType" IS 'Mime-Type des referierten Dokumentes';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente';
@@ -1279,7 +1279,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gid" IS 'Primärschlüssel, wir
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."uuid" IS 'Eindeutiger Identifier des Objektes.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."text" IS 'Beliebiger Text';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."rechtsstand" IS 'Gibt an ob der Planinhalt bereits besteht, geplant ist, oder zukünftig wegfallen soll.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gesetzlicheGrundlage" IS 'Angagbe der Gesetzlichen Grundlage des Planinhalts.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gesetzlicheGrundlage" IS 'Angabe der Gesetzlichen Grundlage des Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."textSchluessel" IS 'Abschnitts- oder Schlüsselnummer der Text-Abschnitte (XP_TextAbschnitt), die dem Objekt explizit zugeordnet sind.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."textSchluesselBegruendung" IS 'Abschnitts- oder Schlüsselnummer der Abschnitte der Begründung (XP_BegruendungAbschnitt), die dem Objekt explizit zugeordnet sind.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gliederung1" IS 'Kennung im Plan für eine erste Gliederungsebene (z.B. GE-E für ein "Eingeschränktes Gewerbegebiet")';
@@ -1347,7 +1347,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_aendert" TO xp_user;
 CREATE INDEX "idx_fk_aendert_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_aendert_XP_VerbundenerPlan1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("aendert") ;
 CREATE INDEX "idx_fk_aendert_XP_RechtscharakterPlanaenderung1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("rechtscharakter") ;
-COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_aendert" IS 'Bezeichnung eines anderen Planes der Gemeinde, der durch den vorliegenden Plan geändert wird.';
+COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_aendert" IS 'Bezeichnung eines anderen Planes, der durch den vorliegenden Plan geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan_aendert"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
 
 -- -----------------------------------------------------
@@ -2392,7 +2392,7 @@ INSERT INTO "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code", "Bezeichner")
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf"
 -- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1000', 'OffentlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1000', 'OeffentlicheVerwaltung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1200', 'BildungForschung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1400', 'Kirche');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('1600', 'Sozial');
