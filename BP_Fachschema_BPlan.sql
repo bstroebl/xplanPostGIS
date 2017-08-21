@@ -4028,7 +4028,7 @@ CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" (
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");

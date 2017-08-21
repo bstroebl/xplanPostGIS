@@ -319,3 +319,14 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Be
 -- Änderung CR-028
 ALTER TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ADD COLUMN "zugunstenVon" VARCHAR(64);
 COMMENT ON COLUMN  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
+
+-- Änderung CR-029
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" DROP CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent";
+ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" DISABLE TRIGGER "change_to_BP_GestaltungBaugebiet";
+INSERT INTO "BP_Bebauung"."BP_GestaltungBaugebiet" (gid) SELECT gid FROM "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche";
+ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" ENABLE TRIGGER "change_to_BP_GestaltungBaugebiet";
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
