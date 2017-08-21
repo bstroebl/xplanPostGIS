@@ -1389,16 +1389,31 @@ CREATE TRIGGER "delete_BP_DenkmalschutzEnsembleFlaeche" AFTER DELETE ON "BP_Erha
 CREATE TRIGGER "ueberlagerung_BP_DenkmalschutzEnsembleFlaeche" BEFORE INSERT OR UPDATE ON "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_EinfahrtTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Verkehr"."BP_EinfahrtTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Verkehr"."BP_EinfahrtPunkt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" (
   "gid" BIGINT NOT NULL ,
   "richtung" INTEGER NOT NULL DEFAULT 0,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_EinfahrtPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_EinfahrtPunkt_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_EinfahrtTypen" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
@@ -1408,6 +1423,7 @@ CREATE INDEX "BP_EinfahrtPunkt_gidx" ON "BP_Verkehr"."BP_EinfahrtPunkt" using gi
 COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" IS 'Einfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."richtung" IS 'Winkel-Richtung der Einfahrt (in Grad).';
+COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."typ" IS 'Typ der Einfahrt';
 CREATE TRIGGER "change_to_BP_EinfahrtPunkt" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_EinfahrtPunkt" AFTER DELETE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -4993,3 +5009,10 @@ INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2300, 'LandwirtschaftlicherVerkehr');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2400, 'Verkehrsgruen');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Verkehr"."BP_EinfahrtTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (1000, 'Einfahrt');
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (2000, 'Ausfahrt');
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (3000, 'EinAusfahrt');

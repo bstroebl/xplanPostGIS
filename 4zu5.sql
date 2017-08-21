@@ -171,3 +171,24 @@ ALTER TABLE "XP_Praesentationsobjekte"."XP_PPO" ADD CONSTRAINT "fk_XP_PPO_XP_LPO
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 CREATE INDEX "idx_fk_XP_PPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_PPO" ("hat") ;
+
+-- Änderung CR 024
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_EinfahrtTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Verkehr"."BP_EinfahrtTypen" TO xp_gast;
+
+ALTER TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" ADD COLUMN "typ" INTEGER;
+ALTER TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" Add CONSTRAINT "fk_BP_EinfahrtPunkt_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_EinfahrtTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (1000, 'Einfahrt');
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (2000, 'Ausfahrt');
+INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (3000, 'EinAusfahrt');
