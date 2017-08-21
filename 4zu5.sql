@@ -145,3 +145,10 @@ INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES
 UPDATE "RP_Basisobjekte"."RP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
 ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
 ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
+
+-- Änderung CR-017
+-- ACHTUNG: Evtl. in BP_Baugebiet gespeicherte Objekte werden ohne Datenübernahme gelöscht!
+-- Grund: Es wird nicht angenommen, dass diese Klasse tatsächlich genutzt wurde.
+DROP Table "BP_Bebauung"."BP_Baugebiet_abweichungText";
+DROP Table "BP_Bebauung"."BP_Baugebiet_flaechenteil";
+DROP TABLE "BP_Bebauung"."BP_Baugebiet";

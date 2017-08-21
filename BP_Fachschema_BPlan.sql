@@ -3383,49 +3383,6 @@ CREATE TRIGGER "delete_BP_BaugebietsTeilFlaeche" AFTER DELETE ON "BP_Bebauung"."
 CREATE TRIGGER "flaechenschluss_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 
 -- -----------------------------------------------------
--- Table "BP_Bebauung"."BP_Baugebiet"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Bebauung"."BP_Baugebiet" (
-  "gid" BIGINT NOT NULL,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_BP_Baugebiet_parent"
-    FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet" TO xp_gast;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet" TO bp_user;
-COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet" IS 'Aggregation verschiedener Teilflächen eines Baugebiets. Die spezifizierten Attribute gelten für alle aggregierten Objekte BP_BaugebietsTeilFlaeche, in denen das Attribut nicht belegt ist.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_Baugebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_BP_Baugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_Baugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_BP_Baugebiet" AFTER DELETE ON "BP_Bebauung"."BP_Baugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "BP_Bebauung"."BP_Baugebiet_abweichungText"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Bebauung"."BP_Baugebiet_abweichungText" (
-  "BP_Baugebiet_gid" BIGINT NOT NULL,
-  "abweichungText" INTEGER NOT NULL,
-  PRIMARY KEY ("BP_Baugebiet_gid", "abweichungText"),
-  CONSTRAINT "fk_abweichungTextt_BP_Baugebiet1"
-    FOREIGN KEY ("BP_Baugebiet_gid")
-    REFERENCES "BP_Bebauung"."BP_Baugebiet" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_abweichungText_XP_Textabschnitt1"
-    FOREIGN KEY ("abweichungText")
-    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_abweichungTextt_XP_Textabschnitt1_idx" ON "BP_Bebauung"."BP_Baugebiet_abweichungText" ("abweichungText");
-CREATE INDEX "idx_fk_abweichungTextt_BP_Baugebiet1_idx" ON "BP_Bebauung"."BP_Baugebiet_abweichungText" ("BP_Baugebiet_gid");
-GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet_abweichungText" TO xp_gast;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet_abweichungText" TO bp_user;
-COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet_abweichungText" IS '';
-
--- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BauLinie"
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Bebauung"."BP_BauLinie" (
@@ -3631,30 +3588,6 @@ CREATE INDEX "idx_fk_BP_GemeinanlFlaeche_detaillierteZweckbest2" ON "BP_Bebauung
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" TO bp_user;
 COMMENT ON TABLE  "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung.';
-
--- -----------------------------------------------------
--- Table "BP_Bebauung"."BP_Baugebiet_flaechenteil"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Bebauung"."BP_Baugebiet_flaechenteil" (
-  "BP_Baugebiet_gid" BIGINT NOT NULL,
-  "flaechenteil" BIGINT NOT NULL,
-  PRIMARY KEY ("BP_Baugebiet_gid", "flaechenteil"),
-  CONSTRAINT "fk_BP_Baugebiet_flaechenteil1"
-    FOREIGN KEY ("BP_Baugebiet_gid")
-    REFERENCES "BP_Bebauung"."BP_Baugebiet" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_flaechenteil2"
-    FOREIGN KEY ("flaechenteil")
-    REFERENCES "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("gid")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_BP_Baugebiet_flaechenteil1_idx" ON "BP_Bebauung"."BP_Baugebiet_flaechenteil" ("flaechenteil");
-CREATE INDEX "idx_fk_BP_Baugebiet_flaechenteil2_idx" ON "BP_Bebauung"."BP_Baugebiet_flaechenteil" ("BP_Baugebiet_gid");
-GRANT SELECT ON TABLE "BP_Bebauung"."BP_Baugebiet_flaechenteil" TO xp_gast;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_Baugebiet_flaechenteil" TO bp_user;
-COMMENT ON TABLE  "BP_Bebauung"."BP_Baugebiet_flaechenteil" IS 'Teilflächen des Baugebiets.';
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_eigentuemer"
