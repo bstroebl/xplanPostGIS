@@ -4631,31 +4631,7 @@ CREATE INDEX "idx_fk_BP_VerEntsorgung_zweckbestimmung1_idx" ON "BP_Ver_und_Entso
 CREATE INDEX "idx_fk_BP_VerEntsorgung_zweckbestimmung2_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ("BP_VerEntsorgung_gid");
 GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" TO bp_user;
-COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
-
--- -----------------------------------------------------
--- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" (
-  "BP_VerEntsorgung_gid" BIGINT NOT NULL,
-  "besondereZweckbestimmung" INTEGER NOT NULL,
-  PRIMARY KEY ("BP_VerEntsorgung_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_BP_VerEntsorgung_besondereZweckbestimmung1"
-    FOREIGN KEY ("BP_VerEntsorgung_gid")
-    REFERENCES "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_VerEntsorgung_besondereZweckbestimmung2"
-    FOREIGN KEY ("besondereZweckbestimmung")
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_BP_VerEntsorgung_besondereZweckbestimmung1_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" ("besondereZweckbestimmung");
-CREATE INDEX "idx_fk_BP_VerEntsorgung_besondereZweckbestimmung2_idx" ON "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" ("BP_VerEntsorgung_gid");
-GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" TO bp_user;
-COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörige allgemeine Zweckbestimmungen detaillieren oder ersetzen.';
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
 
 -- -----------------------------------------------------
 -- Table "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung"

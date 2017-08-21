@@ -192,3 +192,119 @@ ALTER TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" Add CONSTRAINT "fk_BP_EinfahrtPunkt
 INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (1000, 'Einfahrt');
 INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (2000, 'Ausfahrt');
 INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (3000, 'EinAusfahrt');
+
+-- Änderung CR-025, sowie CR-031 für VerEntsorgung
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10000', 'Hochspannungsleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10001', 'TrafostationUmspannwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10002', 'Solarkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10003', 'Windkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10004', 'Geothermiekraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10005', 'Elektrizitaetswerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10006', 'Wasserkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10007', 'BiomasseKraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10008', 'Kabelleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10009', 'Niederspannungsleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10010', 'Leitungsmast');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12000', 'Ferngasleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12001', 'Gaswerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12002', 'Gasbehaelter');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12003', 'Gasdruckregler');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12004', 'Gasstation');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12005', 'Gasleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13000', 'Erdoelleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13001', 'Bohrstelle');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13002', 'Erdoelpumpstation');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('13003', 'Oeltank');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14000', 'Blockheizkraftwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14001', 'Fernwaermeleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('14002', 'Fernheizwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16000', 'Wasserwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16001', 'Wasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16002', 'Wasserspeicher');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16003', 'Brunnen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16004', 'Pumpwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('16005', 'Quelle');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18000', 'Abwasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18001', 'Abwasserrueckhaltebecken');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18002', 'Abwasserpumpwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18003', 'Klaeranlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18004', 'AnlageKlaerschlamm');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18005', 'SonstigeAbwasserBehandlungsanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('18006', 'SalzSoleEinleitungen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('20000', 'RegenwasserRueckhaltebecken');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('20001', 'Niederschlagswasserleitung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22000', 'Muellumladestation');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22001', 'Muellbeseitigungsanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22002', 'Muellsortieranlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('22003', 'Recyclinghof');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24000', 'Erdaushubdeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24001', 'Bauschuttdeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24002', 'Hausmuelldeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24003', 'Sondermuelldeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24004', 'StillgelegteDeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('24005', 'RekultivierteDeponie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26000', 'Fernmeldeanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26001', 'Mobilfunkstrecke');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('26002', 'Fernmeldekabel');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28000', 'Windenergie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28001', 'Photovoltaik');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28002', 'Biomasse');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28003', 'Geothermie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('28004', 'SonstErneuerbareEnergie');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('99990', 'Produktenleitung');
+
+DROP VIEW "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_qv";
+CREATE OR REPLACE VIEW "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_qv" AS
+ SELECT g.gid, xpo.ebene, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+CASE WHEN 2000 IN(z1,z2,z3,z4) THEN 'Regenwasser'
+ELSE
+    NULL
+END as label1,
+CASE WHEN 2600 IN (z1,z2,z3,z4) THEN 'Telekomm.'
+ELSE NULL
+END as label2,
+CASE WHEN 10000 IN (z1,z2,z3,z4) THEN 'Hochspannungsleitung'
+ELSE NULL
+END as label3
+  FROM
+ "BP_Ver_und_Entsorgung"."BP_VerEntsorgung" g
+ JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid
+ LEFT JOIN
+ crosstab('SELECT "BP_VerEntsorgung_gid", "BP_VerEntsorgung_gid", zweckbestimmung FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid;
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_qv" TO xp_gast;
+INSERT INTO "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ("BP_VerEntsorgung_gid","zweckbestimmung")
+SELECT "BP_VerEntsorgung_gid", "besondereZweckbestimmung" FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung";
+DROP TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung";
+COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+
+DROP VIEW "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv";
+CREATE OR REPLACE VIEW "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" AS
+ SELECT g.gid, xpo.ebene, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+ CASE WHEN 2000 IN(z1,z2,z3,z4) THEN 'Regenwasser'
+    WHEN 2600 IN (z1,z2,z3,z4) THEN 'Telekom.'
+ ELSE
+    zl1."Bezeichner"
+ END as label1,
+ zl2."Bezeichner" as label2,
+ zl3."Bezeichner" as label3,
+ zl4."Bezeichner" as label4
+  FROM
+ "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" g
+ JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid
+ LEFT JOIN
+ crosstab('SELECT "FP_VerEntsorgung_gid", "FP_VerEntsorgung_gid", zweckbestimmung FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" TO xp_gast;
+INSERT INTO "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" ("FP_VerEntsorgung_gid","zweckbestimmung")
+SELECT "FP_VerEntsorgung_gid", "besondereZweckbestimmung" FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung";
+DROP TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung";
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';

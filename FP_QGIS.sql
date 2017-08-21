@@ -317,18 +317,14 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv" TO xp_g
 CREATE OR REPLACE VIEW "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" AS
  SELECT g.gid, xpo.ebene, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
- bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
- coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
- CASE WHEN bz1 IS NULL THEN
-    CASE WHEN 2000 IN(z1,z2,z3,z4) THEN 'Regenwasser'
+ CASE WHEN 2000 IN(z1,z2,z3,z4) THEN 'Regenwasser'
     WHEN 2600 IN (z1,z2,z3,z4) THEN 'Telekom.'
-    END
  ELSE
-    bzl1."Bezeichner"
-END as label1,
-bzl2."Bezeichner" as label2,
-bzl3."Bezeichner" as label3,
-bzl4."Bezeichner" as label4
+    zl1."Bezeichner"
+ END as label1,
+ zl2."Bezeichner" as label2,
+ zl3."Bezeichner" as label3,
+ zl4."Bezeichner" as label4
   FROM
  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" g
  JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid
@@ -336,14 +332,10 @@ bzl4."Bezeichner" as label4
  crosstab('SELECT "FP_VerEntsorgung_gid", "FP_VerEntsorgung_gid", zweckbestimmung FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" ORDER BY 1,3') zt
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
  ON g.gid=zt.zgid
- LEFT JOIN
- crosstab('SELECT "FP_VerEntsorgung_gid", "FP_VerEntsorgung_gid", "besondereZweckbestimmung" FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" ORDER BY 1,3') bzt
- (bzgid bigint,bz1 integer,bz2 integer,bz3 integer,bz4 integer)
- ON g.gid = bzt.bzgid
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" bzl1 ON bzt.bz1 = bzl1."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" bzl2 ON bzt.bz2 = bzl2."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" bzl3 ON bzt.bz3 = bzl3."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" bzl4 ON bzt.bz4 = bzl4."Code";
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" zl4 ON zt.z4 = zl4."Code";
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" TO xp_gast;
 
 -- -----------------------------------------------------

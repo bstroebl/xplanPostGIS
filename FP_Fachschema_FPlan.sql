@@ -2002,28 +2002,7 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" (
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
-
--- -----------------------------------------------------
--- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" (
-  "FP_VerEntsorgung_gid" BIGINT NOT NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_VerEntsorgung_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_FP_VerEntsorgung_besondereZweckbestimmung1"
-    FOREIGN KEY ("FP_VerEntsorgung_gid" )
-    REFERENCES "FP_Ver_und_Entsorgung"."FP_VerEntsorgung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_VerEntsorgung_besondereZweckbestimmung2"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
+COMMENT ON TABLE  "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_detaillierteZweckbestimmung"
