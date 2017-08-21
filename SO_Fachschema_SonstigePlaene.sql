@@ -140,7 +140,7 @@ GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO xp_gast;
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Objekt" (
   "gid" BIGINT NOT NULL,
-  "rechtscharakter" INTEGER NULL,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   "sonstRechtscharakter" VARCHAR(64) NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Objekt_XP_Objekt1"
@@ -211,7 +211,7 @@ CREATE TRIGGER "SO_Flaechenobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"
 -- -----------------------------------------------------
 CREATE  TABLE  "SO_Basisobjekte"."SO_TextAbschnitt" (
   "id" INTEGER NOT NULL ,
-  "rechtscharakter" INTEGER NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_SO_Textabschnitt_parent"
     FOREIGN KEY ("id" )
@@ -1867,8 +1867,8 @@ CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
      LEFT JOIN "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" g ON fp_o.gid = g."SO_Objekt_gid"
      LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
-     
-GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekte" TO xp_gast;     
+
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekte" TO xp_gast;
 
 -- *****************************************************
 -- DATA
@@ -1882,9 +1882,14 @@ INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('SO', 'S
 -- -----------------------------------------------------
 -- Data for table "SO_Basisobjekte"."SO_Rechtscharakter"
 -- -----------------------------------------------------
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1000, 'FestsetzungBPlan');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1500, 'DarstellungFPlan');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1800, 'InhaltLPlan');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (3000, 'Hinweis');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (4000, 'Vermerk');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (5000, 'Kennzeichnung');
+INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------

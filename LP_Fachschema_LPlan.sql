@@ -227,37 +227,37 @@ CREATE TRIGGER "insert_into_LP_Bereich" BEFORE INSERT ON "LP_Basisobjekte"."LP_B
 CREATE TRIGGER "LP_Bereich_propagate_name" AFTER UPDATE ON "LP_Basisobjekte"."LP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
 -- -----------------------------------------------------
--- Table "LP_Basisobjekte"."LP_Status"
+-- Table "LP_Basisobjekte"."LP_Rechtscharakter"
 -- -----------------------------------------------------
-CREATE  TABLE  "LP_Basisobjekte"."LP_Status" (
+CREATE  TABLE  "LP_Basisobjekte"."LP_Rechtscharakter" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Status" TO xp_gast;
+GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Rechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "LP_Basisobjekte"."LP_TextAbschnitt"
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Basisobjekte"."LP_TextAbschnitt" (
   "id" INTEGER NOT NULL ,
-  "status" INTEGER NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_LP_Textabschnitt_parent"
     FOREIGN KEY ("id" )
     REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_lp_textabschnitt_lp_status1"
-    FOREIGN KEY ("status" )
-    REFERENCES "LP_Basisobjekte"."LP_Status" ("Code" )
+  CONSTRAINT "fk_lp_textabschnitt_lp_rechtscharakter1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "LP_Basisobjekte"."LP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "LP_Basisobjekte"."LP_TextAbschnitt" ("status") ;
+CREATE INDEX "idx_fk_fp_textabschnitt_fp_rechtscharakter1" ON "LP_Basisobjekte"."LP_TextAbschnitt" ("rechtscharakter") ;
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_TextAbschnitt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_TextAbschnitt" TO lp_user;
 COMMENT ON TABLE  "LP_Basisobjekte"."LP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Landschaftsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut rechtscharakter des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
 COMMENT ON COLUMN  "LP_Basisobjekte"."LP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "LP_Basisobjekte"."LP_TextAbschnitt"."status" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
+COMMENT ON COLUMN  "LP_Basisobjekte"."LP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
 CREATE TRIGGER "change_to_LP_TextAbschnitt" BEFORE INSERT OR UPDATE  ON "LP_Basisobjekte"."LP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 CREATE TRIGGER "delete_LP_TextAbschnitt" AFTER DELETE ON "LP_Basisobjekte"."LP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
@@ -266,12 +266,12 @@ CREATE TRIGGER "delete_LP_TextAbschnitt" AFTER DELETE ON "LP_Basisobjekte"."LP_T
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Basisobjekte"."LP_Objekt" (
   "gid" BIGINT NOT NULL ,
-  "status" INTEGER NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   "konkretisierung" VARCHAR(256) NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_fp_objekt_lp_status1"
-    FOREIGN KEY ("status" )
-    REFERENCES "LP_Basisobjekte"."LP_Status" ("Code" )
+  CONSTRAINT "fk_fp_objekt_lp_rechtscharakter1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "LP_Basisobjekte"."LP_Rechtscharakter" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_LP_Objekt_parent"
@@ -280,12 +280,12 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_Objekt" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_fp_objekt_fp_rechtscharakter1" ON "LP_Basisobjekte"."LP_Objekt" ("status") ;
+CREATE INDEX "idx_fk_fp_objekt_fp_rechtscharakter1" ON "LP_Basisobjekte"."LP_Objekt" ("rechtscharakter") ;
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_Objekt" TO lp_user;
 COMMENT ON TABLE  "LP_Basisobjekte"."LP_Objekt" IS 'Basisklasse für alle Fachobjekte des Flächennutzungsplans.';
 COMMENT ON COLUMN  "LP_Basisobjekte"."LP_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "LP_Basisobjekte"."LP_Objekt"."status" IS 'Rechtliche Charakterisierung des Planinhalts';
+COMMENT ON COLUMN  "LP_Basisobjekte"."LP_Objekt"."rechtscharakter" IS 'Rechtliche Charakterisierung des Planinhalts';
 COMMENT ON COLUMN  "LP_Basisobjekte"."LP_Objekt"."konkretisierung" IS 'Textliche Konkretisierung der rechtlichen Charakterisierung..';
 CREATE TRIGGER "change_to_LP_Objekt" BEFORE INSERT OR UPDATE ON "LP_Basisobjekte"."LP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_LP_Objekt" AFTER DELETE ON "LP_Basisobjekte"."LP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2848,14 +2848,15 @@ INSERT INTO "LP_Basisobjekte"."LP_Rechtsstand" ("Code", "Bezeichner") VALUES (40
 INSERT INTO "LP_Basisobjekte"."LP_Rechtsstand" ("Code", "Bezeichner") VALUES (5000, 'Untergegangen');
 
 -- -----------------------------------------------------
--- Data for table "LP_Basisobjekte"."LP_Status"
+-- Data for table "LP_Basisobjekte"."LP_Rechtscharakter"
 -- -----------------------------------------------------
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (1000, 'Festsetzung');
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (2000, 'Geplant');
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (3000, 'NachrichtlichUebernommen');
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (4000, 'DarstellungKennzeichnung');
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (5000, 'FestsetzungInBPlan');
-INSERT INTO "LP_Basisobjekte"."LP_Status" ("Code", "Bezeichner") VALUES (9999, 'SonstigerStatus');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (1000, 'Festsetzung');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'Geplant');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (3000, 'NachrichtlichUebernommen');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (4000, 'DarstellungKennzeichnung');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (5000, 'FestsetzungInBPlan');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9999, 'SonstigerStatus');
 
 -- -----------------------------------------------------
 -- Data for table "LP_Erholung"."LP_ErholungFreizeitFunktionen"

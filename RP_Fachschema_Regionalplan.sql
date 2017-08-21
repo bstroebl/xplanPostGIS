@@ -1,6 +1,6 @@
 -- -----------------------------------------------------
 -- Objektbereich: RP_ Fachschema Regionalplan
--- 
+--
 -- -----------------------------------------------------
 
 /* *************************************************************************
@@ -140,12 +140,12 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
     FOREIGN KEY ("planArt" )
     REFERENCES "RP_Basisobjekte"."RP_PlanArt" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE, 
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_rp_plan_rp_sonstplanart1"
     FOREIGN KEY ("sonstPlanArt" )
     REFERENCES "RP_Basisobjekte"."RP_SonstPlanArt" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE, 
+    ON UPDATE CASCADE,
   CONSTRAINT "fk_rp_plan_rp_status1"
     FOREIGN KEY ("status" )
     REFERENCES "RP_Basisobjekte"."RP_Status" ("Code" )
@@ -337,7 +337,7 @@ GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Rechtscharakter" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_Basisobjekte"."RP_Objekt" (
   "gid" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   "konkretisierung" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_rp_objekt_rp_rechtscharakter1"
@@ -3499,7 +3499,7 @@ CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
      LEFT JOIN "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" g ON fp_o.gid = g."RP_Objekt_gid"
      LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
-     
+
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekte" TO xp_gast;
 
 -- *****************************************************
@@ -3539,6 +3539,11 @@ INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES
 INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'NachrichtlicheUbernahme');
 INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'NachrichtlicheUebernahmeZiel');
 INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'NachrichtlicheUebernahmeGrundsatz');
+INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('6000', 'NurInformationsgehalt');
+INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('7000', 'TextlichesZiel');
+INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('8000', 'ZielundGrundsatz');
+INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('9000', 'Vorschlag');
+INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('9998', 'Unbekannt');
 
 -- -----------------------------------------------------
 -- Data for table "RP_Basisobjekte"."RP_GebietsTyp"

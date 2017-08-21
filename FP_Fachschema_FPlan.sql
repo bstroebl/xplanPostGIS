@@ -299,7 +299,7 @@ GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Rechtscharakter" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_TextAbschnitt" (
   "id" INTEGER NOT NULL ,
-  "rechtscharakter" INTEGER NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_FP_Textabschnitt_parent"
     FOREIGN KEY ("id" )
@@ -336,7 +336,7 @@ GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO fp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt" (
   "gid" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   "spezifischePraegung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_fp_objekt_fp_rechtscharakter1"
@@ -2904,9 +2904,11 @@ INSERT INTO "FP_Basisobjekte"."FP_PlanArt" ("Code", "Bezeichner") VALUES ('9999'
 -- Data for table "FP_Basisobjekte"."FP_Rechtscharakter"
 -- -----------------------------------------------------
 INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('1000', 'Darstellung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('2000', 'NachrichtlicheUebernahme');
 INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'Hinweis');
 INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'Vermerk');
 INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
+INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('9998', 'Unbekannt');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben"

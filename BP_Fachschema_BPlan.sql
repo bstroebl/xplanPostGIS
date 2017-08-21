@@ -618,7 +618,7 @@ CREATE TRIGGER "BP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
   "gid" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   "startBedingung" INTEGER NULL ,
   "endeBedingung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -661,7 +661,7 @@ CREATE TRIGGER "delete_BP_Objekt" AFTER DELETE ON "BP_Basisobjekte"."BP_Objekt" 
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_TextAbschnitt" (
   "id" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_BP_TextAbschnitt_rechtscharakter"
     FOREIGN KEY ("rechtscharakter" )
@@ -4896,9 +4896,11 @@ INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('9999'
 -- Data for table "BP_Basisobjekte"."BP_Rechtscharakter"
 -- -----------------------------------------------------
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('1000', 'Festsetzung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('2000', 'NachrichtlicheUebernahme');
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('3000', 'Hinweis');
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('4000', 'Vermerk');
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('5000', 'Kennzeichnung');
+INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES ('9998', 'Unbekannt');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Verkehr"."BP_StrassenkoerperHerstellung"
