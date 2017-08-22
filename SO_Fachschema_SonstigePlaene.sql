@@ -551,15 +551,15 @@ CREATE TRIGGER "delete_SO_SchutzgebietSonstigesRechtFlaeche" AFTER DELETE ON "SO
 CREATE TRIGGER "SO_SchutzgebietSonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
--- Table "SO_Basisobjekte"."SO_PlanTyp"
+-- Table "SO_Basisobjekte"."SO_PlanArt"
 -- -----------------------------------------------------
-CREATE TABLE  "SO_Basisobjekte"."SO_PlanTyp" (
+CREATE TABLE  "SO_Basisobjekte"."SO_PlanArt" (
   "Code" VARCHAR(64) NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"))
 ;
-GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_PlanTyp" TO xp_gast;
-GRANT ALL ON TABLE "SO_Basisobjekte"."SO_PlanTyp" TO so_user;
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_PlanArt" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_PlanArt" TO so_user;
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Plan"
@@ -567,12 +567,12 @@ GRANT ALL ON TABLE "SO_Basisobjekte"."SO_PlanTyp" TO so_user;
 CREATE TABLE  "SO_Basisobjekte"."SO_Plan" (
   "gid" BIGINT NOT NULL,
   "name" VARCHAR (256) NOT NULL,
-  "planTyp" VARCHAR(64) NULL,
+  "planArt" VARCHAR(64) NOT NULL DEFAULT 9999,
   "plangeber" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_SO_Plan_planTyp"
-    FOREIGN KEY ("planTyp")
-    REFERENCES "SO_Basisobjekte"."SO_PlanTyp" ("Code")
+  CONSTRAINT "fk_SO_Plan_planArt"
+    FOREIGN KEY ("planArt")
+    REFERENCES "SO_Basisobjekte"."SO_PlanArt" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Plan_plangeber"
@@ -587,17 +587,17 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Plan" (
     ON UPDATE CASCADE)
 INHERITS("XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich");
 
-CREATE INDEX "idx_fk_SO_Plan_planTyp_idx" ON "SO_Basisobjekte"."SO_Plan" ("planTyp");
+CREATE INDEX "idx_fk_SO_Plan_planArt_idx" ON "SO_Basisobjekte"."SO_Plan" ("planArt");
 CREATE INDEX "idx_fk_SO_Plan_plangeber_idx" ON "SO_Basisobjekte"."SO_Plan" ("plangeber");
 CREATE INDEX "idx_fk_SO_Plan_XP_Plan1_idx" ON "SO_Basisobjekte"."SO_Plan" ("gid");
 CREATE INDEX "SO_Plan_gidx" ON "SO_Basisobjekte"."SO_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Plan" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Plan" TO so_user;
-COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse fÃ¼r sonstige, z. B. lÃ¤nderspezifische raumbezogene Planwerke.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'PrimÃ¤rschlÃ¼ssel, wird automatisch ausgefÃ¼llt!';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geÃ¤ndert werden.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planTyp" IS 'Typ des Plans';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'FÃ¼r den Plan zustÃ¤ndige Stelle.';
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse für sonstige, z. B. länderspezifische raumbezogene Planwerke.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Über eine Codeliste definierter Typ des Plans';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Für den Plan zuständige Stelle.';
 CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
@@ -1856,6 +1856,11 @@ GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekte" TO xp_gast;
 -- *****************************************************
 -- DATA
 -- *****************************************************
+
+-- -----------------------------------------------------
+-- Data for table "SO_Basisobjekte""."SO_PlanArt"
+-- -----------------------------------------------------
+INSERT INTO "SO_Basisobjekte"."SO_PlanArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table public."XP_Modellbereich"

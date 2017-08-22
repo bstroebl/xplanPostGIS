@@ -144,7 +144,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
   "gid" BIGINT NOT NULL ,
   "name" VARCHAR (256) NOT NULL,
   "plangeber" INTEGER NULL ,
-  "planArt" INTEGER NULL ,
+  "planArt" INTEGER NOT NULL DEFAULT 1000,
   "sonstPlanArt" INTEGER NULL ,
   "sachgebiet" VARCHAR (256) NULL,
   "verfahren" INTEGER NULL ,

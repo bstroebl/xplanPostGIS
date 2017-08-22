@@ -118,7 +118,7 @@ GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Rechtsstand" TO xp_gast;
 CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
   "gid" BIGINT NOT NULL ,
   "name" VARCHAR (256) NOT NULL,
-  "planArt" INTEGER NULL,
+  "planArt" INTEGER NOT NULL DEFAULT 1000,
   "sonstPlanArt" INTEGER NULL ,
   "planungsregion" INTEGER NULL ,
   "teilabschnitt" INTEGER NULL ,
@@ -3515,11 +3515,13 @@ INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('RP', 'R
 -- Data for table "RP_Basisobjekte"."RP_PlanArt"
 -- -----------------------------------------------------
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (1000, 'Regionalplan');
-INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (2000, 'SachlicherTeilplan');
+INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (2000, 'SachlicherTeilplanRegionalebene');
+INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (2001, 'SachlicherTeilplanLandesebene');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (3000, 'Braunkohlenplan');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (4000, 'LandesweiterRaumordnungsplan');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (5000, 'AWZPlan');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (5100, 'StandortkonzeptBund');
+INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (6000, 'RaeumlicherTeilplan');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
