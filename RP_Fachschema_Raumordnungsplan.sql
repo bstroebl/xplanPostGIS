@@ -1,5 +1,5 @@
 -- -----------------------------------------------------
--- Objektbereich: RP_ Fachschema Regionalplan
+-- Objektbereich: RP_ Fachschema Raumordnungsplan
 --
 -- -----------------------------------------------------
 
@@ -32,7 +32,7 @@ CREATE SCHEMA "RP_KernmodellInfrastruktur";
 CREATE SCHEMA "RP_KernmodellSiedlungsstruktur";
 CREATE SCHEMA "RP_KernmodellSonstiges";
 
-COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Kernmodells Regionalplanung.';
+COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
 COMMENT ON SCHEMA "RP_Raster" IS '';
 COMMENT ON SCHEMA "RP_KernmodellFreiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellInfrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
@@ -175,10 +175,10 @@ CREATE INDEX "idx_fk_fp_plan_fp_status1" ON "RP_Basisobjekte"."RP_Plan" ("status
 CREATE INDEX "RP_Plan_gidx" ON "RP_Basisobjekte"."RP_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Plan" TO xp_gast;
 GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Plan" TO rp_user;
-COMMENT ON TABLE "RP_Basisobjekte"."RP_Plan" IS 'Die Klasse modelliert einen Regionalplan.';
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Plan" IS 'Die Klasse RP_Plan modelliert einen Raumordnungsplan.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
-COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planArt" IS 'Art des Regionalplans.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planArt" IS 'Art des Raumordnungsplans.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."sonstPlanArt" IS 'Spezifikation einer weiteren Planart (CodeList) bei planArt == 9999 (Sonstiges).';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planungsregion" IS 'Kennziffer der Planungsregion.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."teilabschnitt" IS 'Kennziffer des Teilabschnittes.';
@@ -248,7 +248,7 @@ CREATE INDEX "idx_fk_RP_Bereich_RP_Plan1" ON "RP_Basisobjekte"."RP_Bereich" ("ge
 CREATE INDEX "RP_Bereich_gidx" ON "RP_Basisobjekte"."RP_Bereich" using gist ("geltungsbereich");
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Bereich" TO rp_user;
-COMMENT ON TABLE "RP_Basisobjekte"."RP_Bereich" IS 'Diese Klasse modelliert einen Bereich eines Regionalplans.';
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Bereich" IS 'Die Klasse RP_Bereich modelliert einen Bereich eines Raumordnungsplans. Bereiche strukturieren Pläne räumlich und inhaltlich.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."name" IS 'Bezeichnung des Bereiches. Die Bezeichnung kann hier oder in XP_Bereich geändert werden.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."versionBROG" IS 'Datum der zugrunde liegenden Version des ROG.';
@@ -354,7 +354,7 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Objekt" (
 CREATE INDEX "idx_fk_fp_objekt_fp_rechtscharakter1" ON "RP_Basisobjekte"."RP_Objekt" ("rechtscharakter") ;
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt" TO rp_user;
-COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt" IS 'Basisklasse für alle spezifischen Festlegungen eines Regionalplans.';
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt" IS 'RP_Objekt ist die Basisklasse für alle spezifischen Festlegungen eines Raumordnungsplans. Sie selbst ist abstrakt, d.h. sie wird selbst nicht als eigenes Objekt verwendet, sondern vererbt nur ihre Attribute an spezielle Klassen.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."rechtscharakter" IS 'Rechtscharakter des Planinhalts.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."konkretisierung" IS 'Konkretisierung des Rechtscharakters.';
@@ -819,7 +819,7 @@ CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" (
 
 GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" TO xp_gast;
 GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" IS 'Regionaler Grünzug/Grünzäsur';
+COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" IS 'Grünzüge und kleinräumigere Grünzäsuren sind Ordnungsinstrumente zur Freiraumsicherung. Teilweise werden Grünzüge auch Trenngrün genannt.';
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_GruenzugGruenzaesur" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3287,7 +3287,7 @@ CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" (
 
 GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO xp_gast;
 GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'IKlasse zur Modellierung aller Inhalte des Regionalplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
+COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."zweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
 CREATE TRIGGER "change_to_RP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
