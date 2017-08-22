@@ -835,15 +835,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungGewaesser"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" (
