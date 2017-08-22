@@ -2353,7 +2353,8 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEn
     FOREIGN KEY ("refLandschaftsplan" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+  INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsFlaeche_XP_SPEZiele" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" ("ziel") ;
 CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsFlaeche_refMassnahmenText" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" ("refMassnahmenText") ;
@@ -4814,7 +4815,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 -- View "BP_Basisobjekte"."BP_Objekte"
 -- -----------------------------------------------------
-CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS 
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
  SELECT bp_o.gid,
     g."gehoertZuBP_Bereich" AS "BP_Bereich_gid",
     n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
