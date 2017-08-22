@@ -4168,30 +4168,6 @@ GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFla
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der festgesetzten Fläche';
 
 -- -----------------------------------------------------
--- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" (
-  "BP_GemeinbedarfsFlaeche_gid" BIGINT NOT NULL,
-  "besondereZweckbestimmung" INTEGER NOT NULL,
-  PRIMARY KEY ("BP_GemeinbedarfsFlaeche_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_besZweckbest1"
-    FOREIGN KEY ("BP_GemeinbedarfsFlaeche_gid")
-    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_besZweckbest2"
-    FOREIGN KEY ("besondereZweckbestimmung")
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_besZweckbest1_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" ("besondereZweckbestimmung");
-CREATE INDEX "idx_fk_BP_GemeinbedarfsFlaeche_besZweckbest2_idx" ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" ("BP_GemeinbedarfsFlaeche_gid");
-GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" TO bp_user;
-COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der festgesetzten Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
-
--- -----------------------------------------------------
 -- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" (
@@ -4326,30 +4302,6 @@ CREATE INDEX "idx_fk_BP_GruenFlaeche_zweckbestimmung2_idx" ON "BP_Landwirtschaft
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" TO bp_user;
 COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Grünfläche';
-
--- -----------------------------------------------------
--- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" (
-  "BP_GruenFlaeche_gid" BIGINT NOT NULL,
-  "besondereZweckbestimmung" INTEGER NOT NULL,
-  PRIMARY KEY ("BP_GruenFlaeche_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_BP_GruenFlaeche_besondereZweckbestimmung1"
-    FOREIGN KEY ("BP_GruenFlaeche_gid")
-    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_GruenFlaeche_besondereZweckbestimmung2"
-    FOREIGN KEY ("besondereZweckbestimmung")
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_BP_GruenFlaeche_besondereZweckbestimmung1_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" ("besondereZweckbestimmung");
-CREATE INDEX "idx_fk_BP_GruenFlaeche_besondereZweckbestimmung2_idx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" ("BP_GruenFlaeche_gid");
-GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" TO bp_user;
-COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Grünfläche, die die zugehörige allgemeine Zweckbestimmungen detaillieren oder ersetzen.';
 
 -- -----------------------------------------------------
 -- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche"

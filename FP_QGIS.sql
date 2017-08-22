@@ -17,32 +17,26 @@
 CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" AS
 SELECT g.gid,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
- bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
- coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
- CASE WHEN bz1 IS NULL THEN
+ CASE WHEN z1 <= 9999  THEN
     CASE WHEN 2400 IN(z1,z2,z3,z4) THEN 'SicherheitOrdnung'
     WHEN 2600 IN (z1,z2,z3,z4) THEN 'Infrastruktur'
     END
  ELSE
-    bzl1."Bezeichner"
+    zl1."Bezeichner"
 END as label1,
-bzl2."Bezeichner" as label2,
-bzl3."Bezeichner" as label3,
-bzl4."Bezeichner" as label4
+zl2."Bezeichner" as label2,
+zl3."Bezeichner" as label3,
+zl4."Bezeichner" as label4
   FROM
  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" g
  LEFT JOIN
  crosstab('SELECT "FP_Gemeinbedarf_gid", "FP_Gemeinbedarf_gid", zweckbestimmung FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" ORDER BY 1,3') zt
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
  ON g.gid=zt.zgid
- LEFT JOIN
- crosstab('SELECT "FP_Gemeinbedarf_gid", "FP_Gemeinbedarf_gid", "besondereZweckbestimmung" FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" ORDER BY 1,3') bzt
- (bzgid bigint,bz1 integer,bz2 integer,bz3 integer,bz4 integer)
- ON g.gid = bzt.bzgid
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" bzl1 ON bzt.bz1 = bzl1."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" bzl2 ON bzt.bz2 = bzl2."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" bzl3 ON bzt.bz3 = bzl3."Code"
-  LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" bzl4 ON bzt.bz4 = bzl4."Code";
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl4 ON zt.z4 = zl4."Code";
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -105,49 +99,44 @@ GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanl
 CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" AS
 SELECT g.gid,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
- bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
- coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
- CASE WHEN bz1 IS NULL THEN
+ CASE WHEN z1 <= 9999 THEN
     CASE WHEN 2200 IN(z1,z2,z3,z4) THEN 'FreizeitErholung'
     END
 ELSE
-    CASE WHEN bz1 IN (12000,14004,16000,22000,24000,24001) THEN
+    CASE WHEN z1 IN (12000,14004,16000,22000,24000,24001) THEN
         NULL
     ELSE
-        bzl1."Bezeichner"
+        zl1."Bezeichner"
     END
 END as label1,
-CASE WHEN bz1 IS NULL THEN
+CASE WHEN z1 <= 9999 THEN
     CASE WHEN 2400 IN (z1,z2,z3,z4) THEN 'Spez. Gruenflaeche'
     END
 ELSE
-    CASE WHEN bz2 IN (12000,14004,16000,22000,24000,24001) THEN
+    CASE WHEN z2 IN (12000,14004,16000,22000,24000,24001) THEN
         NULL
     ELSE
-        bzl2."Bezeichner"
+        zl2."Bezeichner"
     END
 END as label2,
-CASE WHEN bz3 IN (12000,14004,16000,22000,24000,24001) THEN
+CASE WHEN z3 IN (12000,14004,16000,22000,24000,24001) THEN
     NULL
 ELSE
-    bzl3."Bezeichner"
+    zl3."Bezeichner"
 END as label3,
-CASE WHEN bz4 IN (12000,14004,16000,22000,24000,24001) THEN
+CASE WHEN z4 IN (12000,14004,16000,22000,24000,24001) THEN
     NULL
 ELSE
-    bzl4."Bezeichner"
+    zl4."Bezeichner"
 END as label4
 FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" g
     LEFT JOIN crosstab('SELECT "FP_Gruen_gid", "FP_Gruen_gid", zweckbestimmung FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" ORDER BY 1,3') zt
         (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
     ON g.gid=zt.zgid
-    LEFT JOIN crosstab('SELECT "FP_Gruen_gid", "FP_Gruen_gid", "besondereZweckbestimmung" FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" ORDER BY 1,3') bzt
-        (bzgid bigint,bz1 integer,bz2 integer,bz3 integer,bz4 integer)
-    ON g.gid = bzt.bzgid
-    LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" bzl1 ON bzt.bz1 = bzl1."Code"
-    LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" bzl2 ON bzt.bz2 = bzl2."Code"
-    LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" bzl3 ON bzt.bz3 = bzl3."Code"
-    LEFT JOIN "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" bzl4 ON bzt.bz4 = bzl4."Code";
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl1 ON zt.z1 = zl1."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl2 ON zt.z2 = zl2."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl3 ON zt.z3 = zl3."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl4 ON zt.z4 = zl4."Code";
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -241,27 +230,17 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_KennzeichnungPunkt_qv" TO xp_gast;
 CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" AS
  SELECT g.gid, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
  coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
- bz1 as "besondereZweckbestimmung1", bz2 as "besondereZweckbestimmung2", bz3 as "besondereZweckbestimmung3", bz4 as "besondereZweckbestimmung4",
- coalesce(bz1 / bz1, 0) + coalesce(bz2 / bz2, 0) + coalesce(bz3 / bz3, 0) + coalesce(bz4 / bz4, 0) as "anz_besondereZweckbestimmung",
-CASE WHEN bz1 IS NULL THEN
+CASE WHEN z1 <= 9999 THEN
     zl1."Bezeichner"
-ELSE
-    bzl1."Bezeichner"
 END as label1,
-CASE WHEN bz1 IS NULL THEN
+CASE WHEN z1 <= 9999 THEN
     zl2."Bezeichner"
-ELSE
-    bzl2."Bezeichner"
 END as label2,
-CASE WHEN bz1 IS NULL THEN
+CASE WHEN z1 <= 9999 THEN
     zl3."Bezeichner"
-ELSE
-    bzl3."Bezeichner"
 END as label3,
-CASE WHEN bz1 IS NULL THEN
+CASE WHEN z1 <= 9999 THEN
     zl4."Bezeichner"
-ELSE
-    bzl4."Bezeichner"
 END as label4
   FROM
  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" g
@@ -269,14 +248,6 @@ END as label4
  crosstab('SELECT "FP_PrivilegiertesVorhaben_gid", "FP_PrivilegiertesVorhaben_gid", zweckbestimmung FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" ORDER BY 1,3') zt
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
  ON g.gid=zt.zgid
- LEFT JOIN
- crosstab('SELECT "FP_PrivilegiertesVorhaben_gid", "FP_PrivilegiertesVorhaben_gid", "besondereZweckbestimmung" FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" ORDER BY 1,3') bzt
- (bzgid bigint,bz1 integer,bz2 integer,bz3 integer,bz4 integer)
- ON g.gid = bzt.bzgid
-  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl1 ON bzt.bz1 = bzl1."Code"
-  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl2 ON bzt.bz2 = bzl2."Code"
-  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl3 ON bzt.bz3 = bzl3."Code"
-  LEFT JOIN "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" bzl4 ON bzt.bz4 = bzl4."Code"
   LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl1 ON zt.z1 = zl1."Code"
   LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl2 ON zt.z2 = zl2."Code"
   LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl3 ON zt.z3 = zl3."Code"

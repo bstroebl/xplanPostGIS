@@ -330,3 +330,295 @@ ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD CONSTRAINT "f
     REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+-- Änderung CR-030
+-- nicht relevant
+
+-- Änderung CR-031
+-- 0) besondereZweckbestimmungVerEntsorgung: siehe CR-025
+-- 1) besondere ZweckbestimmungGemeinbedarf
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner")
+SELECT "Code", "Bezeichner" FROM "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf";
+-- BP
+INSERT INTO "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" ("BP_GemeinbedarfsFlaeche_gid" ,"zweckbestimmung")
+SELECT "BP_GemeinbedarfsFlaeche_gid" ,"besondereZweckbestimmung" FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung";
+-- -----------------------------------------------------
+-- View "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_qv"
+-- -----------------------------------------------------
+DROP VIEW "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_qv";
+CREATE OR REPLACE VIEW "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_qv" AS
+SELECT g.gid,g.position,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+ CASE WHEN z1 > 9999 or z2 > 9999 or z3 > 9999 or z4 > 9999 THEN
+    CASE WHEN 2400 IN(z1,z2,z3,z4) THEN 'SicherheitOrdnung'
+    WHEN 2600 IN (z1,z2,z3,z4) THEN 'Infrastruktur'
+    END
+ ELSE
+    zl1."Bezeichner"
+ END as label1,
+zl2."Bezeichner" as label2,
+zl3."Bezeichner" as label3,
+zl4."Bezeichner" as label4
+  FROM
+ "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" g
+ LEFT JOIN
+ crosstab('SELECT "BP_GemeinbedarfsFlaeche_gid", "BP_GemeinbedarfsFlaeche_gid", zweckbestimmung FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_qv" TO xp_gast;
+DROP TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_besondereZweckbestimmung";
+-- FP
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" ("FP_Gemeinbedarf_gid" ,"zweckbestimmung")
+SELECT "FP_Gemeinbedarf_gid" ,"besondereZweckbestimmung" FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung";
+-- -----------------------------------------------------
+-- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv"
+-- -----------------------------------------------------
+DROP View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" CASCADE;
+CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" AS
+SELECT g.gid,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+ CASE WHEN z1 <= 9999  THEN
+    CASE WHEN 2400 IN(z1,z2,z3,z4) THEN 'SicherheitOrdnung'
+    WHEN 2600 IN (z1,z2,z3,z4) THEN 'Infrastruktur'
+    END
+ ELSE
+    zl1."Bezeichner"
+END as label1,
+zl2."Bezeichner" as label2,
+zl3."Bezeichner" as label3,
+zl4."Bezeichner" as label4
+  FROM
+ "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" g
+ LEFT JOIN
+ crosstab('SELECT "FP_Gemeinbedarf_gid", "FP_Gemeinbedarf_gid", zweckbestimmung FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche_qv" AS
+SELECT g.position, p.*
+FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche" g
+JOIN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfFlaeche_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt_qv" AS
+SELECT g.position, p.*
+FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt" g
+JOIN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_GemeinbedarfPunkt_qv" TO xp_gast;
+DROP TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung";
+DROP TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf";
+
+-- 2) besondereZweckbestimmungGruen
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner")
+SELECT "Code", "Bezeichner" FROM "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen";
+-- BP
+INSERT INTO "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" ("BP_GruenFlaeche_gid","zweckbestimmung")
+SELECT "BP_GruenFlaeche_gid","besondereZweckbestimmung" FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung";
+DROP VIEW "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_qv";
+CREATE OR REPLACE VIEW "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_qv" AS
+SELECT g.gid,g.position,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+ CASE WHEN z1 <= 9999 THEN
+    CASE WHEN 2200 IN(z1,z2,z3,z4) THEN 'FreizeitErholung'
+    END
+ELSE
+    CASE WHEN z1 IN (12000,14004,16000,22000,24000,24001) THEN
+        NULL
+    ELSE
+        zl1."Bezeichner"
+    END
+END as label1,
+CASE WHEN z1 <= 9999 THEN
+    CASE WHEN 2400 IN (z1,z2,z3,z4) THEN 'Spez. Gruenflaeche'
+    END
+ELSE
+    CASE WHEN z2 IN (12000,14004,16000,22000,24000,24001) THEN
+        NULL
+    ELSE
+        zl2."Bezeichner"
+    END
+END as label2,
+CASE WHEN z3 IN (12000,14004,16000,22000,24000,24001) THEN
+    NULL
+ELSE
+    zl3."Bezeichner"
+END as label3,
+CASE WHEN z4 IN (12000,14004,16000,22000,24000,24001) THEN
+    NULL
+ELSE
+    zl4."Bezeichner"
+END as label4
+FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche" g
+    LEFT JOIN crosstab('SELECT "BP_GruenFlaeche_gid", "BP_GruenFlaeche_gid", zweckbestimmung FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" ORDER BY 1,3') zt
+        (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+    ON g.gid=zt.zgid
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl1 ON zt.z1 = zl1."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl2 ON zt.z2 = zl2."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl3 ON zt.z3 = zl3."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_qv" TO xp_gast;
+DROP TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_besondereZweckbestimmung";
+-- FP
+INSERT INTO "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" ("FP_Gruen_gid","zweckbestimmung")
+SELECT "FP_Gruen_gid","besondereZweckbestimmung" FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung";
+-- -----------------------------------------------------
+-- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv"
+-- -----------------------------------------------------
+DROP VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" CASCADE;
+CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" AS
+SELECT g.gid,z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+ CASE WHEN z1 <= 9999 THEN
+    CASE WHEN 2200 IN(z1,z2,z3,z4) THEN 'FreizeitErholung'
+    END
+ELSE
+    CASE WHEN z1 IN (12000,14004,16000,22000,24000,24001) THEN
+        NULL
+    ELSE
+        zl1."Bezeichner"
+    END
+END as label1,
+CASE WHEN z1 <= 9999 THEN
+    CASE WHEN 2400 IN (z1,z2,z3,z4) THEN 'Spez. Gruenflaeche'
+    END
+ELSE
+    CASE WHEN z2 IN (12000,14004,16000,22000,24000,24001) THEN
+        NULL
+    ELSE
+        zl2."Bezeichner"
+    END
+END as label2,
+CASE WHEN z3 IN (12000,14004,16000,22000,24000,24001) THEN
+    NULL
+ELSE
+    zl3."Bezeichner"
+END as label3,
+CASE WHEN z4 IN (12000,14004,16000,22000,24000,24001) THEN
+    NULL
+ELSE
+    zl4."Bezeichner"
+END as label4
+FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" g
+    LEFT JOIN crosstab('SELECT "FP_Gruen_gid", "FP_Gruen_gid", zweckbestimmung FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" ORDER BY 1,3') zt
+        (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+    ON g.gid=zt.zgid
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl1 ON zt.z1 = zl1."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl2 ON zt.z2 = zl2."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl3 ON zt.z3 = zl3."Code"
+    LEFT JOIN "XP_Enumerationen"."XP_ZweckbestimmungGruen" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche_qv" AS
+SELECT g.position, p.*
+  FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche" g
+ JOIN "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenFlaeche_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv" AS
+SELECT g.position, p.*
+  FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt" g
+ JOIN "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_GruenPunkt_qv" TO xp_gast;
+DROP TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung";
+
+DROP TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen";
+
+-- 3) besondereZweckbestimmungPrivilegiertes Vorhaben
+-- FP
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner")
+SELECT "Code", "Bezeichner" FROM "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben";
+INSERT INTO "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" ("FP_PrivilegiertesVorhaben_gid","zweckbestimmung")
+SELECT "FP_PrivilegiertesVorhaben_gid","besondereZweckbestimmung" FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung";
+-- -----------------------------------------------------
+-- View "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv"
+-- -----------------------------------------------------
+DROP VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" CASCADE;
+CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" AS
+ SELECT g.gid, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung,
+CASE WHEN z1 <= 9999 THEN
+    zl1."Bezeichner"
+END as label1,
+CASE WHEN z1 <= 9999 THEN
+    zl2."Bezeichner"
+END as label2,
+CASE WHEN z1 <= 9999 THEN
+    zl3."Bezeichner"
+END as label3,
+CASE WHEN z1 <= 9999 THEN
+    zl4."Bezeichner"
+END as label4
+  FROM
+ "FP_Sonstiges"."FP_PrivilegiertesVorhaben" g
+ LEFT JOIN
+ crosstab('SELECT "FP_PrivilegiertesVorhaben_gid", "FP_PrivilegiertesVorhaben_gid", zweckbestimmung FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl1 ON zt.z1 = zl1."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl2 ON zt.z2 = zl2."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl3 ON zt.z3 = zl3."Code"
+  LEFT JOIN "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" zl4 ON zt.z4 = zl4."Code";
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche_qv" AS
+SELECT g.position, p.*
+  FROM "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche" g
+ JOIN "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie_qv" AS
+SELECT g.position, p.*
+  FROM "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie" g
+ JOIN "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenLinie_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv" AS
+SELECT g.position, p.*
+  FROM "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt" g
+ JOIN "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhabenPunkt_qv" TO xp_gast;
+
+DROP TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung";
+DROP TABLE "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben";
+
+-- 4) besondereZweckbestimmungStrassenverkehr
+-- FP
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner")
+SELECT "Code", "Bezeichner" FROM "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr";
+UPDATE "FP_Verkehr"."FP_Strassenverkehr" SET "zweckbestimmung" = "besondereZweckbestimmung" WHERE "besondereZweckbestimmung" IS NOT NULL;
+ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "besondereZweckbestimmung";
+
+DROP TABLE "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr";
+
+-- 5) BesondereKlassifizNachSchienenverkehrsrecht
+-- SO
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner")
+SELECT "Code", "Bezeichner" FROM "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht";
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" SET "artDerFestlegung" = "besondereArtDerFestlegung" WHERE "besondereArtDerFestlegung" IS NOT NULL;
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" DROP COLUMN "besondereArtDerFestlegung";
+DROP TABLE "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht";

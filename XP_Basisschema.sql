@@ -762,15 +762,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" (
@@ -797,15 +788,6 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungGruen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungGruen" TO xp_gast;
-
--- -----------------------------------------------------
--- Table "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungWald"
@@ -2410,42 +2392,38 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeic
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2400', 'SicherheitOrdnung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('2600', 'Infrastruktur');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf"
--- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10000', 'KommunaleEinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10001', 'BetriebOeffentlZweckbestimmung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10002', 'AnlageBundLand');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('10003', 'SonstigeOeffentlicheVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12000', 'Schule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12001', 'Hochschule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12002', 'BerufsbildendeSchule');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12003', 'Forschungseinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('12004', 'SonstigesBildungForschung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14000', 'Sakralgebaeude');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14001', 'KirchlicheVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14002', 'Kirchengemeinde');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('14003', 'SonstigesKirche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16000', 'EinrichtungKinder');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16001', 'EinrichtungJugendliche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16002', 'EinrichtungFamilienErwachsene');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16003', 'EinrichtungSenioren');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('16004', 'SonstigeSozialeEinrichtung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('18000', 'Krankenhaus');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('18001', 'SonstigesGesundheit');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20000', 'MusikTheater');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20001', 'Bildung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('20002', 'SonstigeKultur');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22000', 'Bad');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22001', 'SportplatzSporthalle');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('22002', 'SonstigerSport');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24000', 'Feuerwehr');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24001', 'Schutzbauwerk');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24002', 'Justiz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('24003', 'SonstigeSicherheitOrdnung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('26000', 'Post');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code", "Bezeichner") VALUES ('26001', 'SonstigeInfrastruktur');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('10000', 'KommunaleEinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('10001', 'BetriebOeffentlZweckbestimmung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('10002', 'AnlageBundLand');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('10003', 'SonstigeOeffentlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('12000', 'Schule');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('12001', 'Hochschule');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('12002', 'BerufsbildendeSchule');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('12003', 'Forschungseinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('12004', 'SonstigesBildungForschung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('14000', 'Sakralgebaeude');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('14001', 'KirchlicheVerwaltung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('14002', 'Kirchengemeinde');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('14003', 'SonstigesKirche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('16000', 'EinrichtungKinder');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('16001', 'EinrichtungJugendliche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('16002', 'EinrichtungFamilienErwachsene');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('16003', 'EinrichtungSenioren');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('16004', 'SonstigeSozialeEinrichtung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('18000', 'Krankenhaus');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('18001', 'SonstigesGesundheit');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('20000', 'MusikTheater');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('20001', 'Bildung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('20002', 'SonstigeKultur');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('22000', 'Bad');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('22001', 'SportplatzSporthalle');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('22002', 'SonstigerSport');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('24000', 'Feuerwehr');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('24001', 'Schutzbauwerk');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('24002', 'Justiz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('24003', 'SonstigeSicherheitOrdnung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('26000', 'Post');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" ("Code", "Bezeichner") VALUES ('26001', 'SonstigeInfrastruktur');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungSpielSportanlage"
@@ -2475,36 +2453,32 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") 
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2400', 'SpezGruenflaeche');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('2600', 'Friedhof');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen"
--- -----------------------------------------------------
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10000', 'ParkanlageHistorisch');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10001', 'ParkanlageNaturnah');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10002', 'ParkanlageWaldcharakter');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10003', 'NaturnaheUferParkanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('12000', 'ErholungsGaerten');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14000', 'Reitsportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14001', 'Hundesportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14002', 'Wassersportanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14003', 'Schiessstand');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14004', 'Golfplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14005', 'Skisport');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14006', 'Tennisanlage');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14007', 'SonstigerSportplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16000', 'Bolzplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16001', 'Abenteuerspielplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('18000', 'Campingplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22000', 'Kleintierhaltung');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22001', 'Festplatz');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24000', 'StrassenbegleitGruen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24001', 'BoeschungsFlaeche');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24002', 'FeldWaldWiese');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24003', 'Uferschutzstreifen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24004', 'Abschirmgruen');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24005', 'UmweltbildungsparkSchaugatter');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24006', 'RuhenderVerkehr');
-INSERT INTO "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('99990', 'Gaertnerei');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10000', 'ParkanlageHistorisch');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10001', 'ParkanlageNaturnah');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10002', 'ParkanlageWaldcharakter');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('10003', 'NaturnaheUferParkanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('12000', 'ErholungsGaerten');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14000', 'Reitsportanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14001', 'Hundesportanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14002', 'Wassersportanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14003', 'Schiessstand');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14004', 'Golfplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14005', 'Skisport');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14006', 'Tennisanlage');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14007', 'SonstigerSportplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16000', 'Bolzplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16001', 'Abenteuerspielplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('18000', 'Campingplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22000', 'Kleintierhaltung');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22001', 'Festplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24000', 'StrassenbegleitGruen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24001', 'BoeschungsFlaeche');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24002', 'FeldWaldWiese');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24003', 'Uferschutzstreifen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24004', 'Abschirmgruen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24005', 'UmweltbildungsparkSchaugatter');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24006', 'RuhenderVerkehr');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('99990', 'Gaertnerei');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungWald"

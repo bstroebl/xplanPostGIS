@@ -877,27 +877,6 @@ GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zwe
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Fläche';
 
 -- -----------------------------------------------------
--- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" (
-  "FP_Gemeinbedarf_gid" BIGINT NOT NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_Gemeinbedarf_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_FP_Gemeinbedarf_besondereZweckbestimmung_FP_Gemeinbedarf1"
-    FOREIGN KEY ("FP_Gemeinbedarf_gid" )
-    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_besondereZweckbestimmungGemeinbedarf0"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestGemeinbedarf" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Fläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
-
--- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_detaillierteZweckbestimmung" (
@@ -1379,27 +1358,6 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung"
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der Grümläche';
 
 -- -----------------------------------------------------
--- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" (
-  "FP_Gruen_gid" BIGINT NOT NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_Gruen_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_FP_Gruen_besondereZweckbestimmung1"
-    FOREIGN KEY ("FP_Gruen_gid" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Gruen_besondereZweckbestimmung2"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_BesondereZweckbestimmungGruen" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungen der Grünläche, die die zugehörigen allgemeinen Zweckbestimmungen detaillieren oder ersetzen.';
-
--- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_detaillierteZweckbestimmung" (
@@ -1705,15 +1663,6 @@ CREATE  TABLE  "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" (
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhaben"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben" (
@@ -1754,27 +1703,6 @@ CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" (
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" TO fp_user;
 COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" IS 'Zweckbestimmungen des Vorhabens.';
-
--- -----------------------------------------------------
--- Table "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" (
-  "FP_PrivilegiertesVorhaben_gid" BIGINT NOT NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_PrivilegiertesVorhaben_gid", "besondereZweckbestimmung"),
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung1"
-    FOREIGN KEY ("FP_PrivilegiertesVorhaben_gid" )
-    REFERENCES "FP_Sonstiges"."FP_PrivilegiertesVorhaben" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_PrivilegiertesVorhaben_besondereZweckbestimmung2"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Sonstiges"."FP_PrivilegiertesVorhaben_besondereZweckbestimmung" IS 'Besondere Zweckbestimmungendes Vorhabens, die die spezifizierten allgemeinen Zweckbestimmungen detaillieren.';
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_PrivilegiertesVorhabenFlaeche"
@@ -2092,15 +2020,6 @@ CREATE  TABLE  "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" (
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr"
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" (
-  "Code" INTEGER NOT NULL ,
-  "Bezeichner" VARCHAR(64) NOT NULL ,
-  PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" (
@@ -2116,18 +2035,12 @@ GRANT ALL ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO fp_user;
 CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
   "gid" BIGINT NOT NULL ,
   "zweckbestimmung" INTEGER NULL ,
-  "besondereZweckbestimmung" INTEGER NULL ,
   "detaillierteZweckbestimmung" INTEGER NULL ,
   "nutzungsform" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_ZweckStrassenverkehr"
     FOREIGN KEY ("zweckbestimmung" )
     REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Strassenverkehr_FP_BesZweckStrassenverk1"
-    FOREIGN KEY ("besondereZweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_FP_DetailZweckStrassenverkehr1"
@@ -2147,7 +2060,6 @@ CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
     ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_FP_Strassenverkehr_FP_ZweckStrassenverkehr" ON "FP_Verkehr"."FP_Strassenverkehr" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Strassenverkehr_FP_BesZweckStrassenverk1" ON "FP_Verkehr"."FP_Strassenverkehr" ("besondereZweckbestimmung") ;
 CREATE INDEX "idx_fk_FP_Strassenverkehr_FP_DetailZweckStrassenverkehr1" ON "FP_Verkehr"."FP_Strassenverkehr" ("detaillierteZweckbestimmung") ;
 CREATE INDEX "idx_fk_FP_Strassenverkehr_XP_Nutzungsform1" ON "FP_Verkehr"."FP_Strassenverkehr" ("nutzungsform") ;
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr" TO xp_gast;
@@ -2155,7 +2067,6 @@ GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr" TO fp_user;
 COMMENT ON TABLE  "FP_Verkehr"."FP_Strassenverkehr" IS 'Darstellung von Flächen für den überörtlichen Verkehr und für die örtlichen Hauptverkehrszüge ( §5, Abs. 2, Nr. 3 BauGB).';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung des Objektes.';
-COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."besondereZweckbestimmung" IS 'Besondere Zweckbestimmung des Objektes, der die allgemiene Zweckbestimmung detaillliert oder ersetzt.';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."nutzungsform" IS 'Nutzungsform';
 CREATE TRIGGER "change_to_FP_Strassenverkehr" BEFORE INSERT OR UPDATE ON "FP_Verkehr"."FP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2901,32 +2812,28 @@ INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "
 INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('1800', 'ErneuerbareEnergie');
 INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('2000', 'Kernenergie');
 INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben"
--- -----------------------------------------------------
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10000', 'Aussiedlerhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10001', 'Altenteil');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10002', 'Reiterhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10003', 'Gartenbaubetrieb');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10004', 'Baumschule');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12000', 'Wasser');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12001', 'Gas');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12002', 'Waerme');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12003', 'Elektrizitaet');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12004', 'Telekommunikation');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12005', 'Abwasser');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16000', 'BesondereUmgebungsAnforderung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16001', 'NachteiligeUmgebungsWirkung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16002', 'BesondereZweckbestimmung');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18000', 'Windenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18001', 'Wasserenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18002', 'Solarenergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18003', 'Biomasse');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20000', 'NutzungKernerergie');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20001', 'EntsorgungRadioaktiveAbfaelle');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99990', 'StandortEinzelhof');
-INSERT INTO "FP_Sonstiges"."FP_BesondZweckbestPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99991', 'BebauteFlaecheAussenbereich');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10000', 'Aussiedlerhof');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10001', 'Altenteil');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10002', 'Reiterhof');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10003', 'Gartenbaubetrieb');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('10004', 'Baumschule');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12000', 'Wasser');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12001', 'Gas');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12002', 'Waerme');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12003', 'Elektrizitaet');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12004', 'Telekommunikation');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('12005', 'Abwasser');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16000', 'BesondereUmgebungsAnforderung');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16001', 'NachteiligeUmgebungsWirkung');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('16002', 'BesondereZweckbestimmung');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18000', 'Windenergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18001', 'Wasserenergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18002', 'Solarenergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('18003', 'Biomasse');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20000', 'NutzungKernerergie');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('20001', 'EntsorgungRadioaktiveAbfaelle');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99990', 'StandortEinzelhof');
+INSERT INTO "FP_Sonstiges"."FP_ZweckbestimmungPrivilegiertesVorhaben" ("Code", "Bezeichner") VALUES ('99991', 'BebauteFlaecheAussenbereich');
 
 -- -----------------------------------------------------
 -- Data for table "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr"
@@ -2936,19 +2843,15 @@ INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1400', 'SonstigerVerkehrswegAnlage');
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1600', 'RuhenderVerkehr');
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr"
--- -----------------------------------------------------
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14000', 'VerkehrsberuhigterBereich');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14001', 'Platz');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14002', 'Fussgaengerbereich');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14003', 'RadFussweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14004', 'Radweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14005', 'Fussweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14006', 'Wanderweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14007', 'ReitKutschweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14008', 'Rastanlage');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14009', 'Busbahnhof');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14010', 'UeberfuehrenderVerkehrsweg');
-INSERT INTO "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14011', 'UnterfuehrenderVerkehrsweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14000', 'VerkehrsberuhigterBereich');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14001', 'Platz');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14002', 'Fussgaengerbereich');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14003', 'RadFussweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14004', 'Radweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14005', 'Fussweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14006', 'Wanderweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14007', 'ReitKutschweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14008', 'Rastanlage');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14009', 'Busbahnhof');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14010', 'UeberfuehrenderVerkehrsweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('14011', 'UnterfuehrenderVerkehrsweg');

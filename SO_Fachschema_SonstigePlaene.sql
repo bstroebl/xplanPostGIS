@@ -1237,15 +1237,6 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsre
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht"
--- -----------------------------------------------------
-CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" (
-  "Code" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Code"));
-GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" (
@@ -1261,7 +1252,6 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchiene
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" (
   "gid" BIGINT NOT NULL,
   "artDerFestlegung" INTEGER NULL,
-  "besondereArtDerFestlegung" INTEGER NULL,
   "detailArtDerFestlegung" INTEGER NULL,
   "name" VARCHAR(64) NULL,
   "nummer" VARCHAR(64) NULL,
@@ -1276,11 +1266,6 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" (
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_SO_Schienenverkehrsrecht_besondereArtDerFestlegung"
-    FOREIGN KEY ("besondereArtDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Schienenverkehrsrecht_detailArtDerFestlegung"
     FOREIGN KEY ("detailArtDerFestlegung")
     REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" ("Code")
@@ -1288,14 +1273,12 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" (
     ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_SO_Schienenverkehrsrecht_artDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" ("artDerFestlegung");
-CREATE INDEX "idx_fk_SO_Schienenverkehrsrecht_besondereArtDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" ("besondereArtDerFestlegung");
 CREATE INDEX "idx_fk_SO_Schienenverkehrsrecht_detailArtDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" ("detailArtDerFestlegung");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" TO so_user;
 COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht" IS 'Festlegung nach Schienenverkehrsrecht.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."artDerFestlegung" IS 'Grundlegende Klassifizierung der Festlegung';
-COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."besondereArtDerFestlegung" IS '';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
@@ -1988,24 +1971,20 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrech
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (1200, 'Bahnlinie');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (1400, 'OEPNV');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht"
--- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10000, 'DB_Bahnanlage');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10001, 'Personenbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10002, 'Fernbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10003, 'Gueterbahnhof');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12000, 'Personenbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12001, 'Regionalbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12002, 'Kleinbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12003, 'Gueterbahnlinie');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12004, 'WerksHafenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12005, 'Seilbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14000, 'Strassenbahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14001, 'UBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14002, 'SBahn');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_BesondereKlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10000, 'DB_Bahnanlage');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10001, 'Personenbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10002, 'Fernbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (10003, 'Gueterbahnhof');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12000, 'Personenbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12001, 'Regionalbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12002, 'Kleinbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12003, 'Gueterbahnlinie');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12004, 'WerksHafenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (12005, 'Seilbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14000, 'Strassenbahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14001, 'UBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14002, 'SBahn');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSchienenverkehrsrecht" ("Code", "Bezeichner") VALUES (14003, 'OEPNV_Haltestelle');
 
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht"
