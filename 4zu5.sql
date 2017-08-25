@@ -649,3 +649,178 @@ COMMENT ON TABLE "RP_Basisobjekte"."RP_Bereich" IS 'Die Klasse RP_Bereich modell
 COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt" IS 'RP_Objekt ist die Basisklasse für alle spezifischen Festlegungen eines Raumordnungsplans. Sie selbst ist abstrakt, d.h. sie wird selbst nicht als eigenes Objekt verwendet, sondern vererbt nur ihre Attribute an spezielle Klassen.';
 COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" IS 'Grünzüge und kleinräumigere Grünzäsuren sind Ordnungsinstrumente zur Freiraumsicherung. Teilweise werden Grünzüge auch Trenngrün genannt.';
 COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
+
+-- Änderung CR-033
+-- BP_TiefeProzentualBezugTypen nicht gefunden
+
+-- Änderung CR-034
+-- keine Relevanz
+
+-- Änderung CR-035, CR-036, CR-037
+-- XP_RasterplanAenderungsobjekte werden in CR-055 eliminiert und deshalb hier nicht bearbeitet
+-- Triggerfunktion
+DROP FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz" CASCADE;
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    If (TG_OP = 'INSERT') THEN
+        IF pg_trigger_depth() = 1 THEN
+            new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+        END IF;
+
+        IF new."referenzName" IS NULL THEN
+            new."referenzName" := 'Externe Referenz ' || CAST(new.id as varchar);
+        END IF;
+
+        INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, new."referenzName");
+        RETURN new;
+    ELSIf (TG_OP = 'UPDATE') THEN
+        new.id := old.id;
+        RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_ExterneReferenz" WHERE id = old.id;
+        RETURN old;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"() TO xp_user;
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenzTyp" (
+  "Code" VARCHAR(64) NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenzTyp" TO xp_gast;
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_SpezExterneReferenz"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_SpezExterneReferenz" (
+  "id" INTEGER NOT NULL,
+  "typ" INTEGER NOT NULL DEFAULT 9999,
+  PRIMARY KEY ("id") ,
+  CONSTRAINT "fk_xp_externereferenz_xp_referenz_typen"
+    FOREIGN KEY ("typ" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE
+);
+COMMENT ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument, einen extern gespeicherten, georeferenzierten Plan oder einen Datenbank-Eintrag. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SpezExterneReferenz"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_SpezExterneReferenz"."typ" IS 'Typ / Inhalt des referierten Dokuments oder Rasterplans.';
+CREATE INDEX "idx_fk_xp_externereferenz_xp_referenz_typen" ON "XP_Basisobjekte"."XP_SpezExterneReferenz" ("typ");
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" TO xp_user;
+-- -----------------------------------------------------
+-- Data for table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
+-- -----------------------------------------------------
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1000', 'Beschreibung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1010', 'Begruendung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1020', 'Legende');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1030', 'Rechtsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1040', 'Plangrundlage');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1050', 'Umweltbericht');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1060', 'Satzung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1070', 'Karte');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1080', 'Erlaeuterung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1090', 'ZusammenfassendeErklaerung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2000', 'Koordinatenliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2100', 'Grundstuecksverzeichnis');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2200', 'Pflanzliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2300', 'Gruenordnungsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2400', 'Erschliessungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2500', 'Durchfuehrungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9998', 'Rechtsverbindlich');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9999', 'Informell');
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Plan_externeReferenz"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_externeReferenz" (
+  "XP_Plan_gid" BIGINT NOT NULL ,
+  "externeReferenz" INTEGER NOT NULL ,
+  PRIMARY KEY ("XP_Plan_gid", "externeReferenz") ,
+  CONSTRAINT "fk_XP_Plan_externeReferenz_XP_Plan"
+    FOREIGN KEY ("XP_Plan_gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_Plan_externeReferenz_XP_ExterneReferenz"
+    FOREIGN KEY ("externeReferenz" )
+    REFERENCES "XP_Basisobjekte"."XP_SpezExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_externeReferenz" IS 'Referenz auf ein Dokument oder einen georeferenzierten Rasterplan.';
+CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_Plan" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid") ;
+CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_ExterneReferenz" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("externeReferenz");
+--rechtsverbindlich
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "rechtsverbindlich",9998 FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "rechtsverbindlich" FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
+--informell
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "informell",9999 FROM "XP_Basisobjekte"."XP_Plan_informell";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "informell" FROM "XP_Basisobjekte"."XP_Plan_informell";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_informell";
+--Beschreibung
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBeschreibung",1000 FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refBeschreibung" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_refBeschreibung";
+--Begründung
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBegruendung",1010 FROM "XP_Basisobjekte"."XP_Plan_refBegruendung";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refBegruendung" FROM "XP_Basisobjekte"."XP_Plan_refBegruendung";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_refBegruendung";
+--Legende
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refLegende",1020 FROM "XP_Basisobjekte"."XP_Plan_refLegende";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refLegende" FROM "XP_Basisobjekte"."XP_Plan_refLegende";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_refLegende";
+--Rechtsplan
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refRechtsplan",1030 FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refRechtsplan" FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_refRechtsplan";
+--Plangrundlage
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refPlangrundlage",1040 FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refPlangrundlage" FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
+DROP TABLE "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Objekt_externeReferenz"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_externeReferenz" (
+  "XP_Objekt_gid" BIGINT NOT NULL ,
+  "externeReferenz" INTEGER NOT NULL ,
+  PRIMARY KEY ("XP_Objekt_gid", "externeReferenz") ,
+  CONSTRAINT "fk_XP_Objekt_externeReferenz_XP_Objekt"
+    FOREIGN KEY ("XP_Objekt_gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_Objekt_externeReferenz_XP_ExterneReferenz"
+    FOREIGN KEY ("externeReferenz" )
+    REFERENCES "XP_Basisobjekte"."XP_SpezExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_externeReferenz" IS 'Referenz auf ein Dokument oder einen georeferenzierten Rasterplan.';
+CREATE INDEX "idx_fk_XP_Objekt_externeReferenz_XP_Objekt" ON "XP_Basisobjekte"."XP_Objekt_externeReferenz" ("XP_Objekt_gid") ;
+CREATE INDEX "idx_fk_XP_Objekt_externeReferenz_XP_ExterneReferenz" ON "XP_Basisobjekte"."XP_Objekt_externeReferenz" ("externeReferenz");
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_externeReferenz" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_externeReferenz" TO xp_user;
+--rechtsverbindlich
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "rechtsverbindlich",9998 FROM "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich";
+INSERT INTO "XP_Basisobjekte"."XP_Objekt_externeReferenz" ("XP_Objekt_gid", "externeReferenz")
+SELECT "XP_Objekt_gid", "rechtsverbindlich" FROM "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich";
+DROP TABLE "XP_Basisobjekte"."XP_Objekt_rechtsverbindlich";
+--informell
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "informell",9999 FROM "XP_Basisobjekte"."XP_Objekt_informell";
+INSERT INTO "XP_Basisobjekte"."XP_Objekt_externeReferenz" ("XP_Objekt_gid", "externeReferenz")
+SELECT "XP_Objekt_gid", "informell" FROM "XP_Basisobjekte"."XP_Objekt_informell";
+DROP TABLE "XP_Basisobjekte"."XP_Objekt_informell";
+-- erst jetzt den Trigger anlegen
+CREATE TRIGGER "change_to_XP_SpezExterneReferenz" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_SpezExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_ExterneReferenz"();
+CREATE TRIGGER "delete_XP_SpezExterneReferenz" AFTER DELETE ON "XP_Basisobjekte"."XP_SpezExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_ExterneReferenz"();
