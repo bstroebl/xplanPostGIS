@@ -897,3 +897,6 @@ INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Cod
 
 -- Änderung CR-048
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezeichner") VALUES ('8000', 'Vorhabensgebiet');
+
+-- Änderung CR-049
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'Wasser' WHERE "Code" = 1600;
