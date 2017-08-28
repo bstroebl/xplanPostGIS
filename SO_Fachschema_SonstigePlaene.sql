@@ -189,6 +189,7 @@ CREATE TRIGGER "SO_Punktobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."S
 CREATE TABLE  "SO_Basisobjekte"."SO_Linienobjekt" (
   "gid" BIGINT NOT NULL,
   "position" GEOMETRY(MultiLinestring,25832) NOT NULL,
+  "flussrichtung" boolean,
   PRIMARY KEY ("gid"));
 
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Linienobjekt" TO xp_gast;

@@ -400,6 +400,7 @@ CREATE TRIGGER "RP_Punktobjekt_isAbstract" BEFORE INSERT ON "RP_Basisobjekte"."R
 CREATE  TABLE  "RP_Basisobjekte"."RP_Linienobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
+  "flussrichtung" boolean,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Linienobjekt" TO rp_user;

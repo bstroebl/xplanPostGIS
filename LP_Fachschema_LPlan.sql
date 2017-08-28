@@ -389,6 +389,7 @@ CREATE TRIGGER "LP_Punktobjekt_isAbstract" BEFORE INSERT ON "LP_Basisobjekte"."L
 CREATE  TABLE  "LP_Basisobjekte"."LP_Linienobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
+  "flussrichtung" boolean,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_Linienobjekt" TO lp_user;

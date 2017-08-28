@@ -878,3 +878,10 @@ ALTER TABLE "XP_Sonstiges"."XP_Hoehenangabe" ADD COLUMN "abweichenderBezugspunkt
 COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe oder zu einem Bereich vertikaler Höhen. Es ist möglich, spezifische Höhenangaben (z.B. die First- oder Traufhöhe eines Gebäudes) vorzugeben oder einzuschränken, oder den Gültigkeitsbereich eines Planinhalts auf eine bestimmte Höhe (hZwingend) bzw. einen Höhenbereich (hMin - hMax) zu beschränken, was vor allem bei der höhenabhängigen Festsetzung einer überbaubaren Grundstücksfläche (BP_UeberbaubareGrundstuecksflaeche), einer Baulinie (BP_Baulinie) oder einer Baugrenze (BP_Baugrenze) relevant ist. In diesem Fall bleiben die Attribute bezugspunkt und abweichenderBezugspunkt unbelegt.';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."bezugspunkt" IS 'BBestimmung des Bezugspunktes der Höhenangaben. Wenn weder dies Attribut noch das Attribut "abweichenderBezugspunkt" belegt sind, soll die Höhenangabe als vertikale Einschränkung des zugeordneten Planinhalts interpretiert werden.';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."abweichenderBezugspunkt" IS 'Textuelle Spezifikation eines Höhenbezugspunktes wenn das Attribut "bezugspunkt" nicht belegt ist.';
+
+-- Änderung CR-042
+ALTER TABLE "BP_Basisobjekte"."BP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
+ALTER TABLE "FP_Basisobjekte"."FP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
+ALTER TABLE "LP_Basisobjekte"."LP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
+ALTER TABLE "RP_Basisobjekte"."RP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
+ALTER TABLE "SO_Basisobjekte"."SO_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;

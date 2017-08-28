@@ -491,6 +491,7 @@ CREATE TRIGGER "FP_Punktobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."F
 CREATE  TABLE  "FP_Basisobjekte"."FP_Linienobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
+  "flussrichtung" boolean,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Linienobjekt" TO fp_user;

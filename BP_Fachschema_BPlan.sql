@@ -596,6 +596,7 @@ CREATE TRIGGER "BP_Punktobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."B
 CREATE  TABLE  "BP_Basisobjekte"."BP_Linienobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(Multilinestring,25832) NOT NULL ,
+  "flussrichtung" boolean,
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Linienobjekt" TO bp_user;
