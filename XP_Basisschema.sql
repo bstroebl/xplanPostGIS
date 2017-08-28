@@ -2014,6 +2014,7 @@ CREATE  TABLE  "XP_Sonstiges"."XP_Hoehenangabe" (
   "hoehenbezug" INTEGER NULL ,
   "abweichenderHoehenbezug" VARCHAR(255) NULL ,
   "bezugspunkt" INTEGER NULL ,
+  "abweichenderBezugspunkt" VARCHAR(255) NULL ,
   "hMin" REAL NULL ,
   "hMax" REAL NULL ,
   "hZwingend" REAL NULL ,
@@ -2029,10 +2030,11 @@ CREATE  TABLE  "XP_Sonstiges"."XP_Hoehenangabe" (
     REFERENCES "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe oder zu einem Bereich vertikaler Höhen. Es ist möglich, spezifische Höhenangaben (z.B. die First- oder Traufhöhe eines Gebäudes) vorzugeben oder einzuschränken, oder den Gültigkeitsbereich eines Planinhalts auf eine bestimmte Höhe (hZwingend) bzw. einen Höhenbereich (hMin - hMax) zu beschränken, was vor allem bei der höhenabhängigen Festsetzung einer überbaubaren Grundstücksfläche (BP_UeberbaubareGrundstuecksflaeche), einer Baulinie (BP_Baulinie) oder einer Baugrenze (BP_Baugrenze) relevant ist. In diesem Fall bleibt das Attribut bezugspunkt unbelegt. ';
+COMMENT ON TABLE  "XP_Sonstiges"."XP_Hoehenangabe" IS 'Spezifikation einer Angabe zur vertikalen Höhe oder zu einem Bereich vertikaler Höhen. Es ist möglich, spezifische Höhenangaben (z.B. die First- oder Traufhöhe eines Gebäudes) vorzugeben oder einzuschränken, oder den Gültigkeitsbereich eines Planinhalts auf eine bestimmte Höhe (hZwingend) bzw. einen Höhenbereich (hMin - hMax) zu beschränken, was vor allem bei der höhenabhängigen Festsetzung einer überbaubaren Grundstücksfläche (BP_UeberbaubareGrundstuecksflaeche), einer Baulinie (BP_Baulinie) oder einer Baugrenze (BP_Baugrenze) relevant ist. In diesem Fall bleiben die Attribute bezugspunkt und abweichenderBezugspunkt unbelegt.';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hoehenbezug" IS 'Art des Höhenbezuges.';
-COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."bezugspunkt" IS 'Bestimmung des Bezugspunktes der Höhenangaben. Wenn dies Attribut nicht belegt ist, soll die Höhenangabe als verikale Einschränkung des zugeordneten Planinhalts interpretiert werden. ';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."bezugspunkt" IS 'BBestimmung des Bezugspunktes der Höhenangaben. Wenn weder dies Attribut noch das Attribut "abweichenderBezugspunkt" belegt sind, soll die Höhenangabe als vertikale Einschränkung des zugeordneten Planinhalts interpretiert werden.';
+COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."abweichenderBezugspunkt" IS 'Textuelle Spezifikation eines Höhenbezugspunktes wenn das Attribut "bezugspunkt" nicht belegt ist.';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMin" IS 'Minimal zulassige Höhe des Bezugspunktes (bezugspunkt) bei einer Bereichsangabe, bzw. untere Grenze des vertikalen Gültigkeitsbereiches eines Planinhalts, wenn bezugspunkt nicht belegt ist. In diesem Fall gilt: Ist hMax nicht belegt, gilt die Festlegung ab der Höhe hMin. ';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hMax" IS 'Maximal zulässige Höhe des Bezugspunktes (bezugspunkt) bei einer Bereichsangabe, bzw. obere Grenze des vertikalen Gültigkeitsbereiches eines Planinhalts, wenn bezugspunkt nicht belegt ist. In diesem Fall gilt: Ist hMin nicht belegt, gilt die Festlegung bis zur Höhe hMax. ';
 COMMENT ON COLUMN "XP_Sonstiges"."XP_Hoehenangabe"."hZwingend" IS 'Zwingend einzuhaltende Höhe des Bezugspunktes (bezugspunkt) , bzw. Beschränkung der vertikalen Gültigkeitsbereiches eines Planinhalts auf eine bestimmte Höhe. ';
