@@ -2616,6 +2616,7 @@ INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Cod
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('1100', 'Kopfbaeume');
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('1200', 'Baumreihe');
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2000', 'Straeucher');
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2050', 'BaeumeUndStraeucher');
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2100', 'Hecke');
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2200', 'Knick');
 INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('3000', 'SonstBepflanzung');

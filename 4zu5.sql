@@ -885,3 +885,12 @@ ALTER TABLE "FP_Basisobjekte"."FP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLE
 ALTER TABLE "LP_Basisobjekte"."LP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
 ALTER TABLE "RP_Basisobjekte"."RP_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
 ALTER TABLE "SO_Basisobjekte"."SO_Linienobjekt" ADD COLUMN "flussrichtung" BOOLEAN;
+
+-- Änderung CR-044
+-- nicht relevant, da nur Ergänzung in der Dokumentation von Enumerationen
+
+-- Änderung CR-046
+-- nicht relevant, da variabler Raumbezug hier immer durch drei "Kind"-Tabellen abgebildet wird
+
+-- Änderung CR-047
+INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Code", "Bezeichner") VALUES ('2050', 'BaeumeUndStraeucher');
