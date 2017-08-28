@@ -622,6 +622,25 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        RETURN old;
+    ELSE
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+
+        new.flaechenschluss := true;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"()
 RETURNS trigger AS
 $BODY$
@@ -643,25 +662,6 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenobjekt"() TO xp_user;
-
-CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
-RETURNS trigger AS
-$BODY$
- BEGIN
-    IF (TG_OP = 'DELETE') THEN
-        RETURN old;
-    ELSE
-        IF new."position" IS NOT NULL THEN
-            new."position" := ST_ForceRHR(new."position");
-        END IF;
-
-        new.flaechenschluss := true;
-        RETURN new;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isUeberlagerungsobjekt"()
 RETURNS trigger AS
