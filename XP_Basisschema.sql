@@ -1417,7 +1417,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerfahrensMerkmal" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich"
+-- Table "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" (
   "gehoertZuBereich" BIGINT NOT NULL ,

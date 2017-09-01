@@ -637,27 +637,6 @@ CREATE TRIGGER "insert_into_SO_Bereich" BEFORE INSERT ON "SO_Basisobjekte"."SO_B
 CREATE TRIGGER "SO_Bereich_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
 -- -----------------------------------------------------
--- Table "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich"
--- -----------------------------------------------------
-CREATE TABLE  "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" (
-  "SO_Objekt_gid" BIGINT NOT NULL,
-  "gehoertZuSO_Bereich" BIGINT NOT NULL,
-  PRIMARY KEY ("SO_Objekt_gid", "gehoertZuSO_Bereich"),
-  CONSTRAINT "fk_SO_Objekt_hatSO_Bereich_SO_Objekt1"
-    FOREIGN KEY ("SO_Objekt_gid")
-    REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_SO_Objekt_hatSO_Bereich_SO_Bereich1"
-    FOREIGN KEY ("gehoertZuSO_Bereich")
-    REFERENCES "SO_Basisobjekte"."SO_Bereich" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" TO xp_gast;
-GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" TO so_user;
-
--- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" (
@@ -1880,12 +1859,6 @@ INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (5000, 'Kennzeichnung');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
 INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
-
--- -----------------------------------------------------
--- Data for table "SO_Basisobjekte"."SO_SonstRechtscharakter"
--- -----------------------------------------------------
-INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code", "Bezeichner") VALUES ('FestsetzungBPlan', 'FestsetzungBPlan');
-INSERT INTO "SO_Basisobjekte"."SO_SonstRechtscharakter" ("Code", "Bezeichner") VALUES ('DarstellungFPlan', 'DarstellungFPlan');
 
 -- -----------------------------------------------------
 -- Data for table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"

@@ -291,28 +291,6 @@ CREATE TRIGGER "change_to_LP_Objekt" BEFORE INSERT OR UPDATE ON "LP_Basisobjekte
 CREATE TRIGGER "delete_LP_Objekt" AFTER DELETE ON "LP_Basisobjekte"."LP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" invers zu inhaltLPlan
--- -----------------------------------------------------
-CREATE  TABLE  "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" (
-  "gehoertZuLP_Bereich" BIGINT NOT NULL ,
-  "LP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gehoertZuLP_Bereich", "LP_Objekt_gid") ,
-  CONSTRAINT "fk_gehoertzuLP_Bereich_LP_Bereich1"
-    FOREIGN KEY ("gehoertZuLP_Bereich" )
-    REFERENCES "LP_Basisobjekte"."LP_Bereich" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_gehoertZuLP_Bereich_LP_Objekt1"
-    FOREIGN KEY ("LP_Objekt_gid" )
-    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_gehoertzuLP_Bereich_LP_Bereich1" ON "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" ("gehoertZuLP_Bereich") ;
-CREATE INDEX "idx_fk_gehoertZuLP_Bereich_LP_Objekt1" ON "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" ("LP_Objekt_gid") ;
-GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" TO xp_gast;
-GRANT ALL ON TABLE "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" TO lp_user;
-
--- -----------------------------------------------------
 -- Table "LP_Raster"."LP_RasterplanAenderung"
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Raster"."LP_RasterplanAenderung" (
@@ -2853,7 +2831,7 @@ INSERT INTO "LP_Basisobjekte"."LP_Rechtsstand" ("Code", "Bezeichner") VALUES (50
 -- -----------------------------------------------------
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (1000, 'Festsetzung');
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'Geplant');
-INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (3000, 'NachrichtlichUebernommen');
+INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (3000, 'NachrichtlicheUebernahme');
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (4000, 'DarstellungKennzeichnung');
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (5000, 'FestsetzungInBPlan');
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');

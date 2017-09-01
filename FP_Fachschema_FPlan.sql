@@ -367,28 +367,6 @@ CREATE TRIGGER "change_to_FP_Objekt" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte
 CREATE TRIGGER "delete_FP_Objekt" AFTER DELETE ON "FP_Basisobjekte"."FP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" invers zu inhaltFPlan
--- -----------------------------------------------------
-CREATE  TABLE  "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" (
-  "gehoertZuFP_Bereich" BIGINT NOT NULL ,
-  "FP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gehoertZuFP_Bereich", "FP_Objekt_gid") ,
-  CONSTRAINT "fk_gehoertzuFP_Bereich_FP_Bereich1"
-    FOREIGN KEY ("gehoertZuFP_Bereich" )
-    REFERENCES "FP_Basisobjekte"."FP_Bereich" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_gehoertZuFP_Bereich_FP_Objekt1"
-    FOREIGN KEY ("FP_Objekt_gid" )
-    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_gehoertzuFP_Bereich_FP_Bereich1" ON "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" ("gehoertZuFP_Bereich") ;
-CREATE INDEX "idx_fk_gehoertZuFP_Bereich_FP_Objekt1" ON "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" ("FP_Objekt_gid") ;
-GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" TO xp_gast;
-GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" TO fp_user;
-
--- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Plan_gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Plan_gemeinde" (

@@ -685,29 +685,6 @@ CREATE TRIGGER "change_to_BP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "BP_Basis
 CREATE TRIGGER "delete_BP_TextAbschnitt" AFTER DELETE ON "BP_Basisobjekte"."BP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" (
-  "gehoertZuBP_Bereich" BIGINT NOT NULL ,
-  "BP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gehoertZuBP_Bereich", "BP_Objekt_gid") ,
-  CONSTRAINT "fk_gehoertzubp_bereich_bp_bereich1"
-    FOREIGN KEY ("gehoertZuBP_Bereich" )
-    REFERENCES "BP_Basisobjekte"."BP_Bereich" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_gehoertZuBP_Bereich_BP_Objekt1"
-    FOREIGN KEY ("BP_Objekt_gid" )
-    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" IS 'Die Relation zeigt an, dass das BPlan-Fachobjekt vom referierten Planbereich als originärer Planinhalt referiert wird.';
-CREATE INDEX "idx_fk_gehoertzubp_bereich_bp_bereich1" ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" ("gehoertZuBP_Bereich") ;
-CREATE INDEX "idx_fk_gehoertZuBP_Bereich_BP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" ("BP_Objekt_gid") ;
-
--- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Plan_gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Plan_gemeinde" (
@@ -1819,8 +1796,7 @@ CREATE  TABLE  "BP_Wasser"."BP_GewaesserFlaeche" (
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-  INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+    ON UPDATE CASCADE);
 
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_XP_ZweckbestimmungGewaesser" ON "BP_Wasser"."BP_GewaesserFlaeche" ("zweckbestimmung") ;
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_BP_DetailZweckbestGewaesser1" ON "BP_Wasser"."BP_GewaesserFlaeche" ("detaillierteZweckbestimmung") ;

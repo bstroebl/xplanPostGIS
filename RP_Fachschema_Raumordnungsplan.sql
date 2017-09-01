@@ -362,28 +362,6 @@ CREATE TRIGGER "change_to_RP_Objekt" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte
 CREATE TRIGGER "delete_RP_Objekt" AFTER DELETE ON "RP_Basisobjekte"."RP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" invers zu inhaltRPlan
--- -----------------------------------------------------
-CREATE  TABLE  "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" (
-  "gehoertZuRP_Bereich" BIGINT NOT NULL ,
-  "RP_Objekt_gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gehoertZuRP_Bereich", "RP_Objekt_gid") ,
-  CONSTRAINT "fk_gehoertzuRP_Bereich_RP_Bereich1"
-    FOREIGN KEY ("gehoertZuRP_Bereich" )
-    REFERENCES "RP_Basisobjekte"."RP_Bereich" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_gehoertZuRP_Bereich_RP_Objekt1"
-    FOREIGN KEY ("RP_Objekt_gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-CREATE INDEX "idx_fk_gehoertzuRP_Bereich_RP_Bereich1" ON "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" ("gehoertZuRP_Bereich") ;
-CREATE INDEX "idx_fk_gehoertZuRP_Bereich_RP_Objekt1" ON "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" ("RP_Objekt_gid") ;
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" TO xp_gast;
-GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" TO rp_user;
-
--- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Punktobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_Basisobjekte"."RP_Punktobjekt" (
