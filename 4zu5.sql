@@ -955,3 +955,98 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungKennzeichnung" ("Code", "Bezei
 
 -- Änderung CR-049
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'Wasser' WHERE "Code" = 1600;
+
+-- Änderung CR-050
+-- keine Relevanz
+
+-- Änderung CR-051
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietBauweise"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BaugebietBauweise" (
+  "gid" BIGINT NOT NULL,
+  "bauweise" INTEGER,
+  "abweichendeBauweise" INTEGER,
+  "vertikaleDifferenzierung" BOOLEAN,
+  "bebauungsArt" INTEGER,
+  "bebauungVordereGrenze" INTEGER,
+  "bebauungRueckwaertigeGrenze" INTEGER,
+  "bebauungSeitlicheGrenze" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_BaugebietBauweise_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_GrenzBebauung1"
+    FOREIGN KEY ("bebauungVordereGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_GrenzBebauung2"
+    FOREIGN KEY ("bebauungRueckwaertigeGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietBauweise_BP_GrenzBebauung3"
+    FOREIGN KEY ("bebauungSeitlicheGrenze")
+    REFERENCES "BP_Bebauung"."BP_GrenzBebauung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_Bauweise1_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("bauweise");
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_AbweichendeBauweise1_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("abweichendeBauweise");
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_BebauungsArt1_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("bebauungsArt");
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_GrenzBebauung1_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("bebauungVordereGrenze");
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_GrenzBebauung2_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("bebauungRueckwaertigeGrenze");
+CREATE INDEX "idx_fk_BP_BaugebietBauweise_BP_GrenzBebauung3_idx" ON "BP_Bebauung"."BP_BaugebietBauweise" ("bebauungSeitlicheGrenze");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietBauweise" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietBauweise" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietBauweise" IS '';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise".';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."vertikaleDifferenzierung" IS 'Gibt an, ob eine vertikale Differenzierung des Gebäudes vorgeschrieben ist.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungVordereGrenze" IS 'Festsetzung der Bebauung der vorderen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungRueckwaertigeGrenze" IS 'Festsetzung der Bebauung der rückwärtigen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungSeitlicheGrenze" IS 'Festsetzung der Bebauung der seitlichen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
+INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise" (gid,"abweichungBauNVO","bauweise","abweichendeBauweise","vertikaleDifferenzierung",  "bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze")
+SELECT gid,"abweichungBauNVO","bauweise","abweichendeBauweise","vertikaleDifferenzierung", "bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze" FROM "BP_Bebauung"."BP_BaugebietObjekt";
+INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise" (gid) SELECT gid FROM "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche";
+CREATE TRIGGER "change_to_BP_BaugebietBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BaugebietBauweise" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bauweise";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "abweichendeBauweise";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "vertikaleDifferenzierung";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bebauungsArt";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bebauungVordereGrenze";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bebauungRueckwaertigeGrenze";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bebauungSeitlicheGrenze";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP CONSTRAINT "fk_BP_Baugebiet_parent";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" ADD CONSTRAINT "fk_BP_Baugebiet_parent" FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" RENAME TO "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" RENAME "BP_BaugebietObjekt_gid" TO "BP_BaugebietBauweise_gid";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" DROP CONSTRAINT "fk_BP_Baugebiet_refGebauedequerschnitt1";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
+    ADD CONSTRAINT "fk_BP_Baugebiet_refGebauedequerschnitt1" FOREIGN KEY ("BP_BaugebietBauweise_gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
