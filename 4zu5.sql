@@ -1081,3 +1081,7 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
 -- SELECT * from "XP_Basisobjekte"."XP_Objekt" WHERE "textSchluessel" IS NOT NULL OR "textSchluesselBegruendung" IS NOT NULL;
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluessel";
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluesselBegruendung";
+
+-- Änderung CR-054
+-- wird nicht implementiert (siehe CR-007), um Fachobjekte _nicht_ redundant erfassen zu müssen
+-- Beim Export muß dann entsprechend darauf geachtet werden, die Redundanz herzustellen
