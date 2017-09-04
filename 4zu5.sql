@@ -1050,3 +1050,27 @@ ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
     REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+-- Änderung CR-051
+-- Umbenennen des Feldes der bereits vorhandenen Referenz
+ALTER Table "XP_Basisobjekte"."XP_VerbundenerPlan" rename gid TO "verbundenerPlan";
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."verbundenerPlan" IS 'Referenz auf einen anderen Plan, der den aktuellen Plan ändert oder von ihm geändert wird.';
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"("verbundenerPlan", "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
+        RETURN new;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new.gid := old.gid; --no change in gid allowed
+        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE "verbundenerPlan" = old.gid;
+        RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE "verbundenerPlan" = old.gid;
+        RETURN old;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;

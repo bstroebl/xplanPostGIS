@@ -258,14 +258,14 @@ RETURNS trigger AS
 $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"(gid, "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
+        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"("verbundenerPlan", "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
-        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE gid = old.gid;
+        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE "verbundenerPlan" = old.gid;
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE gid = old.gid;
+        DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE "verbundenerPlan" = old.gid;
         RETURN old;
     END IF;
  END; $BODY$
@@ -1316,13 +1316,14 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 -- Table "XP_Basisobjekte"."XP_VerbundenerPlan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
-  "gid" BIGINT NOT NULL ,
   "planName" VARCHAR(64) NOT NULL ,
   "nummer" VARCHAR(64) NULL ,
-  PRIMARY KEY ("gid"));
+  "verbundenerPlan" BIGINT NOT NULL ,
+  PRIMARY KEY ("verbundenerPlan"));
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (Attribut name von XP_Plan) des verbundenen Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."nummer" IS 'Nummer des verbundenen Plans.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."verbundenerPlan" IS 'Referenz auf einen anderen Plan, der den aktuellen Plan ändert oder von ihm geändert wird.';
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 
@@ -1341,7 +1342,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_aendert" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_VerbundenerPlan1"
     FOREIGN KEY ("aendert" )
-    REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("gid" )
+    REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("verbundenerPlan" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_aendert_XP_RechtscharakterPlanaenderung1"
@@ -1372,7 +1373,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_VerbundenerPlan2"
     FOREIGN KEY ("wurdeGeaendertVon" )
-    REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("gid" )
+    REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("verbundenerPlan" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_wurdeGeaendertVon_XP_RechtscharakterPlanaenderung1"
