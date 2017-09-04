@@ -1051,7 +1051,7 @@ ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
--- Änderung CR-051
+-- Änderung CR-052
 -- Umbenennen des Feldes der bereits vorhandenen Referenz
 ALTER Table "XP_Basisobjekte"."XP_VerbundenerPlan" rename gid TO "verbundenerPlan";
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."verbundenerPlan" IS 'Referenz auf einen anderen Plan, der den aktuellen Plan ändert oder von ihm geändert wird.';
@@ -1075,7 +1075,7 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
 
--- Änderung CR-052
+-- Änderung CR-053
 -- ACHTUNG: Daten, die in textSchluessel und textSchluesselBegruendung eingeben werden, werden gelöscht!
 -- Feststellen mit:
 -- SELECT * from "XP_Basisobjekte"."XP_Objekt" WHERE "textSchluessel" IS NOT NULL OR "textSchluesselBegruendung" IS NOT NULL;
