@@ -1265,8 +1265,6 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   "text" VARCHAR(255) NULL ,
   "rechtsstand" INTEGER NULL ,
   "gesetzlicheGrundlage" INTEGER NULL ,
-  "textSchluessel" VARCHAR(255) NULL ,
-  "textSchluesselBegruendung" VARCHAR(255) NULL ,
   "gliederung1" VARCHAR(255) NULL ,
   "gliederung2" VARCHAR(255) NULL ,
   "ebene" INTEGER NULL DEFAULT 0 ,
@@ -1287,8 +1285,6 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."uuid" IS 'Eindeutiger Identifie
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."text" IS 'Beliebiger Text';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."rechtsstand" IS 'Gibt an ob der Planinhalt bereits besteht, geplant ist, oder zukünftig wegfallen soll.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gesetzlicheGrundlage" IS 'Angabe der Gesetzlichen Grundlage des Planinhalts.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."textSchluessel" IS 'Abschnitts- oder Schlüsselnummer der Text-Abschnitte (XP_TextAbschnitt), die dem Objekt explizit zugeordnet sind.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."textSchluesselBegruendung" IS 'Abschnitts- oder Schlüsselnummer der Abschnitte der Begründung (XP_BegruendungAbschnitt), die dem Objekt explizit zugeordnet sind.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gliederung1" IS 'Kennung im Plan für eine erste Gliederungsebene (z.B. GE-E für ein "Eingeschränktes Gewerbegebiet")';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gliederung2" IS 'Kennung im Plan für eine zweite Gliederungsebene (z.B. GE-E 3 für die "Variante 3 eines eingeschränkten Gewerbegebiets")';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."ebene" IS 'Zuordnung des Objektes zu einer vertikalen Ebene.

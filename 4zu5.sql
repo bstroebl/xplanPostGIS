@@ -1074,3 +1074,10 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
+
+-- Änderung CR-052
+-- ACHTUNG: Daten, die in textSchluessel und textSchluesselBegruendung eingeben werden, werden gelöscht!
+-- Feststellen mit:
+-- SELECT * from "XP_Basisobjekte"."XP_Objekt" WHERE "textSchluessel" IS NOT NULL OR "textSchluesselBegruendung" IS NOT NULL;
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluessel";
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluesselBegruendung";
