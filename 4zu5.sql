@@ -1094,7 +1094,7 @@ ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluesselBegruendung
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" ADD COLUMN rastergid BIGINT;
 ALTER TABLE "BP_Basisobjekte"."BP_Plan" ADD COLUMN rastergid BIGINT;
 INSERT INTO "BP_Basisobjekte"."BP_Plan" ("aufstellungsbeschlussDatum" ,"veraenderungssperreDatum" ,"auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","räumlicherGeltungsbereich","ausfertigungsDatum",rastergid)
-SELECT "aufstellungsbeschlussDatum"  ,"veraenderungssperreDatum","auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","geltungsbereichAenderung",gid 
+SELECT "aufstellungsbeschlussDatum"  ,"veraenderungssperreDatum","auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","geltungsbereichAenderung",gid
 FROM "BP_Raster"."BP_RasterplanAenderung";
 UPDATE "XP_Basisobjekte"."XP_Plan" x SET rastergid = (SELECT rastergrid FROM "BP_Basisobjekte"."BP_Plan" b WHERE x.gid = b.gid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
 UPDATE "XP_Basisobjekte"."XP_Plan" x SET name = (SELECT COALESCE("nameAenderung",'Rasterplan ' || gid::VARCHAR) FROM "XP_Raster"."XP_RasterplanAenderung" r WHERE r.gid = x.rastergid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
@@ -1116,3 +1116,16 @@ ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN rastergid; */
 DROP TABLE "XP_Raster"."XP_RasterplanAenderung" CASCADE;
 DROP SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq";
 DROP FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"();
+
+-- Änderung CR-057
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Code" = 100010 WHERE "Code" = 10010;
+UPDATE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10003 WHERE "zweckbestimmung" = 28000;
+UPDATE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10002 WHERE "zweckbestimmung" = 28001;
+UPDATE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10007 WHERE "zweckbestimmung" = 28002;
+UPDATE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10004 WHERE "zweckbestimmung" = 28003;
+UPDATE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 2800 WHERE "zweckbestimmung" = 28004 AND "BP_VerEntsorgung_gid" NOT IN (SELECT "BP_VerEntsorgung_gid" FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" WHERE "zweckbestimmung" = 2800);
+UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10003 WHERE "zweckbestimmung" = 28000;
+UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10002 WHERE "zweckbestimmung" = 28001;
+UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10007 WHERE "zweckbestimmung" = 28002;
+UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10004 WHERE "zweckbestimmung" = 28003;
+UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 2800 WHERE "zweckbestimmung" = 28004 AND "FP_VerEntsorgung_gid" NOT IN (SELECT "FP_VerEntsorgung_gid" FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" WHERE "zweckbestimmung" = 2800);

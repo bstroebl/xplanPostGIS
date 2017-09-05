@@ -2256,7 +2256,7 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezei
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10007', 'BiomasseKraftwerk');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10008', 'Kabelleitung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10009', 'Niederspannungsleitung');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('10010', 'Leitungsmast');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('100010', 'Leitungsmast');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12000', 'Ferngasleitung');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12001', 'Gaswerk');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner") VALUES ('12002', 'Gasbehaelter');
