@@ -345,7 +345,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Plan" (
   "status" INTEGER NULL ,
   "hoehenbezug" VARCHAR(255) NULL ,
   "aenderungenBisDatum" DATE NULL ,
-  "aufstellungsbechlussDatum" DATE NULL ,
+  "aufstellungsbeschlussDatum" DATE NULL ,
   "veraenderungssperreDatum" DATE NULL ,
   "auslegungsStartDatum" DATE[],
   "auslegungsEndDatum" DATE[],
