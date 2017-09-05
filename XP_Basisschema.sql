@@ -169,10 +169,6 @@ CREATE SEQUENCE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq" TO GROUP xp_user;
 
-CREATE SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq"
-   MINVALUE 1;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_gid_seq" TO GROUP xp_user;
-
 CREATE SEQUENCE "XP_Raster"."XP_RasterplanBasis_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_id_seq" TO GROUP xp_user;
@@ -584,43 +580,6 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() TO xp_user;
-
-CREATE OR REPLACE FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"()
-RETURNS trigger AS
-$BODY$
- BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
-            new.gid := nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"');
-        ELSE
-            IF new.gid IS NULL THEN
-                new.gid := nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"');
-            END IF;
-        END IF;
-
-        INSERT INTO "XP_Raster"."XP_RasterplanAenderung" (gid) VALUES (new.gid);
-
-        IF new."geltungsbereichAenderung" IS NOT NULL THEN
-            new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
-        END IF;
-
-        RETURN new;
-    ELSIF (TG_OP = 'UPDATE') THEN
-        new.gid := old.gid; --no change in gid allowed
-
-        IF new."geltungsbereichAenderung" IS NOT NULL THEN
-            new."geltungsbereichAenderung" := ST_ForceRHR(new."geltungsbereichAenderung");
-        END IF;
-
-        RETURN new;
-    ELSIF (TG_OP = 'DELETE') THEN
-        DELETE FROM "XP_Raster"."XP_RasterplanAenderung" WHERE gid = old.gid;
-        RETURN old;
-    END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-GRANT EXECUTE ON FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
@@ -1084,99 +1043,6 @@ CREATE INDEX "idx_fk_XP_RasterplanBasis_refLegende2" ON "XP_Raster"."XP_Rasterpl
 
 GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_gast;
 GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_user;
-
--- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanAenderung"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung" (
-  "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Raster"."XP_RasterplanAenderung_gid_seq"'),
-  "nameAenderung" VARCHAR(64) NULL ,
-  "nummerAenderung" INTEGER NULL,
-  "beschreibung" VARCHAR(255) NULL ,
-  "refBeschreibung" INTEGER NULL ,
-  "refBegruendung" INTEGER NULL ,
-  "refText" INTEGER NULL ,
-  "besonderheit" VARCHAR(255) NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_XP_RasterplanAenderung_XP_ExterneReferenz1"
-    FOREIGN KEY ("refBeschreibung" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanAenderung_XP_ExterneReferenz2"
-    FOREIGN KEY ("refBegruendung" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanAenderung_XP_ExterneReferenz3"
-    FOREIGN KEY ("refText" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Raster"."XP_RasterplanAenderung" IS 'Basisklasse für georeferenzierte Rasterdarstellungen von Änderungen des Basisplans, die nicht in die Rasterdarstellung XP_RasterplanBasis integriert sind.
-Im Standard sind nur georeferenzierte Rasterpläne zugelassen. Die über refScan referierte externe Referenz muss deshalb entweder vom Typ "PlanMitGeoreferenz" sein oder einen WMS-Request enthalten.
-Es handelt sich um eine abstrakte Objektart.';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."nameAenderung" IS 'Bezeichnung der Plan-Änderung';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."nummerAenderung" IS 'Nummer der Änderung';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."beschreibung" IS 'Nähere Beschreibung der Plan-Änderung';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBeschreibung" IS 'Referenz auf das Beschreibungs-Dokument';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refBegruendung" IS 'Referenz auf das Begründungs-Dokument';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."refText" IS 'Referenz auf die textlichen Inhalte der Planänderung.';
-COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Besonderheit der Änderung';
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz1" ON "XP_Raster"."XP_RasterplanAenderung" ("refBeschreibung") ;
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz2" ON "XP_Raster"."XP_RasterplanAenderung" ("refBegruendung") ;
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_XP_ExterneReferenz3" ON "XP_Raster"."XP_RasterplanAenderung" ("refText") ;
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung" TO xp_user;
-
--- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanAenderung_refScan"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung_refScan" (
-  "XP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  "refScan" INTEGER NOT NULL ,
-  PRIMARY KEY ("XP_RasterplanAenderung_gid", "refScan") ,
-  CONSTRAINT "fk_XP_RasterplanAenderung_refScan1"
-    FOREIGN KEY ("XP_RasterplanAenderung_gid" )
-    REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanAenderung_refScan2"
-    FOREIGN KEY ("refScan" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Raster"."XP_RasterplanAenderung_refScan" IS 'Referenz auf eine Rasterversion der Plan-Änderung.';
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_refScan1" ON "XP_Raster"."XP_RasterplanAenderung_refScan" ("XP_RasterplanAenderung_gid") ;
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_refScan2" ON "XP_Raster"."XP_RasterplanAenderung_refScan" ("refScan") ;
-
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderung_refScan" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_refScan" TO xp_user;
-
--- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanAenderung_refLegende"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanAenderung_refLegende" (
-  "XP_RasterplanAenderung_gid" BIGINT NOT NULL ,
-  "refLegende" INTEGER NOT NULL ,
-  PRIMARY KEY ("XP_RasterplanAenderung_gid", "refLegende") ,
-  CONSTRAINT "fk_XP_RasterplanAenderung_refLegende1"
-    FOREIGN KEY ("XP_RasterplanAenderung_gid" )
-    REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanAenderung_refLegende2"
-    FOREIGN KEY ("refLegende" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Raster"."XP_RasterplanAenderung_refLegende" IS 'Referenz auf die Legende der Plan-Änderung.';
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_refLegende1" ON "XP_Raster"."XP_RasterplanAenderung_refLegende" ("XP_RasterplanAenderung_gid") ;
-CREATE INDEX "idx_fk_XP_RasterplanAenderung_refLegende2" ON "XP_Raster"."XP_RasterplanAenderung_refLegende" ("refLegende") ;
-
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderung_refLegende" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderung_refLegende" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan"
@@ -2133,24 +1999,6 @@ CREATE OR REPLACE RULE _update AS
   WHERE gid = old.gid;
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
-  WHERE gid = old.gid;
-
--- -----------------------------------------------------
--- View "XP_Raster"."XP_RasterplanAenderungen"
--- -----------------------------------------------------
-CREATE  OR REPLACE VIEW "XP_Raster"."XP_RasterplanAenderungen" AS
-SELECT g.*, p."nameAenderung", CAST(c.relname as varchar) as "Objektart"
-FROM  "XP_Raster"."XP_GeltungsbereichAenderung" g
-JOIN pg_class c ON g.tableoid = c.oid
-JOIN "XP_Raster"."XP_RasterplanAenderung" p ON g.gid = p.gid;
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanAenderungen" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanAenderungen" TO xp_user;
-
-CREATE OR REPLACE RULE _update AS
-    ON UPDATE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  UPDATE "XP_Raster"."XP_GeltungsbereichAenderung" SET "geltungsbereichAenderung" = new."geltungsbereichAenderung"
-  WHERE gid = old.gid;
-CREATE OR REPLACE RULE _delete AS
-    ON DELETE TO "XP_Raster"."XP_RasterplanAenderungen" DO INSTEAD  DELETE FROM "XP_Raster"."XP_GeltungsbereichAenderung"
   WHERE gid = old.gid;
 
 -- -----------------------------------------------------

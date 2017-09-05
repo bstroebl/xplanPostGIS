@@ -1085,3 +1085,34 @@ ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluesselBegruendung
 -- Änderung CR-054
 -- wird nicht implementiert (siehe CR-007), um Fachobjekte _nicht_ redundant erfassen zu müssen
 -- Beim Export muß dann entsprechend darauf geachtet werden, die Redundanz herzustellen
+
+-- Änderung CR-055
+-- ACHTUNG: XP_RasterplanAenderung und seine Kindklassen werden gelöscht, da nicht erwartet wird, dass XP_RasterplanAenderung überhaupt benutzt wurde!
+-- Feststellen mit: SELECT count(*) from "XP_Raster"."XP_RasterplanAenderung";
+--
+/* Übernahme vorhandener RasterplanAenderungsobjekte am Beispiel BP_RasterplanAenderung, muß analog auch für die anderen Kindklassen durchgefühjrt werden:
+ALTER TABLE "XP_Basisobjekte"."XP_Plan" ADD COLUMN rastergid BIGINT;
+ALTER TABLE "BP_Basisobjekte"."BP_Plan" ADD COLUMN rastergid BIGINT;
+INSERT INTO "BP_Basisobjekte"."BP_Plan" ("aufstellungsbeschlussDatum" ,"veraenderungssperreDatum" ,"auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","räumlicherGeltungsbereich","ausfertigungsDatum",rastergid)
+SELECT "aufstellungsbeschlussDatum"  ,"veraenderungssperreDatum","auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","geltungsbereichAenderung",gid 
+FROM "BP_Raster"."BP_RasterplanAenderung";
+UPDATE "XP_Basisobjekte"."XP_Plan" x SET rastergid = (SELECT rastergrid FROM "BP_Basisobjekte"."BP_Plan" b WHERE x.gid = b.gid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
+UPDATE "XP_Basisobjekte"."XP_Plan" x SET name = (SELECT COALESCE("nameAenderung",'Rasterplan ' || gid::VARCHAR) FROM "XP_Raster"."XP_RasterplanAenderung" r WHERE r.gid = x.rastergid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
+UPDATE "XP_Basisobjekte"."XP_Plan" x SET nummer = (SELECT "nummerAenderung" FROM "XP_Raster"."XP_RasterplanAenderung" r WHERE r.gid = x.rastergid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
+UPDATE "XP_Basisobjekte"."XP_Plan" x SET beschreibung = (SELECT "beschreibung" FROM "XP_Raster"."XP_RasterplanAenderung" r WHERE r.gid = x.rastergid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
+UPDATE "XP_Basisobjekte"."XP_Plan" x SET kommentar = (SELECT "besonderheit" FROM "XP_Raster"."XP_RasterplanAenderung" r WHERE r.gid = x.rastergid) WHERE x.gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Plan");
+ALTER TABLE "BP_Basisobjekte"."BP_Plan" DROP COLUMN rastergid;
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBeschreibung",1000 FROM "XP_Raster"."XP_RasterplanAenderung";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT x."gid", r."refBeschreibung" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung" x JOIN "XP_Raster"."XP_RasterplanAenderung" ON x.rastergid = r.gid WHERE r."refBeschreibung" IS NOT NULL;
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBegruendung",1010 FROM "XP_Raster"."XP_RasterplanAenderung";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT x."gid", r."refBegruendung" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung" x JOIN "XP_Raster"."XP_RasterplanAenderung" ON x.rastergid = r.gid WHERE r."refBegruendung" IS NOT NULL;
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refText",9998 FROM "XP_Raster"."XP_RasterplanAenderung";
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT x."gid", r."refText" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung" x JOIN "XP_Raster"."XP_RasterplanAenderung" ON x.rastergid = r.gid WHERE r."refText" IS NOT NULL;
+ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN rastergid; */
+
+DROP TABLE "XP_Raster"."XP_RasterplanAenderung" CASCADE;
+DROP SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq";
+DROP FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"();

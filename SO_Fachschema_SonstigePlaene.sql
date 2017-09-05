@@ -75,26 +75,6 @@ GRANT EXECUTE ON FUNCTION "SO_Basisobjekte"."new_SO_Bereich"() TO so_user;
 -- *****************************************************
 
 -- -----------------------------------------------------
--- Table "SO_Raster"."SO_RasterplanAenderung"
--- -----------------------------------------------------
-CREATE TABLE  "SO_Raster"."SO_RasterplanAenderung" (
-  "gid" BIGINT NOT NULL,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_SO_RasterplanAenderung_XP_RasterplanAenderung1"
-    FOREIGN KEY ("gid")
-    REFERENCES "XP_Raster"."XP_RasterplanAenderung" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("XP_Raster"."XP_GeltungsbereichAenderung");
-
-GRANT SELECT ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO xp_gast;
-GRANT ALL ON TABLE "SO_Raster"."SO_RasterplanAenderung" TO so_user;
-CREATE INDEX "SO_RasterplanAenderung_gidx" ON "SO_Raster"."SO_RasterplanAenderung" using gist ("geltungsbereichAenderung");
-COMMENT ON TABLE "SO_Raster"."SO_RasterplanAenderung" IS '';
-CREATE TRIGGER "change_to_SO_RasterplanAenderung" BEFORE INSERT OR UPDATE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
-CREATE TRIGGER "delete_SO_RasterplanAenderung" AFTER DELETE ON "SO_Raster"."SO_RasterplanAenderung" FOR EACH ROW EXECUTE PROCEDURE "XP_Raster"."child_of_XP_RasterplanAenderung"();
-
--- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_KlassifizSchutzgebietNaturschutzrecht" (
