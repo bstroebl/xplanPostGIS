@@ -1416,11 +1416,17 @@ CREATE TRIGGER "delete_BP_EinfahrtPunkt" AFTER DELETE ON "BP_Verkehr"."BP_Einfah
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtsbereichLinie" (
   "gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_EinfahrtsbereichLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_EinfahrtsbereichLinie_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_EinfahrtTypen" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
@@ -1429,6 +1435,7 @@ GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" TO bp_user;
 CREATE INDEX "BP_EinfahrtsbereichLinie_gidx" ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" using gist ("position");
 COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" IS 'Einfahrtsbereich (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtsbereichLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Verkehr"."BP_EinfahrtsbereichLinie"."typ" IS 'Typ der Einfahrt';
 CREATE TRIGGER "change_to_BP_EinfahrtsbereichLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_EinfahrtsbereichLinie" AFTER DELETE ON "BP_Verkehr"."BP_EinfahrtsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

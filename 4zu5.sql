@@ -1320,3 +1320,12 @@ ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Vegetationsobjekt
     ON UPDATE CASCADE;
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Textliche Spezifikation einer Baumart.';
 DROP SEQUENCE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen_Code_seq" CASCADE;
+
+-- Änderung CR-066
+ALTER TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" ADD COLUMN "typ" INTEGER;
+ALTER TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" ADD CONSTRAINT "fk_BP_EinfahrtsbereichLinie_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Verkehr"."BP_EinfahrtTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Verkehr"."BP_EinfahrtsbereichLinie"."typ" IS 'Typ der Einfahrt';
