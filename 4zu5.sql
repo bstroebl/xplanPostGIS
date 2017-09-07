@@ -1298,3 +1298,25 @@ ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnah
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 ALTER TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ADD COLUMN "sonstZiel" VARCHAR(255);
 COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+
+-- Änderung CR-065
+-- -----------------------------------------------------
+-- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" (
+  "Code" SERIAL NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" TO xp_gast;
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" RENAME "baumArt" TO baumart_alt;
+INSERT INTO "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ("Bezeichner")
+SELECT DISTINCT baumart_alt FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" WHERE baumart_alt IS NOT NULL;
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ADD COLUMN "baumArt" INTEGER;
+UPDATE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" v SET "baumArt" = SELECT "Code" FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" vt WHERE v.baumart_alt = vt."Bezeichner";
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" DROP COLUMN baumart_alt;
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ADD CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_baumArt"
+    FOREIGN KEY ("baumArt") REFERENCES "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Textliche Spezifikation einer Baumart.';
+DROP SEQUENCE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen_Code_seq" CASCADE;

@@ -864,6 +864,15 @@ CREATE TRIGGER "change_to_BP_AbstandsMassPunkt" BEFORE INSERT OR UPDATE ON "BP_S
 CREATE TRIGGER "delete_BP_AbstandsMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_AbstandsMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" (
@@ -872,7 +881,7 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBin
   "kronendurchmesser" NUMERIC(6,2),
   "pflanztiefe" NUMERIC(6,2),
   "istAusgleich" BOOLEAN,
-  "baumArt" VARCHAR(64),
+  "baumArt" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_AnpflanzungBindungErhaltung_parent"
     FOREIGN KEY ("gid" )
@@ -882,6 +891,11 @@ CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBin
   CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_massnahme"
     FOREIGN KEY ("massnahme" )
     REFERENCES "XP_Enumerationen"."XP_ABEMassnahmenTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_baumArt"
+    FOREIGN KEY ("baumArt")
+    REFERENCES "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
