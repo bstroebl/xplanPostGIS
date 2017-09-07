@@ -1270,3 +1270,16 @@ GRANT ALL ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" TO bp_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
 CREATE INDEX "idx_fk_refTextInhalt_SO_Objekt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("SO_Objekt_gid");
 CREATE INDEX "idx_fk_refTextInhalt_SO_TextAbschnitt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("refTextInhalt");
+
+-- Änderung CR-059
+-- keine Relevanz
+
+-- Änderung CR-061
+ALTER TABLE "BP_Basisobjekte"."BP_Bereich" ADD COLUMN "versionSonstRechtsgrundlageDatum" DATE;
+ALTER TABLE "BP_Basisobjekte"."BP_Bereich" ADD COLUMN "versionSonstRechtsgrundlageText" VARCHAR(255);
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+ALTER TABLE "FP_Basisobjekte"."FP_Bereich" ADD COLUMN "versionSonstRechtsgrundlageDatum" DATE;
+ALTER TABLE "FP_Basisobjekte"."FP_Bereich" ADD COLUMN "versionSonstRechtsgrundlageText" VARCHAR(255);
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';

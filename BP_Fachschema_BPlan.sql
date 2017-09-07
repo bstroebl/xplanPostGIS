@@ -522,6 +522,8 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Bereich" (
   "versionBauNVOText" VARCHAR(255) NULL ,
   "versionBauGBDatum" DATE NULL ,
   "versionBauGBText" VARCHAR(255) NULL ,
+  "versionSonstRechtsgrundlageDatum" DATE,
+  "versionSonstRechtsgrundlageText" VARCHAR(255),
   "gehoertZuPlan" INTEGER NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_Bereich_BP_Plan1"
@@ -545,6 +547,8 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVODatum" IS 'Datum
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Bereich"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
 CREATE INDEX "idx_fk_BP_Bereich_BP_Plan1" ON "BP_Basisobjekte"."BP_Bereich" ("gehoertZuPlan") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich1" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
 CREATE INDEX "idx_fk_BP_Bereich_XP_Bereich2" ON "BP_Basisobjekte"."BP_Bereich" ("gid") ;
