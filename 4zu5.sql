@@ -1355,3 +1355,9 @@ Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteDachfo
 INSERT INTO "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" ("BP_GestaltungBaugebiet_gid","detaillierteDachform")
 SELECT gid,"detaillierteDachform" FROM "BP_Bebauung"."BP_GestaltungBaugebiet" WHERE "detaillierteDachform" IS NOT NULL;
 ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" DROP COLUMN "detaillierteDachform";
+
+-- Änderung CR-069
+ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMmin";
+ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMmax";
+ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmin";
+ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmax";

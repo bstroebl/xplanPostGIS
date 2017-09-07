@@ -3130,12 +3130,8 @@ CREATE TABLE  "BP_Bebauung"."BP_FestsetzungenBaugebiet" (
   "GFmax" REAL,
   "GF" REAL,
   "GF_Ausn" REAL,
-  "BMZmin" REAL,
-  "BMZmax" REAL,
   "BMZ" REAL,
   "BMZ_Ausn" REAL,
-  "BMmin" REAL,
-  "BMmax" REAL,
   "BM" REAL,
   "BM_Ausn" REAL,
   "GRZmin" REAL,
@@ -3183,12 +3179,8 @@ COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFmin" IS 'Minimal
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GFmax" IS 'Maximal zulässige Geschossfläche bei einer Bereichsabgabe. Das Attribut GFmin muss ebenfalls belegt sein.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GF" IS 'Maximal zulässige Geschossfläche.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GF_Ausn" IS 'Ausnahmsweise maximal zulässige Geschossfläche.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZmin" IS 'Minimal zulässige Baumassenzahl';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZmax" IS 'Maximal zulässige Baumassenzahl bei einer Bereichsangabe. Das Attribut BMZmin muss ebenfalls spezifiziert werden.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZ" IS 'Maximal zulässige Baumassenzahl.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMZ_Ausn" IS 'Ausnahmsweise maximal zulässige Baumassenzahl.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMmin" IS 'Minimal zulässige Baumasse.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BMmax" IS 'Maximal zulässinge Baumasse bei einer Bereichsangabe. Das Attribut BMmin muss ebenfalls spezifiziert werden.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BM" IS 'Maximal zulässige Baumasse.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."BM_Ausn" IS 'Ausnahmsweise maximal zulässige Baumasse.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_FestsetzungenBaugebiet"."GRZmin" IS 'Minimal zulässige Grundflächenzahl.';
