@@ -685,6 +685,29 @@ CREATE TRIGGER "change_to_BP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "BP_Basis
 CREATE TRIGGER "delete_BP_TextAbschnitt" AFTER DELETE ON "BP_Basisobjekte"."BP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Objekt_refTextInhalt" (
+  "BP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_BP_Objekt1"
+    FOREIGN KEY ("BP_Objekt_gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_BP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "BP_Basisobjekte"."BP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_BP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("BP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_BP_TextAbschnitt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("refTextInhalt");
+
+-- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Plan_gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Plan_gemeinde" (
@@ -2641,7 +2664,7 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" TO bp_user;
 CREATE INDEX "BP_TextlicheFestsetzungsFlaeche_gidx" ON "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" using gist ("position");
-COMMENT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte Textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse XP_Objekt) spezifiziert werden.';
+COMMENT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte Textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse BP_Objekt) spezifiziert werden.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_TextlicheFestsetzungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_TextlicheFestsetzungsFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

@@ -1129,3 +1129,144 @@ UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbest
 UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10007 WHERE "zweckbestimmung" = 28002;
 UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 10004 WHERE "zweckbestimmung" = 28003;
 UPDATE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" set "zweckbestimmung" = 2800 WHERE "zweckbestimmung" = 28004 AND "FP_VerEntsorgung_gid" NOT IN (SELECT "FP_VerEntsorgung_gid" FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" WHERE "zweckbestimmung" = 2800);
+
+-- Änderung CR-058
+COMMENT ON TABLE "BP_Sonstiges"."BP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte Textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse BP_Objekt) spezifiziert werden.';
+COMMENT ON TABLE "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse LP_Objekt) spezifiziert werden.';
+COMMENT ON TABLE "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" IS 'Bereich in dem bestimmte Textliche Darstellungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse FP_Objekt) spezifiziert werden.';
+-- refTextInhalt war bisher nicht implementiert
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Objekt_refTextInhalt" (
+  "BP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_BP_Objekt1"
+    FOREIGN KEY ("BP_Objekt_gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_BP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "BP_Basisobjekte"."BP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_BP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("BP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_BP_TextAbschnitt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("refTextInhalt");
+-- -----------------------------------------------------
+-- Table "FP_Basisobjekte"."FP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Basisobjekte"."FP_Objekt_refTextInhalt" (
+  "FP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("FP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_FP_Objekt1"
+    FOREIGN KEY ("FP_Objekt_gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_FP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "FP_Basisobjekte"."FP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "FP_Basisobjekte"."FP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_FP_Objekt1" ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" ("FP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_FP_TextAbschnitt1" ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" ("refTextInhalt");
+-- -----------------------------------------------------
+-- Table "LP_Basisobjekte"."LP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "LP_Basisobjekte"."LP_Objekt_refTextInhalt" (
+  "LP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("LP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_LP_Objekt1"
+    FOREIGN KEY ("LP_Objekt_gid" )
+    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_LP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "LP_Basisobjekte"."LP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "LP_Basisobjekte"."LP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_LP_Objekt1" ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" ("LP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_LP_TextAbschnitt1" ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" ("refTextInhalt");
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_TextAbschnitt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_TextAbschnitt" (
+  "id" BIGINT NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
+  PRIMARY KEY ("id") ,
+  CONSTRAINT "fk_RP_TextAbschnitt_rechtscharakter"
+    FOREIGN KEY ("rechtscharakter")
+    REFERENCES "RP_Basisobjekte"."RP_Rechtscharakter" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_TextAbschnitt_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+GRANT SELECT ON "RP_Basisobjekte"."RP_TextAbschnitt" TO xp_gast;
+GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO bp_user;
+COMMENT ON TABLE  "RP_Basisobjekte"."RP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Raumordnungsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut rechtscharakter des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
+COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
+CREATE INDEX "idx_fk_RP_TextAbschnitt_rechtscharakter" ON "RP_Basisobjekte"."RP_TextAbschnitt" ("rechtscharakter") ;
+CREATE TRIGGER "change_to_RP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+CREATE TRIGGER "delete_RP_TextAbschnitt" AFTER DELETE ON "RP_Basisobjekte"."RP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" (
+  "RP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_RP_Objekt1"
+    FOREIGN KEY ("RP_Objekt_gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_RP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "RP_Basisobjekte"."RP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_RP_Objekt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("RP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_RP_TextAbschnitt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("refTextInhalt");
+-- -----------------------------------------------------
+-- Table "SO_Basisobjekte"."SO_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "SO_Basisobjekte"."SO_Objekt_refTextInhalt" (
+  "SO_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_SO_Objekt1"
+    FOREIGN KEY ("SO_Objekt_gid" )
+    REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_SO_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "SO_Basisobjekte"."SO_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_SO_Objekt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("SO_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_SO_TextAbschnitt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("refTextInhalt");

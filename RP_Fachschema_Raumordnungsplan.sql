@@ -271,6 +271,33 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Rechtscharakter" (
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Rechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_TextAbschnitt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_TextAbschnitt" (
+  "id" BIGINT NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
+  PRIMARY KEY ("id") ,
+  CONSTRAINT "fk_RP_TextAbschnitt_rechtscharakter"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "RP_Basisobjekte"."RP_Rechtscharakter" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_TextAbschnitt_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON "RP_Basisobjekte"."RP_TextAbschnitt" TO xp_gast;
+GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO bp_user;
+COMMENT ON TABLE  "RP_Basisobjekte"."RP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Raumordnungsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut rechtscharakter des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
+COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
+CREATE INDEX "idx_fk_RP_TextAbschnitt_rechtscharakter" ON "RP_Basisobjekte"."RP_TextAbschnitt" ("rechtscharakter") ;
+CREATE TRIGGER "change_to_RP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+CREATE TRIGGER "delete_RP_TextAbschnitt" AFTER DELETE ON "RP_Basisobjekte"."RP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
+
+-- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_Basisobjekte"."RP_Objekt" (
@@ -298,6 +325,29 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."rechtscharakter" IS 'Rechtschar
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."konkretisierung" IS 'Konkretisierung des Rechtscharakters.';
 CREATE TRIGGER "change_to_RP_Objekt" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Objekt" AFTER DELETE ON "RP_Basisobjekte"."RP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" (
+  "RP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_RP_Objekt1"
+    FOREIGN KEY ("RP_Objekt_gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_RP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "RP_Basisobjekte"."RP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_RP_Objekt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("RP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_RP_TextAbschnitt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("refTextInhalt");
 
 -- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Punktobjekt"

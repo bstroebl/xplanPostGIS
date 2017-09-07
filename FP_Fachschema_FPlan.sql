@@ -367,6 +367,29 @@ CREATE TRIGGER "change_to_FP_Objekt" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte
 CREATE TRIGGER "delete_FP_Objekt" AFTER DELETE ON "FP_Basisobjekte"."FP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "FP_Basisobjekte"."FP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Basisobjekte"."FP_Objekt_refTextInhalt" (
+  "FP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("FP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_FP_Objekt1"
+    FOREIGN KEY ("FP_Objekt_gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_FP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "FP_Basisobjekte"."FP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "FP_Basisobjekte"."FP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_FP_Objekt1" ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" ("FP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_FP_TextAbschnitt1" ON "FP_Basisobjekte"."FP_Objekt_refTextInhalt" ("refTextInhalt");
+
+-- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Plan_gemeinde"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Basisobjekte"."FP_Plan_gemeinde" (
@@ -1790,7 +1813,7 @@ INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" TO fp_user;
-COMMENT ON TABLE  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" IS 'Bereich in dem bestimmte Textliche Darstellungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse XP_Objekt) spezifiziert werden.';
+COMMENT ON TABLE "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" IS 'Bereich in dem bestimmte Textliche Darstellungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse FP_Objekt) spezifiziert werden.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_TextlicheDarstellungsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_TextlicheDarstellungsFlaeche" AFTER DELETE ON "FP_Sonstiges"."FP_TextlicheDarstellungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

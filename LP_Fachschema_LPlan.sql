@@ -291,6 +291,29 @@ CREATE TRIGGER "change_to_LP_Objekt" BEFORE INSERT OR UPDATE ON "LP_Basisobjekte
 CREATE TRIGGER "delete_LP_Objekt" AFTER DELETE ON "LP_Basisobjekte"."LP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "LP_Basisobjekte"."LP_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "LP_Basisobjekte"."LP_Objekt_refTextInhalt" (
+  "LP_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("LP_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_LP_Objekt1"
+    FOREIGN KEY ("LP_Objekt_gid" )
+    REFERENCES "LP_Basisobjekte"."LP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_LP_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "LP_Basisobjekte"."LP_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "LP_Basisobjekte"."LP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_LP_Objekt1" ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" ("LP_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_LP_TextAbschnitt1" ON "LP_Basisobjekte"."LP_Objekt_refTextInhalt" ("refTextInhalt");
+
+-- -----------------------------------------------------
 -- Table "LP_Basisobjekte"."LP_Punktobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "LP_Basisobjekte"."LP_Punktobjekt" (
@@ -2605,7 +2628,7 @@ INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" TO lp_user;
-COMMENT ON TABLE  "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse XP_Objekt) spezifiziert werden.';
+COMMENT ON TABLE "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" IS 'Bereich in dem bestimmte textliche Festsetzungen gültig sind, die über die Relation "refTextInhalt" (Basisklasse LP_Objekt) spezifiziert werden.';
 CREATE INDEX "LP_TextlicheFestsetzungsFlaeche_gidx" ON "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" using gist ("position");
 CREATE TRIGGER "change_to_LP_TextlicheFestsetzungsFlaeche" BEFORE INSERT OR UPDATE ON "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_LP_TextlicheFestsetzungsFlaeche" AFTER DELETE ON "LP_Sonstiges"."LP_TextlicheFestsetzungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

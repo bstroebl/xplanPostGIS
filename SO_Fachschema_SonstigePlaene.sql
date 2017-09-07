@@ -214,6 +214,29 @@ CREATE TRIGGER "change_to_SO_TextAbschnitt" BEFORE INSERT OR UPDATE ON "SO_Basis
 CREATE TRIGGER "delete_SO_TextAbschnitt" AFTER DELETE ON "SO_Basisobjekte"."SO_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_TextAbschnitt"();
 
 -- -----------------------------------------------------
+-- Table "SO_Basisobjekte"."SO_Objekt_refTextInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "SO_Basisobjekte"."SO_Objekt_refTextInhalt" (
+  "SO_Objekt_gid" BIGINT NOT NULL ,
+  "refTextInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Objekt_gid", "refTextInhalt") ,
+  CONSTRAINT "fk_refTextInhalt_SO_Objekt1"
+    FOREIGN KEY ("SO_Objekt_gid" )
+    REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_refTextInhalt_SO_TextAbschnitt1"
+    FOREIGN KEY ("refTextInhalt" )
+    REFERENCES "SO_Basisobjekte"."SO_TextAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" TO xp_gast;
+GRANT ALL ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" TO bp_user;
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
+CREATE INDEX "idx_fk_refTextInhalt_SO_Objekt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("SO_Objekt_gid");
+CREATE INDEX "idx_fk_refTextInhalt_SO_TextAbschnitt1" ON "SO_Basisobjekte"."SO_Objekt_refTextInhalt" ("refTextInhalt");
+
+-- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzzonenNaturschutzrecht" (
