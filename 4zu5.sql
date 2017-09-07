@@ -1329,3 +1329,29 @@ ALTER TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" ADD CONSTRAINT "fk_BP_Einfah
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
 COMMENT ON COLUMN "BP_Verkehr"."BP_EinfahrtsbereichLinie"."typ" IS 'Typ der Einfahrt';
+
+-- Änderung CR-068
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" (
+  "BP_GestaltungBaugebiet_gid" BIGINT NOT NULL ,
+  "detaillierteDachform" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_GestaltungBaugebiet_gid", "detaillierteDachform"),
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform1"
+    FOREIGN KEY ("BP_GestaltungBaugebiet_gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform2"
+    FOREIGN KEY ("detaillierteDachform")
+    REFERENCES "BP_Bebauung"."BP_detailDachform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.
+Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteDachform" bezieht sich auf den an gleicher Position stehenden Attributwert von dachform.';
+INSERT INTO "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" ("BP_GestaltungBaugebiet_gid","detaillierteDachform")
+SELECT gid,"detaillierteDachform" FROM "BP_Bebauung"."BP_GestaltungBaugebiet" WHERE "detaillierteDachform" IS NOT NULL;
+ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" DROP COLUMN "detaillierteDachform";

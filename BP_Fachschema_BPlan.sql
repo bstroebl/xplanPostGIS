@@ -3225,13 +3225,7 @@ CREATE TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet" (
   "DN" INTEGER,
   "DNZwingend" INTEGER,
   "FR" INTEGER,
-  "detaillierteDachform" INTEGER,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_BP_Baugebiet_BP_DetailDachform10"
-    FOREIGN KEY ("detaillierteDachform")
-    REFERENCES "BP_Bebauung"."BP_DetailDachform" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_GestaltungBaugebiet_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
@@ -3240,7 +3234,6 @@ CREATE TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet" (
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" TO bp_user;
-CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailDachform1_idx" ON "BP_Bebauung"."BP_GestaltungBaugebiet" ("detaillierteDachform");
 COMMENT ON TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet" IS '';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmin" IS 'Minimal zulässige Dachneigung bei einer Bereichsangabe.';
@@ -3248,7 +3241,6 @@ COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmax" IS 'Maximal zu
 COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DN" IS 'Maximal zulässige Dachneigung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."DNZwingend" IS 'Zwingend vorgeschriebene Dachneigung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."FR" IS 'Vorgeschriebene Firstrichtung (Gradangabe)';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_GestaltungBaugebiet"."detaillierteDachform" IS 'Über eine CodeList definierte Dachform.';
 CREATE TRIGGER "change_to_BP_GestaltungBaugebiet" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_GestaltungBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GestaltungBaugebiet" AFTER DELETE ON "BP_Bebauung"."BP_GestaltungBaugebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -3272,6 +3264,28 @@ CREATE  TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" (
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" TO bp_user;
 COMMENT ON TABLE  "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" IS 'Vorgeschriebene Dachformen';
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" (
+  "BP_GestaltungBaugebiet_gid" BIGINT NOT NULL,
+  "detaillierteDachform" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GestaltungBaugebiet_gid", "detaillierteDachform"),
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform1"
+    FOREIGN KEY ("BP_GestaltungBaugebiet_gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform2"
+    FOREIGN KEY ("detaillierteDachform")
+    REFERENCES "BP_Bebauung"."BP_detailDachform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.
+Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteDachform" bezieht sich auf den an gleicher Position stehenden Attributwert von dachform.';
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BaugebietObjekt"
