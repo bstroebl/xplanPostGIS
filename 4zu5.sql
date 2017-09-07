@@ -15,64 +15,27 @@ COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Beson
 -- Änderung CR-006
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN "xPlanGMLVersion";
 
--- Änderung CR-007 und CR-071
+-- Änderung CR-007
 -- In der Datenbank bleibt weiterhin eine Zuordnung eines Fachobjekts zu mehreren Bereichen möglich
 -- XP
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME TO "XP_Objekt_gehoertZuBereich";
 -- BP
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
-INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
-UPDATE "BP_Basisobjekte"."BP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
-ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
-ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
     SELECT "gehoertZuBP_Bereich","BP_Objekt_gid" FROM "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich";
 DROP TABLE "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich";
 -- FP
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
-INSERT INTO "FP_Basisobjekte"."FP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
-UPDATE "FP_Basisobjekte"."FP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
-ALTER TABLE "FP_Basisobjekte"."FP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
-ALTER TABLE "FP_Basisobjekte"."FP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
     SELECT "gehoertZuFP_Bereich","FP_Objekt_gid" FROM "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich";
 DROP TABLE "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich";
 -- LP
-ALTER TABLE "LP_Basisobjekte"."LP_Status" RENAME TO "LP_Rechtscharakter";
-ALTER TABLE "LP_Basisobjekte"."LP_Objekt" RENAME "status" TO "rechtscharakter";
-UPDATE "LP_Basisobjekte"."LP_Rechtscharakter" SET "Bezeichner" = 'NachrichtlicheUebernahme' WHERE "Code" = 3000;
-INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
-UPDATE "LP_Basisobjekte"."LP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
-ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
-ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
     SELECT "gehoertZuLP_Bereich","LP_Objekt_gid" FROM "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich";
 DROP TABLE "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich";
 -- RP
-INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (6000, 'NurInformationsgehalt');
-INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (7000, 'TextlichesZiel');
-INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (8000, 'ZielundGrundsatz');
-INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9000, 'Vorschlag');
-INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
-UPDATE "RP_Basisobjekte"."RP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
-ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
-ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
     SELECT "gehoertZuRP_Bereich","RP_Objekt_gid" FROM "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich";
 DROP TABLE "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich";
 -- SO
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1000, 'FestsetzungBPlan');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1500, 'DarstellungFPlan');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (1800, 'InhaltLPlan');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
-INSERT INTO "SO_Basisobjekte"."SO_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
-UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 1500 WHERE "sonstRechtscharakter" = 'DarstellungFPlan';
-UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 1000 WHERE "sonstRechtscharakter" = 'FestsetzungBPlan';
-UPDATE "SO_Basisobjekte"."SO_Objekt" SET "sonstRechtscharakter" = NULL WHERE "sonstRechtscharakter" IN ('FestsetzungBPlan', 'DarstellungFPlan');
-UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
-ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
-ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
-DELETE FROM "SO_Basisobjekte"."SO_SonstRechtscharakter" WHERE "Code" IN ('FestsetzungBPlan', 'DarstellungFPlan');
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
     SELECT "gehoertZuSO_Bereich","SO_Objekt_gid" FROM "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich";
 DROP TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich";
@@ -153,7 +116,7 @@ COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_aendert" IS 'Bezeichnung eines ande
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gesetzlicheGrundlage" IS 'Angabe der Gesetzlichen Grundlage des Planinhalts.';
 
--- Änderung CR-016
+-- Änderung CR-016 und CR-071 und CR-074
 -- name und geltungsbereich sind bereits NOT NULL
 -- BP
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
@@ -177,6 +140,7 @@ ALTER TABLE "FP_Basisobjekte"."FP_Plan" ALTER COLUMN "planArt" SET NOT NULL;
 -- LP
 ALTER TABLE "LP_Basisobjekte"."LP_Status" RENAME TO "LP_Rechtscharakter";
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
+UPDATE "LP_Basisobjekte"."LP_Rechtscharakter" SET "Bezeichner" = 'NachrichtlicheUebernahme' WHERE "Code" = 3000;
 ALTER "LP_Basisobjekte"."LP_TextAbschnitt" RENAME "status" TO "rechtscharakter";
 UPDATE "LP_Basisobjekte"."LP_TextAbschnitt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
 ALTER TABLE "LP_Basisobjekte"."LP_TextAbschnitt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
@@ -202,6 +166,11 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Über eine Codeliste
 UPDATE "SO_Basisobjekte"."SO_Plan" SET "planArt" = 9999 WHERE "planArt" IS NULL;
 ALTER TABLE "SO_Basisobjekte"."SO_Plan" ALTER COLUMN "planArt" SET DEFAULT 9999;
 ALTER TABLE "SO_Basisobjekte"."SO_Plan" ALTER COLUMN "planArt" SET NOT NULL;
+-- CR-074
+UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 1500 WHERE "sonstRechtscharakter" = 'DarstellungFPlan';
+UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 1000 WHERE "sonstRechtscharakter" = 'FestsetzungBPlan';
+UPDATE "SO_Basisobjekte"."SO_Objekt" SET "sonstRechtscharakter" = NULL WHERE "sonstRechtscharakter" IN ('FestsetzungBPlan', 'DarstellungFPlan');
+DELETE FROM "SO_Basisobjekte"."SO_SonstRechtscharakter" WHERE "Code" IN ('FestsetzungBPlan', 'DarstellungFPlan');
 -- RP
 INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (6000, 'NurInformationsgehalt');
 INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES (7000, 'TextlichesZiel');
