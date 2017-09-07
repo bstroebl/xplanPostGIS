@@ -1283,3 +1283,18 @@ ALTER TABLE "FP_Basisobjekte"."FP_Bereich" ADD COLUMN "versionSonstRechtsgrundla
 ALTER TABLE "FP_Basisobjekte"."FP_Bereich" ADD COLUMN "versionSonstRechtsgrundlageText" VARCHAR(255);
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+
+-- Änderung CR-062
+-- keine Relevanz, da Attribut nicht implementiert war
+
+-- Änderung CR-063
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" ADD COLUMN "sonstZiel" VARCHAR(255);
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" ADD COLUMN "sonstZiel" VARCHAR(255);
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" ADD COLUMN "sonstZiel" VARCHAR(255);
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" ADD COLUMN "sonstZiel" VARCHAR(255);
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+ALTER TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ADD COLUMN "sonstZiel" VARCHAR(255);
+COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';

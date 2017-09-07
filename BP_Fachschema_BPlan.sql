@@ -1006,6 +1006,7 @@ CREATE TRIGGER "BP_AufschuettungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR(255),
   "refMassnahmenText" INTEGER NULL ,
   "refLandschaftsplan" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -1037,6 +1038,7 @@ CREATE INDEX "BP_AusgleichsFlaeche_gidx" ON "BP_Naturschutz_Landschaftsbild_Natu
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" IS 'Festsetzung einer Fläche zum Ausgleich im Sinne des § 1a Abs.3 und §9 Abs. 1a BauGB.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."refMassnahmenText" IS 'Referenz auf ein Dokument, das die durchzuführenden Massnahmen beschreibt.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
 CREATE INDEX "idx_fk_BP_AusgleichsFlaeche_XP_SPEZiele1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsFlaeche" ("ziel") ;
@@ -1073,6 +1075,7 @@ COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsF
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR(255),
   "refMassnahmenText" INTEGER NULL ,
   "refLandschaftsplan" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
@@ -1102,6 +1105,7 @@ GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Ausgleichs
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" IS 'Festsetzung einer Einzelmaßnahme zum Ausgleich im Sinne des § 1a Abs.3 und §9 Abs. 1a BauGB.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."ziel" IS 'Ziel der Ausgleichsmassnahme';
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."refMassnahmenText" IS 'Referenz auf ein Dokument, das die durchzuführenden Maßnahmen beschreibt.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
 CREATE INDEX "idx_fk_BP_AusgleichsMassnahme_XP_SPEZiele1" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsMassnahme" ("ziel") ;
@@ -2346,6 +2350,7 @@ CREATE TRIGGER "delete_BP_SchutzgebietPunkt" AFTER DELETE ON "BP_Naturschutz_Lan
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR(255),
   "istAusgleich" BOOLEAN,
   "refMassnahmenText" INTEGER,
   "refLandschaftsplan" INTEGER,
@@ -2380,6 +2385,7 @@ GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPfle
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."istAusgleich" IS 'Gibt an, ob die Maßnahme zum Ausgleich eines Eingriffs benutzt wird.';
 CREATE TRIGGER "change_to_BP_SchutzPflegeEntwicklungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_SchutzPflegeEntwicklungsFlaeche" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -2412,6 +2418,7 @@ COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPfleg
 CREATE  TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR(255),
   "istAusgleich" BOOLEAN,
   "refMassnahmenText" INTEGER,
   "refLandschaftsplan" INTEGER,
@@ -2445,6 +2452,7 @@ GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPfle
 COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."istAusgleich" IS 'Gibt an, ob die Maßnahme zum Ausgkeich von Eingriffen genutzt wird.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."refMassnahmenText" IS 'Referenz auf ein Dokument, das die durchzuführenden Maßnahmen beschreibt.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';

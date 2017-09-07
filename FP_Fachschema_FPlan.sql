@@ -548,6 +548,7 @@ COMMENT ON TABLE "FP_Basisobjekte"."FP_Objekt_wirdAusgeglichenDurchFlaeche" IS '
 CREATE  TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" (
   "gid" BIGINT NOT NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR(255),
   "istAusgleich" BOOLEAN  NULL DEFAULT false,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_SchutzPflegeEntwicklung_XP_SPEZiele"
@@ -567,6 +568,7 @@ GRANT ALL ON TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" TO fp_user;
 COMMENT ON TABLE  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
+COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."istAusgleich" IS 'Gibt an, ob die Maßnahme zum Ausgkeich eines Eingriffs benutzt wird.';
 CREATE TRIGGER "change_to_FP_SchutzPflegeEntwicklung" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_SchutzPflegeEntwicklung" AFTER DELETE ON "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
