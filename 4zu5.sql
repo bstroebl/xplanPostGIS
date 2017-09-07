@@ -15,7 +15,7 @@ COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Beson
 -- Änderung CR-006
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN "xPlanGMLVersion";
 
--- Änderung CR-007
+-- Änderung CR-007 und CR-071
 -- In der Datenbank bleibt weiterhin eine Zuordnung eines Fachobjekts zu mehreren Bereichen möglich
 -- XP
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME TO "XP_Objekt_gehoertZuBereich";
