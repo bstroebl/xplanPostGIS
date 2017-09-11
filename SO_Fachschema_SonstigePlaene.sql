@@ -18,6 +18,7 @@
 -- *****************************************************
 
 -- editierende Rolle fÃ¼r SO_SonstigePlanwerke
+
 CREATE ROLE so_user
   NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_user TO so_user;
@@ -597,11 +598,11 @@ CREATE INDEX "idx_fk_SO_Plan_XP_Plan1_idx" ON "SO_Basisobjekte"."SO_Plan" ("gid"
 CREATE INDEX "SO_Plan_gidx" ON "SO_Basisobjekte"."SO_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Plan" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Plan" TO so_user;
-COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse für sonstige, z. B. länderspezifische raumbezogene Planwerke.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Über eine Codeliste definierter Typ des Plans';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Für den Plan zuständige Stelle.';
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse fð² ³onstige, z. B. lå¯¤erspezifische raumbezogene Planwerke.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primå³³chlð³³¥l, wird automatisch ausgefð¬¬´!';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geå¯¤ert werden.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Ý¢er eine Codeliste definierter Typ des Plans';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Fð² ¤en Plan zustå¯¤ige Stelle.';
 CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
