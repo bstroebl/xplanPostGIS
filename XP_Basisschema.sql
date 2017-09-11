@@ -85,7 +85,7 @@ $BODY$
         EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' ||
         quote_ident(name_of_table || '_ensure_sequence') || '() TO xp_user;';
         EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') ||
-        '() OWNER TO grp_admin;';
+        '() OWNER TO xp_user;';
         EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' ||
         quote_ident(name_of_schema) || '.' || quote_ident(name_of_table) ||
         ' FOR EACH ROW EXECUTE PROCEDURE ' || quote_ident(name_of_schema) || '.' ||
