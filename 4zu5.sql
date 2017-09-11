@@ -1330,3 +1330,6 @@ ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMmin";
 ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMmax";
 ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmin";
 ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmax";
+
+-- Änderung CR-073
+-- war bereits implementiert
