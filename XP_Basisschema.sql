@@ -83,7 +83,7 @@ $BODY$
         EXECUTE str_trigger;
 
         EXECUTE 'GRANT EXECUTE ON FUNCTION ' || quote_ident(name_of_schema) || '.' ||
-        quote_ident(name_of_table || '_ensure_sequence') || '() TO grp_gast;';
+        quote_ident(name_of_table || '_ensure_sequence') || '() TO xp_user;';
         EXECUTE 'ALTER FUNCTION ' || quote_ident(name_of_schema) || '.' || quote_ident(name_of_table || '_ensure_sequence') ||
         '() OWNER TO grp_admin;';
         EXECUTE 'CREATE TRIGGER ' || quote_ident(name_of_table || '_ensure_sequence') || ' BEFORE INSERT OR UPDATE ON ' ||
@@ -105,7 +105,7 @@ $BODY$
     import uuid
     return uuid.uuid1()
 $BODY$
-  LANGUAGE 'plpython2u' VOLATILE 
+  LANGUAGE 'plpython2u' VOLATILE
   -- sollte Python3 installiert sein, so ist anstelle dieser Zeile die folgende zu benutzen
   -- LANGUAGE 'plpython3u' VOLATILE
   COST 100;
