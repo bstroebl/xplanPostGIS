@@ -125,10 +125,10 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
   "rechtsstand" INTEGER NULL ,
   "status" INTEGER NULL ,
   "aufstellungsbechlussDatum" DATE NULL ,
-  "auslegungsStartDatum" DATE NULL ,
-  "auslegungsEndDatum" DATE NULL ,
-  "traegerbeteiligungsStartDatum" DATE NULL ,
-  "traegerbeteiligungsEndDatum" DATE NULL ,
+  "auslegungsStartDatum" DATE[],
+  "auslegungsEndDatum" DATE[],
+  "traegerbeteiligungsStartDatum" DATE[],
+  "traegerbeteiligungsEndDatum" DATE[],
   "aenderungenBisDatum" DATE NULL ,
   "entwurfsbeschlussDatum" DATE NULL ,
   "planbeschlussDatum" DATE NULL ,
@@ -185,10 +185,10 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."teilabschnitt" IS 'Kennziffer des
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."rechtsstand" IS 'Rechtsstand des Plans';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."status" IS 'Status des Plans, definiert über eine CodeList.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."aufstellungsbechlussDatum" IS 'Datum des Plan-Aufstellungsbeschlusses.';
-COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
-COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
-COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
-COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."aenderungenBisDatum" IS 'Datum, bis zu dem Änderungen des Plans berücksichtigt wurden.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."entwurfsbeschlussDatum" IS 'Datum des Entwurfsbeschlusses';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planbeschlussDatum" IS 'Datum des Planbeschlusses';

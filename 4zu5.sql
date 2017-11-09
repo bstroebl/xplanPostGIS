@@ -1383,3 +1383,63 @@ COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntWohne
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+
+-- Änderung CR-077
+-- FP
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" ADD COLUMN "auslegungsStartDatumNew" DATE[];
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" ADD COLUMN "auslegungsEndDatumNew" DATE[];
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" ADD COLUMN "traegerbeteiligungsStartDatumNew" DATE[];
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" ADD COLUMN "traegerbeteiligungsEndDatumNew" DATE[];
+UPDATE "FP_Basisobjekte"."FP_Plan" SET "auslegungsStartDatumNew" = ARRAY["auslegungsStartDatum"] WHERE "auslegungsStartDatum" IS NOT NULL;
+UPDATE "FP_Basisobjekte"."FP_Plan" SET "auslegungsEndDatumNew" = ARRAY["auslegungsEndDatum"] WHERE "auslegungsEndDatum" IS NOT NULL;
+UPDATE "FP_Basisobjekte"."FP_Plan" SET "traegerbeteiligungsStartDatumNew" = ARRAY["traegerbeteiligungsStartDatum"] WHERE "traegerbeteiligungsStartDatum" IS NOT NULL;
+UPDATE "FP_Basisobjekte"."FP_Plan" SET "traegerbeteiligungsEndDatumNew" = ARRAY["traegerbeteiligungsEndDatum"] WHERE "traegerbeteiligungsEndDatum" IS NOT NULL;
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "auslegungsStartDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "auslegungsEndDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "traegerbeteiligungsStartDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "traegerbeteiligungsEndDatum";
+ALTER "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
+ALTER "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
+ALTER "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
+ALTER "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+-- RP
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "auslegungsStartDatumNew" DATE[];
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "auslegungsEndDatumNew" DATE[];
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "traegerbeteiligungsStartDatumNew" DATE[];
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "traegerbeteiligungsEndDatumNew" DATE[];
+UPDATE "RP_Basisobjekte"."RP_Plan" SET "auslegungsStartDatumNew" = ARRAY["auslegungsStartDatum"] WHERE "auslegungsStartDatum" IS NOT NULL;
+UPDATE "RP_Basisobjekte"."RP_Plan" SET "auslegungsEndDatumNew" = ARRAY["auslegungsEndDatum"] WHERE "auslegungsEndDatum" IS NOT NULL;
+UPDATE "RP_Basisobjekte"."RP_Plan" SET "traegerbeteiligungsStartDatumNew" = ARRAY["traegerbeteiligungsStartDatum"] WHERE "traegerbeteiligungsStartDatum" IS NOT NULL;
+UPDATE "RP_Basisobjekte"."RP_Plan" SET "traegerbeteiligungsEndDatumNew" = ARRAY["traegerbeteiligungsEndDatum"] WHERE "traegerbeteiligungsEndDatum" IS NOT NULL;
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "auslegungsStartDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "auslegungsEndDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "traegerbeteiligungsStartDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "traegerbeteiligungsEndDatum";
+ALTER "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
+ALTER "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
+ALTER "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
+ALTER "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+-- LP
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" ADD COLUMN "auslegungsDatumNew" DATE[];
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" ADD COLUMN "tOeBbeteiligungsDatumNew" DATE[];
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" ADD COLUMN "oeffentlichkeitsbeteiligungDatumNew" DATE[];
+UPDATE "LP_Basisobjekte"."LP_Plan" SET "auslegungsDatumNew" = ARRAY["auslegungsDatum"] WHERE "auslegungsDatum" IS NOT NULL;
+UPDATE "LP_Basisobjekte"."LP_Plan" SET "tOeBbeteiligungsDatumNew" = ARRAY["tOeBbeteiligungsDatum"] WHERE "tOeBbeteiligungsDatum" IS NOT NULL;
+UPDATE "LP_Basisobjekte"."LP_Plan" SET "oeffentlichkeitsbeteiligungDatumNew" = ARRAY["oeffentlichkeitsbeteiligungDatum"] WHERE "oeffentlichkeitsbeteiligungDatum" IS NOT NULL;
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "auslegungsDatum";
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "tOeBbeteiligungsDatum";
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "oeffentlichkeitsbeteiligungDatum";
+ALTER "LP_Basisobjekte"."LP_Plan" RENAME "auslegungsDatumNew" TO "auslegungsDatum";
+ALTER "LP_Basisobjekte"."LP_Plan" RENAME "tOeBbeteiligungsDatumNew" TO "tOeBbeteiligungsDatum";
+ALTER "LP_Basisobjekte"."LP_Plan" RENAME "oeffentlichkeitsbeteiligungDatumNew" TO "oeffentlichkeitsbeteiligungDatum";
+COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."auslegungsDatum" IS 'Datum der öffentlichen Auslegung.';
+COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."tOeBbeteiligungsDatum" IS 'Datum der Beteiligung der Träger öffentlicher Belange.';
+COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."oeffentlichkeitsbeteiligungDatum" IS 'Datum der Öffentlichkeits-Beteiligung.';

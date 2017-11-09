@@ -151,10 +151,10 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
   "rechtsstand" INTEGER NULL ,
   "status" INTEGER NULL ,
   "aufstellungsbechlussDatum" DATE NULL ,
-  "auslegungsStartDatum" DATE NULL ,
-  "auslegungsEndDatum" DATE NULL ,
-  "traegerbeteiligungsStartDatum" DATE NULL ,
-  "traegerbeteiligungsEndDatum" DATE NULL ,
+  "auslegungsStartDatum" DATE[],
+  "auslegungsEndDatum" DATE[],
+  "traegerbeteiligungsStartDatum" DATE[],
+  "traegerbeteiligungsEndDatum" DATE[],
   "aenderungenBisDatum" DATE NULL ,
   "entwurfsbeschlussDatum" DATE NULL ,
   "planbeschlussDatum" DATE NULL ,
@@ -229,10 +229,10 @@ COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."verfahren" IS 'Verfahren nach dem
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."rechtsstand" IS 'Rechtsstand des Plans';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."status" IS 'Über eine ExternalCodeList definierter Status des Plans.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."aufstellungsbechlussDatum" IS 'Datum des Plan-Aufstellungsbeschlusses.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung.';
-COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsEndDatum" IS 'End-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."aenderungenBisDatum" IS 'Datum, bis zu dem Änderungen des Plans berücksichtigt wurden.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."entwurfsbeschlussDatum" IS 'Datum des Entwurfsbeschlusses';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."planbeschlussDatum" IS 'Datum des Planbeschlusses';
