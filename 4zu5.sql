@@ -1333,3 +1333,50 @@ ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmax";
 
 -- Änderung CR-073
 -- war bereits implementiert
+
+-- Änderung CR-076
+
+CREATE TABLE  "BP_Bebauung"."BP_Zulaessigkeit" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_Zulaessigkeit" TO xp_gast;
+
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (1000, 'Zulaessig');
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (2000, 'NichtZulaessig');
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (3000, 'AusnahmsweiseZulaessig');
+
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "wohnnutzungEGStrasse" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_BP_Zulaessigkeit"
+    FOREIGN KEY ("wohnnutzungEGStrasse")
+    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "ZWohn" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "GFAntWohnen" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "GFWohnen" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "GFAntGewerbe" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD COLUMN "GFGewerbe" INTEGER;
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "wohnnutzungEGStrasse" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_BP_Zulaessigkeit"
+    FOREIGN KEY ("wohnnutzungEGStrasse")
+    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "ZWohn" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "GFAntWohnen" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "GFWohnen" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "GFAntGewerbe" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD COLUMN "GFGewerbe" INTEGER;
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';

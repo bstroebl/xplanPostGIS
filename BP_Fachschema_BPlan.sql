@@ -3101,6 +3101,15 @@ CREATE TABLE  "BP_Bebauung"."BP_DetailArtDerBaulNutzung" (
   PRIMARY KEY ("Code"));
 GRANT SELECT ON "BP_Bebauung"."BP_DetailArtDerBaulNutzung" TO xp_gast;
 
+-- ----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Zulaessigkeit"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_Zulaessigkeit" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON "BP_Bebauung"."BP_Zulaessigkeit" TO xp_gast;
+
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_AbweichendeBauweise"
 -- -----------------------------------------------------
@@ -3440,11 +3449,22 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" IS
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" (
   "gid" BIGINT NOT NULL,
+  "wohnnutzungEGStrasse" INTEGER,
+  "ZWohn" INTEGER,
+  "GFAntWohnen" INTEGER,
+  "GFWohnen" INTEGER,
+  "GFAntGewerbe" INTEGER,
+  "GFGewerbe" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_BP_Zulaessigkeit"
+    FOREIGN KEY ("wohnnutzungEGStrasse")
+    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -3453,6 +3473,12 @@ GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO bp_user;
 CREATE INDEX "BP_BaugebietsTeilFlaeche_gidx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
 CREATE TRIGGER "change_to_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BaugebietsTeilFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
@@ -4082,11 +4108,22 @@ CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" (
   "gid" BIGINT NOT NULL,
   "geschossMin" INTEGER,
   "geschossMax" INTEGER,
+  "wohnnutzungEGStrasse" INTEGER,
+  "ZWohn" INTEGER,
+  "GFAntWohnen" INTEGER,
+  "GFWohnen" INTEGER,
+  "GFAntGewerbe" INTEGER,
+  "GFGewerbe" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_BP_Zulaessigkeit"
+    FOREIGN KEY ("wohnnutzungEGStrasse")
+    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -4097,6 +4134,12 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festset
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMax" IS 'Gibt bei geschossweiser Feststzung die Nummer des Geschosses an, bis zu der die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse ab einschl. geschossMin.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
 CREATE TRIGGER "change_to_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_UeberbaubareGrundstuecksFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
@@ -4943,6 +4986,13 @@ INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bez
 -- -----------------------------------------------------
 INSERT INTO "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" ("Code", "Bezeichner") VALUES (1000, 'Einschraenkung');
 INSERT INTO "BP_Bebauung"."BP_NebenanlangenAusschlussTyp" ("Code", "Bezeichner") VALUES (2000, 'Ausschluss');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Bebauung"."BP_Zulaessigkeit"
+-- -----------------------------------------------------
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (1000, 'Zulaessig');
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (2000, 'NichtZulaessig');
+INSERT INTO "BP_Bebauung"."BP_Zulaessigkeit" ("Code", "Bezeichner") VALUES (3000, 'AusnahmsweiseZulaessig');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen"
