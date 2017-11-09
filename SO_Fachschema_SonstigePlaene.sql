@@ -159,8 +159,9 @@ CREATE TRIGGER "delete_SO_Objekt" AFTER DELETE ON "SO_Basisobjekte"."SO_Objekt" 
 CREATE TABLE  "SO_Basisobjekte"."SO_Punktobjekt" (
   "gid" BIGINT NOT NULL,
   "position" GEOMETRY(Multipoint,25832) NOT NULL,
+  "nordwinkel" INTEGER,
   PRIMARY KEY ("gid"));
-
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Punktobjekt" TO xp_gast;
 CREATE TRIGGER "SO_Punktobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."SO_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 

@@ -1443,3 +1443,16 @@ ALTER "LP_Basisobjekte"."LP_Plan" RENAME "oeffentlichkeitsbeteiligungDatumNew" T
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."auslegungsDatum" IS 'Datum der öffentlichen Auslegung.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."tOeBbeteiligungsDatum" IS 'Datum der Beteiligung der Träger öffentlicher Belange.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."oeffentlichkeitsbeteiligungDatum" IS 'Datum der Öffentlichkeits-Beteiligung.';
+
+-- Änderung CR-079
+-- BP
+ALTER TABLE "BP_Basisobjekte"."BP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
+UPDATE "BP_Verkehr"."BP_EinfahrtPunkt" SET "nordwinkel" = "richtung" WHERE "richtung" != 0;
+ALTER "BP_Verkehr"."BP_EinfahrtPunkt" DROP COLUMN "richtung";
+ALTER TABLE "FP_Basisobjekte"."FP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
+ALTER TABLE "SO_Basisobjekte"."SO_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
+ALTER TABLE "LP_Basisobjekte"."LP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
+COMMENT ON COLUMN "LP_Basisobjekte"."LP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';

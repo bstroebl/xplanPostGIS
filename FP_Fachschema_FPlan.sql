@@ -423,7 +423,9 @@ COMMENT ON TABLE  "FP_Basisobjekte"."FP_Plan_gemeinde" IS 'Zuständige Gemeinde'
 CREATE  TABLE  "FP_Basisobjekte"."FP_Punktobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(Multipoint,25832) NOT NULL ,
+  "nordwinkel" INTEGER,
   PRIMARY KEY ("gid") );
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Punktobjekt" TO fp_user;
 CREATE TRIGGER "FP_Punktobjekt_isAbstract" BEFORE INSERT ON "FP_Basisobjekte"."FP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();

@@ -589,7 +589,9 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumRelativ" IS
 CREATE  TABLE  "BP_Basisobjekte"."BP_Punktobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(Multipoint,25832) NOT NULL ,
+  "nordwinkel" INTEGER,
   PRIMARY KEY ("gid") );
+COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Punktobjekt" TO bp_user;
 CREATE TRIGGER "BP_Punktobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."BP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
@@ -1386,7 +1388,6 @@ GRANT SELECT ON "BP_Verkehr"."BP_EinfahrtTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Verkehr"."BP_EinfahrtPunkt" (
   "gid" BIGINT NOT NULL ,
-  "richtung" INTEGER NOT NULL DEFAULT 0,
   "typ" INTEGER NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_EinfahrtPunkt_parent"
@@ -1406,7 +1407,6 @@ GRANT ALL ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" TO bp_user;
 CREATE INDEX "BP_EinfahrtPunkt_gidx" ON "BP_Verkehr"."BP_EinfahrtPunkt" using gist ("position");
 COMMENT ON TABLE "BP_Verkehr"."BP_EinfahrtPunkt" IS 'Einfahrt (§9 Abs. 1 Nr. 11 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."richtung" IS 'Winkel-Richtung der Einfahrt (in Grad).';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_EinfahrtPunkt"."typ" IS 'Typ der Einfahrt';
 CREATE TRIGGER "change_to_BP_EinfahrtPunkt" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_EinfahrtPunkt" AFTER DELETE ON "BP_Verkehr"."BP_EinfahrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

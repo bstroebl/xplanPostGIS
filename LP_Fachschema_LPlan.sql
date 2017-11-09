@@ -319,7 +319,9 @@ CREATE INDEX "idx_fk_refTextInhalt_LP_TextAbschnitt1" ON "LP_Basisobjekte"."LP_O
 CREATE  TABLE  "LP_Basisobjekte"."LP_Punktobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(Multipoint,25832) NOT NULL ,
+  "nordwinkel" INTEGER,
   PRIMARY KEY ("gid") );
+COMMENT ON COLUMN "LP_Basisobjekte"."LP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_Punktobjekt" TO lp_user;
 CREATE TRIGGER "LP_Punktobjekt_isAbstract" BEFORE INSERT ON "LP_Basisobjekte"."LP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
