@@ -1334,6 +1334,9 @@ ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmax";
 -- Änderung CR-073
 -- war bereits implementiert
 
+-- Änderung CR-074
+-- s.o.
+
 -- Änderung CR-076
 
 CREATE TABLE  "BP_Bebauung"."BP_Zulaessigkeit" (
