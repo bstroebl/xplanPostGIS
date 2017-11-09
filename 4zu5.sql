@@ -116,7 +116,7 @@ COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_aendert" IS 'Bezeichnung eines ande
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gesetzlicheGrundlage" IS 'Angabe der Gesetzlichen Grundlage des Planinhalts.';
 
--- Änderung CR-016 und CR-071 und CR-074
+-- Änderung CR-016 und CR-071 und CR-074 und CR-080
 -- name und geltungsbereich sind bereits NOT NULL
 -- BP
 INSERT INTO "BP_Basisobjekte"."BP_Rechtscharakter" ("Code", "Bezeichner") VALUES (2000, 'NachrichtlicheUebernahme');
@@ -1456,3 +1456,6 @@ ALTER TABLE "SO_Basisobjekte"."SO_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 ALTER TABLE "LP_Basisobjekte"."LP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
+
+-- Änderung CR-080
+-- s.o.
