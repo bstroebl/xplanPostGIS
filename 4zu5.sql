@@ -1583,3 +1583,9 @@ INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALU
 INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1400, 'V');
 INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1500, 'VI');
 INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1600, 'VII');
+
+-- Änderung CR-085
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" = 10000 WHERE "Code" = 1000;
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" = 10001 WHERE "Code" = 1100;
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" = 10002 WHERE "Code" = 1300;
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser');

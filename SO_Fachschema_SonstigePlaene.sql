@@ -1143,7 +1143,7 @@ GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" TO so_user
 COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht" IS 'Sonstige Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"."artDerFestlegung" IS 'Grundlegende rechtliche Klassifizierung der Festlegung
-Bauschutzbereich: Bauschutzbereich zur Hindernisüberwachung für Flugplätze nach LuftVG.
+Bauschutzbereich: Bauschutzbereich nach anderen Rechtsverordnungen als dem LuftVG
 Berggesetz: Beschränkung nach Berggesetz
 Richtfunkverbindung: Baubeschränkungen durch Richtfunkverbindungen
 VermessungsKatasterrecht: Beschränkungen nach Vermessungs- und Katasterrecht';
@@ -1914,9 +1914,10 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrech
 -- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
 -- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser1Ordnung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1100, 'Gewaesser2Ordnung');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1300, 'Gewaesser3Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (10000, 'Gewaesser1Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (10001, 'Gewaesser2Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (10002, 'Gewaesser3Ordnung');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (2000, 'Ueberschwemmungsgebiet');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20000, 'FestgesetztesUeberschwemmungsgebiet');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20001, 'NochNichtFestgesetztesUeberschwemmungsgebiet');
