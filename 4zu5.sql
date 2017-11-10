@@ -1589,3 +1589,7 @@ UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" =
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" = 10001 WHERE "Code" = 1100;
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" SET "Code" = 10002 WHERE "Code" = 1300;
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser');
+
+-- Änderung CR-086
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('16000', 'Parkplatz');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('16001', 'Fahrradabstellplatz');
