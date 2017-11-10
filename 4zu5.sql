@@ -1562,3 +1562,24 @@ UPDATE "XP_Basisobjekte"."XP_Objekt" x SET "startBedingung" = (SELECT "startBedi
 UPDATE "XP_Basisobjekte"."XP_Objekt" x SET "endeBedingung" = (SELECT "endeBedingung" FROM "BP_Basisobjekte"."BP_Objekt" b WHERE b.gid = x.gid) WHERE gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Objekt" WHERE "endeBedingung" IS NOT NULL);
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DROP COLUMN "startBedingung";
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DROP COLUMN "endeBedingung";
+
+-- Änderung CR-084
+CREATE  TABLE  "BP_Basisobjekte"."BP_Laermpegelbereich" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Basisobjekte"."BP_Laermpegelbereich" TO xp_gast;
+ALTER TABLE "BP_Umwelt"."BP_Immissionsschutz" ADD COLUMN "laermpegelbereich" INTEGER;
+COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."laermpegelbereich" IS 'Festlegung der erforderlichen Luftschalldämmung von Außenbauteilen nach DIN 4109.';
+ALTER TABLE "BP_Umwelt"."BP_Immissionsschutz" ADD CONSTRAINT "fk_BP_Immissionsschutz_BP_Laermpegelbereich1"
+    FOREIGN KEY ("laermpegelbereich")
+    REFERENCES "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1000, 'I');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1100, 'II');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1200, 'III');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1300, 'IV');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1400, 'V');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1500, 'VI');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1600, 'VII');

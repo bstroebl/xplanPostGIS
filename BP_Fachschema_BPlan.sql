@@ -1756,16 +1756,31 @@ CREATE TRIGGER "change_to_BP_HoehenMassPunkt" BEFORE INSERT OR UPDATE ON "BP_Son
 CREATE TRIGGER "delete_BP_HoehenMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_HoehenMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Laermpegelbereich"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Basisobjekte"."BP_Laermpegelbereich" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Basisobjekte"."BP_Laermpegelbereich" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Umwelt"."BP_Immissionsschutz"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Umwelt"."BP_Immissionsschutz" (
   "gid" BIGINT NOT NULL ,
   "nutzung" CHARACTER VARYING (256),
+  "laermpegelbereich" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_Immissionsschutz_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Immissionsschutz_BP_Laermpegelbereich1"
+    FOREIGN KEY ("laermpegelbereich")
+    REFERENCES "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_Immissionsschutz" TO xp_gast;
@@ -1773,6 +1788,7 @@ GRANT ALL ON TABLE "BP_Umwelt"."BP_Immissionsschutz" TO bp_user;
 COMMENT ON TABLE  "BP_Umwelt"."BP_Immissionsschutz" IS 'Festsetzung einer von der Bebauung freizuhaltenden Schutzfläche und ihre Nutzung, sowie einer Fläche für besondere Anlagen und Vorkehrungen zum Schutz vor schädlichen Umwelteinwirkungen und sonstigen Gefahren im Sinne des Bundes-Immissionsschutzgesetzes sowie die zum Schutz vor solchen Einwirkungen oder zur Vermeidung oder Minderung solcher Einwirkungen zu treffenden baulichen und sonstigen technischen Vorkehrungen (§9, Abs. 1, Nr. 24 BauGB).';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_Immissionsschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_Immissionsschutz"."nutzung" IS 'Festgesetzte Nutzung einer Schutzfläche';
+COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."laermpegelbereich" IS 'FFestlegung der erforderlichen Luftschalldämmung von Außenbauteilen nach DIN 4109.';
 CREATE TRIGGER "change_to_BP_Immissionsschutz" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_Immissionsschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Immissionsschutz" AFTER DELETE ON "BP_Umwelt"."BP_Immissionsschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -4817,3 +4833,14 @@ INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (3000,
 INSERT INTO "BP_Umwelt"."BP_ZweckbestimmungenTMF" ("Code", "Bezeichner") VALUES (1000, 'Luftreinhaltung');
 INSERT INTO "BP_Umwelt"."BP_ZweckbestimmungenTMF" ("Code", "Bezeichner") VALUES (2000, 'NutzungErneurerbarerEnergien');
 INSERT INTO "BP_Umwelt"."BP_ZweckbestimmungenTMF" ("Code", "Bezeichner") VALUES (3000, 'MinderungStoerfallfolgen');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Basisobjekte"."BP_Laermpegelbereich"
+-- -----------------------------------------------------
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1000, 'I');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1100, 'II');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1200, 'III');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1300, 'IV');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1400, 'V');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1500, 'VI');
+INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1600, 'VII');
