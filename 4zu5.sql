@@ -1534,3 +1534,31 @@ DROP TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt" CASCADE;
 DROP TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrecht" CASCADE;
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ENABLE TRIGGER "delete_LP_Objekt";
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ENABLE TRIGGER "change_to_SO_Objekt";
+
+-- Änderung CR-083
+ALTER TABLE "BP_Basisobjekte"."BP_WirksamkeitBedingung" SET SCHEMA "XP_Basisobjekte";
+ALTER TABLE "XP_Basisobjekte"."BP_WirksamkeitBedingung" RENAME TO "XP_WirksamkeitBedingung";
+REVOKE ALL ON TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung" FROM bp_user;
+GRANT ALL ON "XP_Basisobjekte"."XP_WirksamkeitBedingung" TO xp_user;
+ALTER SEQUENCE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq" SET SCHEMA "XP_Basisobjekte";
+ALTER SEQUENCE "XP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq" RENAME TO "XP_WirksamkeitBedingung_id_seq";
+REVOKE ALL ON TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq" FROM bp_user;
+GRANT ALL ON "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq" TO xp_user;
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD COLUMN "startBedingung" INTEGER;
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD COLUMN "endeBedingung" INTEGER;
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit eines Planinhalts.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit eines Planinhalts.';
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD CONSTRAINT "fk_XP_Objekt_XP_WirksamkeitBedingung1"
+    FOREIGN KEY ("startBedingung" )
+    REFERENCES "XP_Basisobjekte"."XP_WirksamkeitBedingung" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD CONSTRAINT "fk_XP_Objekt_XP_WirksamkeitBedingung2"
+    FOREIGN KEY ("endeBedingung" )
+    REFERENCES "XP_Basisobjekte"."XP_WirksamkeitBedingung" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+UPDATE "XP_Basisobjekte"."XP_Objekt" x SET "startBedingung" = (SELECT "startBedingung" FROM "BP_Basisobjekte"."BP_Objekt" b WHERE b.gid = x.gid) WHERE gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Objekt" WHERE "startBedingung" IS NOT NULL);
+UPDATE "XP_Basisobjekte"."XP_Objekt" x SET "endeBedingung" = (SELECT "endeBedingung" FROM "BP_Basisobjekte"."BP_Objekt" b WHERE b.gid = x.gid) WHERE gid IN (SELECT gid FROM "BP_Basisobjekte"."BP_Objekt" WHERE "endeBedingung" IS NOT NULL);
+ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DROP COLUMN "startBedingung";
+ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DROP COLUMN "endeBedingung";

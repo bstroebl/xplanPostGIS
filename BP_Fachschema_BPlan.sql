@@ -68,16 +68,6 @@ GRANT USAGE ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Umwelt" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Raster" TO xp_gast;
 
-
--- *****************************************************
--- CREATE SEQUENCES
--- *****************************************************
-
-CREATE SEQUENCE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq"
-   MINVALUE 1;
-GRANT ALL ON TABLE "BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq" TO GROUP bp_user;
-
-
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
@@ -568,22 +558,6 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Rechtscharakter" (
 GRANT SELECT ON "BP_Basisobjekte"."BP_Rechtscharakter" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."BP_WirksamkeitBedingung"
--- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."BP_WirksamkeitBedingung" (
-  "id" INTEGER NOT NULL DEFAULT nextval('"BP_Basisobjekte"."BP_WirksamkeitBedingung_id_seq"'),
-  "bedingung" VARCHAR(255) NULL ,
-  "datumAbsolut" DATE NULL ,
-  "datumRelativ" INTEGER NULL ,
-  PRIMARY KEY ("id") );
-GRANT SELECT ON "BP_Basisobjekte"."BP_WirksamkeitBedingung" TO xp_gast;
-GRANT ALL ON "BP_Basisobjekte"."BP_WirksamkeitBedingung" TO bp_user;
-COMMENT ON TABLE  "BP_Basisobjekte"."BP_WirksamkeitBedingung" IS 'Spezifikation von Bedingungen für die Wirksamkeit oder Unwirksamkeit einer Festsetzung.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."bedingung" IS 'Textlich formulierte Bedingung für die Wirksamkeit oder Unwirksamkeit einer Festsetzung.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumAbsolut" IS 'Datum an dem eine Festsetzung wirksam oder unwirksam wird.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_WirksamkeitBedingung"."datumRelativ" IS 'Zeitspanne, nach der eine Festsetzung wirksam oder unwirksam wird, wenn die im Attribut bedingung spezifizierte Bedingung erfüllt ist.';
-
--- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Punktobjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Punktobjekt" (
@@ -626,22 +600,10 @@ CREATE TRIGGER "BP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"
 CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
   "gid" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
-  "startBedingung" INTEGER NULL ,
-  "endeBedingung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_bp_objekt_bp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
     REFERENCES "BP_Basisobjekte"."BP_Rechtscharakter" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_BP_Objekt_BP_WirksamkeitBedingung1"
-    FOREIGN KEY ("startBedingung" )
-    REFERENCES "BP_Basisobjekte"."BP_WirksamkeitBedingung" ("id" )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_BP_Objekt_BP_WirksamkeitBedingung2"
-    FOREIGN KEY ("endeBedingung" )
-    REFERENCES "BP_Basisobjekte"."BP_WirksamkeitBedingung" ("id" )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT "fk_BP_Objekt_XP_Objekt1"
@@ -654,8 +616,6 @@ GRANT ALL ON "BP_Basisobjekte"."BP_Objekt" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Objekt" IS 'Basisklasse für alle raumbezogenen Festsetzungen, Hinweise, Vermerke und Kennzeichnungen eines Bebauungsplans.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."rechtscharakter" IS 'Rechtliche Charakterisierung des Planinhaltes.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit einer Festsetzung.';
-COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit einer Festsetzung';
 CREATE INDEX "idx_fk_bp_objekt_bp_rechtscharakter1" ON "BP_Basisobjekte"."BP_Objekt" ("rechtscharakter") ;
 CREATE INDEX "idx_fk_BP_Objekt_BP_WirksamkeitBedingung1" ON "BP_Basisobjekte"."BP_Objekt" ("startBedingung") ;
 CREATE INDEX "idx_fk_BP_Objekt_BP_WirksamkeitBedingung2" ON "BP_Basisobjekte"."BP_Objekt" ("endeBedingung") ;

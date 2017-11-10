@@ -205,6 +205,10 @@ CREATE SEQUENCE "XP_Basisobjekte"."XP_SPEMassnahmenDaten_id_seq"
     MINVALUE 1;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_SPEMassnahmenDaten_id_seq" TO GROUP xp_user;
 
+CREATE SEQUENCE "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq"
+   MINVALUE 1;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq" TO GROUP xp_user;
+
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
@@ -1123,6 +1127,22 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
 
 -- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_WirksamkeitBedingung"
+-- -----------------------------------------------------
+CREATE TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq"'),
+  "bedingung" VARCHAR(255) NULL ,
+  "datumAbsolut" DATE NULL ,
+  "datumRelativ" INTEGER NULL ,
+  PRIMARY KEY ("id") );
+GRANT SELECT ON "XP_Basisobjekte"."XP_WirksamkeitBedingung" TO xp_gast;
+GRANT ALL ON "XP_Basisobjekte"."XP_WirksamkeitBedingung" TO xp_user;
+COMMENT ON TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung" IS 'Spezifikation von Bedingungen für die Wirksamkeit oder Unwirksamkeit einer Festsetzung.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_WirksamkeitBedingung"."bedingung" IS 'Textlich formulierte Bedingung für die Wirksamkeit oder Unwirksamkeit einer Festsetzung.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_WirksamkeitBedingung"."datumAbsolut" IS 'Datum an dem eine Festsetzung wirksam oder unwirksam wird.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_WirksamkeitBedingung"."datumRelativ" IS 'Zeitspanne, nach der eine Festsetzung wirksam oder unwirksam wird, wenn die im Attribut bedingung spezifizierte Bedingung erfüllt ist.';
+
+-- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
@@ -1134,6 +1154,8 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   "gliederung1" VARCHAR(255) NULL ,
   "gliederung2" VARCHAR(255) NULL ,
   "ebene" INTEGER NULL DEFAULT 0 ,
+  "startBedingung" INTEGER NULL ,
+  "endeBedingung" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Objekt_XP_Rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
@@ -1144,7 +1166,17 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
     FOREIGN KEY ("gesetzlicheGrundlage" )
     REFERENCES "XP_Basisobjekte"."XP_GesetzlicheGrundlage" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_Objekt_XP_WirksamkeitBedingung1"
+    FOREIGN KEY ("startBedingung" )
+    REFERENCES "XP_Basisobjekte"."XP_WirksamkeitBedingung" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_XP_Objekt_XP_WirksamkeitBedingung2"
+    FOREIGN KEY ("endeBedingung" )
+    REFERENCES "XP_Basisobjekte"."XP_WirksamkeitBedingung" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt" IS 'Abstrakte Oberklasse für alle XPlanGML-Fachobjekte. Die Attribute dieser Klasse werden über den Vererbungs-Mechanismus an alle Fachobjekte weitergegeben.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."uuid" IS 'Eindeutiger Identifier des Objektes.';
@@ -1158,6 +1190,8 @@ Der Standard-Ebene 0 sind Objekte auf der Erdoberfläche zugeordnet.
 Nur unter diesen Objekten wird der Flächenschluss hergestellt.
 Bei Plan-Objekten, die unterirdische Bereiche (z.B. Tunnel) modellieren, ist ebene < 0.
 Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit eines Planinhalts.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit eines Planinhalts.';
 
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
