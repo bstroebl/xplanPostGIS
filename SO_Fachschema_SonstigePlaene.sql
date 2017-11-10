@@ -161,7 +161,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Punktobjekt" (
   "position" GEOMETRY(Multipoint,25832) NOT NULL,
   "nordwinkel" INTEGER,
   PRIMARY KEY ("gid"));
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Z�hlweise im geographischen Sinn (von Nord �ber Ost nach S�d und West).';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Punktobjekt" TO xp_gast;
 CREATE TRIGGER "SO_Punktobjekt_isAbstract" BEFORE INSERT ON "SO_Basisobjekte"."SO_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
@@ -599,11 +599,11 @@ CREATE INDEX "idx_fk_SO_Plan_XP_Plan1_idx" ON "SO_Basisobjekte"."SO_Plan" ("gid"
 CREATE INDEX "SO_Plan_gidx" ON "SO_Basisobjekte"."SO_Plan" using gist ("raeumlicherGeltungsbereich");
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Plan" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_Plan" TO so_user;
-COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse f𲠳onstige, z. B. l寤erspezifische raumbezogene Planwerke.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Prim峳chl𳳥l, wird automatisch ausgef𬬴!';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan ge寤ert werden.';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'ݢer eine Codeliste definierter Typ des Plans';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'F𲠤en Plan zust寤ige Stelle.';
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse für sonstige, z. B. länderspezifische raumbezogene Planwerke.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Überer eine Codeliste definierter Typ des Plans';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'F𲠤en Plan zuständige Stelle.';
 CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
