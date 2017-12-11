@@ -186,6 +186,8 @@ ALTER TABLE "RP_Basisobjekte"."RP_Plan" ALTER COLUMN "planArt" SET NOT NULL;
 UPDATE "RP_Basisobjekte"."RP_PlanArt" SET "Bezeichner" = 'SachlicherTeilplanRegionalebene' WHERE "Code" = 2000;
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (2001, 'SachlicherTeilplanLandesebene');
 INSERT INTO "RP_Basisobjekte"."RP_PlanArt" ("Code", "Bezeichner") VALUES (6000, 'RaeumlicherTeilplan');
+UPDATE "RP_Basisobjekte"."RP_PlanArt" SET "Code" = 5001 WHERE "Code" = 5000;
+UPDATE "RP_Basisobjekte"."RP_PlanArt" SET "Code" = 5000 WHERE "Code" = 5100;
 
 -- Änderung CR-017
 -- ACHTUNG: Evtl. in BP_Baugebiet gespeicherte Objekte werden ohne Datenübernahme gelöscht!
