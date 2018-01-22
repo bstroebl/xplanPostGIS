@@ -1,3 +1,6 @@
+-- Am günstigsten ist es, jedes CR einzeln für sich durchzuführen, um eventuellen Fehlern leichter
+-- auf die Spur zu kommen
+
 -- Änderung CR-001
 -- lässt sich in der DB nicht abbilden
 
@@ -6,43 +9,286 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon
 Die Attributart "Art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
 
 -- Änderung CR-003
-ALTER "XP_Raster"."XP_RasterplanAenderung" RENAME besonderheiten TO besonderheit;
+ALTER TABLE "XP_Raster"."XP_RasterplanAenderung" RENAME besonderheiten TO besonderheit;
 COMMENT ON COLUMN  "XP_Raster"."XP_RasterplanAenderung"."besonderheit" IS 'Besonderheit der Änderung';
 
 -- Änderung CR-004
 -- war bereits implementiert
 
 -- Änderung CR-006
-ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN "xPlanGMLVersion";
+ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN "xPlanGMLVersion" CASCADE;
+-- gelöschte Views wiederherstellen:
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Plan_qv" AS
+SELECT x.gid, b."raeumlicherGeltungsbereich", x.name, x.nummer, x."internalId", x.beschreibung, x.kommentar,
+    x."technHerstellDatum", x."genehmigungsDatum", x."untergangsDatum", x."erstellungsMassstab",
+    x.bezugshoehe, b."sonstPlanArt", b.verfahren, b.rechtsstand, b.status, b.hoehenbezug, b."aenderungenBisDatum",
+    b."aufstellungsbeschlussDatum", b."veraenderungssperreDatum", b."satzungsbeschlussDatum", b."rechtsverordnungsDatum",
+    b."inkrafttretensDatum", b."ausfertigungsDatum", b.veraenderungssperre, b."staedtebaulicherVertrag",
+    b."erschliessungsVertrag",  b."durchfuehrungsVertrag", b.gruenordnungsplan
+FROM "BP_Basisobjekte"."BP_Plan" b
+    JOIN "XP_Basisobjekte"."XP_Plan" x ON b.gid = x.gid;
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Plan_qv" TO xp_gast;
+
+CREATE OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
+SELECT g.gid, g."raeumlicherGeltungsbereich", name, nummer, "internalId", beschreibung, kommentar,
+  "technHerstellDatum", "untergangsDatum", "erstellungsMassstab" ,
+  bezugshoehe, CAST(c.relname as varchar) as "Objektart"
+FROM "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
+JOIN pg_class c ON g.tableoid = c.oid
+JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plaene" TO xp_user;
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" SET "raeumlicherGeltungsbereich" = new."raeumlicherGeltungsbereich"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
+  WHERE gid = old.gid;
+
+CREATE OR REPLACE VIEW "QGIS"."XP_Bereiche" AS
+SELECT xb.gid, xb.name as bereichsname, xp.gid as plangid, xp.name as planname, xp."Objektart" as planart,
+xp.beschreibung, xp."technHerstellDatum", xp."untergangsDatum"
+FROM "XP_Basisobjekte"."XP_Bereich" xb
+JOIN (
+SELECT gid, "gehoertZuPlan" FROM "FP_Basisobjekte"."FP_Bereich"
+UNION SELECT gid, "gehoertZuPlan" FROM "BP_Basisobjekte"."BP_Bereich"
+UNION SELECT gid, "gehoertZuPlan" FROM "LP_Basisobjekte"."LP_Bereich"
+UNION SELECT gid, "gehoertZuPlan" FROM "SO_Basisobjekte"."SO_Bereich"
+) b ON xb.gid = b.gid
+JOIN "XP_Basisobjekte"."XP_Plaene" xp ON b."gehoertZuPlan" = xp.gid;
+GRANT SELECT ON TABLE "QGIS"."XP_Bereiche" TO xp_gast;
+COMMENT ON VIEW "QGIS"."XP_Bereiche" IS 'Zusammenstellung der Pläne mit ihren Bereichen, wenn einzelne
+Fachschemas nicht installiert sind, ist der View anzupassen!';
+
+CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Bereiche" AS
+SELECT g.gid, COALESCE(g.geltungsbereich, p."raeumlicherGeltungsbereich") as geltungsbereich, b.name, CAST(c.relname as varchar) as "Objektart", p.gid as "planGid", p.name as "planName", p."Objektart" as "planArt"
+   FROM "XP_Basisobjekte"."XP_Geltungsbereich" g
+   JOIN pg_class c ON g.tableoid = c.oid
+   JOIN pg_namespace n ON c.relnamespace = n.oid
+   JOIN "XP_Basisobjekte"."XP_Bereich" b ON g.gid = b.gid
+   JOIN "XP_Basisobjekte"."XP_Plaene" p ON "XP_Basisobjekte"."gehoertZuPlan"(CAST(n.nspname as varchar), CAST(c.relname as varchar), g.gid) = p.gid;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereiche" TO xp_user;
+CREATE OR REPLACE RULE _update AS
+    ON UPDATE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  UPDATE "XP_Basisobjekte"."XP_Geltungsbereich" SET "geltungsbereich" = new."geltungsbereich"
+  WHERE gid = old.gid;
+CREATE OR REPLACE RULE _delete AS
+    ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
+  WHERE gid = old.gid;
 
 -- Änderung CR-007
 -- In der Datenbank bleibt weiterhin eine Zuordnung eines Fachobjekts zu mehreren Bereichen möglich
 -- XP
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME "gehoertNachrichtlichZuBereich" TO "gehoertZuBereich";
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME TO "XP_Objekt_gehoertZuBereich";
 -- BP
+DROP VIEW "BP_Basisobjekte"."BP_Objekte";
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
+ SELECT bp_o.gid,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
+    bp_o."Objektart",
+    bp_o."Objektartengruppe",
+    bp_o.typ,
+    bp_o.flaechenschluss
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n_1.nspname::character varying AS "Objektartengruppe",
+            o.typ,
+            o.flaechenschluss
+           FROM ( SELECT p.gid,
+                    p.tableoid,
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "BP_Basisobjekte"."BP_Punktobjekt" p
+                UNION
+                 SELECT "BP_Linienobjekt".gid,
+                    "BP_Linienobjekt".tableoid,
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "BP_Basisobjekte"."BP_Linienobjekt"
+                UNION
+                 SELECT "BP_Flaechenobjekt".gid,
+                    "BP_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ,
+                    "BP_Flaechenobjekt".flaechenschluss
+                   FROM "BP_Basisobjekte"."BP_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n_1 ON c.relnamespace = n_1.oid) bp_o
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON bp_o.gid = n."XP_Objekt_gid";
+GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
-    SELECT "gehoertZuBP_Bereich","BP_Objekt_gid" FROM "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich";
+    SELECT "gehoertZuBP_Bereich","BP_Objekt_gid" FROM "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" b
+    LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" x ON b."gehoertZuBP_Bereich" = x."gehoertZuBereich" AND b."BP_Objekt_gid" = x."XP_Objekt_gid"
+    WHERE x."XP_Objekt_gid" IS NULL;
 DROP TABLE "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich";
+
 -- FP
+DROP VIEW "FP_Basisobjekte"."FP_Objekte";
+CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
+ SELECT fp_o.gid,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
+    fp_o."Objektart",
+    fp_o."Objektartengruppe",
+    fp_o.typ,
+    fp_o.flaechenschluss
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n.nspname::character varying AS "Objektartengruppe",
+            o.typ,
+            o.flaechenschluss
+           FROM ( SELECT p.gid,
+                    p.tableoid,
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "FP_Basisobjekte"."FP_Punktobjekt" p
+                UNION
+                 SELECT "FP_Linienobjekt".gid,
+                    "FP_Linienobjekt".tableoid,
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "FP_Basisobjekte"."FP_Linienobjekt"
+                UNION
+                 SELECT "FP_Flaechenobjekt".gid,
+                    "FP_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ,
+                    "FP_Flaechenobjekt".flaechenschluss
+                   FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
-    SELECT "gehoertZuFP_Bereich","FP_Objekt_gid" FROM "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich";
+    SELECT "gehoertZuFP_Bereich","FP_Objekt_gid" FROM "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" b
+    LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" x ON b."gehoertZuFP_Bereich" = x."gehoertZuBereich" AND b."FP_Objekt_gid" = x."XP_Objekt_gid"
+    WHERE x."XP_Objekt_gid" IS NULL;
 DROP TABLE "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich";
+
 -- LP
+DROP VIEW "LP_Basisobjekte"."LP_Objekte";
+CREATE OR REPLACE VIEW "LP_Basisobjekte"."LP_Objekte" AS
+ SELECT fp_o.gid,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
+    fp_o."Objektart",
+    fp_o."Objektartengruppe",
+    fp_o.typ,
+    fp_o.flaechenschluss
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n.nspname::character varying AS "Objektartengruppe",
+            o.typ,
+            o.flaechenschluss
+           FROM ( SELECT p.gid,
+                    p.tableoid,
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "LP_Basisobjekte"."LP_Punktobjekt" p
+                UNION
+                 SELECT "LP_Linienobjekt".gid,
+                    "LP_Linienobjekt".tableoid,
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "LP_Basisobjekte"."LP_Linienobjekt"
+                UNION
+                 SELECT "LP_Flaechenobjekt".gid,
+                    "LP_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ,
+                    false as flaechenschluss
+                   FROM "LP_Basisobjekte"."LP_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Objekte" TO xp_gast;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
-    SELECT "gehoertZuLP_Bereich","LP_Objekt_gid" FROM "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich";
+    SELECT "gehoertZuLP_Bereich","LP_Objekt_gid" FROM "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" b
+    LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" x ON b."gehoertZuLP_Bereich" = x."gehoertZuBereich" AND b."LP_Objekt_gid" = x."XP_Objekt_gid"
+    WHERE x."XP_Objekt_gid" IS NULL;
 DROP TABLE "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich";
+
 -- RP
+DROP VIEW "RP_Basisobjekte"."RP_Objekte";
+CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
+ SELECT fp_o.gid,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
+    fp_o."Objektart",
+    fp_o."Objektartengruppe",
+    fp_o.typ,
+    fp_o.flaechenschluss
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n.nspname::character varying AS "Objektartengruppe",
+            o.typ,
+            o.flaechenschluss
+           FROM ( SELECT p.gid,
+                    p.tableoid,
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "RP_Basisobjekte"."RP_Punktobjekt" p
+                UNION
+                 SELECT "RP_Linienobjekt".gid,
+                    "RP_Linienobjekt".tableoid,
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "RP_Basisobjekte"."RP_Linienobjekt"
+                UNION
+                 SELECT "RP_Flaechenobjekt".gid,
+                    "RP_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ,
+                    false as flaechenschluss
+                   FROM "RP_Basisobjekte"."RP_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekte" TO xp_gast;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
-    SELECT "gehoertZuRP_Bereich","RP_Objekt_gid" FROM "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich";
+    SELECT "gehoertZuRP_Bereich","RP_Objekt_gid" FROM "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" b
+    LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" x ON b."gehoertZuRP_Bereich" = x."gehoertZuBereich" AND b."RP_Objekt_gid" = x."XP_Objekt_gid"
+    WHERE x."XP_Objekt_gid" IS NULL;
 DROP TABLE "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich";
+
 -- SO
+DROP VIEW "SO_Basisobjekte"."SO_Objekte";
+CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
+ SELECT fp_o.gid,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
+    fp_o."Objektart",
+    fp_o."Objektartengruppe",
+    fp_o.typ,
+    fp_o.flaechenschluss
+   FROM ( SELECT o.gid,
+            c.relname::character varying AS "Objektart",
+            n.nspname::character varying AS "Objektartengruppe",
+            o.typ,
+            o.flaechenschluss
+           FROM ( SELECT p.gid,
+                    p.tableoid,
+                    'Punkt' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "SO_Basisobjekte"."SO_Punktobjekt" p
+                UNION
+                 SELECT "SO_Linienobjekt".gid,
+                    "SO_Linienobjekt".tableoid,
+                    'Linie' as typ,
+                    NULL::boolean AS flaechenschluss
+                   FROM "SO_Basisobjekte"."SO_Linienobjekt"
+                UNION
+                 SELECT "SO_Flaechenobjekt".gid,
+                    "SO_Flaechenobjekt".tableoid,
+                    'Flaeche' as typ,
+                    "SO_Flaechenobjekt".flaechenschluss
+                   FROM "SO_Basisobjekte"."SO_Flaechenobjekt") o
+             JOIN pg_class c ON o.tableoid = c.oid
+             JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekte" TO xp_gast;
 INSERT INTO "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"("gehoertZuBereich","XP_Objekt_gid")
-    SELECT "gehoertZuSO_Bereich","SO_Objekt_gid" FROM "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich";
+    SELECT "gehoertZuSO_Bereich","SO_Objekt_gid" FROM "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" b
+    LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" x ON b."gehoertZuSO_Bereich" = x."gehoertZuBereich" AND b."SO_Objekt_gid" = x."XP_Objekt_gid"
+    WHERE x."XP_Objekt_gid" IS NULL;
 DROP TABLE "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich";
 
 -- Änderung CR-008
 ALTER TABLE "BP_Basisobjekte"."BP_Bereich" ADD COLUMN "versionBauNVODatum" DATE;
-ALTER "BP_Basisobjekte"."BP_Bereich" RENAME "versionBauGB" TO "versionBauGBDatum";
+ALTER TABLE "BP_Basisobjekte"."BP_Bereich" RENAME "versionBauGB" TO "versionBauGBDatum";
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionBauNVODatum" IS 'Datum der zugrundeliegenden Version der BauNVO';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Bereich"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO';
 UPDATE "BP_Basisobjekte"."BP_Bereich" SET "versionBauNVODatum" = '1962-06-26'::date WHERE "versionBauNVO" = 1000;
@@ -52,7 +298,7 @@ UPDATE "BP_Basisobjekte"."BP_Bereich" SET "versionBauNVODatum" = '1990-01-23'::d
 UPDATE "BP_Basisobjekte"."BP_Bereich" SET "versionBauNVOText" = 'AndereGesetzlicheBestimmung - ' || COALESCE("versionBauNVOText",'') WHERE "versionBauNVO" = 9999;
 ALTER TABLE "BP_Basisobjekte"."BP_Bereich" DROP COLUMN "versionBauNVO";
 ALTER TABLE "FP_Basisobjekte"."FP_Bereich" ADD COLUMN "versionBauNVODatum" DATE;
-ALTER "FP_Basisobjekte"."FP_Bereich" RENAME "versionBauGB" TO "versionBauGBDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Bereich" RENAME "versionBauGB" TO "versionBauGBDatum";
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVODatum" IS 'Datum der zugrundeliegenden Version der BauNVO';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Bereich"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO';
 UPDATE "FP_Basisobjekte"."FP_Bereich" SET "versionBauNVODatum" = '1962-06-26'::date WHERE "versionBauNVO" = 1000;
@@ -141,11 +387,11 @@ ALTER TABLE "FP_Basisobjekte"."FP_Plan" ALTER COLUMN "planArt" SET NOT NULL;
 ALTER TABLE "LP_Basisobjekte"."LP_Status" RENAME TO "LP_Rechtscharakter";
 INSERT INTO "LP_Basisobjekte"."LP_Rechtscharakter" ("Code", "Bezeichner") VALUES (9998, 'Unbekannt');
 UPDATE "LP_Basisobjekte"."LP_Rechtscharakter" SET "Bezeichner" = 'NachrichtlicheUebernahme' WHERE "Code" = 3000;
-ALTER "LP_Basisobjekte"."LP_TextAbschnitt" RENAME "status" TO "rechtscharakter";
+ALTER TABLE "LP_Basisobjekte"."LP_TextAbschnitt" RENAME "status" TO "rechtscharakter";
 UPDATE "LP_Basisobjekte"."LP_TextAbschnitt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
 ALTER TABLE "LP_Basisobjekte"."LP_TextAbschnitt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
 ALTER TABLE "LP_Basisobjekte"."LP_TextAbschnitt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
-ALTER "LP_Basisobjekte"."LP_Objekt" RENAME "status" TO "rechtscharakter";
+ALTER TABLE "LP_Basisobjekte"."LP_Objekt" RENAME "status" TO "rechtscharakter";
 UPDATE "LP_Basisobjekte"."LP_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
@@ -159,9 +405,9 @@ ALTER TABLE "SO_Basisobjekte"."SO_TextAbschnitt" ALTER COLUMN "rechtscharakter" 
 UPDATE "SO_Basisobjekte"."SO_Objekt" SET "rechtscharakter" = 9998 WHERE "rechtscharakter" IS NULL;
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ALTER COLUMN "rechtscharakter" SET DEFAULT 9998;
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ALTER COLUMN "rechtscharakter" SET NOT NULL;
-ALTER TABLE "SO_Basisobjekte"."SO_PlanTyp" RENAME TO "SO_PlanArt"
+ALTER TABLE "SO_Basisobjekte"."SO_PlanTyp" RENAME TO "SO_PlanArt";
 INSERT INTO "SO_Basisobjekte"."SO_PlanArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
-ALTER TABLE "SO_Basisobjekte"."SO_Plan" RENAME "planTyp" TO "planArt"
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" RENAME "planTyp" TO "planArt";
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Über eine Codeliste definierter Typ des Plans';
 UPDATE "SO_Basisobjekte"."SO_Plan" SET "planArt" = 9999 WHERE "planArt" IS NULL;
 ALTER TABLE "SO_Basisobjekte"."SO_Plan" ALTER COLUMN "planArt" SET DEFAULT 9999;
@@ -238,7 +484,7 @@ INSERT INTO "BP_Verkehr"."BP_EinfahrtTypen" ("Code", "Bezeichner") VALUES (3000,
 
 -- Änderung CR-025, sowie CR-031 für VerEntsorgung
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezeichner")
-SELECT "Code", "Bezeichner" FROM TABLE  "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung";
+SELECT "Code", "Bezeichner" FROM "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung";
 -- BP
 INSERT INTO "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" ("BP_VerEntsorgung_gid","zweckbestimmung")
 SELECT "BP_VerEntsorgung_gid", "besondereZweckbestimmung" FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_besondereZweckbestimmung";
@@ -354,8 +600,7 @@ DROP TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_besondereZweckbestimmung";
 DROP TABLE "XP_Enumerationen"."XP_BesondereZweckbestimmungVerEntsorgung";
 
 -- Änderung CR-026
-ALTER TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" ADD COLUMN "baumArt" VARCHAR(64);
-COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Textliche Spezifikation einer Baumart.';
+-- siehe CR-065
 
 -- Änderung CR-027
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1400', 'Deich');
@@ -685,7 +930,7 @@ COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur
 -- Änderung CR-035, CR-036, CR-037
 -- XP_RasterplanAenderungsobjekte werden in CR-055 eliminiert und deshalb hier nicht bearbeitet
 -- Triggerfunktion
-DROP FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz" CASCADE;
+DROP FUNCTION "XP_Basisobjekte"."change_to_XP_ExterneReferenz"() CASCADE;
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"()
 RETURNS trigger AS
 $BODY$
@@ -716,7 +961,7 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"() TO x
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenzTyp" (
-  "Code" VARCHAR(64) NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenzTyp" TO xp_gast;
@@ -729,8 +974,13 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_SpezExterneReferenz" (
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_externereferenz_xp_referenz_typen"
     FOREIGN KEY ("typ" )
-    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code")
     ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_SpezExterneReferenz_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id")
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 COMMENT ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument, einen extern gespeicherten, georeferenzierten Plan oder einen Datenbank-Eintrag. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
@@ -742,24 +992,24 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" TO xp_user;
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1000', 'Beschreibung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1010', 'Begruendung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1020', 'Legende');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1030', 'Rechtsplan');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1040', 'Plangrundlage');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1050', 'Umweltbericht');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1060', 'Satzung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1070', 'Karte');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1080', 'Erlaeuterung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1090', 'ZusammenfassendeErklaerung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2000', 'Koordinatenliste');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2100', 'Grundstuecksverzeichnis');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2200', 'Pflanzliste');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2300', 'Gruenordnungsplan');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2400', 'Erschliessungsvertrag');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2500', 'Durchfuehrungsvertrag');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9998', 'Rechtsverbindlich');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9999', 'Informell');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1000, 'Beschreibung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1010, 'Begruendung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1020, 'Legende');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1030, 'Rechtsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1040, 'Plangrundlage');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1050, 'Umweltbericht');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1060, 'Satzung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1070, 'Karte');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1080, 'Erlaeuterung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1090, 'ZusammenfassendeErklaerung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2000, 'Koordinatenliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2100, 'Grundstuecksverzeichnis');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2200, 'Pflanzliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2300, 'Gruenordnungsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2400, 'Erschliessungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2500, 'Durchfuehrungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (9998, 'Rechtsverbindlich');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (9999, 'Informell');
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan_externeReferenz"
 -- -----------------------------------------------------
@@ -780,40 +1030,52 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_externeReferenz" (
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_externeReferenz" IS 'Referenz auf ein Dokument oder einen georeferenzierten Rasterplan.';
 CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_Plan" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_ExterneReferenz" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("externeReferenz");
---rechtsverbindlich
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "rechtsverbindlich",9998 FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
-INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "rechtsverbindlich" FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
-DROP TABLE "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
---informell
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "informell",9999 FROM "XP_Basisobjekte"."XP_Plan_informell";
-INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "informell" FROM "XP_Basisobjekte"."XP_Plan_informell";
-DROP TABLE "XP_Basisobjekte"."XP_Plan_informell";
 --Beschreibung
 INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBeschreibung",1000 FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung";
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
 SELECT "XP_Plan_gid", "refBeschreibung" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung";
 DROP TABLE "XP_Basisobjekte"."XP_Plan_refBeschreibung";
---Begründung
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBegruendung",1010 FROM "XP_Basisobjekte"."XP_Plan_refBegruendung";
+--rechtsverbindlich
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "rechtsverbindlich",9998 FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich"
+WHERE "rechtsverbindlich" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "refBegruendung" FROM "XP_Basisobjekte"."XP_Plan_refBegruendung";
+SELECT "XP_Plan_gid", "rechtsverbindlich" FROM "XP_Basisobjekte"."XP_Plan_rechtsverbindlich"
+WHERE "XP_Plan_gid"::varchar || '_' || "rechtsverbindlich"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
+DROP TABLE "XP_Basisobjekte"."XP_Plan_rechtsverbindlich";
+--informell
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "informell",9999 FROM "XP_Basisobjekte"."XP_Plan_informell"
+WHERE "informell" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "informell" FROM "XP_Basisobjekte"."XP_Plan_informell"
+WHERE "XP_Plan_gid"::varchar || '_' || "informell"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
+DROP TABLE "XP_Basisobjekte"."XP_Plan_informell";
+--Begründung
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBegruendung",1010 FROM "XP_Basisobjekte"."XP_Plan_refBegruendung"
+WHERE "refBegruendung" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "XP_Plan_gid", "refBegruendung" FROM "XP_Basisobjekte"."XP_Plan_refBegruendung"
+WHERE "XP_Plan_gid"::varchar || '_' || "refBegruendung"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
 DROP TABLE "XP_Basisobjekte"."XP_Plan_refBegruendung";
 --Legende
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refLegende",1020 FROM "XP_Basisobjekte"."XP_Plan_refLegende";
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refLegende",1020 FROM "XP_Basisobjekte"."XP_Plan_refLegende"
+WHERE "refLegende" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "refLegende" FROM "XP_Basisobjekte"."XP_Plan_refLegende";
+SELECT "XP_Plan_gid", "refLegende" FROM "XP_Basisobjekte"."XP_Plan_refLegende"
+WHERE "XP_Plan_gid"::varchar || '_' || "refLegende"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
 DROP TABLE "XP_Basisobjekte"."XP_Plan_refLegende";
 --Rechtsplan
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refRechtsplan",1030 FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan";
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refRechtsplan",1030 FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan"
+WHERE "refRechtsplan" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "refRechtsplan" FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan";
+SELECT "XP_Plan_gid", "refRechtsplan" FROM "XP_Basisobjekte"."XP_Plan_refRechtsplan"
+WHERE "XP_Plan_gid"::varchar || '_' || "refRechtsplan"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
 DROP TABLE "XP_Basisobjekte"."XP_Plan_refRechtsplan";
 --Plangrundlage
-INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refPlangrundlage",1040 FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refPlangrundlage",1040 FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage"
+WHERE "refPlangrundlage" NOT IN (SELECT id FROM "XP_Basisobjekte"."XP_SpezExterneReferenz");
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "XP_Plan_gid", "refPlangrundlage" FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
+SELECT "XP_Plan_gid", "refPlangrundlage" FROM "XP_Basisobjekte"."XP_Plan_refPlangrundlage"
+WHERE "XP_Plan_gid"::varchar || '_' || "refPlangrundlage"::varchar NOT IN (SELECT "XP_Plan_gid"::varchar || '_' || "externeReferenz"::varchar FROM "XP_Basisobjekte"."XP_Plan_externeReferenz");
 DROP TABLE "XP_Basisobjekte"."XP_Plan_refPlangrundlage";
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt_externeReferenz"
@@ -879,7 +1141,7 @@ CREATE  TABLE  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" (
     FOREIGN KEY ("zweckbestimmung" )
     REFERENCES "BP_Umwelt"."BP_ZweckbestimmungenTMF" ("Code" )
     ON DELETE NO ACTION
-    ON UPDATE CASCADE))
+    ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" TO xp_gast;
@@ -1001,12 +1263,12 @@ COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungsArt" IS 'Detai
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungVordereGrenze" IS 'Festsetzung der Bebauung der vorderen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungRueckwaertigeGrenze" IS 'Festsetzung der Bebauung der rückwärtigen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungSeitlicheGrenze" IS 'Festsetzung der Bebauung der seitlichen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
-INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise" (gid,"abweichungBauNVO","bauweise","abweichendeBauweise","vertikaleDifferenzierung",  "bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze")
-SELECT gid,"abweichungBauNVO","bauweise","abweichendeBauweise","vertikaleDifferenzierung", "bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze" FROM "BP_Bebauung"."BP_BaugebietObjekt";
+INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise" (gid,"bauweise","abweichendeBauweise","vertikaleDifferenzierung","bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze")
+    SELECT gid,"bauweise","abweichendeBauweise","vertikaleDifferenzierung","bebauungsArt","bebauungVordereGrenze","bebauungRueckwaertigeGrenze","bebauungSeitlicheGrenze" FROM "BP_Bebauung"."BP_BaugebietObjekt";
 INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise" (gid) SELECT gid FROM "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche";
 CREATE TRIGGER "change_to_BP_BaugebietBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BaugebietBauweise" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bauweise";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bauweise" CASCADE;
 ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "abweichendeBauweise";
 ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "vertikaleDifferenzierung";
 ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP COLUMN "bebauungsArt";
@@ -1018,7 +1280,7 @@ ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" ADD CONSTRAINT "fk_BP_Baugebiet_p
     REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE;
-ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" RENAME TO "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt";
+ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt_refGebauedequerschnitt" RENAME TO "BP_BaugebietBauweise_refGebauedequerschnitt";
 ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" RENAME "BP_BaugebietObjekt_gid" TO "BP_BaugebietBauweise_gid";
 ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" DROP CONSTRAINT "fk_BP_Baugebiet_refGebauedequerschnitt1";
 ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
@@ -1063,10 +1325,10 @@ ALTER TABLE "XP_Basisobjekte"."XP_Objekt" DROP COLUMN "textSchluesselBegruendung
 -- Beim Export muß dann entsprechend darauf geachtet werden, die Redundanz herzustellen
 
 -- Änderung CR-055
--- ACHTUNG: XP_RasterplanAenderung und seine Kindklassen werden gelöscht, da nicht erwartet wird, dass XP_RasterplanAenderung überhaupt benutzt wurde!
+-- ACHTUNG: XP_RasterplanAenderung und seine Kindklassen werden hier einfach gelöscht, da nicht erwartet wird, dass XP_RasterplanAenderung überhaupt benutzt wurde!
 -- Feststellen mit: SELECT count(*) from "XP_Raster"."XP_RasterplanAenderung";
 --
-/* Übernahme vorhandener RasterplanAenderungsobjekte am Beispiel BP_RasterplanAenderung, muß analog auch für die anderen Kindklassen durchgefühjrt werden:
+/* Übernahme vorhandener RasterplanAenderungsobjekte am Beispiel BP_RasterplanAenderung, muß analog auch für die anderen Kindklassen durchgeführt werden:
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" ADD COLUMN rastergid BIGINT;
 ALTER TABLE "BP_Basisobjekte"."BP_Plan" ADD COLUMN rastergid BIGINT;
 INSERT INTO "BP_Basisobjekte"."BP_Plan" ("aufstellungsbeschlussDatum" ,"veraenderungssperreDatum" ,"auslegungsStartDatum","auslegungsEndDatum","traegerbeteiligungsStartDatum","traegerbeteiligungsEndDatum","satzungsbeschlussDatum","rechtsverordnungsDatum","inkrafttretensDatum","räumlicherGeltungsbereich","ausfertigungsDatum",rastergid)
@@ -1089,9 +1351,32 @@ INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externe
 SELECT x."gid", r."refText" FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung" x JOIN "XP_Raster"."XP_RasterplanAenderung" ON x.rastergid = r.gid WHERE r."refText" IS NOT NULL;
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" DROP COLUMN rastergid; */
 
+DROP SCHEMA "BP_Raster" CASCADE;
+DROP SCHEMA "FP_Raster" CASCADE;
+DROP TABLE "FP_Basisobjekte"."FP_Bereich_rasterAenderung";
+DROP SCHEMA "LP_Raster" CASCADE;
+DROP TABLE "LP_Basisobjekte"."LP_Bereich_rasterAenderung";
+DROP SCHEMA "RP_Raster" CASCADE;
+DROP TABLE "RP_Basisobjekte"."RP_Bereich_rasterAenderung";
+DROP SCHEMA "SO_Raster" CASCADE;
 DROP TABLE "XP_Raster"."XP_RasterplanAenderung" CASCADE;
+DROP TABLE "XP_Raster"."XP_GeltungsbereichAenderung";
 DROP SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq";
 DROP FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"();
+ALTER SEQUENCE "XP_Raster"."XP_RasterplanBasis_id_seq" RENAME TO "XP_Rasterdarstellung_id_seq";
+ALTER TABLE "XP_Raster"."XP_RasterplanBasis" RENAME TO "XP_Rasterdarstellung";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung" RENAME CONSTRAINT "XP_RasterplanBasis_pkey" TO "XP_Rasterdarstellung_pkey";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung" RENAME CONSTRAINT "fk_XP_RasterplanBasis_XP_ExterneReferenz1" TO "fk_XP_Rasterdarstellung_XP_ExterneReferenz1";
+COMMENT ON TABLE "XP_Raster"."XP_Rasterdarstellung" IS 'Georeferenzierte Rasterdarstellung eines Plans. Das über refScan referierte Rasterbild zeigt den Basisplan, dessen Geltungsbereich durch den Geltungsbereich des Gesamtplans (Attribut geltungsbereich von XP_Bereich) repräsentiert ist.
+Im Standard sind nur georeferenzierte Rasterpläne zugelassen. Die über refScan referierte externe Referenz muss deshalb entweder vom Typ "PlanMitGeoreferenz" sein oder einen WMS-Request enthalten.';
+ALTER TABLE "XP_Raster"."XP_RasterplanBasis_refScan" RENAME TO "XP_Rasterdarstellung_refScan";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" RENAME "XP_RasterplanBasis_id" TO "XP_Rasterdarstellung_id";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" RENAME CONSTRAINT "fk_XP_RasterplanBasis_refScan1" TO "fk_XP_Rasterdarstellung_refScan1";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" RENAME CONSTRAINT "fk_XP_RasterplanBasis_refScan2" TO "fk_XP_Rasterdarstellung_refScan2";
+ALTER TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" RENAME TO "XP_Rasterdarstellung_refLegende";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" RENAME "XP_RasterplanBasis_id" TO "XP_Rasterdarstellung_id";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" RENAME CONSTRAINT "fk_XP_RasterplanBasis_refLegende1" TO "fk_XP_Rasterdarstellung_refLegende1";
+ALTER TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" RENAME CONSTRAINT "fk_XP_RasterplanBasis_refLegende2" TO "fk_XP_Rasterdarstellung_refLegende2";
 
 -- Änderung CR-057
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Code" = 100010 WHERE "Code" = 10010;
@@ -1282,27 +1567,21 @@ COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AusgleichsM
 ALTER TABLE "FP_Naturschutz"."FP_SchutzPflegeEntwicklung" ADD COLUMN "sonstZiel" VARCHAR(255);
 COMMENT ON COLUMN "FP_Naturschutz"."FP_SchutzPflegeEntwicklung"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 
--- Änderung CR-065
+-- Änderung CR-065 und CR-026
 -- -----------------------------------------------------
 -- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen"
 -- -----------------------------------------------------
 CREATE TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" (
-  "Code" SERIAL NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" TO xp_gast;
-ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" RENAME "baumArt" TO baumart_alt;
-INSERT INTO "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ("Bezeichner")
-SELECT DISTINCT baumart_alt FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" WHERE baumart_alt IS NOT NULL;
-ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ADD COLUMN "baumArt" INTEGER;
-UPDATE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" v SET "baumArt" = SELECT "Code" FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" vt WHERE v.baumart_alt = vt."Bezeichner";
-ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" DROP COLUMN baumart_alt;
-ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ADD CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_baumArt"
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" ADD COLUMN "baumArt" INTEGER;
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Spezifikation einer Baumart.';
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" ADD CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_baumArt"
     FOREIGN KEY ("baumArt") REFERENCES "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
-COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Textliche Spezifikation einer Baumart.';
-DROP SEQUENCE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen_Code_seq" CASCADE;
 
 -- Änderung CR-066
 ALTER TABLE "BP_Verkehr"."BP_EinfahrtsbereichLinie" ADD COLUMN "typ" INTEGER;
@@ -1328,7 +1607,7 @@ CREATE TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform2"
     FOREIGN KEY ("detaillierteDachform")
-    REFERENCES "BP_Bebauung"."BP_detailDachform" ("Code")
+    REFERENCES "BP_Bebauung"."BP_DetailDachform" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO xp_gast;
@@ -1412,10 +1691,10 @@ ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "auslegungsStartDatum";
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "auslegungsEndDatum";
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "traegerbeteiligungsStartDatum";
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" DROP COLUMN "traegerbeteiligungsEndDatum";
-ALTER "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
-ALTER "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
-ALTER "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
-ALTER "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
@@ -1433,10 +1712,10 @@ ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "auslegungsStartDatum";
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "auslegungsEndDatum";
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "traegerbeteiligungsStartDatum";
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "traegerbeteiligungsEndDatum";
-ALTER "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
-ALTER "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
-ALTER "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
-ALTER "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsStartDatumNew" TO "auslegungsStartDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" RENAME "auslegungsEndDatumNew" TO "auslegungsEndDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsStartDatumNew" TO "traegerbeteiligungsStartDatum";
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" RENAME "traegerbeteiligungsEndDatumNew" TO "traegerbeteiligungsEndDatum";
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsStartDatum" IS 'Start-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."auslegungsEndDatum" IS 'End-Datum der öffentlichen Auslegung. Bei mehrfacher öffentlicher Auslegung können mehrere Datumsangaben spezifiziert werden.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."traegerbeteiligungsStartDatum" IS 'Start-Datum der Trägerbeteiligung. Bei mehrfacher Trägerbeteiligung können mehrere Datumsangaben spezifiziert werden.';
@@ -1451,9 +1730,9 @@ UPDATE "LP_Basisobjekte"."LP_Plan" SET "oeffentlichkeitsbeteiligungDatumNew" = A
 ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "auslegungsDatum";
 ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "tOeBbeteiligungsDatum";
 ALTER TABLE "LP_Basisobjekte"."LP_Plan" DROP COLUMN "oeffentlichkeitsbeteiligungDatum";
-ALTER "LP_Basisobjekte"."LP_Plan" RENAME "auslegungsDatumNew" TO "auslegungsDatum";
-ALTER "LP_Basisobjekte"."LP_Plan" RENAME "tOeBbeteiligungsDatumNew" TO "tOeBbeteiligungsDatum";
-ALTER "LP_Basisobjekte"."LP_Plan" RENAME "oeffentlichkeitsbeteiligungDatumNew" TO "oeffentlichkeitsbeteiligungDatum";
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" RENAME "auslegungsDatumNew" TO "auslegungsDatum";
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" RENAME "tOeBbeteiligungsDatumNew" TO "tOeBbeteiligungsDatum";
+ALTER TABLE "LP_Basisobjekte"."LP_Plan" RENAME "oeffentlichkeitsbeteiligungDatumNew" TO "oeffentlichkeitsbeteiligungDatum";
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."auslegungsDatum" IS 'Datum der öffentlichen Auslegung.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."tOeBbeteiligungsDatum" IS 'Datum der Beteiligung der Träger öffentlicher Belange.';
 COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."oeffentlichkeitsbeteiligungDatum" IS 'Datum der Öffentlichkeits-Beteiligung.';
@@ -1463,7 +1742,7 @@ COMMENT ON COLUMN "LP_Basisobjekte"."LP_Plan"."oeffentlichkeitsbeteiligungDatum"
 ALTER TABLE "BP_Basisobjekte"."BP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 UPDATE "BP_Verkehr"."BP_EinfahrtPunkt" SET "nordwinkel" = "richtung" WHERE "richtung" != 0;
-ALTER "BP_Verkehr"."BP_EinfahrtPunkt" DROP COLUMN "richtung";
+ALTER TABLE "BP_Verkehr"."BP_EinfahrtPunkt" DROP COLUMN "richtung";
 ALTER TABLE "FP_Basisobjekte"."FP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 ALTER TABLE "SO_Basisobjekte"."SO_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
@@ -1475,7 +1754,7 @@ COMMENT ON COLUMN "LP_Basisobjekte"."LP_Punktobjekt"."nordwinkel" IS 'Orientieru
 -- s.o.
 
 -- Änderung CR-081
--- Vorbereitung; Plan: zugehöriges XP_Objekt übernehmen, damit bleibt auch die Bereichszuordnung bestehen
+-- Vorbereitung; der Plan ist es, das zugehöriges XP_Objekt zu übernehmen, damit bleibt auch die Bereichszuordnung bestehen
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" DISABLE TRIGGER "change_to_SO_Objekt"; -- damit wird bei INSERT kein XP_Objekt angelegt
 -- BP, refTextInhalt wird nicht übernommen!
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DISABLE TRIGGER "delete_BP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
@@ -1498,11 +1777,11 @@ ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ENABLE TRIGGER "delete_BP_Objekt";
 -- LP
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" DISABLE TRIGGER "delete_LP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") SELECT "Code", "Bezeichner" FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtDetailTypen";
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtLinie";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtPunkt";
 UPDATE "SO_Basisobjekte"."SO_Objekt" so SET "rechtscharakter" = (SELECT "rechtscharakter" FROM "LP_Basisobjekte"."LP_Objekt" lp WHERE lp.gid = so.gid) WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht");
-UPDATE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" so SET "detailArtDerFestlegung" = (SELECT "detailTyp" FROM "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" lp WHERE lp.gid = so.gid) WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" WHERE "detaiTyp" IS NOT NULL);
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" so SET "detailArtDerFestlegung" = (SELECT "detailTyp" FROM "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" lp WHERE lp.gid = so.gid) WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" WHERE "detailTyp" IS NOT NULL);
 DELETE FROM "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht";
 DROP TABLE "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche" CASCADE;
 DROP TABLE "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtLinie" CASCADE;
@@ -1515,6 +1794,21 @@ ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ENABLE TRIGGER "change_to_SO_Objekt";
 -- Änderung CR-082
 -- Vorbereitung; Plan: wie CR-081
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" DISABLE TRIGGER "change_to_SO_Objekt"; -- damit wird bei INSERT kein XP_Objekt angelegt
+-- linienhafte Zieltabelle, gab es bisher nicht (warum?)
+CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_SO_SchutzgebietNaturschutzrechtLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO xp_gast;
+GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO so_user;
+COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtLinie" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtLinie" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 -- BP, refTextInhalt wird nicht übernommen!
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DISABLE TRIGGER "delete_BP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche";
@@ -1533,7 +1827,7 @@ DROP TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_DetailZweckbestNat
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ENABLE TRIGGER "delete_BP_Objekt";
 -- LP
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" DISABLE TRIGGER "delete_LP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
-INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtFlaeche";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtFlaeche";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtLinie";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt";
 UPDATE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" so SET "artDerFestlegung" = 18000 WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrecht" WHERE "typ" = 1800);

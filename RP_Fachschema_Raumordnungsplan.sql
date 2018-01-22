@@ -26,21 +26,18 @@ GRANT xp_user TO rp_user;
 -- *****************************************************
 
 CREATE SCHEMA "RP_Basisobjekte";
-CREATE SCHEMA "RP_Raster";
 CREATE SCHEMA "RP_KernmodellFreiraumstruktur";
 CREATE SCHEMA "RP_KernmodellInfrastruktur";
 CREATE SCHEMA "RP_KernmodellSiedlungsstruktur";
 CREATE SCHEMA "RP_KernmodellSonstiges";
 
 COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
-COMMENT ON SCHEMA "RP_Raster" IS '';
 COMMENT ON SCHEMA "RP_KernmodellFreiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellInfrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSiedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSonstiges" IS 'Sonstige Festlegungen.';
 
 GRANT USAGE ON SCHEMA "RP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "RP_Raster" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellFreiraumstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellInfrastruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSiedlungsstruktur" TO xp_gast;
@@ -3434,8 +3431,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
  SELECT fp_o.gid,
-    g."gehoertZuRP_Bereich" AS "RP_Bereich_gid",
-    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
     fp_o."Objektart",
     fp_o."Objektartengruppe",
     fp_o.typ,
@@ -3464,8 +3460,7 @@ CREATE OR REPLACE VIEW "RP_Basisobjekte"."RP_Objekte" AS
                    FROM "RP_Basisobjekte"."RP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-     LEFT JOIN "RP_Basisobjekte"."RP_Objekt_gehoertZuRP_Bereich" g ON fp_o.gid = g."RP_Objekt_gid"
-     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
 
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekte" TO xp_gast;
 

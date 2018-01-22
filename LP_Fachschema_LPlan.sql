@@ -28,21 +28,18 @@ GRANT xp_user TO lp_user;
 CREATE SCHEMA "LP_Basisobjekte";
 CREATE SCHEMA "LP_Erholung";
 CREATE SCHEMA "LP_MassnahmenNaturschutz";
-CREATE SCHEMA "LP_Raster";
 CREATE SCHEMA "LP_SchutzgebieteObjekte";
 CREATE SCHEMA "LP_Sonstiges";
 
 COMMENT ON SCHEMA "LP_Basisobjekte" IS 'Dies Paket enthält die Basisklassen des Kernmodells Landschaftsplanung.';
 COMMENT ON SCHEMA "LP_Erholung" IS 'Grünflächen und Flächen, Zweckbestimmungen, Erfordernisse und Maßnahmen für die Erholung in Natur und Landschaft.';
 COMMENT ON SCHEMA "LP_MassnahmenNaturschutz" IS 'Flächen, Erfordernisse und Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (soweit nicht Gebiete und Gebietsteile zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft).';
-COMMENT ON SCHEMA "LP_Raster" IS '';
 COMMENT ON SCHEMA "LP_SchutzgebieteObjekte" IS 'Gebiete und Gebietsteile zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft.';
 COMMENT ON SCHEMA "LP_Sonstiges" IS 'Sonstige Klassen des Kernmodells Landschaftsplanung.';
 
 GRANT USAGE ON SCHEMA "LP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "LP_Erholung" TO xp_gast;
 GRANT USAGE ON SCHEMA "LP_MassnahmenNaturschutz" TO xp_gast;
-GRANT USAGE ON SCHEMA "LP_Raster" TO xp_gast;
 GRANT USAGE ON SCHEMA "LP_SchutzgebieteObjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "LP_Sonstiges" TO xp_gast;
 
@@ -2540,8 +2537,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "LP_Basisobjekte"."LP_Objekte" AS
  SELECT fp_o.gid,
-    g."gehoertZuLP_Bereich" AS "LP_Bereich_gid",
-    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
     fp_o."Objektart",
     fp_o."Objektartengruppe",
     fp_o.typ,
@@ -2570,8 +2566,7 @@ CREATE OR REPLACE VIEW "LP_Basisobjekte"."LP_Objekte" AS
                    FROM "LP_Basisobjekte"."LP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-     LEFT JOIN "LP_Basisobjekte"."LP_Objekt_gehoertZuLP_Bereich" g ON fp_o.gid = g."LP_Objekt_gid"
-     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_Objekte" TO xp_gast;
 
 -- *****************************************************

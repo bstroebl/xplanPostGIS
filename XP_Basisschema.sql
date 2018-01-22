@@ -169,9 +169,9 @@ CREATE SEQUENCE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."dientZurDarstellungVon_id_seq" TO GROUP xp_user;
 
-CREATE SEQUENCE "XP_Raster"."XP_RasterplanBasis_id_seq"
+CREATE SEQUENCE "XP_Raster"."XP_Rasterdarstellung_id_seq"
    MINVALUE 1;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_id_seq" TO GROUP xp_user;
+GRANT ALL ON TABLE "XP_Raster"."XP_Rasterdarstellung_id_seq" TO GROUP xp_user;
 
 CREATE SEQUENCE "XP_Basisobjekte"."XP_ExterneReferenz_id_seq"
    MINVALUE 1;
@@ -940,7 +940,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" TO xp_user;
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenzTyp" (
-  "Code" VARCHAR(64) NOT NULL ,
+  "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenzTyp" TO xp_gast;
@@ -956,6 +956,11 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_SpezExterneReferenz" (
     FOREIGN KEY ("typ" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code" )
     ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_SpezExterneReferenz_parent"
+    FOREIGN KEY ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id")
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 COMMENT ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument, einen extern gespeicherten, georeferenzierten Plan oder einen Datenbank-Eintrag. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
@@ -968,85 +973,74 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_SpezExterneReferenz" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Raster"."XP_GeltungsbereichAenderung"
+-- Table "XP_Raster"."XP_Rasterdarstellung"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_GeltungsbereichAenderung" (
-  "gid" BIGINT NOT NULL ,
-  "geltungsbereichAenderung" GEOMETRY(Multipolygon,25832) NOT NULL ,
-  PRIMARY KEY ("gid") );
-GRANT SELECT ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_GeltungsbereichAenderung" TO xp_user;
-CREATE TRIGGER  "XP_GeltungsbereichAenderung_isAbstract" BEFORE INSERT ON "XP_Raster"."XP_GeltungsbereichAenderung" FOR EACH STATEMENT EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
-
--- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanBasis"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanBasis" (
-  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Raster"."XP_RasterplanBasis_id_seq"'),
+CREATE TABLE "XP_Raster"."XP_Rasterdarstellung" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"XP_Raster"."XP_Rasterdarstellung_id_seq"'),
   "refText" INTEGER NULL ,
   PRIMARY KEY ("id") ,
-  CONSTRAINT "fk_XP_RasterplanBasis_XP_ExterneReferenz1"
+  CONSTRAINT "fk_XP_Rasterdarstellung_XP_ExterneReferenz1"
     FOREIGN KEY ("refText" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Raster"."XP_RasterplanBasis" IS 'Georeferenzierte Rasterdarstellung eines Plans. Das über refScan referierte Rasterbild zeigt den Basisplan, dessen Geltungsbereich durch den Geltungsbereich des Gesamtplans (Attribut geltungsbereich von XP_Bereich) repräsentiert ist. Diesem Basisplan können Änderungen überlagert sein, denen jeweils eigene Rasterbilder und Geltungsbereiche zugeordnet sind (XP_RasterplanAenderung und abgeleitete Klassen).
+COMMENT ON TABLE "XP_Raster"."XP_Rasterdarstellung" IS 'Georeferenzierte Rasterdarstellung eines Plans. Das über refScan referierte Rasterbild zeigt den Basisplan, dessen Geltungsbereich durch den Geltungsbereich des Gesamtplans (Attribut geltungsbereich von XP_Bereich) repräsentiert ist.
 Im Standard sind nur georeferenzierte Rasterpläne zugelassen. Die über refScan referierte externe Referenz muss deshalb entweder vom Typ "PlanMitGeoreferenz" sein oder einen WMS-Request enthalten.';
-COMMENT ON COLUMN "XP_Raster"."XP_RasterplanBasis"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Raster"."XP_RasterplanBasis"."refText" IS 'Referenz auf die textlich formulierten Inhalte des Plans.';
+COMMENT ON COLUMN "XP_Raster"."XP_Rasterdarstellung"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "XP_Raster"."XP_Rasterdarstellung"."refText" IS 'Referenz auf die textlich formulierten Inhalte des Plans.';
 
-CREATE INDEX "idx_fk_XP_RasterplanBasis_XP_ExterneReferenz1" ON "XP_Raster"."XP_RasterplanBasis" ("refText") ;
+CREATE INDEX "idx_fk_XP_Rasterdarstellung_XP_ExterneReferenz1" ON "XP_Raster"."XP_Rasterdarstellung" ("refText") ;
 
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanBasis" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis" TO xp_user;
+GRANT SELECT ON TABLE "XP_Raster"."XP_Rasterdarstellung" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_Rasterdarstellung" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanBasis_refScan"
+-- Table "XP_Raster"."XP_Rasterdarstellung_refScan"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanBasis_refScan" (
-  "XP_RasterplanBasis_id" INTEGER NOT NULL ,
+CREATE TABLE  "XP_Raster"."XP_Rasterdarstellung_refScan" (
+  "XP_Rasterdarstellung_id" INTEGER NOT NULL ,
   "refScan" INTEGER NOT NULL ,
-  PRIMARY KEY ("XP_RasterplanBasis_id", "refScan") ,
-  CONSTRAINT "fk_XP_RasterplanBasis_refScan1"
-    FOREIGN KEY ("XP_RasterplanBasis_id" )
-    REFERENCES "XP_Raster"."XP_RasterplanBasis" ("id" )
+  PRIMARY KEY ("XP_Rasterdarstellung_id", "refScan") ,
+  CONSTRAINT "fk_XP_Rasterdarstellung_refScan1"
+    FOREIGN KEY ("XP_Rasterdarstellung_id" )
+    REFERENCES "XP_Raster"."XP_Rasterdarstellung" ("id" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanBasis_refScan2"
+  CONSTRAINT "fk_XP_Rasterdarstellung_refScan2"
     FOREIGN KEY ("refScan" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Raster"."XP_RasterplanBasis_refScan" IS 'Referenz auf eine georeferenzierte Rasterversion des Basisplans';
-CREATE INDEX "idx_fk_XP_RasterplanBasis_refScan1" ON "XP_Raster"."XP_RasterplanBasis_refScan" ("XP_RasterplanBasis_id") ;
-CREATE INDEX "idx_fk_XP_RasterplanBasis_refScan2" ON "XP_Raster"."XP_RasterplanBasis_refScan" ("refScan") ;
+COMMENT ON TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" IS 'Referenz auf eine georeferenzierte Rasterversion des Basisplans';
+CREATE INDEX "idx_fk_XP_Rasterdarstellung_refScan1" ON "XP_Raster"."XP_Rasterdarstellung_refScan" ("XP_Rasterdarstellung_id") ;
+CREATE INDEX "idx_fk_XP_Rasterdarstellung_refScan2" ON "XP_Raster"."XP_Rasterdarstellung_refScan" ("refScan") ;
 
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanBasis_refScan" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_refScan" TO xp_user;
+GRANT SELECT ON TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_Rasterdarstellung_refScan" TO xp_user;
 
 -- -----------------------------------------------------
--- Table "XP_Raster"."XP_RasterplanBasis_refLegende"
+-- Table "XP_Raster"."XP_Rasterdarstellung_refLegende"
 -- -----------------------------------------------------
-CREATE  TABLE  "XP_Raster"."XP_RasterplanBasis_refLegende" (
-  "XP_RasterplanBasis_id" INTEGER NOT NULL ,
+CREATE TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" (
+  "XP_Rasterdarstellung_id" INTEGER NOT NULL ,
   "refLegende" INTEGER NOT NULL ,
-  PRIMARY KEY ("XP_RasterplanBasis_id", "refLegende") ,
-  CONSTRAINT "fk_XP_RasterplanBasis_refLegende1"
-    FOREIGN KEY ("XP_RasterplanBasis_id" )
-    REFERENCES "XP_Raster"."XP_RasterplanBasis" ("id" )
+  PRIMARY KEY ("XP_Rasterdarstellung_id", "refLegende") ,
+  CONSTRAINT "fk_XP_Rasterdarstellung_refLegende1"
+    FOREIGN KEY ("XP_Rasterdarstellung_id" )
+    REFERENCES "XP_Raster"."XP_Rasterdarstellung" ("id" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_XP_RasterplanBasis_refLegende2"
+  CONSTRAINT "fk_XP_Rasterdarstellung_refLegende2"
     FOREIGN KEY ("refLegende" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE  "XP_Raster"."XP_RasterplanBasis_refLegende" IS 'Referenz auf die Legende des Plans.';
-CREATE INDEX "idx_fk_XP_RasterplanBasis_refLegende1" ON "XP_Raster"."XP_RasterplanBasis_refLegende" ("XP_RasterplanBasis_id") ;
-CREATE INDEX "idx_fk_XP_RasterplanBasis_refLegende2" ON "XP_Raster"."XP_RasterplanBasis_refLegende" ("refLegende") ;
+COMMENT ON TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" IS 'Referenz auf die Legende des Plans.';
+CREATE INDEX "idx_fk_XP_Rasterdarstellung_refLegende1" ON "XP_Raster"."XP_Rasterdarstellung_refLegende" ("XP_Rasterdarstellung_id") ;
+CREATE INDEX "idx_fk_XP_Rasterdarstellung_refLegende2" ON "XP_Raster"."XP_Rasterdarstellung_refLegende" ("refLegende") ;
 
-GRANT SELECT ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_gast;
-GRANT ALL ON TABLE "XP_Raster"."XP_RasterplanBasis_refLegende" TO xp_user;
+GRANT SELECT ON TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" TO xp_gast;
+GRANT ALL ON TABLE "XP_Raster"."XP_Rasterdarstellung_refLegende" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan"
@@ -1107,9 +1101,9 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Bereich" (
     REFERENCES "XP_Basisobjekte"."XP_BedeutungenBereich" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-    CONSTRAINT "fk_XP_Bereich_XP_RasterplanBasis1"
+    CONSTRAINT "fk_XP_Bereich_XP_Rasterdarstellung1"
     FOREIGN KEY ("rasterBasis" )
-    REFERENCES "XP_Raster"."XP_RasterplanBasis" ("id" )
+    REFERENCES "XP_Raster"."XP_Rasterdarstellung" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Bereich" IS 'Abstrakte Oberklasse für die Modellierung von Planbereichen. Ein Planbereich fasst die Inhalte eines Plans nach bestimmten Kriterien zusammen.';
@@ -1121,7 +1115,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."detaillierteBedeutung" IS 'Det
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."erstellungsMassstab" IS 'Der bei der Erstellung der Inhalte des Planbereichs benutzte Kartenmassstab. Wenn dieses Attribut nicht spezifiziert ist, gilt für den Bereich der auf Planebene (XP_Plan) spezifizierte Masstab.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."rasterBasis" IS 'Ein Plan kann optional eine georeferenzierte Rasterkarte referieren.';
 CREATE INDEX "idx_fk_XP_Bereich_XP_BedeutungenBereich1" ON "XP_Basisobjekte"."XP_Bereich" ("bedeutung") ;
-CREATE INDEX "idx_fk_XP_Bereich_XP_RasterplanBasis1" ON "XP_Basisobjekte"."XP_Bereich" ("rasterBasis") ;
+CREATE INDEX "idx_fk_XP_Bereich_XP_Rasterdarstellung1" ON "XP_Basisobjekte"."XP_Bereich" ("rasterBasis") ;
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
@@ -2414,24 +2408,24 @@ INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzArt" ("Code", "Bezeichner") VAL
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_ExterneReferenzTyp"
 -- -----------------------------------------------------
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1000', 'Beschreibung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1010', 'Begruendung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1020', 'Legende');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1030', 'Rechtsplan');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1040', 'Plangrundlage');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1050', 'Umweltbericht');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1060', 'Satzung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1070', 'Karte');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1080', 'Erlaeuterung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('1090', 'ZusammenfassendeErklaerung');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2000', 'Koordinatenliste');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2100', 'Grundstuecksverzeichnis');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2200', 'Pflanzliste');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2300', 'Gruenordnungsplan');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2400', 'Erschliessungsvertrag');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('2500', 'Durchfuehrungsvertrag');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9998', 'Rechtsverbindlich');
-INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES ('9999', 'Informell');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1000, 'Beschreibung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1010, 'Begruendung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1020, 'Legende');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1030, 'Rechtsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1040, 'Plangrundlage');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1050, 'Umweltbericht');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1060, 'Satzung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1070, 'Karte');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1080, 'Erlaeuterung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (1090, 'ZusammenfassendeErklaerung');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2000, 'Koordinatenliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2100, 'Grundstuecksverzeichnis');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2200, 'Pflanzliste');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2300, 'Gruenordnungsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2400, 'Erschliessungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2500, 'Durchfuehrungsvertrag');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (9998, 'Rechtsverbindlich');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (9999, 'Informell');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung"

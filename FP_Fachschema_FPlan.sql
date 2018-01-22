@@ -27,7 +27,6 @@ GRANT xp_user TO fp_user;
 -- *****************************************************
 
 CREATE SCHEMA "FP_Basisobjekte";
-CREATE SCHEMA "FP_Raster";
 CREATE SCHEMA "FP_Bebauung";
 CREATE SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen";
 CREATE SCHEMA "FP_Landwirtschaft_Wald_und_Gruen";
@@ -39,7 +38,6 @@ CREATE SCHEMA "FP_Wasser";
 CREATE SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze";
 
 COMMENT ON SCHEMA "FP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines FPlans (abgeleitet von XP_Plan) und eines FPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für FPlan-Fachobjekte.';
-COMMENT ON SCHEMA "FP_Raster" IS 'Raster-Darstellung von FPlänen';
 COMMENT ON SCHEMA "FP_Bebauung" IS 'Darstellung der für die Bebauung vorgesehenen Flächen (§5, Abs. 2, Nr. 1 BauGB).';
 COMMENT ON SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen" IS 'Darstellung der Ausstattung des Gemeindegebiets mit Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, sowie die Flächen für Spiel- und Sportanlagen (§5, Abs. 2, Nr. 2 BauGB).';
 COMMENT ON SCHEMA "FP_Landwirtschaft_Wald_und_Gruen" IS 'Darstellung von Grünflächen (§5, Abs. 2, Nr. 5 BauGB) und von Flächen für die Landwirtschaft und Wald (§5, Abs. 2, Nr. 9 BauGB).';
@@ -51,7 +49,6 @@ COMMENT ON SCHEMA "FP_Wasser" IS 'Darstellung von Wasserflächen, Häfen, und de
 COMMENT ON SCHEMA "FP_Aufschuettung_Abgrabung_Bodenschaetze" IS 'Darstellung von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB).';
 
 GRANT USAGE ON SCHEMA "FP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "FP_Raster" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Bebauung" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Gemeinbedarf_Spiel_und_Sportanlagen" TO xp_gast;
 GRANT USAGE ON SCHEMA "FP_Landwirtschaft_Wald_und_Gruen" TO xp_gast;
@@ -2667,8 +2664,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
  SELECT fp_o.gid,
-    g."gehoertZuFP_Bereich" AS "FP_Bereich_gid",
-    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
     fp_o."Objektart",
     fp_o."Objektartengruppe",
     fp_o.typ,
@@ -2697,8 +2693,7 @@ CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Objekte" AS
                    FROM "FP_Basisobjekte"."FP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-     LEFT JOIN "FP_Basisobjekte"."FP_Objekt_gehoertZuFP_Bereich" g ON fp_o.gid = g."FP_Objekt_gid"
-     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
 
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Objekte" TO xp_gast;
 

@@ -38,7 +38,6 @@ CREATE SCHEMA "BP_Sonstiges";
 CREATE SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze";
 CREATE SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz";
 CREATE SCHEMA "BP_Umwelt";
-CREATE SCHEMA "BP_Raster";
 
 COMMENT ON SCHEMA "BP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines BPlans (abgeleitet von XP_Plan) und eines BPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für BPlan-Fachobjekte.';
 COMMENT ON SCHEMA "BP_Bebauung" IS 'Festsetzungen über baulich genutzte Flächen';
@@ -52,7 +51,6 @@ COMMENT ON SCHEMA "BP_Sonstiges" IS 'Sonstige Festsetzungen';
 COMMENT ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" IS 'Festsetzungen von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§9, Abs. 1, Nr. 17 BauGB).';
 COMMENT ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" IS 'Festsetzungen zur Erhaltungssatzungen(§172 BauGB), Denkmalschutz-Ensembles sowie Einzelanlagen des Denkmalschutzes.';
 COMMENT ON SCHEMA "BP_Umwelt" IS 'Umweltbezogene Festsetzungen';
-COMMENT ON SCHEMA "BP_Raster" IS 'Rasterdarstellung von Bebauungsplänen';
 
 GRANT USAGE ON SCHEMA "BP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Bebauung" TO xp_gast;
@@ -66,7 +64,6 @@ GRANT USAGE ON SCHEMA "BP_Sonstiges" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Umwelt" TO xp_gast;
-GRANT USAGE ON SCHEMA "BP_Raster" TO xp_gast;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -871,7 +868,7 @@ COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Anpflanzun
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."kronendurchmesser" IS 'Durchmesser der Baumkrone bei zu erhaltenden Bäumen.';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."pflanztiefe" IS 'Pflanztiefe';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."istAusgleich" IS 'Gibt an, ob die Fläche oder Maßnahme zum Ausgleich von Eingriffen genutzt wird.';
-COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Textliche Spezifikation einer Baumart.';
+COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."baumArt" IS 'Spezifikation einer Baumart.';
 CREATE TRIGGER "change_to_BP_AnpflanzungBindungErhaltung" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltung" AFTER DELETE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -3053,76 +3050,13 @@ CREATE TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_GestaltungBaugebiet_detaillierteDachform2"
     FOREIGN KEY ("detaillierteDachform")
-    REFERENCES "BP_Bebauung"."BP_detailDachform" ("Code")
+    REFERENCES "BP_Bebauung"."BP_DetailDachform" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" TO bp_user;
 COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.
 Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteDachform" bezieht sich auf den an gleicher Position stehenden Attributwert von dachform.';
-
--- -----------------------------------------------------
--- Table "BP_Bebauung"."BP_BaugebietObjekt"
--- -----------------------------------------------------
-CREATE TABLE  "BP_Bebauung"."BP_BaugebietObjekt" (
-  "gid" BIGINT NOT NULL,
-  "allgArtDerBaulNutzung" INTEGER,
-  "besondereArtDerBaulNutzung" INTEGER,
-  "sondernutzung" INTEGER,
-  "detaillierteArtDerBaulNutzung" INTEGER,
-  "nutzungText" VARCHAR(256),
-  "abweichungBauNVO" INTEGER,
-  "zugunstenVon" VARCHAR(64),
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_BP_Baugebiet_parent"
-    FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1"
-    FOREIGN KEY ("allgArtDerBaulNutzung")
-    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1"
-    FOREIGN KEY ("besondereArtDerBaulNutzung")
-    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_Sondernutzungen1"
-    FOREIGN KEY ("sondernutzung")
-    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1"
-    FOREIGN KEY ("detaillierteArtDerBaulNutzung")
-    REFERENCES "BP_Bebauung"."BP_DetailArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1"
-    FOREIGN KEY ("abweichungBauNVO")
-    REFERENCES "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("allgArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("besondereArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_Sondernutzungen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("sondernutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("detaillierteArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("abweichungBauNVO");
-GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO xp_gast;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO bp_user;
-COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt" IS '';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Nutzungsform "Sondergebiet": Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
-CREATE TRIGGER "change_to_BP_BaugebietObjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_BP_BaugebietObjekt" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BaugebietBauweise"
@@ -3192,6 +3126,69 @@ COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungRueckwaertigeGr
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietBauweise"."bebauungSeitlicheGrenze" IS 'Festsetzung der Bebauung der seitlichen Grundstücksgrenze (§9, Abs. 1, Nr. 2 BauGB).';
 CREATE TRIGGER "change_to_BP_BaugebietBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BaugebietBauweise" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietObjekt"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_BaugebietObjekt" (
+  "gid" BIGINT NOT NULL,
+  "allgArtDerBaulNutzung" INTEGER,
+  "besondereArtDerBaulNutzung" INTEGER,
+  "sondernutzung" INTEGER,
+  "detaillierteArtDerBaulNutzung" INTEGER,
+  "nutzungText" VARCHAR(256),
+  "abweichungBauNVO" INTEGER,
+  "zugunstenVon" VARCHAR(64),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_Baugebiet_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1"
+    FOREIGN KEY ("allgArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1"
+    FOREIGN KEY ("besondereArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_Sondernutzungen1"
+    FOREIGN KEY ("sondernutzung")
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1"
+    FOREIGN KEY ("detaillierteArtDerBaulNutzung")
+    REFERENCES "BP_Bebauung"."BP_DetailArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1"
+    FOREIGN KEY ("abweichungBauNVO")
+    REFERENCES "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("allgArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("besondereArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_Sondernutzungen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("sondernutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("detaillierteArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("abweichungBauNVO");
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO bp_user;
+COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt" IS '';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Nutzungsform "Sondergebiet": Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
+CREATE TRIGGER "change_to_BP_BaugebietObjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_BaugebietObjekt" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
@@ -4564,8 +4561,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
  SELECT bp_o.gid,
-    g."gehoertZuBP_Bereich" AS "BP_Bereich_gid",
-    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
     bp_o."Objektart",
     bp_o."Objektartengruppe",
     bp_o.typ,
@@ -4594,8 +4590,7 @@ CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
                    FROM "BP_Basisobjekte"."BP_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n_1 ON c.relnamespace = n_1.oid) bp_o
-     LEFT JOIN "BP_Basisobjekte"."BP_Objekt_gehoertZuBP_Bereich" g ON bp_o.gid = g."BP_Objekt_gid"
-     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON bp_o.gid = n."XP_Objekt_gid";
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON bp_o.gid = n."XP_Objekt_gid";
 
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 

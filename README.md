@@ -11,3 +11,4 @@ Soll mit dem xplanplugin für QGIS gearbeitet werden, sind alle *QGIS.sql - Date
 
 Dieses Projekt implementiert den Standard XPlanung 5.0. Der Vorgängerstandard ist in der Branch
 [xplan_4_1](https://github.com/bstroebl/xplanPostGIS/tree/xplan_4_1) abgelegt. Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.0 erfolgt mit dem Script 4zu5.sql.
+Dabei sollte das Script nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden.

@@ -27,21 +27,18 @@ GRANT xp_user TO so_user;
 -- CREATE SCHEMAS
 -- *****************************************************
 
-CREATE SCHEMA "SO_Raster";
 CREATE SCHEMA "SO_Schutzgebiete";
 CREATE SCHEMA "SO_Basisobjekte";
 CREATE SCHEMA "SO_NachrichtlicheUebernahmen";
 CREATE SCHEMA "SO_SonstigeGebiete";
 CREATE SCHEMA "SO_Sonstiges";
 
-COMMENT ON SCHEMA "SO_Raster" IS 'Rasterdarstellung sonstiger Planwerke';
 COMMENT ON SCHEMA "SO_Schutzgebiete" IS 'Schutzgebiete nach verschiedenen gesetzlichen Bestimmungen.';
 COMMENT ON SCHEMA "SO_Basisobjekte" IS 'Basisklassen des Modellbereichs "Sonstige raumbezogene Planwerke und Nachrichtliche Übernahmen".';
 COMMENT ON SCHEMA "SO_NachrichtlicheUebernahmen" IS 'Klassen zur Modellierung nachrichtlicher Übernahmen aus anderen Rechtsbereichen.';
 COMMENT ON SCHEMA "SO_SonstigeGebiete" IS 'Klassen zur Modellierung sonstiger Gebietsausweisungen in Bauleitplänen.';
 COMMENT ON SCHEMA "SO_Sonstiges" IS '';
 
-GRANT USAGE ON SCHEMA "SO_Raster" TO xp_gast;
 GRANT USAGE ON SCHEMA "SO_Schutzgebiete" TO xp_gast;
 GRANT USAGE ON SCHEMA "SO_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "SO_NachrichtlicheUebernahmen" TO xp_gast;
@@ -314,6 +311,25 @@ GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" TO 
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtPunkt" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_SO_SchutzgebietNaturschutzrechtLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
+GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO xp_gast;
+GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO so_user;
+COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtLinie" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtLinie" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche"
@@ -1803,8 +1819,7 @@ CREATE OR REPLACE RULE _delete AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
  SELECT fp_o.gid,
-    g."gehoertZuSO_Bereich" AS "SO_Bereich_gid",
-    n."gehoertNachrichtlichZuBereich" AS nachrichtlich,
+    n."gehoertZuBereich" AS "XP_Bereich_gid",
     fp_o."Objektart",
     fp_o."Objektartengruppe",
     fp_o.typ,
@@ -1833,8 +1848,7 @@ CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Objekte" AS
                    FROM "SO_Basisobjekte"."SO_Flaechenobjekt") o
              JOIN pg_class c ON o.tableoid = c.oid
              JOIN pg_namespace n ON c.relnamespace = n.oid) fp_o
-     LEFT JOIN "SO_Basisobjekte"."SO_Objekt_gehoertZuSO_Bereich" g ON fp_o.gid = g."SO_Objekt_gid"
-     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
+     LEFT JOIN "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" n ON fp_o.gid = n."XP_Objekt_gid";
 
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_Objekte" TO xp_gast;
 
