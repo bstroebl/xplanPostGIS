@@ -1133,6 +1133,13 @@ GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" TO bp_user;
 COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
 CREATE INDEX "idx_fk_refTextInhalt_BP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("BP_Objekt_gid");
 CREATE INDEX "idx_fk_refTextInhalt_BP_TextAbschnitt1" ON "BP_Basisobjekte"."BP_Objekt_refTextInhalt" ("refTextInhalt");
+-- Vorhandene Referenzen für BP_NebenanlagenAusschlussFlaeche_abweichungText werden im folgenden nicht mitgenommen:
+ALTER TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" DROP CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_abweichungText2";
+ALTER TABLE "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" ADD CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_abweichungText2"
+    FOREIGN KEY ("abweichungText")
+    REFERENCES "BP_Basisobjekte"."BP_TextAbschnitt" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Objekt_refTextInhalt"
 -- -----------------------------------------------------

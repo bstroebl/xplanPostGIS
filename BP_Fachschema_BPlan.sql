@@ -3645,7 +3645,7 @@ CREATE TABLE  "BP_Bebauung"."BP_NebenanlagenAusschlussFlaeche_abweichungText" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_NebenanlagenAusschlussFlaeche_abweichungText2"
     FOREIGN KEY ("abweichungText")
-    REFERENCES "XP_Basisobjekte"."XP_TextAbschnitt" ("id")
+    REFERENCES "BP_Basisobjekte"."BP_TextAbschnitt" ("id")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
