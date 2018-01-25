@@ -1328,8 +1328,8 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf 
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("XP_Objekt_gid") ;
 
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_gast;
-GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" TO xp_user;
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt_externeReferenz"
@@ -1565,6 +1565,26 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellun
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" TO xp_user;
 
 -- -----------------------------------------------------
+-- Table "XP_Praesentationsobjekte"."XP_LPO"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
+  "gid" BIGINT NOT NULL ,
+  "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_XP_LPO_XP_APO1"
+    FOREIGN KEY ("gid" )
+    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("XP_Praesentationsobjekte"."XP_APO");
+COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" IS 'Linienförmiges Präsentationsobjekt.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_XP_LPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+CREATE TRIGGER "delete_XP_LPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_gast;
+GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_user;
+
+-- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_PPO"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
@@ -1616,26 +1636,6 @@ CREATE TRIGGER "delete_XP_FPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_FP
 CREATE TRIGGER "XP_FPO_RHR" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_FPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_FPO" TO xp_user;
-
--- -----------------------------------------------------
--- Table "XP_Praesentationsobjekte"."XP_LPO"
--- -----------------------------------------------------
-CREATE  TABLE  "XP_Praesentationsobjekte"."XP_LPO" (
-  "gid" BIGINT NOT NULL ,
-  "position" GEOMETRY(MultiLinestring,25832) NOT NULL ,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_XP_LPO_XP_APO1"
-    FOREIGN KEY ("gid" )
-    REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("XP_Praesentationsobjekte"."XP_APO");
-COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" IS 'Linienförmiges Präsentationsobjekt.';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_LPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_XP_LPO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
-CREATE TRIGGER "delete_XP_LPO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_LPO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_APObjekt"();
-GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_gast;
-GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_LPO" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_VertikaleAusrichtung"
@@ -1994,7 +1994,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_hoehenangabe" TO xp_user;
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
 SELECT g.gid, g."raeumlicherGeltungsbereich", name, nummer, "internalId", beschreibung,  kommentar,
   "technHerstellDatum",  "untergangsDatum",  "erstellungsMassstab" ,
-  "xPlanGMLVersion",  bezugshoehe , CAST(c.relname as varchar) as "Objektart"
+  bezugshoehe, CAST(c.relname as varchar) as "Objektart"
 FROM  "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich" g
 JOIN pg_class c ON g.tableoid = c.oid
 JOIN "XP_Basisobjekte"."XP_Plan" p ON g.gid = p.gid;

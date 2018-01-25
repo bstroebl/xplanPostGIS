@@ -7,6 +7,9 @@
  *                                                                         *
  ************************************************************************* */
 
+ 
+ CREATE EXTENSION tablefunc;
+ 
 -- *****************************************************
 -- CREATE Views für BP
 -- *****************************************************
@@ -17,7 +20,7 @@
 
 CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Plan_qv" AS
 SELECT x.gid, b."raeumlicherGeltungsbereich", x.name, x.nummer, x."internalId", x.beschreibung, x.kommentar,
-    x."technHerstellDatum", x."genehmigungsDatum", x."untergangsDatum", x."erstellungsMassstab", x."xPlanGMLVersion",
+    x."technHerstellDatum", x."genehmigungsDatum", x."untergangsDatum", x."erstellungsMassstab",
     x.bezugshoehe, b."sonstPlanArt", b.verfahren, b.rechtsstand, b.status, b.hoehenbezug, b."aenderungenBisDatum",
     b."aufstellungsbeschlussDatum", b."veraenderungssperreDatum", b."satzungsbeschlussDatum", b."rechtsverordnungsDatum",
     b."inkrafttretensDatum", b."ausfertigungsDatum", b.veraenderungssperre, b."staedtebaulicherVertrag",

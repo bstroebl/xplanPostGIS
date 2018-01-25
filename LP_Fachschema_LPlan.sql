@@ -1672,7 +1672,7 @@ CREATE TRIGGER "delete_LP_WasserrechtGemeingebrEinschraenkungNaturschutz" AFTER 
 CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche_parent"
+  CONSTRAINT "fk_LP_WasserrGemeingebrEinschrNaturschutzFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutz" ("gid" )
     ON DELETE CASCADE
@@ -1682,9 +1682,9 @@ INHERITS ("LP_Basisobjekte"."LP_Flaechenobjekt");
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" TO lp_user;
 CREATE INDEX "LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche_gidx" ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" using gist ("position");
-CREATE TRIGGER "change_to_LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "change_to_LP_WasserrGemeingebrEinschrNaturschutzFlaeche" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+CREATE TRIGGER "LP_WasserrGemeingebrEinschrNaturschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie"
@@ -1692,7 +1692,7 @@ CREATE TRIGGER "LP_WasserrechtGemeingebrEinschraenkungNaturschutzFlaeche_Flaeche
 CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie_parent"
+  CONSTRAINT "fk_LP_WasserrGemeingebrEinschrNaturschutzLinie_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutz" ("gid" )
     ON DELETE CASCADE
@@ -1701,9 +1701,9 @@ INHERITS ("LP_Basisobjekte"."LP_Linienobjekt");
 
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" TO xp_gast;
 GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" TO lp_user;
-CREATE INDEX "LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie_gidx" ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" using gist ("position");
-CREATE TRIGGER "change_to_LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE INDEX "LP_WasserrGemeingebrEinschrNaturschutzLinie_gidx" ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" using gist ("position");
+CREATE TRIGGER "change_to_LP_WasserrGemeingebrEinschrNaturschutzLinie" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_LP_WasserrGemeingebrEinschrNaturschutzLinie" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt"
@@ -1711,7 +1711,7 @@ CREATE TRIGGER "delete_LP_WasserrechtGemeingebrEinschraenkungNaturschutzLinie" A
 CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt_parent"
+  CONSTRAINT "fk_LP_WasserrGemeingebrEinschrNaturschutzPunkt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutz" ("gid" )
     ON DELETE CASCADE
@@ -1720,9 +1720,9 @@ INHERITS ("LP_Basisobjekte"."LP_Punktobjekt");
 
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" TO xp_gast;
 GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" TO lp_user;
-CREATE INDEX "LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt_gidx" ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" using gist ("position");
-CREATE TRIGGER "change_to_LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE INDEX "LP_WasserrGemeingebrEinschrNaturschutzPunkt_gidx" ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" using gist ("position");
+CREATE TRIGGER "change_to_LP_WasserrGemeingebrEinschrNaturschutzPunkt" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_LP_WasserrGemeingebrEinschrNaturschutzPunkt" AFTER DELETE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebietTypen"

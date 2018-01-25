@@ -360,21 +360,10 @@ GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrLinie_qv" TO xp_gast;
 -- View "FP_Verkehr"."FP_StrassenverkehrPunkt_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" AS
- SELECT g.gid, g.position, xpo.ebene, xpo.rechtsstand, p.zweckbestimmung as zweckbestimmung1,
- p."besondereZweckbestimmung" as "besondereZweckbestimmung1",
- CASE WHEN p.zweckbestimmung = 1400 THEN
-    CASE WHEN p."besondereZweckbestimmung" IS NULL THEN
-        'Sonst Verkehr'
-    WHEN p."besondereZweckbestimmung" IN (14001,14006,14007,14008,14009) THEN
-        bzl1."Bezeichner"
-    ELSE
-        NULL
-    END
-END as label1
+ SELECT g.gid, g.position, xpo.ebene, xpo.rechtsstand, p.zweckbestimmung as zweckbestimmung1
 FROM "FP_Verkehr"."FP_StrassenverkehrPunkt" g
-    JOIN  "FP_Verkehr"."FP_Strassenverkehr" p ON g.gid = p.gid
-    JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid
-    LEFT JOIN "FP_Verkehr"."FP_BesondereZweckbestimmungStrassenverkehr" bzl1 ON p."besondereZweckbestimmung" = bzl1."Code";
+    JOIN "FP_Verkehr"."FP_Strassenverkehr" p ON g.gid = p.gid
+    JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" TO xp_gast;
 
 -- -----------------------------------------------------

@@ -277,9 +277,9 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_artDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("artDerFestlegung");
-CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_detailArtDerFestlegung_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("detailArtDerFestlegung");
-CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_zone_idx" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("zone");
+CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_artDerFestlegung" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("artDerFestlegung");
+CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_detailArtDerFestlegung" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("detailArtDerFestlegung");
+CREATE INDEX "idx_fk_SO_SchutzgebietNaturschutzrecht_zone" ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ("zone");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" TO so_user;
 
