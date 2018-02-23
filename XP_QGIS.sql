@@ -57,8 +57,10 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobj
 
 CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_TPO_qv" AS
 SELECT p.*, b."schriftinhalt", b."fontSperrung",
-	b."skalierung", b."horizontaleAusrichtung", b."vertikaleAusrichtung"
+	b."skalierung", ha."Bezeichner" as "horizontaleAusrichtung", va."Bezeichner" as "vertikaleAusrichtung"
 FROM "XP_Praesentationsobjekte"."XP_TPO" b
+    JOIN "QGIS"."HorizontaleAusrichtung" ha ON b."horizontaleAusrichtung" = ha."Code"
+    JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
     JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO_qv" TO xp_gast;
 
@@ -83,3 +85,14 @@ FROM "XP_Praesentationsobjekte"."XP_PTO" b
     JOIN "XP_Praesentationsobjekte"."XP_TPO_qv" p ON b.gid = p.gid;
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PTO_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_LTO_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_LTO_qv" AS
+SELECT p.*, b.position::geometry(MultiLinestring, 25832)
+FROM "XP_Praesentationsobjekte"."XP_LTO" b
+    JOIN "XP_Praesentationsobjekte"."XP_TPO_qv" p ON b.gid = p.gid;
+
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LTO_qv" TO xp_gast;
