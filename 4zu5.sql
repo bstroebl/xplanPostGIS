@@ -1901,3 +1901,195 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code"
 -- Änderung CR-086
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('16000', 'Parkplatz');
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('16001', 'Fahrradabstellplatz');
+
+
+-- Funktion, um übergeordnete Zweckbestimmungen etc. zu entfernen, wenn entsprechende besondereZweckbestimmungen etc. für das selbe Objekt vorhanden waren (nun alles zweckbestimmung etc.)
+-- Die Funktion gibt SQL-DELETE-Statements zurück, die im Anschluß ausgeführt werden können
+create or replace function "QGIS".delete_superordinate()
+    RETURNS text
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE
+AS $BODY$
+
+ DECLARE
+    rec record;
+    lastgid bigint;
+    wert character varying;
+    returnvalue text;
+ BEGIN
+    returnvalue := '';
+    lastgid := -9999;
+    wert := '0';
+    FOR rec in SELECT "BP_VerEntsorgung_gid",zweckbestimmung::varchar as zweck
+        FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung"
+        WHERE "BP_VerEntsorgung_gid" IN(
+            select gid
+            from "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."BP_VerEntsorgung_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."BP_VerEntsorgung_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" WHERE "BP_VerEntsorgung_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."BP_VerEntsorgung_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "FP_VerEntsorgung_gid",zweckbestimmung::varchar as zweck
+        FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung"
+        WHERE "FP_VerEntsorgung_gid" IN(
+            select gid
+            from "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."FP_VerEntsorgung_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."FP_VerEntsorgung_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" WHERE "FP_VerEntsorgung_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."FP_VerEntsorgung_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "BP_GemeinbedarfsFlaeche_gid",zweckbestimmung::varchar as zweck
+        FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung"
+        WHERE "BP_GemeinbedarfsFlaeche_gid" IN(
+            select gid
+            from "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."BP_GemeinbedarfsFlaeche_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."BP_GemeinbedarfsFlaeche_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" WHERE "BP_GemeinbedarfsFlaeche_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."BP_GemeinbedarfsFlaeche_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "FP_Gemeinbedarf_gid",zweckbestimmung::varchar as zweck
+        FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung"
+        WHERE "FP_Gemeinbedarf_gid" IN(
+            select gid
+            from "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."FP_Gemeinbedarf_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."FP_Gemeinbedarf_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" WHERE "FP_Gemeinbedarf_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."FP_Gemeinbedarf_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "BP_GruenFlaeche_gid",zweckbestimmung::varchar as zweck
+        FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung"
+        WHERE "BP_GruenFlaeche_gid" IN(
+            select gid
+            from "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."BP_GruenFlaeche_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."BP_GruenFlaeche_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" WHERE "BP_GruenFlaeche_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."BP_GruenFlaeche_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "FP_Gruen_gid",zweckbestimmung::varchar as zweck
+        FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung"
+        WHERE "FP_Gruen_gid" IN(
+            select gid
+            from "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."FP_Gruen_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."FP_Gruen_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" WHERE "FP_Gruen_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."FP_Gruen_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    wert := '0';
+    FOR rec in SELECT "FP_PrivilegiertesVorhaben_gid",zweckbestimmung::varchar as zweck
+        FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung"
+        WHERE "FP_PrivilegiertesVorhaben_gid" IN(
+            select gid
+            from "FP_Sonstiges"."FP_PrivilegiertesVorhaben_qv"
+            where anz_zweckbestimmung > 1)
+        ORDER BY 1,2 DESC LOOP
+
+        IF rec."FP_PrivilegiertesVorhaben_gid" = lastgid THEN
+            IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
+                RAISE NOTICE '%: %', rec."FP_PrivilegiertesVorhaben_gid"::varchar, rec.zweck;
+                returnvalue := returnvalue ||
+                    E'\nDELETE FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" WHERE "FP_PrivilegiertesVorhaben_gid" = ' ||
+                    lastgid::varchar ||
+                    ' AND zweckbestimmung = ' ||
+                    rec.zweck || ';';
+            END IF;
+        ELSE
+            lastgid := rec."FP_PrivilegiertesVorhaben_gid";
+            wert := rec.zweck;
+        END IF;
+    END LOOP;
+
+    RETURN returnvalue;
+END;
+$BODY$;
+
+SELECT "QGIS".delete_superordinate();
