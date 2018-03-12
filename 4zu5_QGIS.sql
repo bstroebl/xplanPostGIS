@@ -1,5 +1,5 @@
--- Dieses Script stellt QGIS-Views wieder her, und sollte nach 4zu5.sql ausgeführt werden
-
+-- Dieses Script stellt QGIS-Views wieder her, und sollte nach 4zu5.sql ausgefÃ¼hrt werden
+--
 -- -----------------------------------------------------
 -- View "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
 -- -----------------------------------------------------
