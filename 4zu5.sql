@@ -1931,7 +1931,6 @@ AS $BODY$
 
         IF rec."BP_VerEntsorgung_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."BP_VerEntsorgung_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_zweckbestimmung" WHERE "BP_VerEntsorgung_gid" = ' ||
                     lastgid::varchar ||
@@ -1955,7 +1954,6 @@ AS $BODY$
 
         IF rec."FP_VerEntsorgung_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."FP_VerEntsorgung_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_zweckbestimmung" WHERE "FP_VerEntsorgung_gid" = ' ||
                     lastgid::varchar ||
@@ -1979,7 +1977,6 @@ AS $BODY$
 
         IF rec."BP_GemeinbedarfsFlaeche_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."BP_GemeinbedarfsFlaeche_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" WHERE "BP_GemeinbedarfsFlaeche_gid" = ' ||
                     lastgid::varchar ||
@@ -2003,7 +2000,6 @@ AS $BODY$
 
         IF rec."FP_Gemeinbedarf_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."FP_Gemeinbedarf_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" WHERE "FP_Gemeinbedarf_gid" = ' ||
                     lastgid::varchar ||
@@ -2027,7 +2023,6 @@ AS $BODY$
 
         IF rec."BP_GruenFlaeche_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."BP_GruenFlaeche_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_zweckbestimmung" WHERE "BP_GruenFlaeche_gid" = ' ||
                     lastgid::varchar ||
@@ -2051,7 +2046,6 @@ AS $BODY$
 
         IF rec."FP_Gruen_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."FP_Gruen_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen_zweckbestimmung" WHERE "FP_Gruen_gid" = ' ||
                     lastgid::varchar ||
@@ -2075,7 +2069,6 @@ AS $BODY$
 
         IF rec."FP_PrivilegiertesVorhaben_gid" = lastgid THEN
             IF length(rec.zweck) = 4 AND left(rec.zweck,4) = left(wert,4) THEN
-                RAISE NOTICE '%: %', rec."FP_PrivilegiertesVorhaben_gid"::varchar, rec.zweck;
                 returnvalue := returnvalue ||
                     E'\nDELETE FROM "FP_Sonstiges"."FP_PrivilegiertesVorhaben_zweckbestimmung" WHERE "FP_PrivilegiertesVorhaben_gid" = ' ||
                     lastgid::varchar ||
