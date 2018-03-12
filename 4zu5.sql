@@ -1624,6 +1624,148 @@ ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMmax";
 ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmin";
 ALTER TABLE "BP_Bebauung"."BP_FestsetzungenBaugebiet" DROP COLUMN "BMZmax";
 
+CREATE OR REPLACE FUNCTION "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+
+ BEGIN
+    IF NEW."GFZmin" IS NOT NULL AND NEW."GFZmax" IS NULL THEN
+        IF NEW."GFZ" IS NOT NULL THEN
+            NEW."GFZmax" := NEW."GFZ";
+        ELSE
+            NEW."GFZmax" := NEW."GFZmin";
+        END IF;
+    ELSIF NEW."GFZmin" IS NULL AND NEW."GFZmax" IS NOT NULL THEN
+        NEW."GFZmin" := NEW."GFZmax";
+    ELSE
+        IF NEW."GFZmin" > NEW."GFZmax" THEN
+            NEW."GFZmin" := NEW."GFZmax";
+        END IF;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GFmax" IS NULL THEN
+        IF NEW."GF" IS NOT NULL THEN
+            NEW."GFmax" := NEW."GF";
+        ELSE
+            NEW."GFmax" := NEW."GFmin";
+        END IF;
+    ELSIF NEW."GFmin" IS NULL AND NEW."GFmax" IS NOT NULL THEN
+        NEW."GFmin" := NEW."GFmax";
+    ELSE
+        IF NEW."GFmin" > NEW."GFmax" THEN
+            NEW."GFmin" := NEW."GFmax";
+        END IF;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."GFmin" IS NOT NULL AND NEW."GF" IS NOT NULL THEN
+        NEW."GF" := NULL;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZ" IS NOT NULL THEN
+        NEW."GRZ" := NULL;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZmax" IS NULL THEN
+        IF NEW."GRZ" IS NOT NULL THEN
+            NEW."GRZmax" := NEW."GRZ";
+        ELSE
+            NEW."GRZmax" := NEW."GRZmin";
+        END IF;
+    ELSIF NEW."GRZmin" IS NULL AND NEW."GRZmax" IS NOT NULL THEN
+        NEW."GRZmin" := NEW."GRZmax";
+    ELSE
+        IF NEW."GRZmin" > NEW."GRZmax" THEN
+            NEW."GRZmin" := NEW."GRZmax";
+        END IF;
+    END IF;
+
+    IF NEW."GRZmin" IS NOT NULL AND NEW."GRZ" IS NOT NULL THEN
+        NEW."GRZ" := NULL;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GR" IS NOT NULL THEN
+        NEW."GR" := NULL;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GRmax" IS NULL THEN
+        IF NEW."GR" IS NOT NULL THEN
+            NEW."GRmax" := NEW."GR";
+        ELSE
+            NEW."GRmax" := NEW."GRmin";
+        END IF;
+    ELSIF NEW."GRmin" IS NULL AND NEW."GRmax" IS NOT NULL THEN
+        NEW."GRmin" := NEW."GRmax";
+    ELSE
+        IF NEW."GRmin" > NEW."GRmax" THEN
+            NEW."GRmin" := NEW."GRmax";
+        END IF;
+    END IF;
+
+    IF NEW."GRmin" IS NOT NULL AND NEW."GR" IS NOT NULL THEN
+        NEW."GR" := NULL;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Z" IS NOT NULL THEN
+        NEW."Z" := NULL;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Zmax" IS NULL THEN
+        IF NEW."Z" IS NOT NULL THEN
+            NEW."Zmax" := NEW."Z";
+        ELSE
+            NEW."Zmax" := NEW."Zmin";
+        END IF;
+    ELSIF NEW."Zmin" IS NULL AND NEW."Zmax" IS NOT NULL THEN
+        NEW."Zmin" := NEW."Zmax";
+    ELSE
+        IF NEW."Zmin" > NEW."Zmax" THEN
+            NEW."Zmin" := NEW."Zmax";
+        END IF;
+    END IF;
+
+    IF NEW."Zmin" IS NOT NULL AND NEW."Z" IS NOT NULL THEN
+        NEW."Z" := NULL;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZU" IS NOT NULL THEN
+        NEW."ZU" := NULL;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZUmax" IS NULL THEN
+        IF NEW."ZU" IS NOT NULL THEN
+            NEW."ZUmax" := NEW."ZU";
+        ELSE
+            NEW."ZUmax" := NEW."ZUmin";
+        END IF;
+    ELSIF NEW."ZUmin" IS NULL AND NEW."ZUmax" IS NOT NULL THEN
+        NEW."ZUmin" := NEW."ZUmax";
+    ELSE
+        IF NEW."ZUmin" > NEW."ZUmax" THEN
+            NEW."ZUmin" := NEW."ZUmax";
+        END IF;
+    END IF;
+
+    IF NEW."ZUmin" IS NOT NULL AND NEW."ZU" IS NOT NULL THEN
+        NEW."ZU" := NULL;
+    END IF;
+
+    RETURN NEW;
+ END;
+$BODY$;
+
+GRANT EXECUTE ON FUNCTION "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"() TO bp_user;
+
 -- Änderung CR-073
 -- war bereits implementiert
 
