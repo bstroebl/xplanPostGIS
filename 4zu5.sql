@@ -1939,8 +1939,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."BP_VerEntsorgung_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -1962,8 +1962,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."FP_VerEntsorgung_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -1985,8 +1985,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."BP_GemeinbedarfsFlaeche_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -2008,8 +2008,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."FP_Gemeinbedarf_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -2031,8 +2031,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."BP_GruenFlaeche_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -2054,8 +2054,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."FP_Gruen_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     wert := '0';
@@ -2077,8 +2077,8 @@ AS $BODY$
             END IF;
         ELSE
             lastgid := rec."FP_PrivilegiertesVorhaben_gid";
-            wert := rec.zweck;
         END IF;
+        wert := rec.zweck;
     END LOOP;
 
     RETURN returnvalue;
