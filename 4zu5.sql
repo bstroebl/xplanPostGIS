@@ -81,6 +81,8 @@ CREATE OR REPLACE RULE _delete AS
 -- XP
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME "gehoertNachrichtlichZuBereich" TO "gehoertZuBereich";
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt_gehoertNachrichtlichZuBereich" RENAME TO "XP_Objekt_gehoertZuBereich";
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich"
+    IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört.';
 -- BP
 DROP VIEW "BP_Basisobjekte"."BP_Objekte";
 CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Objekte" AS
