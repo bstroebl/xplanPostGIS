@@ -98,6 +98,34 @@ COST 100;
 GRANT EXECUTE ON FUNCTION "QGIS"."pruefe_Sperre"() TO xp_user;
 
 -- *****************************************************
+-- CREATE FUNCTION
+-- *****************************************************
+
+CREATE OR REPLACE FUNCTION "QGIS"."ObjektKopieren"(
+    quellschema varchar, 
+    quelltabelle varchar, 
+    gid bigint, 
+    zielschema varchar, 
+    zieltabelle varchar)
+RETURNS integer -- 1 = Erfolg, 0 = Fehler
+AS
+$BODY$
+    DECLARE
+        parent_nspname varchar;
+        parent_relname varchar;
+        rec record;
+    BEGIN
+        EXECUTE 'INSERT INTO ' || quote_ident(zielschema) || '.' || quote_ident(zieltabelle) ||
+                'SELECT position FROM ' || quote_ident(zielschema) || '.' || quote_ident(zieltabelle) || 
+                ' WHERE gid = ' || gid::varchar || ';';
+        
+    END; 
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE
+COST 100;
+GRANT EXECUTE ON FUNCTION "QGIS"."ObjektKopieren"(varchar, varchar ,bigint, varchar, varchar) TO xp_user;
+
+-- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************
 

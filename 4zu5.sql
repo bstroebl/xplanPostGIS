@@ -1032,6 +1032,8 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_externeReferenz" (
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_externeReferenz" IS 'Referenz auf ein Dokument oder einen georeferenzierten Rasterplan.';
 CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_Plan" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_XP_Plan_externeReferenz_XP_ExterneReferenz" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("externeReferenz");
+GRANT ALL ON "XP_Basisobjekte"."XP_Plan_externeReferenz" TO xp_user;
+GRANT SELECT ON "XP_Basisobjekte"."XP_Plan_externeReferenz" TO xp_gast;
 --Beschreibung
 INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refBeschreibung",1000 FROM "XP_Basisobjekte"."XP_Plan_refBeschreibung";
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
