@@ -1902,14 +1902,26 @@ COMMENT ON COLUMN "LP_Basisobjekte"."LP_Punktobjekt"."nordwinkel" IS 'Orientieru
 -- Änderung CR-081
 -- Vorbereitung; der Plan ist es, das zugehöriges XP_Objekt zu übernehmen, damit bleibt auch die Bereichszuordnung bestehen
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" DISABLE TRIGGER "change_to_SO_Objekt"; -- damit wird bei INSERT kein XP_Objekt angelegt
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" DISABLE TRIGGER "change_to_SO_Denkmalschutzrecht";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" DISABLE TRIGGER "change_to_SO_DenkmalschutzrechtFlaeche";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" DISABLE TRIGGER "change_to_SO_DenkmalschutzrechtLinie";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" DISABLE TRIGGER "change_to_SO_DenkmalschutzrechtPunkt";
 -- BP, refTextInhalt wird nicht übernommen!
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DISABLE TRIGGER "delete_BP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageFlaeche";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" (gid, position) SELECT gid, position FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlageLinie";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" (gid, position) SELECT gid, position FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlagePunkt";
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" so SET "name" = (SELECT "denkmal" FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage" WHERE "name" IS NOT NULL);
 UPDATE "SO_Basisobjekte"."SO_Objekt" so SET "rechtscharakter" = (SELECT "rechtscharakter" FROM "BP_Basisobjekte"."BP_Objekt" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage");
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM"BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche";
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" so SET "name" = (SELECT "denkmal" FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche" WHERE "name" IS NOT NULL);
 UPDATE "SO_Basisobjekte"."SO_Objekt" so SET "rechtscharakter" = (SELECT "rechtscharakter" FROM "BP_Basisobjekte"."BP_Objekt" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEnsembleFlaeche");
 DELETE FROM "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_DenkmalschutzEinzelanlage";
@@ -1923,8 +1935,14 @@ ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ENABLE TRIGGER "delete_BP_Objekt";
 -- LP
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" DISABLE TRIGGER "delete_LP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") SELECT "Code", "Bezeichner" FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtDetailTypen";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtFlaeche";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtLinie";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtLinie";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtLinie";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtPunkt";
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtPunkt";
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtPunkt";
 UPDATE "SO_Basisobjekte"."SO_Objekt" so SET "rechtscharakter" = (SELECT "rechtscharakter" FROM "LP_Basisobjekte"."LP_Objekt" lp WHERE lp.gid = so.gid) WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht");
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" so SET "detailArtDerFestlegung" = (SELECT "detailTyp" FROM "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" lp WHERE lp.gid = so.gid) WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" WHERE "detailTyp" IS NOT NULL);
@@ -1936,10 +1954,17 @@ DROP TABLE "LP_SchutzgebieteObjekte"."LP_Denkmalschutzrecht" CASCADE;
 DROP TABLE "LP_SchutzgebieteObjekte"."LP_DenkmalschutzrechtDetailTypen";
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ENABLE TRIGGER "delete_LP_Objekt";
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ENABLE TRIGGER "change_to_SO_Objekt";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht" ENABLE TRIGGER "change_to_SO_Denkmalschutzrecht";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtFlaeche" ENABLE TRIGGER "change_to_SO_DenkmalschutzrechtFlaeche";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtLinie" ENABLE TRIGGER "change_to_SO_DenkmalschutzrechtLinie";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_DenkmalschutzrechtPunkt" ENABLE TRIGGER "change_to_SO_DenkmalschutzrechtPunkt";
 
 -- Änderung CR-082
 -- Vorbereitung; Plan: wie CR-081
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" DISABLE TRIGGER "change_to_SO_Objekt"; -- damit wird bei INSERT kein XP_Objekt angelegt
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" DISABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrecht";
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" DISABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtFlaeche";
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" DISABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt";
 -- linienhafte Zieltabelle, gab es bisher nicht (warum?)
 CREATE TABLE  "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (
   "gid" BIGINT NOT NULL,
@@ -1953,12 +1978,17 @@ INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" TO so_user;
 COMMENT ON COLUMN "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtLinie" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_SchutzgebietNaturschutzrechtLinie" AFTER DELETE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 -- BP, refTextInhalt wird nicht übernommen!
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" DISABLE TRIGGER "delete_BP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (gid, position, flaechenschluss) SELECT gid, position, flaechenschluss FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietFlaeche";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (gid, position) SELECT gid, position FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietLinie";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" (gid, position) SELECT gid, position FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzgebietPunkt";
 UPDATE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" so SET "artDerFestlegung" = (SELECT "zweckbestimmung" FROM "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Schutzgebiet" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Schutzgebiet" WHERE "zweckbestimmung" IS NOT NULL);
 UPDATE "SO_Basisobjekte"."SO_Objekt" so SET "rechtscharakter" = (SELECT "rechtscharakter" FROM "BP_Basisobjekte"."BP_Objekt" bp WHERE bp.gid = so.gid) WHERE gid in (SELECT gid from "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Schutzgebiet");
@@ -1973,8 +2003,14 @@ DROP TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_DetailZweckbestNat
 ALTER TABLE "BP_Basisobjekte"."BP_Objekt" ENABLE TRIGGER "delete_BP_Objekt";
 -- LP
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" DISABLE TRIGGER "delete_LP_Objekt"; -- damit wird bei DELETE das XP_Objekt nicht gelöscht
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtFlaeche";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtFlaeche";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtFlaeche";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtLinie";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtLinie";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtLinie";
+INSERT INTO "SO_Basisobjekte"."SO_Objekt" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt";
+INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" (gid) SELECT gid FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt";
 INSERT INTO "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" (gid, position) SELECT gid, position FROM "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt";
 UPDATE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" so SET "artDerFestlegung" = 18000 WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrecht" WHERE "typ" = 1800);
 UPDATE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" so SET "artDerFestlegung" = 18001 WHERE gid in (SELECT gid from "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrecht" WHERE "typ" = 1900);
@@ -1988,6 +2024,10 @@ DROP TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrechtPunkt" CASCADE;
 DROP TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektBundesrecht" CASCADE;
 ALTER TABLE "LP_Basisobjekte"."LP_Objekt" ENABLE TRIGGER "delete_LP_Objekt";
 ALTER TABLE "SO_Basisobjekte"."SO_Objekt" ENABLE TRIGGER "change_to_SO_Objekt";
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrecht" ENABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrecht";
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtFlaeche" ENABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtFlaeche";
+ALTER TABLE "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtPunkt" ENABLE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtPunkt";
+CREATE TRIGGER "change_to_SO_SchutzgebietNaturschutzrechtLinie" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_SchutzgebietNaturschutzrechtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- Änderung CR-083
 ALTER TABLE "BP_Basisobjekte"."BP_WirksamkeitBedingung" SET SCHEMA "XP_Basisobjekte";
