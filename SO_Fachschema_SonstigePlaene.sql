@@ -998,7 +998,7 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalsch
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" (
   "Code" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
+  "Bezeichner" VARCHAR(256) NOT NULL,
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" TO xp_gast;
