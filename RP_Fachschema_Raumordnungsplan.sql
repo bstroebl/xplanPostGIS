@@ -390,6 +390,27 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_GebietsTyp" (
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_GebietsTyp" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Objekt_gebietsTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" (
+  "RP_Objekt_gid" BIGINT NOT NULL ,
+  "gebietsTyp" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Objekt_gid", "gebietsTyp"),
+  CONSTRAINT "fk_RP_Bodenschutz_gebietsTyp1"
+    FOREIGN KEY ("RP_Objekt_gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Objekt_gebietsTyp2"
+    FOREIGN KEY ("gebietsTyp" )
+    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" TO rp_user;
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" IS 'Gebietstyp eines Objekts.';
+
+-- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" (
@@ -409,27 +430,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"."gid" IS 'Pr
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_Bodenschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Bodenschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp" (
-  "RP_Bodenschutz_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Bodenschutz_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Bodenschutz_gebietsTyp1"
-    FOREIGN KEY ("RP_Bodenschutz_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Bodenschutz_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche"
@@ -511,27 +511,6 @@ CREATE TRIGGER "change_to_RP_Forstwirtschaft" BEFORE INSERT OR UPDATE ON "RP_Ker
 CREATE TRIGGER "delete_RP_Forstwirtschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp" (
-  "RP_Forstwirtschaft_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Forstwirtschaft_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Forstwirtschaft_gebietsTyp1"
-    FOREIGN KEY ("RP_Forstwirtschaft_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Forstwirtschaft_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" (
@@ -609,27 +588,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung"."gid" I
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_FreizeitErholung" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_FreizeitErholung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp" (
-  "RP_FreizeitErholung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_FreizeitErholung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_FreizeitErholung_gebietsTyp1"
-    FOREIGN KEY ("RP_FreizeitErholung_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_FreizeitErholung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche"
@@ -790,27 +748,6 @@ CREATE TRIGGER "change_to_RP_GruenzugGruenzaesur" BEFORE INSERT OR UPDATE ON "RP
 CREATE TRIGGER "delete_RP_GruenzugGruenzaesur" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp" (
-  "RP_GruenzugGruenzaesur_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_GruenzugGruenzaesur_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_GruenzugGruenzaesur_gebietsTyp1"
-    FOREIGN KEY ("RP_GruenzugGruenzaesur_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_GruenzugGruenzaesur_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" (
@@ -888,27 +825,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz"."gid" IS 'Pr
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_Klimaschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Klimaschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp" (
-  "RP_Klimaschutz_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Klimaschutz_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Klimaschutz_gebietsTyp1"
-    FOREIGN KEY ("RP_Klimaschutz_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Klimaschutz_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche"
@@ -990,27 +906,6 @@ CREATE TRIGGER "change_to_RP_KulturellesSachgut" BEFORE INSERT OR UPDATE ON "RP_
 CREATE TRIGGER "delete_RP_KulturellesSachgut" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp" (
-  "RP_KulturellesSachgut_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_KulturellesSachgut_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_KulturellesSachgut_gebietsTyp1"
-    FOREIGN KEY ("RP_KulturellesSachgut_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_KulturellesSachgut_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" (
@@ -1090,27 +985,6 @@ CREATE TRIGGER "change_to_RP_Landwirtschaft" BEFORE INSERT OR UPDATE ON "RP_Kern
 CREATE TRIGGER "delete_RP_Landwirtschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp" (
-  "RP_Landwirtschaft_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Landwirtschaft_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Landwirtschaft_gebietsTyp1"
-    FOREIGN KEY ("RP_Landwirtschaft_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Landwirtschaft_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" (
@@ -1188,27 +1062,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft"."gid" IS
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_NaturLandschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_NaturLandschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp" (
-  "RP_NaturLandschaft_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_NaturLandschaft_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_NaturLandschaft_gebietsTyp1"
-    FOREIGN KEY ("RP_NaturLandschaft_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_NaturLandschaft_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche"
@@ -1393,27 +1246,6 @@ CREATE TRIGGER "change_to_RP_Rohstoffsicherung" BEFORE INSERT OR UPDATE ON "RP_K
 CREATE TRIGGER "delete_RP_Rohstoffsicherung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp" (
-  "RP_Rohstoffsicherung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Rohstoffsicherung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Rohstoffsicherung_gebietsTyp1"
-    FOREIGN KEY ("RP_Rohstoffsicherung_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Rohstoffsicherung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" (
@@ -1493,27 +1325,6 @@ CREATE TRIGGER "change_to_RP_SonstigerFreiraumstruktur" BEFORE INSERT OR UPDATE 
 CREATE TRIGGER "delete_RP_SonstigerFreiraumstruktur" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp" (
-  "RP_SonstigerFreiraumstruktur_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_SonstigerFreiraumstruktur_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_SonstigerFreiraumstruktur_gebietsTyp1"
-    FOREIGN KEY ("RP_SonstigerFreiraumstruktur_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_SonstigerFreiraumstruktur_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" (
@@ -1591,27 +1402,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz"."gi
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_VorbHochwasserschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_VorbHochwasserschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp" (
-  "RP_VorbHochwasserschutz_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_VorbHochwasserschutz_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_VorbHochwasserschutz_gebietsTyp1"
-    FOREIGN KEY ("RP_VorbHochwasserschutz_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_VorbHochwasserschutz_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche"
@@ -1710,27 +1500,6 @@ CREATE TRIGGER "change_to_RP_Wasserschutz" BEFORE INSERT OR UPDATE ON "RP_Kernmo
 CREATE TRIGGER "delete_RP_Wasserschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp" (
-  "RP_Wasserschutz_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Wasserschutz_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Wasserschutz_gebietsTyp1"
-    FOREIGN KEY ("RP_Wasserschutz_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Wasserschutz_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" (
@@ -1808,27 +1577,6 @@ COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung"."gid"
 COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
 CREATE TRIGGER "change_to_RP_Windenergienutzung" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Windenergienutzung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp" (
-  "RP_Windenergienutzung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Windenergienutzung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Windenergienutzung_gebietsTyp1"
-    FOREIGN KEY ("RP_Windenergienutzung_gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Windenergienutzung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche"
@@ -1924,27 +1672,6 @@ CREATE TRIGGER "change_to_RP_Energieversorgung" BEFORE INSERT OR UPDATE ON "RP_K
 CREATE TRIGGER "delete_RP_Energieversorgung" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Energieversorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp" (
-  "RP_Energieversorgung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Energieversorgung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Energieversorgung_gebietsTyp1"
-    FOREIGN KEY ("RP_Energieversorgung_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Energieversorgung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Energieversorgung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" (
@@ -2038,27 +1765,6 @@ CREATE TRIGGER "change_to_RP_Entsorgung" BEFORE INSERT OR UPDATE ON "RP_Kernmode
 CREATE TRIGGER "delete_RP_Entsorgung" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp" (
-  "RP_Entsorgung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Entsorgung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Entsorgung_gebietsTyp1"
-    FOREIGN KEY ("RP_Entsorgung_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Entsorgung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Entsorgung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" (
@@ -2134,27 +1840,6 @@ COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation" IS 'Infrastruk
 COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Kommunikation"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_Kommunikation" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Kommunikation" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp" (
-  "RP_Kommunikation_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Kommunikation_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Kommunikation_gebietsTyp1"
-    FOREIGN KEY ("RP_Kommunikation_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Kommunikation" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Kommunikation_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche"
@@ -2234,27 +1919,6 @@ CREATE TRIGGER "change_to_RP_Laermschutzbereich" BEFORE INSERT OR UPDATE ON "RP_
 CREATE TRIGGER "delete_RP_Laermschutzbereich" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp" (
-  "RP_Laermschutzbereich_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Laermschutzbereich_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Laermschutzbereich_gebietsTyp1"
-    FOREIGN KEY ("RP_Laermschutzbereich_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Laermschutzbereich_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" (
@@ -2330,27 +1994,6 @@ COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" IS 'So
 COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_SonstigeInfrastruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_SonstigeInfrastruktur" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp" (
-  "RP_SonstigeInfrastruktur_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_SonstigeInfrastruktur_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_SonstigeInfrastruktur_gebietsTyp1"
-    FOREIGN KEY ("RP_SonstigeInfrastruktur_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_SonstigeInfrastruktur_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche"
@@ -2446,27 +2089,6 @@ CREATE TRIGGER "change_to_RP_SozialeInfrastruktur" BEFORE INSERT OR UPDATE ON "R
 CREATE TRIGGER "delete_RP_SozialeInfrastruktur" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp" (
-  "RP_SozialeInfrastruktur_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_SozialeInfrastruktur_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_SozialeInfrastruktur_gebietsTyp1"
-    FOREIGN KEY ("RP_SozialeInfrastruktur_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_SozialeInfrastruktur_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" (
@@ -2560,27 +2182,6 @@ CREATE TRIGGER "change_to_RP_Verkehr" BEFORE INSERT OR UPDATE ON "RP_KernmodellI
 CREATE TRIGGER "delete_RP_Verkehr" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Verkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp" (
-  "RP_Verkehr_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Verkehr_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Verkehr_gebietsTyp1"
-    FOREIGN KEY ("RP_Verkehr_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Verkehr" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Verkehr_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
-
--- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" (
@@ -2672,27 +2273,6 @@ COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft"."gid" IS '
 COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft"."typ" IS 'Klasifikation von Anlagen und Einrichtungen der Wasserwirtschaft';
 CREATE TRIGGER "change_to_RP_Wasserwirtschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Wasserwirtschaft" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp" (
-  "RP_Wasserwirtschaft_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_Wasserwirtschaft_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_Wasserwirtschaft_gebietsTyp1"
-    FOREIGN KEY ("RP_Wasserwirtschaft_gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Wasserwirtschaft_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche"
@@ -2814,27 +2394,6 @@ COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungs
 COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_GemeindeFunktionSiedlungsentwicklung" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GemeindeFunktionSiedlungsentwicklung" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp" (
-  "RP_GemeindeFunktionSiedlungsentwicklung_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_GemeindeFunktionSiedlungsentwicklung_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp1"
-    FOREIGN KEY ("RP_GemeindeFunktionSiedlungsentwicklung_gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion"
@@ -2991,27 +2550,6 @@ COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur
 COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_SonstigeSiedlungsstruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_SonstigeSiedlungsstruktur" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp" (
-  "RP_SonstigeSiedlungsstruktur_gid" BIGINT NOT NULL ,
-  "gebietsTyp" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_SonstigeSiedlungsstruktur_gid", "gebietsTyp"),
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstruktur_gebietsTyp1"
-    FOREIGN KEY ("RP_SonstigeSiedlungsstruktur_gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstruktur_gebietsTyp2"
-    FOREIGN KEY ("gebietsTyp" )
-    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche"
@@ -3532,10 +3070,18 @@ INSERT INTO "RP_Basisobjekte"."RP_Rechtscharakter" ("Code", "Bezeichner") VALUES
 -- Data for table "RP_Basisobjekte"."RP_GebietsTyp"
 -- -----------------------------------------------------
 INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1000', 'Vorranggebiet');
-INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('2000', 'Vorbehaltsgebiet');
-INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('3000', 'Eignungsgebiet');
-INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('4000', 'Ausschlussgebiet');
-INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('5000', 'SonstigesGebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1001', 'Vorrangstandort');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1100', 'Vorbehaltsgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1101', 'Vorbehaltsstandort');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1200', 'Eignungsgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1300', 'VorrangundEignungsgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1400', 'Ausschlussgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1500', 'Vorsorgegebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1501', 'Vorsorgestandort');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1600', 'Vorzugsraum');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1700', 'Potenzialgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1800', 'Schwerpunktraum');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('9999', 'SonstigesGebiet');
 
 -- -----------------------------------------------------
 -- Data for table "RP_KernmodellFreiraumstruktur"."RP_Rohstoff"
