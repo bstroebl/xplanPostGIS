@@ -3236,7 +3236,6 @@ GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" TO xp
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_GenerischesObjekt_parent"
     FOREIGN KEY ("gid" )
@@ -3253,9 +3252,29 @@ GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO xp_gast
 GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO rp_user;
 COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."typ" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
 CREATE TRIGGER "change_to_RP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GenerischesObjekt" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table RP_Sonstiges"."RP_GenerischesObjekt_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" (
+  "RP_GenerischesObjekt_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL ,
+  PRIMARY KEY ("RP_GenerischesObjekt_gid", "typ"),
+  CONSTRAINT "fk_RP_GenerischesObjekt_typ1"
+    FOREIGN KEY ("RP_GenerischesObjekt_gid" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_GenerischesObjekt_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjektTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" IS 'Über eine CodeList definierte Zweckbestimmungen der Festlegung.';
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche"

@@ -186,3 +186,29 @@ INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('400
 
 -- CR 016
 -- keine Änderung nötig, war bereits so implementiert
+
+-- CR 017
+-- für LP keine Änderung, war bereits implementiert
+-- RP
+CREATE TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" (
+  "RP_GenerischesObjekt_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL ,
+  PRIMARY KEY ("RP_GenerischesObjekt_gid", "typ"),
+  CONSTRAINT "fk_RP_GenerischesObjekt_typ1"
+    FOREIGN KEY ("RP_GenerischesObjekt_gid" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_GenerischesObjekt_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjektTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" IS 'Über eine CodeList definierte Zweckbestimmungen der Festlegung.';
+
+INSERT INTO "RP_Sonstiges"."RP_GenerischesObjekt_typ"("RP_GenerischesObjekt_gid", "typ") SELECT "gid","typ" FROM "RP_Sonstiges"."RP_GenerischesObjekt";
+ALTER TABLE "RP_Sonstiges"."RP_GenerischesObjekt" DROP COLUMN "typ";
+
+
