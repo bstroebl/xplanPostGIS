@@ -106,3 +106,7 @@ UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" SET "Bezeichner" = 'v
 
 -- CR 010
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGruen" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 14007;
+
+-- CR 011
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 18005;
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'SalzOderSoleleitungen' WHERE "Code" = 18006;
