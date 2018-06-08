@@ -183,3 +183,6 @@ INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VAL
 
 -- CR 015
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('4000', 'Parag13b');
+
+-- CR 016
+-- keine Änderung nötig, war bereits so implementiert
