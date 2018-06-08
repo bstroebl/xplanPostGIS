@@ -2273,7 +2273,7 @@ $BODY$;
 
 SELECT "QGIS".delete_superordinate();
 
--- undokumentierte Änderungen
+-- nicht auf der Änderungs-Wikiseite dokumentierte Änderungen:
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140010 WHERE "Code" = 14010;
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140011 WHERE "Code" = 14011;
 
@@ -2285,3 +2285,84 @@ ALTER TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" ADD CONSTRAINT "fk_R
     REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
+
+-- Überarbeitung RP_Objekt
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Objekt_gebietsTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" (
+  "RP_Objekt_gid" BIGINT NOT NULL ,
+  "gebietsTyp" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Objekt_gid", "gebietsTyp"),
+  CONSTRAINT "fk_RP_Bodenschutz_gebietsTyp1"
+    FOREIGN KEY ("RP_Objekt_gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Objekt_gebietsTyp2"
+    FOREIGN KEY ("gebietsTyp" )
+    REFERENCES "RP_Basisobjekte"."RP_GebietsTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" TO rp_user;
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" IS 'Gebietstyp eines Objekts.';
+
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Bodenschutz_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Forstwirtschaft_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_FreizeitErholung_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_GruenzugGruenzaesur_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Klimaschutz_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_KulturellesSachgut_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Landwirtschaft_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_NaturLandschaft_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Rohstoffsicherung_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SonstigerFreiraumstruktur_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_VorbHochwasserschutz_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Wasserschutz_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Windenergienutzung_gid","gebietsTyp" FROM "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp";
+DROP TABLE "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Energieversorgung_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Energieversorgung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Entsorgung_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Entsorgung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Kommunikation_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Kommunikation_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Laermschutzbereich_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SonstigeInfrastruktur_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SozialeInfrastruktur_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Verkehr_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Wasserwirtschaft_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
+DROP TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_GemeindeFunktionSiedlungsentwicklung_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp";
+DROP TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SonstigeSiedlungsstruktur_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp";
+DROP TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1001', 'Vorrangstandort');
+UPDATE "RP_Basisobjekte"."RP_GebietsTyp" SET "Code" = 1100 WHERE "Code" = 2000;
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1101', 'Vorbehaltsstandort');
+UPDATE "RP_Basisobjekte"."RP_GebietsTyp" SET "Code" = 1200 WHERE "Code" = 3000;
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1300', 'VorrangundEignungsgebiet');
+UPDATE "RP_Basisobjekte"."RP_GebietsTyp" SET "Code" = 1400 WHERE "Code" = 4000;
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1500', 'Vorsorgegebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1501', 'Vorsorgestandort');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1600', 'Vorzugsraum');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1700', 'Potenzialgebiet');
+INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1800', 'Schwerpunktraum');
+UPDATE "RP_Basisobjekte"."RP_GebietsTyp" SET "Code" = 9999 WHERE "Code" = 5000;
