@@ -110,3 +110,53 @@ UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGruen" SET "Bezeichner" = 'veraltet
 -- CR 011
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 18005;
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'SalzOderSoleleitungen' WHERE "Code" = 18006;
+
+-- CR 012
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" TO bp_user;
+CREATE INDEX "BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_gidx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" using gist ("position");
+COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+
+INSERT INTO "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche"(gid,position,flaechenschluss)
+SELECT gid,position,flaechenschluss FROM "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung";
+
+CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+DROP TRIGGER "flaechenschluss_BP_VerkehrsFlaecheBesondererZweckbestimmung" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung";
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "position" CASCADE;
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "flaechenschluss";
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBesondererZweckbestimmungLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" TO bp_user;
+CREATE INDEX "BP_VerkehrsFlaecheBesondererZweckbestimmungLinie_gidx" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" using gist ("position");
+COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
