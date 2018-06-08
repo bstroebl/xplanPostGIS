@@ -103,3 +103,6 @@ COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaech
 
 -- CR 009
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" IN (10003,12004,14003,16004,18001,20002,22002,24003,26001);
+
+-- CR 010
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGruen" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 14007;

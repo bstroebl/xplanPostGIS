@@ -2231,7 +2231,7 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") 
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14004', 'Golfplatz');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14005', 'Skisport');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14006', 'Tennisanlage');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14007', 'SonstigerSportplatz');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('14007', 'veraltet - SonstigerSportplatz');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16000', 'Bolzplatz');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('16001', 'Abenteuerspielplatz');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('18000', 'Campingplatz');
