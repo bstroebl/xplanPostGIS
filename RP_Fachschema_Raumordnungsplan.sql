@@ -26,19 +26,19 @@ GRANT xp_user TO rp_user;
 -- *****************************************************
 
 CREATE SCHEMA "RP_Basisobjekte";
-CREATE SCHEMA "RP_KernmodellFreiraumstruktur";
+CREATE SCHEMA "RP_Freiraumstruktur";
 CREATE SCHEMA "RP_KernmodellInfrastruktur";
 CREATE SCHEMA "RP_KernmodellSiedlungsstruktur";
 CREATE SCHEMA "RP_KernmodellSonstiges";
 
 COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
-COMMENT ON SCHEMA "RP_KernmodellFreiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
+COMMENT ON SCHEMA "RP_Freiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellInfrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSiedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSonstiges" IS 'Sonstige Festlegungen.';
 
 GRANT USAGE ON SCHEMA "RP_Basisobjekte" TO xp_gast;
-GRANT USAGE ON SCHEMA "RP_KernmodellFreiraumstruktur" TO xp_gast;
+GRANT USAGE ON SCHEMA "RP_Freiraumstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellInfrastruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSiedlungsstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSonstiges" TO xp_gast;
@@ -411,1230 +411,1751 @@ GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" TO rp_user;
 COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_gebietsTyp" IS 'Gebietstyp eines Objekts.';
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"
+-- Table "RP_Freiraumstruktur"."RP_Freiraum"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_Freiraum" (
   "gid" BIGINT NOT NULL ,
   "istAusgleichsgebiet" BOOLEAN NULL,
+  "imVerbund" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Bodenschutz_parent"
+  CONSTRAINT "fk_RP_Freiraum_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" IS 'Bodenschutz ';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Bodenschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Bodenschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Freiraum" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Freiraum" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Freiraum" IS 'Allgemeines Freiraumobjekt.
+Freiräume sind naturnahem Zustand, oder beinhalten Nutzungsformen, die mit seinen ökologischen Grundfunktionen überwiegend verträglich sind (z.B. Land- oder Forstwirtschaft). Freiraum ist somit ein Gegenbegriff zur Siedlungsstruktur.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Freiraum"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Freiraum"."istAusgleichsgebiet" IS 'Zeigt an, ob das Objekt ein Ausgleichsgebiet ist.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Freiraum"."imVerbund" IS 'Zeigt an, ob das Objekt in einem (Freiraum-)Verbund liegt.';
+CREATE TRIGGER "change_to_RP_Freiraum" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Freiraum" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Freiraum" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Freiraum" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_Bodenschutz"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Bodenschutz_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" TO rp_user;
+COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_Bodenschutz" IS 'Bodenschutz ';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Bodenschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Bodenschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Bodenschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BodenschutzFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_BodenschutzFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Bodenschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_BodenschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_BodenschutzFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_BodenschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_BodenschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_BodenschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_BodenschutzFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_BodenschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_BodenschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie"
+-- Table "RP_Freiraumstruktur"."RP_BodenschutzLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_BodenschutzLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_BodenschutzLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Bodenschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_BodenschutzLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_BodenschutzLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_BodenschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_BodenschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_BodenschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_BodenschutzLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_BodenschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt"
+-- Table "RP_Freiraumstruktur"."RP_BodenschutzPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_BodenschutzPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_BodenschutzPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Bodenschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Bodenschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_BodenschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_BodenschutzPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_BodenschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_BodenschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_BodenschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_BodenschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_BodenschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_BodenschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft"
+-- Table "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ForstwirtschaftTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Forstwirtschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_Forstwirtschaft" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Forstwirtschaft_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Forstwirtschaft_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" IS 'Forstwirtschaft';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Forstwirtschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Forstwirtschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Forstwirtschaft" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Forstwirtschaft" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Forstwirtschaft" IS 'Forstwirtschaft ist die zielgerichtete Bewirtschaftung von Wäldern.
+Die natürlichen Abläufe in den Waldökosystemen werden dabei so gestaltet und gesteuert, dass sie einen möglichst großen Beitrag zur Erfüllung von Leistungen erbringen, die von den Waldeigentümern und der Gesellschaft gewünscht werden.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Forstwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Forstwirtschaft"."typ" IS 'Klassifikation von Forstwirtschaftstypen und Wäldern.';
+CREATE TRIGGER "change_to_RP_Forstwirtschaft" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Forstwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Forstwirtschaft" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Forstwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ForstwirtschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Forstwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ForstwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ForstwirtschaftFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_ForstwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ForstwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ForstwirtschaftFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_ForstwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie"
+-- Table "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ForstwirtschaftLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Forstwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ForstwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ForstwirtschaftLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ForstwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ForstwirtschaftLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt"
+-- Table "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ForstwirtschaftPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Forstwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Forstwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ForstwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ForstwirtschaftPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_ForstwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ForstwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ForstwirtschaftPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ForstwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung"
+-- Table "RP_Freiraumstruktur"."RP_Erholung"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_Erholung" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_FreizeitErholung_parent"
+  CONSTRAINT "fk_RP_Erholung_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" IS 'Freizeit und Erholung';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_FreizeitErholung" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_FreizeitErholung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Erholung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Erholung" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Erholung" IS 'Freizeit, Erholung und Tourismus.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Erholung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Erholung" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Erholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Erholung" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Erholung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_ErholungFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErholungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_FreizeitErholungFlaeche_parent"
+  CONSTRAINT "fk_RP_ErholungFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Erholung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_FreizeitErholungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_FreizeitErholungFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_FreizeitErholungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErholungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErholungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErholungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ErholungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErholungFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_ErholungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErholungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie"
+-- Table "RP_Freiraumstruktur"."RP_ErholungLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErholungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_FreizeitErholungLinie_parent"
+  CONSTRAINT "fk_RP_ErholungLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Erholung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_FreizeitErholungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_FreizeitErholungLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErholungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErholungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErholungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ErholungLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErholungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErholungLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErholungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt"
+-- Table "RP_Freiraumstruktur"."RP_ErholungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErholungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_FreizeitErholungPunkt_parent"
+  CONSTRAINT "fk_RP_ErholungPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Erholung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_FreizeitErholungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_FreizeitErholungPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_FreizeitErholungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Gewaesser"
+-- Table "RP_Freiraumstruktur"."RP_Gewaesser"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_Gewaesser" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "gewaesserTyp" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Gewaesser_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" IS 'Gewässer';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Gewaesser"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Gewaesser"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Gewaesser" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Gewaesser" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Gewaesser" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Gewaesser" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Gewaesser" IS 'Gewässer, die nicht andersweitig erfasst werden, zum Beispiel Flüsse oder Seen.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Gewaesser"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Gewaesser"."gewaesserTyp" IS 'Spezifiziert den Typ des Gewässers.';
+CREATE TRIGGER "change_to_RP_Gewaesser" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Gewaesser" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_GewaesserFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GewaesserFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GewaesserFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Gewaesser" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GewaesserFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GewaesserFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_GewaesserFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GewaesserFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GewaesserFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GewaesserFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GewaesserFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GewaesserFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_GewaesserFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie"
+-- Table "RP_Freiraumstruktur"."RP_GewaesserLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GewaesserLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GewaesserLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Gewaesser" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GewaesserLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GewaesserLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GewaesserLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GewaesserLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GewaesserLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GewaesserLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GewaesserLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt"
+-- Table "RP_Freiraumstruktur"."RP_GewaesserPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GewaesserPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GewaesserPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Gewaesser" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Gewaesser" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GewaesserPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GewaesserPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GewaesserPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GewaesserPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GewaesserPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GewaesserPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GewaesserPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur"
+-- Table "RP_Freiraumstruktur"."RP_ZaesurTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ZaesurTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ZaesurTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_GruenzugGruenzaesur_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" IS 'Grünzüge und kleinräumigere Grünzäsuren sind Ordnungsinstrumente zur Freiraumsicherung. Teilweise werden Grünzüge auch Trenngrün genannt.';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_GruenzugGruenzaesur" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GruenzugGruenzaesur" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" TO rp_user;
+COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" IS 'Grünzüge und kleinräumigere Grünzäsuren sind Ordnungsinstrumente zur Freiraumsicherung. Teilweise werden Grünzüge auch Trenngrün genannt.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GruenzugGruenzaesur" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GruenzugGruenzaesur" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur_typ" (
+  "RP_GruenzugGruenzaesur_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_GruenzugGruenzaesur_gid", "typ"),
+  CONSTRAINT "fk_RP_GruenzugGruenzaesur_typ1"
+    FOREIGN KEY ("RP_GruenzugGruenzaesur_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_GruenzugGruenzaesur_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_ZaesurTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur_typ" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur_typ" IS 'Klassifikation von Zäsurtypen.';
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GruenzugGruenzaesurFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GruenzugGruenzaesurFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_GruenzugGruenzaesurFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GruenzugGruenzaesurFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_GruenzugGruenzaesurFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie"
+-- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GruenzugGruenzaesurLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GruenzugGruenzaesurLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GruenzugGruenzaesurLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt"
+-- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GruenzugGruenzaesurPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GruenzugGruenzaesurPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_GruenzugGruenzaesurPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GruenzugGruenzaesurPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz"
+-- Table "RP_Freiraumstruktur"."RP_LuftTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_LuftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_LuftTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Klimaschutz"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_Klimaschutz" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Klimaschutz_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" IS '(Siedlungs-) Klimaschutz';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Klimaschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Klimaschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz" IS '(Siedlungs-) Klimaschutz. Beinhaltet zum Beispiel auch Kalt- und Frischluftschneisen.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Klimaschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Klimaschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Klimaschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Klimaschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_Klimaschutz_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_Klimaschutz_typ" (
+  "RP_Klimaschutz_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Klimaschutz_gid", "typ"),
+  CONSTRAINT "fk_RP_Klimaschutz_typ1"
+    FOREIGN KEY ("RP_Klimaschutz_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Klimaschutz" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Klimaschutz_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_LuftTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KlimaschutzFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Klimaschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KlimaschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KlimaschutzFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_KlimaschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KlimaschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KlimaschutzFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_KlimaschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KlimaschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie"
+-- Table "RP_Freiraumstruktur"."RP_KlimaschutzLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_KlimaschutzLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KlimaschutzLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Klimaschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KlimaschutzLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KlimaschutzLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KlimaschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KlimaschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KlimaschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KlimaschutzLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KlimaschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt"
+-- Table "RP_Freiraumstruktur"."RP_KlimaschutzPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_KlimaschutzPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KlimaschutzPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Klimaschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Klimaschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KlimaschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KlimaschutzPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KlimaschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KlimaschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KlimaschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KlimaschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KlimaschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KlimaschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut"
+-- Table "RP_Freiraumstruktur"."RP_KulturlandschaftTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Kulturlandschaft"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Kulturlandschaft" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_KulturellesSachgut_parent"
+  CONSTRAINT "fk_RP_Kulturlandschaft_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Kulturlandschaft_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" IS 'Kulturelles Sachgut ';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_KulturellesSachgut" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KulturellesSachgut" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Kulturlandschaft" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Kulturlandschaft" TO rp_user;
+COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_Kulturlandschaft" IS 'Kulturelles Sachgut ';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Kulturlandschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Kulturlandschaft"."typ" IS 'Klassifikation von Kulturlandschaftstypen.';
+CREATE TRIGGER "change_to_RP_Kulturlandschaft" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Kulturlandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Kulturlandschaft" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Kulturlandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_KulturellesSachgutFlaeche_parent"
+  CONSTRAINT "fk_RP_KulturlandschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Kulturlandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KulturellesSachgutFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KulturellesSachgutFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_KulturellesSachgutFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KulturlandschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KulturlandschaftFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_KulturlandschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KulturlandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie"
+-- Table "RP_Freiraumstruktur"."RP_KulturlandschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_KulturellesSachgutLinie_parent"
+  CONSTRAINT "fk_RP_KulturlandschaftLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Kulturlandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KulturellesSachgutLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KulturellesSachgutLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KulturlandschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KulturlandschaftLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KulturlandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KulturlandschaftLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KulturlandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt"
+-- Table "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_KulturellesSachgutPunkt_parent"
+  CONSTRAINT "fk_RP_KulturlandschaftPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgut" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Kulturlandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KulturellesSachgutPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KulturellesSachgutPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_KulturellesSachgutPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KulturlandschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KulturlandschaftPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_KulturlandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft"
+-- Table "RP_Freiraumstruktur"."RP_LandwirtschaftTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_LandwirtschaftTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Landwirtschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_Landwirtschaft" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Landwirtschaft_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Landwirtschaft_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" IS 'Landwirtschaft';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Landwirtschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Landwirtschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Landwirtschaft" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Landwirtschaft" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Landwirtschaft" IS 'Landwirtschaft, hauptsächlich im ländlichen Raum angesiedelt, erfüllt für die Gesellschaft wichtige Funktionen in der Produktion- und Versorgung mit Lebensmitteln, für Freizeit und Freiraum oder zur Biodiversität.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Landwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Landwirtschaft"."typ" IS 'Klassifikation von Landwirtschaftstypen.';
+CREATE TRIGGER "change_to_RP_Landwirtschaft" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Landwirtschaft" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_LandwirtschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LandwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LandwirtschaftFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_LandwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LandwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LandwirtschaftFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_LandwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie"
+-- Table "RP_Freiraumstruktur"."RP_LandwirtschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_LandwirtschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_LandwirtschaftLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LandwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LandwirtschaftLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_LandwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LandwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LandwirtschaftLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt"
+-- Table "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_LandwirtschaftPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Landwirtschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LandwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LandwirtschaftPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LandwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LandwirtschaftPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft"
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaftTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_NaturLandschaftTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturLandschaft" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_NaturLandschaft_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" IS 'Natur und Landschaft';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_NaturLandschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturLandschaft" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft" IS 'Naturlandschaften sind von umitellbaren menschlichen Aktivitäten weitestgehend unbeeinflusst gebliebene Landschaft.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_NaturLandschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturLandschaft" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturLandschaft" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturLandschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaft_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft_typ" (
+  "RP_NaturLandschaft_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_NaturLandschaft_gid", "typ"),
+  CONSTRAINT "fk_RP_NaturLandschaft_typ1"
+    FOREIGN KEY ("RP_NaturLandschaft_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturLandschaft" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_NaturLandschaft_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft_typ" IS 'Klassifikation von Naturschutz, Landschaftsschutz und Naturlandschafttypen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaft_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturLandschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturLandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturLandschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturLandschaftFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_NaturLandschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturLandschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturLandschaftFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_NaturLandschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturLandschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie"
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturLandschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturLandschaftLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturLandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturLandschaftLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturLandschaftLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturLandschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturLandschaftLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturLandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturLandschaftLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturLandschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt"
+-- Table "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturLandschaftPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaft" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturLandschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturLandschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturLandschaftPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturLandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturLandschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturLandschaftPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturLandschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"
+-- Table "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "istKernzone" BOOLEAN NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebiet_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" TO rp_user;
+COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" IS 'Schutzgebiet nach Bundes-Naturschutzgesetz';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"."istKernzone" IS 'Gibt an, ob es sich um eine Kernzone handelt.';
+CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebiet" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebiet" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet_typ" (
+  "RP_NaturschutzrechtlichesSchutzgebiet_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_NaturschutzrechtlichesSchutzgebiet_gid", "typ"),
+  CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebiet_typ1"
+    FOREIGN KEY ("RP_NaturschutzrechtlichesSchutzgebiet_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebiet_zweckbestimmung"
-    FOREIGN KEY ("zweckbestimmung")
+  CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebiet_typ2"
+    FOREIGN KEY ("typ")
     REFERENCES "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" IS 'Schutzgebiet nach Bundes-Naturschutzgesetz';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"."zweckbestimmung" IS 'Klassifikation des Naturschutzgebietes.';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebiet" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebiet" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet_typ" IS 'Klassifikation des Naturschutzgebietes.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet_typ" TO rp_user;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebietFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_NaturschutzrechtlichesSchutzgebietFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_NaturschutzrechtlichesSchutzgebietFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie"
+-- Table "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebietLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt"
+-- Table "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_NaturschutzrechtlichesSchutzgebietPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_NaturschutzrechtlichesSchutzgebietPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_NaturschutzrechtlichesSchutzgebietPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_NaturschutzrechtlichesSchutzgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Rohstoff"
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_RadwegWanderwegTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung"
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderweg"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg" (
   "gid" BIGINT NOT NULL ,
-  "abbaugut" INTEGER NULL,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Rohstoffsicherung_parent"
+  CONSTRAINT "fk_RP_RadwegWanderweg_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg" IS 'Radwege und Wanderwege. Straßenbegleitend oder selbstständig geführt.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RadwegWanderweg"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RadwegWanderweg" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RadwegWanderweg" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RadwegWanderweg" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RadwegWanderweg" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderweg_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg_typ" (
+  "RP_RadwegWanderweg_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_RadwegWanderweg_gid", "typ"),
+  CONSTRAINT "fk_RP_RadwegWanderweg_typ1"
+    FOREIGN KEY ("RP_RadwegWanderweg_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_RadwegWanderweg" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Rohstoffsicherung_abbaugut"
-    FOREIGN KEY ("abbaugut" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code" )
+  CONSTRAINT "fk_RP_RadwegWanderweg_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" TO rp_user;
-CREATE INDEX "idx_fk_RP_Rohstoffsicherung_abbaugut" ON "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" ("abbaugut") ;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" IS 'Rohstoffsicherung';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung"."abbaugut" IS 'Abgebauter Rohstoff.';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Rohstoffsicherung" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Rohstoffsicherung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg_typ" IS 'KKlassifikation von Radwegen und Wanderwegen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderweg_typ" TO rp_user;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_RohstoffsicherungFlaeche_parent"
+  CONSTRAINT "fk_RP_RadwegWanderwegFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_RadwegWanderweg" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RohstoffsicherungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RohstoffsicherungFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_RohstoffsicherungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RadwegWanderwegFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RadwegWanderwegFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_RadwegWanderwegFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie"
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_RohstoffsicherungLinie_parent"
+  CONSTRAINT "fk_RP_RadwegWanderwegLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_RadwegWanderweg" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RohstoffsicherungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RohstoffsicherungLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RadwegWanderwegLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RadwegWanderwegLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt"
+-- Table "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_RohstoffsicherungPunkt_parent"
+  CONSTRAINT "fk_RP_RadwegWanderwegPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Rohstoffsicherung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_RadwegWanderweg" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RohstoffsicherungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RohstoffsicherungPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_RohstoffsicherungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RadwegWanderwegPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RadwegWanderwegPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RadwegWanderwegPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur"
+-- Table "RP_Freiraumstruktur"."RP_RohstoffTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" (
-  "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_SonstigerFreiraumstruktur_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" IS 'Sonstiger Freiraumschutz';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_SonstigerFreiraumstruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigerFreiraumstruktur" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigerFreiraumstrukturFlaeche_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigerFreiraumstrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigerFreiraumstrukturFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_SonstigerFreiraumstrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigerFreiraumstrukturLinie_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigerFreiraumstrukturLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigerFreiraumstrukturLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigerFreiraumstrukturPunkt_parent"
-    FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstruktur" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigerFreiraumstrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigerFreiraumstrukturPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_SonstigerFreiraumstrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" (
-  "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_VorbHochwasserschutz_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" IS 'Vorbeugender Hochwasserschutz';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_VorbHochwasserschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VorbHochwasserschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_VorbHochwasserschutzFlaeche_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VorbHochwasserschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VorbHochwasserschutzFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_VorbHochwasserschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_VorbHochwasserschutzLinie_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VorbHochwasserschutzLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VorbHochwasserschutzLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_VorbHochwasserschutzPunkt_parent"
-    FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutz" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
-
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VorbHochwasserschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VorbHochwasserschutzPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_VorbHochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-
--- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone"
--- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_RohstoffTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RohstoffTypen" TO xp_gast;
+
+-- ----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BergbauFolgenutzung"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" TO xp_gast;
+
+-- ----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Zeitstufen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Zeitstufen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Zeitstufen" TO xp_gast;
+
+-- ----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BodenschatzTiefen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BodenschatzTiefen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschatzTiefen" TO xp_gast;
+
+-- ----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BergbauplanungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BergbauplanungTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BergbauplanungTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz"
+-- Table "RP_Freiraumstruktur"."RP_Rohstoff"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff" (
   "gid" BIGINT NOT NULL ,
+  "folgenutzungText" TEXT,
+  "zeitstufe" INTEGER,
+  "zeitstufeText" VARCHAR(255),
+  "tiefe" INTEGER,
+  "istAufschuettungAblagerung" BOOLEAN,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Rohstoff_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Rohstoff_zeitstufe"
+    FOREIGN KEY ("zeitstufe")
+    REFERENCES "RP_Basisobjekte"."RP_Zeitstufen" ("Code")
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Rohstoff_tiefe"
+    FOREIGN KEY ("tiefe")
+    REFERENCES "RP_Freiraumstruktur"."RP_BodenschatzTiefen" ("Code")
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" TO rp_user;
+CREATE INDEX "idx_fk_RP_Rohstoff_abbaugut" ON "RP_Freiraumstruktur"."RP_Rohstoff" ("abbaugut") ;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" IS 'Rohstoffsicherung';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."folgenutzungText" IS 'Textliche Festlegungen und Spezifizierungen zur Folgenutzung einer Bergbauplanung.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."zeitstufe" IS 'Zeitstufe des Rohstoffabbaus.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."zeitstufeText" IS 'Textliche Spezifizierung einer Rohstoffzeitstufe, zum Beispiel kurzfristiger Abbau (Zeitstufe I) und langfristige Sicherung für mindestens 25-30 Jahre (Zeitstufe II).';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."tiefe" IS 'Tiefe eines Rohstoffes';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."istAufschuettungAblagerung" IS '';
+CREATE TRIGGER "change_to_RP_Rohstoff" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Rohstoff" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Rohstoff" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Rohstoff" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Rohstoff_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" (
+  "RP_Rohstoff_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Rohstoff_gid", "typ"),
+  CONSTRAINT "fk_RP_Rohstoff_typ1"
+    FOREIGN KEY ("RP_Rohstoff_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Rohstoff_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" IS 'Abgebauter Rohstoff.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" TO rp_user;
+
+-- ----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Rohstoff_folgenutzung"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff_folgenutzung" (
+  "RP_Rohstoff_gid" BIGINT NOT NULL,
+  "folgenutzung" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Rohstoff_gid", "folgenutzung"),
+  CONSTRAINT "fk_RP_Rohstoff_folgenutzung1"
+    FOREIGN KEY ("RP_Rohstoff_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Rohstoff_folgenutzung2"
+    FOREIGN KEY ("folgenutzung")
+    REFERENCES "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_folgenutzung" IS 'Klassifikation von Folgenutzungen bestimmter bergbaulicher Maßnahmen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_folgenutzung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_folgenutzung" TO rp_user;
+
+-- ----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Rohstoff_bergbauplanungTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff_bergbauplanungTyp" (
+  "RP_Rohstoff_gid" BIGINT NOT NULL,
+  "bergbauplanungTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Rohstoff_gid", "bergbauplanungTyp"),
+  CONSTRAINT "fk_RP_Rohstoff_bergbauplanungTyp1"
+    FOREIGN KEY ("RP_Rohstoff_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Rohstoff_bergbauplanungTyp2"
+    FOREIGN KEY ("bergbauplanungTyp")
+    REFERENCES "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_bergbauplanungTyp" IS 'Klassifikation von Bergbauplanungstypen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_bergbauplanungTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_bergbauplanungTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_RohstoffFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_RohstoffFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_RohstoffFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RohstoffFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RohstoffFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RohstoffFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RohstoffFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RohstoffFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RohstoffFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RohstoffFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_RohstoffFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RohstoffFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_RohstoffLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_RohstoffLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_RohstoffLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RohstoffLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RohstoffLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RohstoffLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RohstoffLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RohstoffLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RohstoffLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RohstoffLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_RohstoffPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_RohstoffPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_RohstoffPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Rohstoff" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RohstoffPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_RohstoffPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_RohstoffPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RohstoffPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_RohstoffPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RohstoffPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_RohstoffPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_SonstigerFreiraumschutz_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" TO rp_user;
+COMMENT ON COLUMN TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"."typ" IS 'Sonstiger Freiraumschutz. Nicht anderweitig zuzuordnende Freiraumstrukturen.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerFreiraumschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerFreiraumschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerFreiraumschutzFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerFreiraumschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerFreiraumschutzFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_RP_SonstigerFreiraumschutzFlaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerFreiraumschutzLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerFreiraumschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerFreiraumschutzLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerFreiraumschutzPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerFreiraumschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerFreiraumschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SportanlageTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlageTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_SportanlageTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Sportanlage"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Sportanlage" (
+  "gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Sportanlage_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Sportanlage_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code")
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Sportanlage" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Sportanlage" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Sportanlage" IS 'Sportanlagen und -bereiche.
+Sportanlagen sind ortsfeste Einrichtungen, die zur Sportausübung bestimmt sind. Zur Sportanlage zählen auch Einrichtungen, die mit der Sportanlage in einem engen räumlichen und betrieblichen Zusammenhang stehen (nach BImSchV 18 §1).';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Sportanlage"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Sportanlage"."typ" IS 'Klassifikation von Sportanlagen.';
+CREATE TRIGGER "change_to_RP_Sportanlage" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Sportanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Sportanlage" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Sportanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SportanlageFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlageFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SportanlageFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Sportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlageFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SportanlageFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SportanlageFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SportanlageFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SportanlageFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SportanlageFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SportanlageFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SportanlageLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlageLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SportanlageLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Sportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlageLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SportanlageLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SportanlageLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SportanlageLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SportanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SportanlageLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SportanlageLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_SportanlagePunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlagePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SportanlagePunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Sportanlage" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlagePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SportanlagePunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SportanlagePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SportanlagePunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SportanlagePunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte".
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_HochwasserschutzTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_HochwasserschutzTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Hochwasserschutz"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Hochwasserschutz_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz" TO rp_user;
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz" IS 'Die Klasse RP_Hochwasserschutz enthält Hochwasserschutz und vorbeugenden Hochwasserschutz.
+Hochwasserschutz und vorbeugender Hochwasserschutz beinhaltet den Schutz von Siedlungen, Nutz- und Verkehrsflächen vor Überschwemmungen. Im Binnenland besteht der Hochwasserschutz vor allem in der Sicherung und Rückgewinnung von Auen, Wasserrückhalteflächen (Retentionsflächen) und überschwemmungsgefährdeten Bereichen. An der Nord- und Ostsee erfolgt der Schutz vor Sturmfluten hauptsächlich durch Deiche und Siele (Küstenschutz).';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Hochwasserschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Hochwasserschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Hochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Hochwasserschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Hochwasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Hochwasserschutz_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz_typ" (
+  "RP_Hochwasserschutz_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Hochwasserschutz_gid", "typ"),
+  CONSTRAINT "fk_RP_Hochwasserschutz_typ1"
+    FOREIGN KEY ("RP_Hochwasserschutz_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Hochwasserschutz" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Hochwasserschutz_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz_typ" IS 'Klassifikation von Hochwasserschutztypen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Hochwasserschutz_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_HochwasserschutzFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Hochwasserschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_HochwasserschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_HochwasserschutzFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_HochwasserschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_HochwasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_HochwasserschutzLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_HochwasserschutzLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Hochwasserschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_HochwasserschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_HochwasserschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_HochwasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_HochwasserschutzLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_HochwasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_HochwasserschutzPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Hochwasserschutz" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_HochwasserschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_HochwasserschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_WasserschutzTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_WasserschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_WasserschutzZone"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_WasserschutzZone" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzZone" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Wasserschutz"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_Wasserschutz" (
+  "gid" BIGINT NOT NULL ,
+  "typ" INTEGER,
   "zone" INTEGER NULL,
-  "istAusgleichsgebiet" BOOLEAN NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Wasserschutz_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Wasserschutz_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Wasserschutz_zone"
     FOREIGN KEY ("zone" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" ("Code" )
+    REFERENCES "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" TO rp_user;
-CREATE INDEX "idx_fk_RP_Wasserschutz_zone" ON "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" ("zone");
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" IS 'Grund- und Oberflächenwasserschutz';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz"."zone" IS 'Wasserschutzzone';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Wasserschutz" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Wasserschutz" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Wasserschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Wasserschutz" TO rp_user;
+CREATE INDEX "idx_fk_RP_Wasserschutz_zone" ON "RP_Freiraumstruktur"."RP_Wasserschutz" ("zone");
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Wasserschutz" IS 'Grund-, Trink- und Oberflächenwasserschutz.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Wasserschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Wasserschutz"."typ" IS 'Klassifikation des Wasserschutztyps.';
+COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Wasserschutz"."zone" IS 'Wasserschutzzone';
+CREATE TRIGGER "change_to_RP_Wasserschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Wasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Wasserschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Wasserschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_WasserschutzFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserschutzFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Wasserschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserschutzFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_WasserschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_WasserschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserschutzFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_WasserschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_WasserschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie"
+-- Table "RP_Freiraumstruktur"."RP_WasserschutzLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_WasserschutzLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserschutzLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Wasserschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserschutzLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserschutzLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_WasserschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_WasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserschutzLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_WasserschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt"
+-- Table "RP_Freiraumstruktur"."RP_WasserschutzPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt" (
+CREATE  TABLE  "RP_Freiraumstruktur"."RP_WasserschutzPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserschutzPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Wasserschutz" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Wasserschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserschutzPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_WasserschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_WasserschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_WasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_WasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung"
+-- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ErneuerbareEnergieTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" (
   "gid" BIGINT NOT NULL ,
-  "istAusgleichsgebiet" BOOLEAN NULL,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Windenergienutzung_parent"
+  CONSTRAINT "fk_RP_ErneuerbareEnergie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_ErneuerbareEnergie_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" IS 'Windenergienutzung';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung"."istAusgleichsgebiet" IS 'Gibt an, ob es sich um ein Ausgleichsgebiet handelt.';
-CREATE TRIGGER "change_to_RP_Windenergienutzung" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Windenergienutzung" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" TO rp_user;
+COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" IS 'Erneuerbare Energie inklusive Windenergienutzung.
+Erneuerbare Energien sind Energiequellen, die keine endlichen Rohstoffe verbrauchen, sondern natürliche, sich erneuernde Kreisläufe anzapfen (Sonne, Wind, Wasserkraft, Bioenergie). Meist werden auch Gezeiten, die Meeresströmung und die Erdwärme dazugezählt.';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErneuerbareEnergie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErneuerbareEnergie"."typ" IS 'Klassifikation von Typen Erneuerbarer Energie.';
+CREATE TRIGGER "change_to_RP_ErneuerbareEnergie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErneuerbareEnergie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche"
+-- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_WindenergienutzungFlaeche_parent"
+  CONSTRAINT "fk_RP_ErneuerbareEnergieFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WindenergienutzungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WindenergienutzungFlaeche" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_WindenergienutzungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ErneuerbareEnergieFlaeche" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErneuerbareEnergieFlaeche" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_ErneuerbareEnergieFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie"
+-- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_WindenergienutzungLinie_parent"
+  CONSTRAINT "fk_RP_ErneuerbareEnergieLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WindenergienutzungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WindenergienutzungLinie" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ErneuerbareEnergieLinie" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErneuerbareEnergieLinie" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt"
+-- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_WindenergienutzungPunkt_parent"
+  CONSTRAINT "fk_RP_ErneuerbareEnergiePunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellFreiraumstruktur"."RP_Windenergienutzung" ("gid" )
+    REFERENCES "RP_Freiraumstruktur"."RP_ErneuerbareEnergie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WindenergienutzungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WindenergienutzungPunkt" AFTER DELETE ON "RP_KernmodellFreiraumstruktur"."RP_WindenergienutzungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ErneuerbareEnergiePunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ErneuerbareEnergiePunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen"
@@ -3065,65 +3586,78 @@ INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('18
 INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('9999', 'SonstigesGebiet');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellFreiraumstruktur"."RP_Rohstoff"
+-- Data for table "RP_Freiraumstruktur"."RP_RohstoffTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1000', 'Anhydridstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1100', 'Baryt');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1200', 'BasaltDiabas');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1300', 'Bentonit');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1400', 'Blaehton');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1500', 'Braunkohle');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1600', 'Bundsandstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1700', 'Diorit');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1800', 'Dolomitstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('1900', 'Erdgas');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2000', 'Erdoel');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2100', 'Erz');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2200', 'Feldspat');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2300', 'Flussspat');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2400', 'Gangquarz');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2500', 'Gipsstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2600', 'Granit');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2800', 'Grauwacke');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('2900', 'KalkKalktuffKreide');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3000', 'Kalkmergelstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3100', 'Kalkstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3200', 'Karbonatgestein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3300', 'KiesSand');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3400', 'Kieselgur');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3500', 'Kristallin');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3600', 'Kupfer');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3700', 'Lehm');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3800', 'Mergel');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('3900', 'Mergelstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4100', 'Muschelkalk');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4200', 'Naturwerkstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4300', 'Pegmatitsand');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4400', 'Quarzit');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4500', 'Quarzsand');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4600', 'Salz');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4700', 'Sand');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4800', 'Sandstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('4900', 'Spezialton');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5000', 'Steinkohle');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5100', 'Ton');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5200', 'Tonstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5300', 'Torf');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5400', 'TuffBimsstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5500', 'Uran');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5600', 'Vulkanit');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5700', 'KieshaltigerSand');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5800', 'Naturstein');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('5900', 'Oelschiefer');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('6000', 'Klei');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_Rohstoff" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1000', 'Anhydridstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1100', 'Baryt');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1200', 'BasaltDiabas');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1300', 'Bentonit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1400', 'Blaehton');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1500', 'Braunkohle');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1600', 'Bundsandstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1700', 'Dekostein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1800', 'Diorit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('1900', 'Dolomitstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2000', 'Erdgas');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2100', 'Erdoel');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2200', 'Erz');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2300', 'Feldspat');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2400', 'Festgestein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2500', 'Flussspat');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2600', 'Gangquarz');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2700', 'Gipsstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2800', 'Gneis');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2900', 'Granit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3000', 'Grauwacke');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3100', 'Hartgestein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3200', 'KalkKalktuffKreide');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3300', 'Kalkmergelstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3400', 'Kalkstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3500', 'Kaolin');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3600', 'Karbonatgestein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3700', 'Kies');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3800', 'Kieselgur');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3900', 'KieshaltigerSand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4000', 'KiesSand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4100', 'Klei');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4200', 'Kristallin');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4300', 'Kupfer');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4400', 'Lehm');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4500', 'Marmor');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4600', 'Mergel');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4700', 'Mergelstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4800', 'MikrogranitGranitporphyr');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('4900', 'Monzonit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5000', 'Muschelkalk');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5100', 'Naturstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5200', 'Naturwerkstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5300', 'Oelschiefer');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5400', 'Pegmatitsand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5500', 'Quarzit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5600', 'Quarzsand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5700', 'Rhyolith');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5800', 'RhyolithQuarzporphyr');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('5900', 'Salz');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6000', 'Sand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6100', 'Sandstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6200', 'Spezialton');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6300', 'SteineundErden');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6400', 'Steinkohle');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6500', 'Ton');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6600', 'Tonstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6700', 'Torf');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6800', 'TuffBimsstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6900', 'Uran');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7000', 'Vulkanit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7100', 'Werkstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone"
+-- Data for table "RP_Freiraumstruktur"."RP_WasserschutzZone"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('1000', 'Zone_1');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('2000', 'Zone_2');
-INSERT INTO "RP_KernmodellFreiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('3000', 'Zone_3');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('1000', 'Zone_1');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('2000', 'Zone_2');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('3000', 'Zone_3');
 
 -- -----------------------------------------------------
 -- Data for table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen"
@@ -3196,3 +3730,191 @@ INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code"
 INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('3000', 'Grundzentrum');
 INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('4000', 'Kleinzentrum');
 INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeFunktion');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('1000', 'Windenergie');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('2000', 'Solarenergie');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('3000', 'Geothermie');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('4000', 'Biomasse');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeErneuerbareEnergie');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wald');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1001', 'Bannwald');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1002', 'Schonwald');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Waldmehrung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2001', 'WaldmehrungErholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2002', 'VergroesserungDesWaldanteils');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3000', 'Waldschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3001', 'BesondereSchutzfunktionDesWaldes');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('4000', 'VonAufforstungFreizuhalten');
+INSERT INTO "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeForstwirtschaft');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_ZaesurTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_ZaesurTypen" ("Code", "Bezeichner") VALUES ('1000', 'Gruenzug');
+INSERT INTO "RP_Freiraumstruktur"."RP_ZaesurTypen" ("Code", "Bezeichner") VALUES ('2000', 'Gruenzaesur');
+INSERT INTO "RP_Freiraumstruktur"."RP_ZaesurTypen" ("Code", "Bezeichner") VALUES ('3000', 'Siedlungszaesur');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_HochwasserschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'Hochwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1001', 'TechnischerHochwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1100', 'Hochwasserrueckhaltebecken');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1101', 'HochwasserrueckhaltebeckenPolder');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1102', 'HochwasserrueckhaltebeckenBauwerk');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1200', 'RisikobereichHochwasser');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1300', 'Kuestenhochwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1301', 'Deich');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1302', 'Deichrueckverlegung');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1303', 'DeichgeschuetztesGebiet');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1400', 'Sperrwerk');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1500', 'HochwGefaehrdeteKuestenniederung');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1600', 'Ueberschwemmungsgebiet');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1700', 'UeberschwemmungsgefaehrdeterBereich');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1800', 'Retentionsraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('1801', 'PotenziellerRetentionsraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerHochwasserschutz');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_LuftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('1000', 'Kaltluft');
+INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Frischluft');
+INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeLufttypen');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_KulturlandschaftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'KulturellesSachgut');
+INSERT INTO "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Welterbe');
+INSERT INTO "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code", "Bezeichner") VALUES ('3000', 'KulturerbeLandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code", "Bezeichner") VALUES ('4000', 'KulturDenkmalpflege');
+INSERT INTO "RP_Freiraumstruktur"."RP_KulturlandschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeKulturlandschaftTypen');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_LandwirtschaftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'LandwirtschaftlicheNutzung');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1001', 'KernzoneLandwirtschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'IntensivLandwirtschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3000', 'Fischerei');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('4000', 'Weinbau');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('5000', 'AufGrundHohenErtragspotenzials');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('6000', 'AufGrundBesondererFunktionen');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('7000', 'Gruenlandbewirtschaftung');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('8000', 'Sonderkultur');
+INSERT INTO "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeLandwirtschaft');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_NaturLandschaftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'NaturLandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1100', 'NaturschutzLandschaftspflege');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1101', 'NaturschutzLandschaftspflegeAufGewaessern');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1200', 'Flurdurchgruenung');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1300', 'UnzerschnitteneRaeume');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1301', 'UnzerschnitteneVerkehrsarmeRaeume');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1400', 'Feuchtgebiet');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1500', 'OekologischesVerbundssystem');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1501', 'OekologischerRaum');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1600', 'VerbesserungLandschaftsstrukturNaturhaushalt');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1700', 'Biotop');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1701', 'Biotopverbund');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1702', 'Biotopverbundachse');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1703', 'ArtenBiotopschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1704', 'Regionalpark');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1800', 'KompensationEntwicklung');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1900', 'GruenlandBewirtschaftungPflegeEntwicklung');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Landschaftsstruktur');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2100', 'LandschaftErholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2200', 'Landschaftspraegend');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2300', 'SchutzderNatur');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2400', 'SchutzdesLandschaftsbildes');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('2500', 'Alpenpark');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerNaturLandschaftSchutz');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wanderweg');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('1001', 'Fernwanderweg');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('2000', 'Radwandern');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('2001', 'Fernradweg');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('3000', 'Reiten');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('4000', 'Wasserwandern');
+INSERT INTO "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerWanderweg');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BergbauFolgenutzung"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('1000', 'Landwirtschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('2000', 'Forstwirtschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('3000', 'Gruenlandbewirtschaftung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('4000', 'NaturLandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('5000', 'Naturschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('6000', 'Erholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('7000', 'Gewaesser');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('8000', 'Verkehr');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Basisobjekte"."RP_Zeitstufen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Basisobjekte"."RP_Zeitstufen" ("Code", "Bezeichner") VALUES ('1000', 'Zeitstufe1');
+INSERT INTO "RP_Basisobjekte"."RP_Zeitstufen" ("Code", "Bezeichner") VALUES ('2000', 'Zeitstufe2');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BodenschatzTiefen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschatzTiefen" ("Code", "Bezeichner") VALUES ('1000', 'Oberflaechennah');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschatzTiefen" ("Code", "Bezeichner") VALUES ('2000', 'Tiefliegend');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BergbauplanungTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Lagerstaette');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1100', 'Sicherung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1200', 'Gewinnung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1300', 'Abbaubereich');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1400', 'Sicherheitszone');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1500', 'AnlageEinrichtungBergbau');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1600', 'Halde');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1700', 'Sanierungsflaeche');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1800', 'AnsiedlungUmsiedlung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1900', 'Bergbaufolgelandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeBergbauplanung');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_SportanlageTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('1000', 'Sportanlage');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('2000', 'Wassersport');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('3000', 'Motorsport');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('4000', 'Flugsport');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('5000', 'Reitsport');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('6000', 'Golfsport');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('7000', 'Sportzentrum');
+INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSportanlage');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Basisobjekte"."RP_WasserschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wasserschutzgebiet');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'Grundwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('2001', 'Grundwasservorkommen');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('2002', 'Gewaesserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'Trinkwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'Trinkwassergewinnung');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('5000', 'Oberflaechenwasserschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('6000', 'Heilquelle');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('7000', 'Wasserversorgung');
+INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerWasserschutz');
