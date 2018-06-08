@@ -2272,3 +2272,7 @@ END;
 $BODY$;
 
 SELECT "QGIS".delete_superordinate();
+
+-- undokumentierte Änderungen
+UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140010 WHERE "Code" = 14010;
+UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140011 WHERE "Code" = 14011;
