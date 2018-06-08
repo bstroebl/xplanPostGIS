@@ -2276,3 +2276,12 @@ SELECT "QGIS".delete_superordinate();
 -- undokumentierte Änderungen
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140010 WHERE "Code" = 14010;
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Code" = 140011 WHERE "Code" = 14011;
+
+ALTER TABLE "RP_KernmodellSonstiges"."RP_ZweckbestimmungGenerischeObjekte" RENAME TO "RP_GenerischesObjektTypen";
+ALTER TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" DROP CONSTRAINT "fk_RP_GenerischesObjekt_zweckbestimmung";
+ALTER TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" RENAME "zweckbestimmung" TO "typ";
+ALTER TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" ADD CONSTRAINT "fk_RP_GenerischesObjekt_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;

@@ -3223,29 +3223,29 @@ CREATE TRIGGER "change_to_RP_ZentralerOrtPunkt" BEFORE INSERT OR UPDATE ON "RP_K
 CREATE TRIGGER "delete_RP_ZentralerOrtPunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_ZweckbestimmungGenerischeObjekte"
+-- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSonstiges"."RP_ZweckbestimmungGenerischeObjekte" (
+CREATE TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
+GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSonstiges"."RP_GenerischesObjekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL,
+  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_GenerischesObjekt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_GenerischesObjekt_zweckbestimmung"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "RP_KernmodellSonstiges"."RP_ZweckbestimmungGenerischeObjekte" ("Code" )
+  CONSTRAINT "fk_RP_GenerischesObjekt_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -3253,7 +3253,7 @@ GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO xp_gast
 GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO rp_user;
 COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
 COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."zweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
+COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."typ" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
 CREATE TRIGGER "change_to_RP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GenerischesObjekt" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
