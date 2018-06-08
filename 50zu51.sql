@@ -100,3 +100,6 @@ Die Klasse wird als veraltet gekennzeichnet und wird in XPlanGML V. 6.0 wegfalle
 ALTER TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungsFlaeche" ADD COLUMN "abbaugut" VARCHAR(255);
 COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen und die Gewinnung von Bodenschätzen.';
 COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
+
+-- CR 009
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" IN (10003,12004,14003,16004,18001,20002,22002,24003,26001);
