@@ -4665,6 +4665,7 @@ INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('BP', 'B
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('1000', 'Normal');
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('2000', 'Parag13');
 INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('3000', 'Parag13a');
+INSERT INTO "BP_Basisobjekte"."BP_Verfahren" ("Code", "Bezeichner") VALUES ('4000', 'Parag13b');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Rechtsstand"
