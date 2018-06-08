@@ -4853,13 +4853,14 @@ INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VAL
 -- -----------------------------------------------------
 -- Data for table "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr"
 -- -----------------------------------------------------
-INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1000, 'Parkierungsflaeche');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1000, 'Parkplatz');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1100, 'Fussgaengerbereich');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1200, 'VerkehrsberuhigterBereich');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1300, 'RadFussweg');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1400, 'Radweg');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1500, 'Fussweg');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1550, 'Wanderweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1560, 'ReitKutschweg');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1580, 'Wirtschaftsweg');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1600, 'FahrradAbstellplatz');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1700, 'UeberfuehrenderVerkehrsweg');
@@ -4869,6 +4870,8 @@ INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2200, 'Anschlussflaeche');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2300, 'LandwirtschaftlicherVerkehr');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2400, 'Verkehrsgruen');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2500, 'Rastanlage');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2600, 'Busbahnhof');
 INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------

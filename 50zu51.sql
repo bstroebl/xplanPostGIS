@@ -160,3 +160,20 @@ CREATE INDEX "BP_VerkehrsFlaecheBesondererZweckbestimmungLinie_gidx" ON "BP_Verk
 COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- CR 013
+UPDATE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Parkplatz' WHERE "Code" = 1000;
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (1560, 'ReitKutschweg');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2500, 'Rastanlage');
+INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES (2600, 'Busbahnhof');
+
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('140012', 'Wirtschaftsweg');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('140013', 'LandwirtschaftlicherVerkehr');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('16002', 'P_RAnlage');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3000', 'CarSharing');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3100', 'BikeSharing');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3200', 'Bike_RideAnlage');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3300', 'Parkhaus');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3400', 'Mischverkehrsflaeche');
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3500', 'Ladestation');
+
