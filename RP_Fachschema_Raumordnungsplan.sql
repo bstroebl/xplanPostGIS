@@ -27,19 +27,19 @@ GRANT xp_user TO rp_user;
 
 CREATE SCHEMA "RP_Basisobjekte";
 CREATE SCHEMA "RP_Freiraumstruktur";
-CREATE SCHEMA "RP_KernmodellInfrastruktur";
+CREATE SCHEMA "RP_Infrastruktur";
 CREATE SCHEMA "RP_KernmodellSiedlungsstruktur";
 CREATE SCHEMA "RP_KernmodellSonstiges";
 
 COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
 COMMENT ON SCHEMA "RP_Freiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
-COMMENT ON SCHEMA "RP_KernmodellInfrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
+COMMENT ON SCHEMA "RP_Infrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSiedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSonstiges" IS 'Sonstige Festlegungen.';
 
 GRANT USAGE ON SCHEMA "RP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Freiraumstruktur" TO xp_gast;
-GRANT USAGE ON SCHEMA "RP_KernmodellInfrastruktur" TO xp_gast;
+GRANT USAGE ON SCHEMA "RP_Infrastruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSiedlungsstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSonstiges" TO xp_gast;
 
@@ -2158,113 +2158,191 @@ CREATE TRIGGER "change_to_RP_ErneuerbareEnergiePunkt" BEFORE INSERT OR UPDATE ON
 CREATE TRIGGER "delete_RP_ErneuerbareEnergiePunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_ErneuerbareEnergiePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen"
+-- Table "RP_Infrastruktur"."RP_EnergieversorgungTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_EnergieversorgungTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Energieversorgung"
+-- Table "RP_Infrastruktur"."RP_PrimaerenergieTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Energieversorgung" (
+CREATE TABLE "RP_Infrastruktur"."RP_PrimaerenergieTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_PrimaerenergieTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SpannungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SpannungTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SpannungTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Energieversorgung"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_Energieversorgung" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
+  "spannung" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Energieversorgung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Energieversorgung_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code" )
+  CONSTRAINT "fk_RP_Energieversorgung_spannung"
+    FOREIGN KEY ("spannung" )
+    REFERENCES "RP_Infrastruktur"."RP_SpannungTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Energieversorgung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Energieversorgung" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Energieversorgung" IS 'Infrastruktur zur Energieversorgung';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Energieversorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Energieversorgung"."typ" IS 'Klassifikation von Energieversorgungs-Einrichtungen.';
-CREATE TRIGGER "change_to_RP_Energieversorgung" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Energieversorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Energieversorgung" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Energieversorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Energieversorgung" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_Energieversorgung" IS 'Infrastruktur zur Energieversorgung';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Energieversorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Energieversorgung"."spannung" IS 'Klassifikation von Spannungen.';
+CREATE TRIGGER "change_to_RP_Energieversorgung" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Energieversorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Energieversorgung" AFTER DELETE ON "RP_Infrastruktur"."RP_Energieversorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche"
+-- Table "RP_Infrastruktur"."RP_Energieversorgung_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" (
+  "RP_Energieversorgung_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Energieversorgung_gid", "typ"),
+  CONSTRAINT "fk_RP_Energieversorgung_typ1"
+    FOREIGN KEY ("RP_Energieversorgung_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Energieversorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Energieversorgung_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" IS 'Klassifikation von Energieversorgungs-Einrichtungen.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Energieversorgung_primaerenergieTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Energieversorgung_primaerenergieTyp" (
+  "RP_Energieversorgung_gid" BIGINT NOT NULL,
+  "primaerenergieTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Energieversorgung_gid", "primaerenergieTyp"),
+  CONSTRAINT "fk_RP_Energieversorgung_primaerenergieTyp1"
+    FOREIGN KEY ("RP_Energieversorgung_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Energieversorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Energieversorgung_primaerenergieTyp2"
+    FOREIGN KEY ("primaerenergieTyp")
+    REFERENCES "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_primaerenergieTyp" IS 'Klassifikation von der mit der Infrastruktur in Beziehung stehenden Primärenergie.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_primaerenergieTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_primaerenergieTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_EnergieversorgungFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EnergieversorgungFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Energieversorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Energieversorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EnergieversorgungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EnergieversorgungFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_EnergieversorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EnergieversorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EnergieversorgungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EnergieversorgungFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_EnergieversorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EnergieversorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie"
+-- Table "RP_Infrastruktur"."RP_EnergieversorgungLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_EnergieversorgungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EnergieversorgungLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Energieversorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Energieversorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EnergieversorgungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EnergieversorgungLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EnergieversorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EnergieversorgungLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EnergieversorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EnergieversorgungLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_EnergieversorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt"
+-- Table "RP_Infrastruktur"."RP_EnergieversorgungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_EnergieversorgungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EnergieversorgungPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Energieversorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Energieversorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EnergieversorgungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EnergieversorgungPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EnergieversorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EnergieversorgungPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EnergieversorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EnergieversorgungPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EnergieversorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EnergieversorgungPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_EnergieversorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen"
+-- Table "RP_Infrastruktur"."RP_AbfallentsorgungTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" (
+CREATE TABLE "RP_Infrastruktur"."RP_AbfallentsorgungTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_AbfallentsorgungTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Entsorgung"
+-- Table "RP_Infrastruktur"."RP_AbfallTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Entsorgung" (
+CREATE TABLE "RP_Infrastruktur"."RP_AbfallTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_AbfallTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_AbwasserTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_AbwasserTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_AbwasserTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Entsorgung"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_Entsorgung" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
+  "istAufschuettungAblagerung" BOOLEAN,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Entsorgung_parent"
     FOREIGN KEY ("gid" )
@@ -2273,80 +2351,151 @@ CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Entsorgung" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Entsorgung_typ"
     FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" ("Code" )
+    REFERENCES "RP_Infrastruktur"."RP_EntsorgungTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Entsorgung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Entsorgung" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Entsorgung" IS 'Entsorgungs-Infrastruktur';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Entsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Entsorgung"."typ" IS 'Klassifikation von Entsorgungs-Arten.';
-CREATE TRIGGER "change_to_RP_Entsorgung" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Entsorgung" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Entsorgung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Entsorgung" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_Entsorgung" IS 'Entsorgungs-Infrastruktur';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Entsorgung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Entsorgung" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Entsorgung" AFTER DELETE ON "RP_Infrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Entsorgung_typAE"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Entsorgung_typAE" (
+  "RP_Entsorgung_gid" BIGINT NOT NULL,
+  "typAE" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Entsorgung_gid", "typAE"),
+  CONSTRAINT "fk_RP_Entsorgung_typAE1"
+    FOREIGN KEY ("RP_Entsorgung_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Entsorgung_typAE2"
+    FOREIGN KEY ("typAE")
+    REFERENCES "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAE" IS 'Klassifikation von Abfallentsorgung-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAE" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAE" TO rp_user;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche"
+-- Table "RP_Infrastruktur"."RP_Entsorgung_abfallTyp"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_Entsorgung_abfallTyp" (
+  "RP_Entsorgung_gid" BIGINT NOT NULL,
+  "abfallTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Entsorgung_gid", "abfallTyp"),
+  CONSTRAINT "fk_RP_Entsorgung_abfallTyp1"
+    FOREIGN KEY ("RP_Entsorgung_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Entsorgung_abfallTyp2"
+    FOREIGN KEY ("abfallTyp")
+    REFERENCES "RP_Infrastruktur"."RP_AbfallTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_abfallTyp" IS 'Klassifikation von mit der Entsorgungsinfrastruktur in Beziehung stehenden Abfalltypen';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_abfallTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Entsorgung_abfallTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Entsorgung_typAW"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Entsorgung_typAW" (
+  "RP_Entsorgung_gid" BIGINT NOT NULL,
+  "typAW" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Entsorgung_gid", "typAW"),
+  CONSTRAINT "fk_RP_Entsorgung_typAW1"
+    FOREIGN KEY ("RP_Entsorgung_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Entsorgung_typAW2"
+    FOREIGN KEY ("typAW")
+    REFERENCES "RP_Infrastruktur"."RP_AbwasserTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAW" IS 'Klassifikation von Abwasser-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAW" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Entsorgung_typAW" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_EntsorgungFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_EntsorgungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EntsorgungFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Entsorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EntsorgungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EntsorgungFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_EntsorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EntsorgungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EntsorgungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EntsorgungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EntsorgungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EntsorgungFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_EntsorgungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EntsorgungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie"
+-- Table "RP_Infrastruktur"."RP_EntsorgungLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_EntsorgungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EntsorgungLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Entsorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EntsorgungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EntsorgungLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EntsorgungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EntsorgungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EntsorgungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EntsorgungLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EntsorgungLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_EntsorgungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt"
+-- Table "RP_Infrastruktur"."RP_EntsorgungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_EntsorgungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_EntsorgungPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Entsorgung" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Entsorgung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_EntsorgungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_EntsorgungPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_EntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_EntsorgungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_EntsorgungPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_EntsorgungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EntsorgungPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_EntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EntsorgungPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_EntsorgungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Kommunikation"
+-- Table "RP_Infrastruktur"."RP_KommunikationTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation" (
+CREATE TABLE "RP_Infrastruktur"."RP_KommunikationTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_KommunikationTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Kommunikation"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_Kommunikation" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Kommunikation_parent"
@@ -2355,152 +2504,189 @@ CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Kommunikation" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Kommunikation" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Kommunikation" IS 'Infrastruktur zur Telekommunikation';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Kommunikation"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_Kommunikation" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Kommunikation" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Kommunikation" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Kommunikation" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_Kommunikation" IS 'Infrastruktur zur Telekommunikation';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Kommunikation"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Kommunikation" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Kommunikation" AFTER DELETE ON "RP_Infrastruktur"."RP_Kommunikation" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche"
+-- Table "RP_Infrastruktur"."RP_Kommunikation_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_Kommunikation_typ" (
+  "RP_Kommunikation_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Kommunikation_gid", "typ"),
+  CONSTRAINT "fk_RP_Kommunikation_typ1"
+    FOREIGN KEY ("RP_Kommunikation_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Kommunikation" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Kommunikation_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_KommunikationTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Kommunikation_typ" IS 'KKlassifikation von Kommunikations-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Kommunikation_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Kommunikation_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_KommunikationFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_KommunikationFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KommunikationFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Kommunikation" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Kommunikation" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KommunikationFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KommunikationFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_KommunikationFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_KommunikationFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_KommunikationFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_KommunikationFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KommunikationFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KommunikationFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_KommunikationFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_KommunikationFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_KommunikationLinie"
+-- Table "RP_Infrastruktur"."RP_KommunikationLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_KommunikationLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_KommunikationLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KommunikationLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Kommunikation" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Kommunikation" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_KommunikationLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KommunikationLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_KommunikationLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KommunikationLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_KommunikationLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_KommunikationLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_KommunikationLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_KommunikationLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KommunikationLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_KommunikationLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KommunikationLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_KommunikationLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt"
+-- Table "RP_Infrastruktur"."RP_KommunikationPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_KommunikationPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_KommunikationPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Kommunikation" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Kommunikation" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_KommunikationPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_KommunikationPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_KommunikationPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_KommunikationPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_KommunikationPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_KommunikationPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_KommunikationPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_KommunikationPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_KommunikationPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_KommunikationPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich"
+-- Table "RP_Infrastruktur"."RP_LaermschutzTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" (
+CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_LaermschutzBauschutz"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutz" (
   "gid" BIGINT NOT NULL ,
+  "typ" INTEGER
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Laermschutzbereich_parent"
+  CONSTRAINT "fk_RP_LaermschutzBauschutz_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_LaermschutzBauschutz_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" IS 'Infrastruktur zum Lärmschutz';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_Laermschutzbereich" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Laermschutzbereich" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutz" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutz" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutz" IS 'Infrastruktur zum Lärmschutz und/oder Bauschutz.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LaermschutzBauschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LaermschutzBauschutz"."typ" IS 'Klassifikation von Lärmschutztypen.';
+CREATE TRIGGER "change_to_RP_LaermschutzBauschutz" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LaermschutzBauschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LaermschutzBauschutz" AFTER DELETE ON "RP_Infrastruktur"."RP_LaermschutzBauschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche"
+-- Table "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_LaermschutzbereichFlaeche_parent"
+  CONSTRAINT "fk_RP_LaermschutzBauschutzFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_LaermschutzBauschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LaermschutzbereichFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LaermschutzbereichFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_LaermschutzbereichFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LaermschutzBauschutzFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LaermschutzBauschutzFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_LaermschutzBauschutzFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie"
+-- Table "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie" (
+CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_LaermschutzbereichLinie_parent"
+  CONSTRAINT "fk_RP_LaermschutzBauschutzLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_LaermschutzBauschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LaermschutzbereichLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LaermschutzbereichLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LaermschutzBauschutzLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LaermschutzBauschutzLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt"
+-- Table "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt" (
+CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_LaermschutzbereichPunkt_parent"
+  CONSTRAINT "fk_RP_LaermschutzBauschutzPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Laermschutzbereich" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_LaermschutzBauschutz" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_LaermschutzbereichPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_LaermschutzbereichPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_LaermschutzbereichPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LaermschutzBauschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LaermschutzBauschutzPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_LaermschutzBauschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur"
+-- Table "RP_Infrastruktur"."RP_SonstigeInfrastruktur"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SonstigeInfrastruktur" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_SonstigeInfrastruktur_parent"
@@ -2509,183 +2695,206 @@ CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" IS 'Sonstige Infrastruktur';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeInfrastruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeInfrastruktur" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastruktur" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastruktur" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_SonstigeInfrastruktur" IS 'Sonstige Infrastruktur';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_SonstigeInfrastruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigeInfrastruktur" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigeInfrastruktur" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstigeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche"
+-- Table "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SonstigeInfrastrukturFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeInfrastrukturFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_SonstigeInfrastrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigeInfrastrukturFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SonstigeInfrastrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie"
+-- Table "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SonstigeInfrastrukturLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeInfrastrukturLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigeInfrastrukturLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt"
+-- Table "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SonstigeInfrastrukturPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SonstigeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeInfrastrukturPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SonstigeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigeInfrastrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigeInfrastrukturPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstigeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen"
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur"
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastruktur"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SozialeInfrastruktur" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_SozialeInfrastruktur_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_SozialeInfrastruktur_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" IS 'Soziale Infrastruktur';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur"."typ" IS '';
-CREATE TRIGGER "change_to_RP_SozialeInfrastruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SozialeInfrastruktur" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_SozialeInfrastruktur" IS 'Soziale Infrastruktur';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_SozialeInfrastruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SozialeInfrastruktur" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SozialeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SozialeInfrastruktur" AFTER DELETE ON "RP_Infrastruktur"."RP_SozialeInfrastruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche"
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" (
+  "RP_SozialeInfrastruktur_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_SozialeInfrastruktur_gid", "typ"),
+  CONSTRAINT "fk_RP_SozialeInfrastruktur_typ1"
+    FOREIGN KEY ("RP_SozialeInfrastruktur_gid")
+    REFERENCES "RP_Infrastruktur"."RP_SozialeInfrastruktur" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_SozialeInfrastruktur_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" IS 'Klassifikation von Sozialer Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SozialeInfrastrukturFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SozialeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SozialeInfrastrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SozialeInfrastrukturFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_SozialeInfrastrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SozialeInfrastrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SozialeInfrastrukturFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SozialeInfrastrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie"
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SozialeInfrastrukturLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SozialeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SozialeInfrastrukturLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SozialeInfrastrukturLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SozialeInfrastrukturLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SozialeInfrastrukturLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt"
+-- Table "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SozialeInfrastrukturPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SozialeInfrastruktur" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SozialeInfrastrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SozialeInfrastrukturPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SozialeInfrastrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SozialeInfrastrukturPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_SozialeInfrastrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_VerkehrTypen"
+-- Table "RP_Infrastruktur"."RP_VerkehrTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_VerkehrTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_VerkehrTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Verkehr"
+-- Table "RP_Infrastruktur"."RP_VerkehrStatus"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Verkehr" (
+CREATE TABLE "RP_Infrastruktur"."RP_VerkehrStatus" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_VerkehrStatus" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Verkehr"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_Verkehr" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
+  "bezeichnung" VARCHAR(64),
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Verkehr_typ"
     FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code" )
+    REFERENCES "RP_Infrastruktur"."RP_VerkehrTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Verkehr_parent"
@@ -2694,164 +2903,815 @@ CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Verkehr" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Verkehr" IS 'Verkehrs-Infrastruktur';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Verkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Verkehr"."typ" IS 'Klassifikation der Verkehrs-Arten.';
-CREATE TRIGGER "change_to_RP_Verkehr" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Verkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Verkehr" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Verkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Verkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Verkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Verkehr" IS 'Enthält allgemeine Verkehrs-Infrastruktur, die auch multiple Typen (etwa Straße und Schiene) beinhalten kann. Die Klasse selbst vererbt an spezialisierte Verkehrsarten, ist aber nicht abstrakt (d.h. sie kann selbst auch verwendet werden).';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Verkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_Verkehr"."bezeichnung" IS 'Bezeichnung eines Verkehrstyps.';
+CREATE TRIGGER "change_to_RP_Verkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Verkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Verkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_Verkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche"
+-- Table "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" (
+  "RP_Verkehr_gid" BIGINT NOT NULL,
+  "allgemeinerTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Verkehr_gid", "allgemeinerTyp"),
+  CONSTRAINT "fk_RP_Verkehr_allgemeinerTyp1"
+    FOREIGN KEY ("RP_Verkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Verkehr_allgemeinerTyp2"
+    FOREIGN KEY ("allgemeinerTyp")
+    REFERENCES "RP_Infrastruktur"."RP_VerkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" IS 'Allgemeine Klassifikation der Verkehrs-Arten.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Verkehr_status"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Verkehr_status" (
+  "RP_Verkehr_gid" BIGINT NOT NULL,
+  "status" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Verkehr_gid", "status"),
+  CONSTRAINT "fk_RP_Verkehr_status1"
+    FOREIGN KEY ("RP_Verkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Verkehr_status2"
+    FOREIGN KEY ("status")
+    REFERENCES "RP_Infrastruktur"."RP_VerkehrStatus" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Verkehr_status" IS 'Klassifikation von Verkehrsstati.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Verkehr_status" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Verkehr_status" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_VerkehrFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_VerkehrFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_VerkehrFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Verkehr" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VerkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VerkehrFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_VerkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_VerkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_VerkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_VerkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_VerkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_VerkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_VerkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_VerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_VerkehrLinie"
+-- Table "RP_Infrastruktur"."RP_VerkehrLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_VerkehrLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_VerkehrLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_VerkehrLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Verkehr" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_VerkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VerkehrLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_VerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VerkehrLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_VerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_VerkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_VerkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_VerkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_VerkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_VerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_VerkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_VerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt"
+-- Table "RP_Infrastruktur"."RP_VerkehrPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_VerkehrPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_VerkehrPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Verkehr" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_VerkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_VerkehrPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_VerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_VerkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_VerkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_VerkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_VerkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_VerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_VerkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_VerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen"
+-- Table "RP_Infrastruktur"."RP_LuftverkehrTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" (
+CREATE TABLE "RP_Infrastruktur"."RP_LuftverkehrTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LuftverkehrTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft"
+-- Table "RP_Infrastruktur"."RP_Luftverkehr"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" (
+CREATE TABLE "RP_Infrastruktur"."RP_Luftverkehr" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Wasserwirtschaft_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code" )
-    ON DELETE NO ACTION
+  CONSTRAINT "fk_RP_Luftverkehr_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Luftverkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Luftverkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Luftverkehr" IS 'Luftverkehr-Infrastruktur ist Infrastruktur, die im Zusammenhang mit der Beförderung von Personen, Gepäck, Fracht und Post mit staatlich zugelassenen Luftfahrzeugen, besonders Flugzeugen steht.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_Luftverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Luftverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Luftverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Luftverkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_Luftverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Luftverkehr_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Luftverkehr_typ" (
+  "RP_Luftverkehr_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Luftverkehr_gid", "typ"),
+  CONSTRAINT "fk_RP_Luftverkehr_typ1"
+    FOREIGN KEY ("RP_Luftverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Luftverkehr" ("gid")
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Luftverkehr_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Luftverkehr_typ" IS 'Klassifikation von Verkehrsstati.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Luftverkehr_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Luftverkehr_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_LuftverkehrFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_LuftverkehrFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_LuftverkehrFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Luftverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LuftverkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LuftverkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LuftverkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LuftverkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LuftverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LuftverkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_LuftverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_LuftverkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LuftverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_LuftverkehrLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_LuftverkehrLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_LuftverkehrLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Luftverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LuftverkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LuftverkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LuftverkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LuftverkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LuftverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LuftverkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_LuftverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_LuftverkehrPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_LuftverkehrPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_LuftverkehrPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Infrastruktur"."RP_Luftverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LuftverkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_LuftverkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_LuftverkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_LuftverkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_LuftverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_LuftverkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_LuftverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SchienenverkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SchienenverkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Schienenverkehr"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Schienenverkehr" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Schienenverkehr_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr" IS 'Schienenverkehr-Infrastruktur.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_Schienenverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Schienenverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Schienenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Schienenverkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_Schienenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Schienenverkehr_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Schienenverkehr_typ" (
+  "RP_Schienenverkehr_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Schienenverkehr_gid", "typ"),
+  CONSTRAINT "fk_RP_Schienenverkehr_typ1"
+    FOREIGN KEY ("RP_Schienenverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Schienenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Schienenverkehr_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_typ" IS 'Klassifikation von Schienenverkehr-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Schienenverkehr_besondererTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Schienenverkehr_besondererTyp" (
+  "RP_Schienenverkehr_gid" BIGINT NOT NULL,
+  "besondererTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Schienenverkehr_gid", "besondererTyp"),
+  CONSTRAINT "fk_RP_Schienenverkehr_besondererTyp1"
+    FOREIGN KEY ("RP_Schienenverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Schienenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Schienenverkehr_besondererTyp2"
+    FOREIGN KEY ("besondererTyp")
+    REFERENCES "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_besondererTyp" IS 'Klassifikation von besonderer Schienenverkehr-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_besondererTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Schienenverkehr_besondererTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SchienenverkehrFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SchienenverkehrFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Schienenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SchienenverkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SchienenverkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SchienenverkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SchienenverkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SchienenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SchienenverkehrLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SchienenverkehrLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SchienenverkehrLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Schienenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SchienenverkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SchienenverkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SchienenverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SchienenverkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_SchienenverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SchienenverkehrPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SchienenverkehrPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SchienenverkehrPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Infrastruktur"."RP_Schienenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SchienenverkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SchienenverkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SchienenverkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SchienenverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SchienenverkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_SchienenverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_StrassenverkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_StrassenverkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Strassenverkehr"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Strassenverkehr" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Strassenverkehr_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr" IS 'Strassenverkehr-Infrastruktur.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_Strassenverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Strassenverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Strassenverkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Strassenverkehr_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Strassenverkehr_typ" (
+  "RP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Strassenverkehr_gid", "typ"),
+  CONSTRAINT "fk_RP_Strassenverkehr_typ1"
+    FOREIGN KEY ("RP_Strassenverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Strassenverkehr_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_typ" IS 'Klassifikation von Strassenverkehr-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Strassenverkehr_besondererTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Strassenverkehr_besondererTyp" (
+  "RP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "besondererTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Strassenverkehr_gid", "besondererTyp"),
+  CONSTRAINT "fk_RP_Strassenverkehr_besondererTyp1"
+    FOREIGN KEY ("RP_Strassenverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Strassenverkehr_besondererTyp2"
+    FOREIGN KEY ("besondererTyp")
+    REFERENCES "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_besondererTyp" IS 'Klassifikation von besonderer Strassenverkehr-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_besondererTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Strassenverkehr_besondererTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_StrassenverkehrFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_StrassenverkehrFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Strassenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_StrassenverkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_StrassenverkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_StrassenverkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_StrassenverkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_StrassenverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_StrassenverkehrLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_StrassenverkehrLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_StrassenverkehrLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Strassenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_StrassenverkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_StrassenverkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_StrassenverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_StrassenverkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_StrassenverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_StrassenverkehrPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_StrassenverkehrPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_StrassenverkehrPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Infrastruktur"."RP_Strassenverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_StrassenverkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_StrassenverkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_StrassenverkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_StrassenverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_StrassenverkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_StrassenverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehr"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehr" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_SonstVerkehr_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr" IS 'Strassenverkehr-Infrastruktur.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstVerkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstVerkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstVerkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstVerkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehr_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehr_typ" (
+  "RP_SonstVerkehr_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_SonstVerkehr_gid", "typ"),
+  CONSTRAINT "fk_RP_SonstVerkehr_typ1"
+    FOREIGN KEY ("RP_SonstVerkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_SonstVerkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_SonstVerkehr_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr_typ" IS 'Sonstige Klassifikation von Verkehrs-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstVerkehr_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehrFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstVerkehrFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SonstVerkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstVerkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstVerkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstVerkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SonstVerkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehrLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehrLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstVerkehrLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_SonstVerkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstVerkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstVerkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstVerkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstVerkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_SonstVerkehrPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_SonstVerkehrPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstVerkehrPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Infrastruktur"."RP_SonstVerkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SonstVerkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_SonstVerkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstVerkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstVerkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_SonstVerkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserverkehrTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_WasserverkehrTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserverkehrTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Wasserverkehr"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Wasserverkehr" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Wasserverkehr_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Verkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr" TO rp_user;
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr" IS 'Strassenverkehr-Infrastruktur.';
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_Wasserverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Wasserverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Wasserverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Wasserverkehr" AFTER DELETE ON "RP_Infrastruktur"."RP_Wasserverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Wasserverkehr_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_Wasserverkehr_typ" (
+  "RP_Wasserverkehr_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Wasserverkehr_gid", "typ"),
+  CONSTRAINT "fk_RP_Wasserverkehr_typ1"
+    FOREIGN KEY ("RP_Wasserverkehr_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Wasserverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Wasserverkehr_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr_typ" IS 'Klassifikation von Wasserverkehr-Infrastruktur.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Wasserverkehr_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserverkehrFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_WasserverkehrFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WasserverkehrFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Wasserverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserverkehrFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserverkehrFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserverkehrFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserverkehrFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserverkehrFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_WasserverkehrFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserverkehrFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserverkehrLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_WasserverkehrLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WasserverkehrLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Wasserverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserverkehrLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserverkehrLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserverkehrLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserverkehrLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserverkehrLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserverkehrLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserverkehrPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Infrastruktur"."RP_WasserverkehrPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WasserverkehrPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Infrastruktur"."RP_Wasserverkehr" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserverkehrPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserverkehrPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserverkehrPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserverkehrPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserverkehrPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserverkehrPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserwirtschaftTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_WasserwirtschaftTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_Wasserwirtschaft"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_Wasserwirtschaft" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
    CONSTRAINT "fk_RP_Wasserwirtschaft_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" IS 'Wasserwirtschaft';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft"."typ" IS 'Klasifikation von Anlagen und Einrichtungen der Wasserwirtschaft';
-CREATE TRIGGER "change_to_RP_Wasserwirtschaft" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Wasserwirtschaft" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft" TO rp_user;
+COMMENT ON TABLE  "RP_Infrastruktur"."RP_Wasserwirtschaft" IS 'Wasserwirtschaft';
+COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Wasserwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Wasserwirtschaft" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Wasserwirtschaft" AFTER DELETE ON "RP_Infrastruktur"."RP_Wasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche"
+-- Table "RP_Infrastruktur"."RP_Wasserwirtschaft_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" (
+CREATE TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" (
+  "RP_Wasserwirtschaft_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Wasserwirtschaft_gid", "typ"),
+  CONSTRAINT "fk_RP_Wasserwirtschaft_typ1"
+    FOREIGN KEY ("RP_Wasserwirtschaft_gid")
+    REFERENCES "RP_Infrastruktur"."RP_Wasserwirtschaft" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Wasserwirtschaft_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" IS 'Klassifikation von Anlagen und Einrichtungen der Wasserwirtschaft.';
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserwirtschaftFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserwirtschaftFlaeche" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_WasserwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserwirtschaftFlaeche" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_WasserwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie"
+-- Table "RP_Infrastruktur"."RP_WasserwirtschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_WasserwirtschaftLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserwirtschaftLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserwirtschaftLinie" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserwirtschaftLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserwirtschaftLinie" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserwirtschaftLinie" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt"
+-- Table "RP_Infrastruktur"."RP_WasserwirtschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt" (
+CREATE  TABLE  "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_WasserwirtschaftPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft" ("gid" )
+    REFERENCES "RP_Infrastruktur"."RP_Wasserwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserwirtschaftPunkt" AFTER DELETE ON "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Infrastruktur"."RP_WasserwirtschaftPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WasserwirtschaftPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen"
@@ -3660,49 +4520,251 @@ INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") V
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzZone" ("Code", "Bezeichner") VALUES ('3000', 'Zone_3');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen"
+-- Data for table "RP_Infrastruktur"."RP_EnergieversorgungTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Hochspannungsleitung');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Pipeline');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('3000', 'Kraftwerk');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('4000', 'EnergieSpeicherung');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Umspannwerk');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeEnergieversorgung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Leitungstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('1001', 'Hochspannungsleitung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('1002', 'KabeltrasseNetzanbindung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Pipeline');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('2001', 'Uebergabestation');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('3000', 'Kraftwerk');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('3001', 'Grosskraftwerk');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('3002', 'Energiegewinnung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('4000', 'Energiespeicherung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('4001', 'VerstetigungSpeicherung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('4002', 'Untergrundspeicher');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Umspannwerk');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('6000', 'Raffinerie');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('7000', 'Leitungsabbau');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeEnergieversorgung');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen"
+-- Data for table "RP_Infrastruktur"."RP_PrimaerenergieTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Abfallwirtschaft');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Abwasserwirtschaft');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_EntsorgungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeEntsorgung');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('1000', 'Erdoel');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('2000', 'Gas');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('2001', 'Ferngas');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('3000', 'Fernwaerme');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('4000', 'Kraftstoff');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('5000', 'Kohle');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('6000', 'Wasser');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('7000', 'Kernenergie');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('8000', 'Reststoffverwertung');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('9000', 'ErneuerbareEnergie');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('9001', 'Windenergie');
+INSERT INTO "RP_Infrastruktur"."RP_PrimaerenergieTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigePrimaerenergie');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen"
+-- Data for table "RP_Infrastruktur"."RP_SpannungTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('1000', 'Kultur');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sozialeinrichtung');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('3000', 'Gesundheit');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('4000', 'Bildung');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSozialeInfrastruktur');
+INSERT INTO "RP_Infrastruktur"."RP_SpannungTypen" ("Code", "Bezeichner") VALUES ('1000', '110KV');
+INSERT INTO "RP_Infrastruktur"."RP_SpannungTypen" ("Code", "Bezeichner") VALUES ('2000', '220KV');
+INSERT INTO "RP_Infrastruktur"."RP_SpannungTypen" ("Code", "Bezeichner") VALUES ('3000', '330KV');
+INSERT INTO "RP_Infrastruktur"."RP_SpannungTypen" ("Code", "Bezeichner") VALUES ('4000', '380KV');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellInfrastruktur"."RP_VerkehrTypen"
+-- Data for table "RP_Infrastruktur"."RP_AbfallentsorgungTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Schienenverkehr');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Strassenverkehr');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'Luftverkehr');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'Wasserverkehr');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerVerkehr');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1000', 'BeseitigungEntsorgung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1100', 'Abfallbeseitigungsanlage');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1101', 'ZentraleAbfallbeseitigungsanlage');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1200', 'Deponie');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1300', 'Untertageeinlagerung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1400', 'Behandlung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1500', 'Kompostierung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1600', 'Verbrennung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1700', 'Umladestation');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('1800', 'Standortsicherung');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallentsorgungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAbfallentsorgung');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen"
+-- Data for table "RP_Infrastruktur"."RP_AbfallTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wasserleitung');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Wasserwerk');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3000', 'TalsperreStaudammDeich');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('4000', 'Rückhaltebecken');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3500', 'TalsperreSpeicherbecken');
-INSERT INTO "RP_KernmodellInfrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeWasserwirtschaft');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('1000', 'Siedlungsabfall');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('2000', 'Mineralstoffabfall');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('3000', 'Industrieabfall');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('4000', 'Sonderabfall');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('5000', 'RadioaktiverAbfall');
+INSERT INTO "RP_Infrastruktur"."RP_AbfallTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerAbfall');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_AbwasserTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('1000', 'Klaeranlage');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('1001', 'ZentraleKlaeranlage');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('1002', 'Grossklaerwerk');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('2000', 'Hauptwasserableitung');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('3000', 'Abwasserverwertungsflaeche');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('4000', 'Abwasserbehandlungsanlage');
+INSERT INTO "RP_Infrastruktur"."RP_AbwasserTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAbwasserinfrastruktur');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('1000', 'Kultur');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('2000', 'Sozialeinrichtung');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('3000', 'Gesundheit');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('3001', 'Krankenhaus');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('4000', 'BildungForschung');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('4001', 'Hochschule');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('5000', 'Polizei');
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastrukturTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSozialeInfrastruktur');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_VerkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Schienenverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Strassenverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'Luftverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'Wasserverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerVerkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_VerkehrStatus"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('1000', 'Ausbau');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('1001', 'LinienfuehrungOffen');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('2000', 'Sicherung');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('3000', 'Neubau');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('4000', 'ImBau');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('5000', 'VorhPlanfestgestLinienbestGrobtrasse');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('6000', 'BedarfsplanmassnahmeOhneRaeumlFestlegung');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('7000', 'Korridor');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('8000', 'Verlegung');
+INSERT INTO "RP_Infrastruktur"."RP_VerkehrStatus" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerVerkehrStatus');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_LuftverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Flughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Verkehrsflughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Regionalflughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1003', 'InternationalerFlughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1004', 'InternationalerVerkehrsflughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('1005', 'Flughafenentwicklung');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Flugplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('2001', 'Regionalflugplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('2002', 'Segelflugplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('2003', 'SonstigerFlugplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'Bauschutzbereich');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'Militaerflughafen');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('5000', 'Landeplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('5001', 'Verkehrslandeplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('5002', 'Hubschrauberlandeplatz');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('5003', 'Landebahn');
+INSERT INTO "RP_Infrastruktur"."RP_LuftverkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerLuftverkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_SchienenverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Schienenverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Eisenbahnstrecke');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Haupteisenbahnstrecke');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1100', 'Trasse');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1200', 'Schienennetz');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1300', 'Stadtbahn');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1301', 'Strassenbahn');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1302', 'SBahn');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1303', 'UBahn');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1400', 'AnschlussgleisIndustrieGewerbe');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1500', 'Haltepunkt');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1600', 'Bahnhof');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1700', 'Hochgeschwindigkeitsverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1800', 'Bahnbetriebsgelaende');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1801', 'AnlagemitgrossemFlaechenbedarf');
+INSERT INTO "RP_Infrastruktur"."RP_SchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerSchienenverkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Eingleisig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Zweigleisig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Mehrgleisig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'OhneBetrieb');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'MitFernverkehrsfunktion');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('3001', 'MitVerknuepfungsfunktionFuerOEPNV');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'ElektrischerBetrieb');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('4001', 'ZuElektrifizieren');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('5000', 'VerbesserungLeistungsfaehigkeit');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('6000', 'RaeumlicheFreihaltungentwidmeterBahntrassen');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('6001', 'NachnutzungstillgelegterStrecken');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('7000', 'Personenverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('7001', 'Gueterverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('8000', 'Nahverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererSchienenverkehrTypen" ("Code", "Bezeichner") VALUES ('8001', 'Fernverkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_StrassenverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Strassenverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Hauptverkehrsstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Autobahn');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1003', 'Bundesstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1004', 'Staatsstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1005', 'Landesstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1006', 'Kreisstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1007', 'Fernstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Trasse');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'Strassennetz');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'Busverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('5000', 'Anschlussstelle');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('6000', 'Strassentunnel');
+INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerStrassenverkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Zweistreifig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Dreistreifig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Vierstreifig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('1003', 'Sechsstreifig');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Problembereich');
+INSERT INTO "RP_Infrastruktur"."RP_BesondererStrassenverkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'GruenbrueckeQuerungsmoeglichkeit');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_SonstVerkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Verkehrsanlage');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1100', 'Gueterverkehrszentrum');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1200', 'Logistikzentrum');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1300', 'TerminalkombinierterVerkehr');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1400', 'OEPNV');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1500', 'VerknuepfungspunktBahnBus');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1600', 'ParkandRideBikeandRide');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1700', 'Faehrverkehr');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1800', 'Infrastrukturkorridor');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1900', 'Tunnel');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'NeueVerkehrstechniken');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerVerkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_WasserverkehrTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('1000', 'Hafen');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('1001', 'Seehafen');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('1002', 'Binnenhafen');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('1003', 'Sportboothafen');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('1004', 'Laende');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'Umschlagplatz');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('3000', 'SchleuseHebewerk');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('4000', 'Schifffahrt');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('4001', 'WichtigerSchifffahrtsweg');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('4002', 'SonstigerSchifffahrtsweg');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('4003', 'Wasserstrasse');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('5000', 'Reede');
+INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerWasserverkehr');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_WasserwirtschaftTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wasserleitung');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Wasserwerk');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('3000', 'StaudammDeich');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('4000', 'Speicherbecken');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('5000', 'Rückhaltebecken');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('6000', 'Talsperre');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('7000', 'PumpwerkSchoepfwerk');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeWasserwirtschaft');
 
 -- -----------------------------------------------------
 -- Data for table "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen"
@@ -3906,7 +4968,7 @@ INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") V
 INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSportanlage');
 
 -- -----------------------------------------------------
--- Data for table "RP_Basisobjekte"."RP_WasserschutzTypen"
+-- Data for table "RP_Freiraumstruktur"."RP_WasserschutzTypen"
 -- -----------------------------------------------------
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wasserschutzgebiet');
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'Grundwasserschutz');
@@ -3918,3 +4980,23 @@ INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") 
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('6000', 'Heilquelle');
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('7000', 'Wasserversorgung');
 INSERT INTO "RP_Freiraumstruktur"."RP_WasserschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerWasserschutz');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_KommunikationTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_KommunikationTypen" ("Code", "Bezeichner") VALUES ('1000', 'Richtfunkstrecke');
+INSERT INTO "RP_Infrastruktur"."RP_KommunikationTypen" ("Code", "Bezeichner") VALUES ('2000', 'Fernmeldeanlage');
+INSERT INTO "RP_Infrastruktur"."RP_KommunikationTypen" ("Code", "Bezeichner") VALUES ('2001', 'SendeEmpfangsstation');
+INSERT INTO "RP_Infrastruktur"."RP_KommunikationTypen" ("Code", "Bezeichner") VALUES ('2002', 'TonFernsehsender');
+INSERT INTO "RP_Infrastruktur"."RP_KommunikationTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeKommunikation');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Infrastruktur"."RP_LaermschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'Laermbereich');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('1001', 'Laermschutzbereich');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'Siedlungsbeschraenkungsbereich');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'ZoneA');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'ZoneB');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('5000', 'ZoneC');
+INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerLaermschutzBauschutz');
