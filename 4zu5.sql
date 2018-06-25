@@ -2353,11 +2353,11 @@ INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTy
 DROP TABLE "RP_KernmodellInfrastruktur"."RP_SozialeInfrastruktur_gebietsTyp";
 INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Verkehr_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
 DROP TABLE "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
-INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Wasserwirtschaft_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Verkehr_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_Wasserwirtschaft_gid","gebietsTyp" FROM "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp";
 DROP TABLE "RP_KernmodellInfrastruktur"."RP_Wasserwirtschaft_gebietsTyp";
-INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_GemeindeFunktionSiedlungsentwicklung_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_GemeindeFunktionSiedlungsentwicklung_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp";
 DROP TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_gebietsTyp";
-INSERT INTO "RP_Basisobjekte"."RP_Wasserwirtschaft_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SonstigeSiedlungsstruktur_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp";
+INSERT INTO "RP_Basisobjekte"."RP_Objekt_gebietsTyp" ("RP_Objekt_gid","gebietsTyp") SELECT "RP_SonstigeSiedlungsstruktur_gid","gebietsTyp" FROM "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp";
 DROP TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur_gebietsTyp";
 INSERT INTO "RP_Basisobjekte"."RP_GebietsTyp" ("Code", "Bezeichner") VALUES ('1001', 'Vorrangstandort');
 UPDATE "RP_Basisobjekte"."RP_GebietsTyp" SET "Code" = 1100 WHERE "Code" = 2000;
@@ -2947,11 +2947,8 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" (
 COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" IS 'Abgebauter Rohstoff.';
 GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff_typ" TO rp_user;
-INSERT INTO "RP_Freiraumstruktur"."RP_Rohstoff_typ" ("RP_Rohstoff_gid","typ") SELECT "abbaugut" FROM "RP_Freiraumstruktur"."RP_Rohstoff" WHERE "abbaugut" IS NOT NULL;
+INSERT INTO "RP_Freiraumstruktur"."RP_Rohstoff_typ" ("RP_Rohstoff_gid","typ") SELECT gid,"abbaugut" FROM "RP_Freiraumstruktur"."RP_Rohstoff" WHERE "abbaugut" IS NOT NULL;
 ALTER TABLE "RP_Freiraumstruktur"."RP_Rohstoff" DROP COLUMN "abbaugut";
-
-UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 100 WHERE "Code" >= 1700 and "Code" != 9999;
-INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code","Bezeichner") VALUES (1700, 'Dekostein');
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_BergbauFolgenutzung"
@@ -2990,7 +2987,6 @@ INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner"
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('6000', 'Erholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('7000', 'Gewaesser');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('8000', 'Verkehr');
-INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
 ALTER TABLE "RP_Freiraumstruktur"."RP_Rohstoff" ADD COLUMN "folgenutzungText" TEXT;
@@ -3086,23 +3082,24 @@ ALTER TABLE "RP_Freiraumstruktur"."RP_RohstoffsicherungPunkt" RENAME CONSTRAINT 
 ALTER TABLE "RP_Freiraumstruktur"."RP_RohstoffsicherungPunkt" RENAME TO "RP_RohstoffPunkt";
 
 -- Anpassen der Enumeration
-UPDATE "RP_RohstoffTypen" SET "Code" = 13900 WHERE "Code" = 5700; -- Freimachen
-UPDATE "RP_RohstoffTypen" SET "Code" = 15100 WHERE "Code" = 5800; -- für
-UPDATE "RP_RohstoffTypen" SET "Code" = 15300 WHERE "Code" = 5900; -- Neube-
-UPDATE "RP_RohstoffTypen" SET "Code" = 14100 WHERE "Code" = 6000; -- legung
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 1400 WHERE "Code" IN (5000,5100,5200,5300,5400,5500,5600);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 1300 WHERE "Code" IN (4600,4700,4800,4900);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 1100 WHERE "Code" IN (4300,4400,4500);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 1000 WHERE "Code" IN (4200);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 900 WHERE "Code" IN (4100);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 800 WHERE "Code" IN (3800,3900);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 700 WHERE "Code" IN (3300,3500,3600,3700);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 400 WHERE "Code" IN (3200,3400);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 300 WHERE "Code" IN (2600,2900,3000,3100);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 200 WHERE "Code" IN (2300,2400,2500,2800);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" + 100 WHERE "Code" IN (1700,1800,1900,2000,2100,2200);
-UPDATE "RP_RohstoffTypen" SET "Code" = "Code" - 10000 WHERE "Code" > 10000; -- endgültige Werte eintragen
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = 13900 WHERE "Code" = 5700; -- Freimachen
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = 15100 WHERE "Code" = 5800; -- für
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = 15300 WHERE "Code" = 5900; -- Neube-
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = 14100 WHERE "Code" = 6000; -- legung
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 1400 WHERE "Code" IN (5000,5100,5200,5300,5400,5500,5600);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 1300 WHERE "Code" IN (4600,4700,4800,4900);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 1100 WHERE "Code" IN (4300,4400,4500);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 1000 WHERE "Code" IN (4200);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 900 WHERE "Code" IN (4100);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 800 WHERE "Code" IN (3800,3900);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 700 WHERE "Code" IN (3300,3500,3600,3700);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 400 WHERE "Code" IN (3200,3400);
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 10300 WHERE "Code" IN (2600,2900,3000,3100); -- damit keine Neubelegung
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 10200 WHERE "Code" IN (2300,2400,2500,2800); -- eines schon bestehenden Codes
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" + 10100 WHERE "Code" IN (1700,1800,1900,2000,2100,2200); -- innerhalb diesr Abfrage erfolgt
+UPDATE "RP_Freiraumstruktur"."RP_RohstoffTypen" SET "Code" = "Code" - 10000 WHERE "Code" > 10000; -- endgültige Werte eintragen
 -- neue Einträge
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code","Bezeichner") VALUES ('1700', 'Dekostein');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2400', 'Festgestein');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('2800', 'Gneis');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('3100', 'Hartgestein');
@@ -3126,7 +3123,7 @@ ALTER TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" ADD CONSTRAINT "f
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" DROP COLUMN "istAusgleichsgebiet";
-COMMENT ON COLUMN TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"."typ" IS 'Sonstiger Freiraumschutz. Nicht anderweitig zuzuordnende Freiraumstrukturen.';
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" IS 'Sonstiger Freiraumschutz. Nicht anderweitig zuzuordnende Freiraumstrukturen.';
 ALTER TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" RENAME CONSTRAINT "fk_RP_SonstigerFreiraumstrukturFlaeche_parent" TO "fk_RP_SonstigerFreiraumschutzFlaeche_parent";
 ALTER TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumstrukturFlaeche" RENAME TO "RP_SonstigerFreiraumschutzFlaeche";
 ALTER TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumstrukturLinie" RENAME CONSTRAINT "fk_RP_SonstigerFreiraumstrukturLinie_parent" TO "fk_RP_SonstigerFreiraumschutzLinie_parent";
@@ -3142,7 +3139,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlageTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_SportanlageTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlageTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Sportanlage"
@@ -3227,7 +3224,7 @@ GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlagePunkt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SportanlagePunkt" TO rp_user;
 COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SportanlagePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_SportanlagePunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SportanlagePunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte".
+CREATE TRIGGER "delete_RP_SportanlagePunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('1000', 'Sportanlage');
 INSERT INTO "RP_Freiraumstruktur"."RP_SportanlageTypen" ("Code", "Bezeichner") VALUES ('2000', 'Wassersport');
@@ -3318,7 +3315,7 @@ CREATE TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" (
 COMMENT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" IS 'Klassifikation von Energieversorgungs-Einrichtungen.';
 GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Energieversorgung_typ" TO rp_user;
-INSERT INTO "RP_Infrastruktur"."RP_Energieversorgung_typ" ("RP_Energieversorgung_gid","typ") SELECT "typ" FROM "RP_Infrastruktur"."RP_Energieversorgung" WHERE "typ" IS NOT NULL;
+INSERT INTO "RP_Infrastruktur"."RP_Energieversorgung_typ" ("RP_Energieversorgung_gid","typ") SELECT gid,"typ" FROM "RP_Infrastruktur"."RP_Energieversorgung" WHERE "typ" IS NOT NULL;
 ALTER TABLE "RP_Infrastruktur"."RP_Energieversorgung" DROP COLUMN "typ";
 
 -- -----------------------------------------------------
@@ -3382,7 +3379,7 @@ ALTER TABLE "RP_Infrastruktur"."RP_Energieversorgung" ADD CONSTRAINT "fk_RP_Ener
     FOREIGN KEY ("spannung")
     REFERENCES "RP_Infrastruktur"."RP_SpannungTypen" ("Code")
     ON DELETE RESTRICT
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE;
 COMMENT ON COLUMN "RP_Infrastruktur"."RP_Energieversorgung"."spannung" IS 'Klassifikation von Spannungen.';
 
 
@@ -3614,7 +3611,7 @@ CREATE TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" (
 COMMENT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" IS 'Klassifikation von Sozialer Infrastruktur.';
 GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" TO rp_user;
-INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" ("RP_SozialeInfrastruktur_gid","typ") SELECT "typ" FROM "RP_Infrastruktur"."RP_SozialeInfrastruktur" WHERE "typ" IS NOT NULL;
+INSERT INTO "RP_Infrastruktur"."RP_SozialeInfrastruktur_typ" ("RP_SozialeInfrastruktur_gid","typ") SELECT gid,"typ" FROM "RP_Infrastruktur"."RP_SozialeInfrastruktur" WHERE "typ" IS NOT NULL;
 ALTER TABLE "RP_Infrastruktur"."RP_SozialeInfrastruktur" DROP COLUMN "typ";
 
 -- RP_Wasserwirtschaft
@@ -3646,7 +3643,7 @@ CREATE TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" (
 COMMENT ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" IS 'Klassifikation von Anlagen und Einrichtungen der Wasserwirtschaft.';
 GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" TO rp_user;
-INSERT INTO "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" ("RP_Wasserwirtschaft_gid","typ") SELECT "typ" FROM "RP_Infrastruktur"."RP_Wasserwirtschaft" WHERE "typ" IS NOT NULL;
+INSERT INTO "RP_Infrastruktur"."RP_Wasserwirtschaft_typ" ("RP_Wasserwirtschaft_gid","typ") SELECT gid,"typ" FROM "RP_Infrastruktur"."RP_Wasserwirtschaft" WHERE "typ" IS NOT NULL;
 ALTER TABLE "RP_Infrastruktur"."RP_Wasserwirtschaft" DROP COLUMN "typ";
 
 -- RP_Verkehr mit Aufspaltung
@@ -3678,7 +3675,7 @@ CREATE TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" (
 COMMENT ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" IS 'Allgemeine Klassifikation der Verkehrs-Arten.';
 GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" TO xp_gast;
 GRANT ALL ON TABLE "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" TO rp_user;
-INSERT INTO "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" ("RP_Verkehr_gid","allgemeinerTyp") SELECT "typ" FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" IS NOT NULL;
+INSERT INTO "RP_Infrastruktur"."RP_Verkehr_allgemeinerTyp" ("RP_Verkehr_gid","allgemeinerTyp") SELECT gid,"typ" FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" IS NOT NULL;
 
 -- -----------------------------------------------------
 -- Table "RP_Infrastruktur"."RP_VerkehrStatus"
@@ -4416,9 +4413,9 @@ CREATE TRIGGER "delete_RP_SchienenverkehrPunkt" AFTER DELETE ON "RP_Infrastruktu
 -- RP_Strassenverkehr
 INSERT INTO "RP_Infrastruktur"."RP_Strassenverkehr"(gid) SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000;
 INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrFlaeche"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
 INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrLinie"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
 INSERT INTO "RP_Infrastruktur"."RP_StrassenverkehrPunkt"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
 DELETE FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 2000);
 CREATE TRIGGER "change_to_RP_Strassenverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4432,9 +4429,9 @@ CREATE TRIGGER "delete_RP_StrassenverkehrPunkt" AFTER DELETE ON "RP_Infrastruktu
 -- RP_SonstVerkehr
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehr"(gid) SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999;
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrFlaeche"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrLinie"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrPunkt"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
 DELETE FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 9999);
 CREATE TRIGGER "change_to_RP_SonstVerkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_SonstVerkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4449,9 +4446,9 @@ CREATE TRIGGER "delete_RP_SonstVerkehrPunkt" AFTER DELETE ON "RP_Infrastruktur".
 -- RP_Wasserverkehr
 INSERT INTO "RP_Infrastruktur"."RP_Wasserverkehr"(gid) SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000;
 INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrFlaeche"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrFlaeche" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
 INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrLinie"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
-DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
+DELETE FROM "RP_Infrastruktur"."RP_VerkehrLinie" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
 INSERT INTO "RP_Infrastruktur"."RP_WasserverkehrPunkt"(gid,position) SELECT gid,position FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
 DELETE FROM "RP_Infrastruktur"."RP_VerkehrPunkt" WHERE gid IN (SELECT gid FROM "RP_Infrastruktur"."RP_Verkehr" WHERE "typ" = 4000);
 CREATE TRIGGER "change_to_RP_Wasserverkehr" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Wasserverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4473,8 +4470,31 @@ ALTER TABLE "RP_Infrastruktur"."RP_Verkehr" ENABLE TRIGGER "delete_RP_Verkehr";
 -- ###########################################
 -- Überarbeitung RP_KernmodellSiedlungsstruktur
 ALTER SCHEMA "RP_KernmodellSiedlungsstruktur" RENAME TO "RP_Siedlungsstruktur";
+ALTER TABLE "RP_Siedlungsstruktur"."RP_AchseTypen" RENAME TO "RP_AchsenTypen";
 
 -- RP_Achse
+-- bisher gab es nur Linien, jetz sind alle Geometrietypen erlaubt
+ALTER TABLE "RP_Siedlungsstruktur"."RP_Achse" RENAME TO "RP_AchseLinie";
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Achse"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Achse" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Achse_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Achse" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Achse" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Achse" IS 'Achsen bündeln i.d.R. Verkehrs- und Versorgungsinfrastruktur und enthalten eine relativ dichte Folge von Siedlungskonzentrationen und Zentralen Orten.';
+INSERT INTO "RP_Siedlungsstruktur"."RP_Achse" (gid) SELECT gid FROM "RP_Siedlungsstruktur"."RP_AchseLinie";
+CREATE TRIGGER "change_to_RP_Achse" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Achse" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
 -- -----------------------------------------------------
 -- Table "RP_Siedlungsstruktur"."RP_Achse_typ"
 -- -----------------------------------------------------
@@ -4496,23 +4516,24 @@ COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" IS 'Klassifikation versch
 GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" TO rp_user;
 
-UPDATE "RP_Siedlungsstruktur"."RP_Achse" SET "typ" = NULL WHERE "typ" = 2000;
+UPDATE "RP_Siedlungsstruktur"."RP_AchseLinie" SET "achsenTyp" = NULL WHERE "achsenTyp" = 2000;
 DELETE FROM "RP_Siedlungsstruktur"."RP_AchsenTypen" WHERE "Code" = 2000;
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('1000', 'Achse');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3000', 'Entwicklungsachse');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3001', 'Landesentwicklungsachse');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3002', 'Verbindungsachse');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3003', 'Entwicklungskorridor');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('4000', 'AbgrenzungEntwicklungsEntlastungsorte');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('5000', 'Achsengrundrichtung');
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('6000', 'AuessererAchsenSchwerpunkt');
-
 UPDATE "RP_Siedlungsstruktur"."RP_AchsenTypen" SET "Code" = 2000 WHERE "Code" = 1000;
-INSERT INTO "RP_Siedlungsstruktur"."RP_Achse_typ" ("RP_Achse_gid","typ") SELECT "typ" FROM "RP_Siedlungsstruktur"."RP_Achse" WHERE "typ" IS NOT NULL;
--- umbenennen von Trigger (Copy-Paste-Fehler)
-ALTER TRIGGER "change_to_RP_WasserrechtWirtschaftAbflussHochwSchutzLinie" ON "RP_Siedlungsstruktur"."RP_Achse" RENAME TO "change_to_RP_Achse";
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('1000', 'Achse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('3000', 'Entwicklungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('3001', 'Landesentwicklungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('3002', 'Verbindungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('3003', 'Entwicklungskorridor');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('4000', 'AbgrenzungEntwicklungsEntlastungsorte');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('5000', 'Achsengrundrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code", "Bezeichner") VALUES ('6000', 'AuessererAchsenSchwerpunkt');
 
--- bisher gab es nur Linien, jetz sind alle Geometrietypen erlaubt
+INSERT INTO "RP_Siedlungsstruktur"."RP_Achse_typ" ("RP_Achse_gid","typ") SELECT gid,"achsenTyp" FROM "RP_Siedlungsstruktur"."RP_AchseLinie" WHERE "achsenTyp" IS NOT NULL;
+ALTER TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" DROP COLUMN "achsenTyp";
+-- umbenennen von Trigger (Copy-Paste-Fehler)
+ALTER TRIGGER "change_to_RP_WasserrechtWirtschaftAbflussHochwSchutzLinie" ON "RP_Siedlungsstruktur"."RP_AchseLinie" RENAME TO "change_to_RP_AchseLinie";
+ALTER TRIGGER "delete_RP_WasserrechtWirtschaftAbflussHochwSchutzLinie" ON "RP_Siedlungsstruktur"."RP_AchseLinie" RENAME TO "delete_to_RP_AchseLinie";
+
 -- -----------------------------------------------------
 -- Table "RP_Siedlungsstruktur"."RP_AchseFlaeche"
 -- -----------------------------------------------------
@@ -4521,7 +4542,7 @@ CREATE TABLE "RP_Siedlungsstruktur"."RP_AchseFlaeche" (
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_AchseFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Achse" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("RP_Basisobjekte"."RP_Flaechenobjekt");
@@ -4541,7 +4562,7 @@ CREATE TABLE "RP_Siedlungsstruktur"."RP_AchsePunkt" (
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_AchsePunkt_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Achse" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("RP_Basisobjekte"."RP_Punktobjekt");
@@ -4552,32 +4573,9 @@ CREATE INDEX "RP_AchsePunkt_gidx" ON "RP_Siedlungsstruktur"."RP_AchsePunkt" usin
 CREATE TRIGGER "change_to_RP_AchsePunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchsePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_AchsePunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchsePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
--- -----------------------------------------------------
--- Table "RP_Siedlungsstruktur"."RP_AchseLinie"
--- -----------------------------------------------------
-CREATE TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_AchseLinie_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS ("RP_Basisobjekte"."RP_Linienobjekt");
-
-GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" TO rp_user;
-CREATE INDEX "RP_AchseLinie_gidx" ON "RP_Siedlungsstruktur"."RP_AchseLinie" using gist ("position");
-
-INSERT INTO "RP_Siedlungsstruktur"."RP_AchseLinie" (gid,position) SELECT gid,position FROM "RP_Siedlungsstruktur"."RP_Achse";
-
-CREATE TRIGGER "change_to_RP_AchseLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchseLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_AchseLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchseLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-ALTER TABLE "RP_Siedlungsstruktur"."RP_Achse" DROP COLUMN "position";
-
 -- RP_GemeindeFunktionSiedlungsentwicklung -> RP_Funktionszuweisung
 ALTER TABLE "RP_Siedlungsstruktur"."RP_Gemeindefunktionen" RENAME TO "RP_FunktionszuweisungTypen";
-UPDATE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" SET "Bezeichner" = "Arbeit" WHERE "Code" = 2000;
+UPDATE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" SET "Bezeichner" = 'Arbeit' WHERE "Code" = 2000;
 UPDATE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" SET "Code" = 7000 WHERE "Code" = 6000;
 UPDATE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" SET "Code" = 6000 WHERE "Code" = 5000;
 UPDATE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" SET "Code" = 5000 WHERE "Code" = 3000;
@@ -4593,7 +4591,7 @@ ALTER TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" RENAME CONSTRAIN
 ALTER TABLE "RP_Siedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" RENAME TO "RP_FunktionszuweisungPunkt";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" RENAME CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklungPunkt_parent" TO "fk_RP_FunktionszuweisungPunkt_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion" RENAME TO "RP_Funktionszuweisung_typ";
-ALTER TABLE "RP_Funktionszuweisung_typ" RENAME "RP_GemeindeFunktionSiedlungsentwicklung_gid" TO "RP_Funktionszuweisung_gid"
+ALTER TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" RENAME "RP_GemeindeFunktionSiedlungsentwicklung_gid" TO "RP_Funktionszuweisung_gid";
 COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" IS 'Klassifikation des Gebietes nach Bundesraumordnungsgesetz.';
 ALTER TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung" ADD COLUMN "bezeichnung" VARCHAR(256);
 COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Funktionszuweisung"."bezeichnung" IS 'Bezeichnung und/oder Erörterung einer Gebietsfunktion.';
@@ -4711,17 +4709,17 @@ GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie_typ" TO rp_user;
 
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" DROP CONSTRAINT "fk_RP_RaumkategorieFlaeche_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" ADD CONSTRAINT "fk_RP_RaumkategorieFlaeche_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" DROP CONSTRAINT "fk_RP_RaumkategorieLinie_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" ADD CONSTRAINT "fk_RP_RaumkategorieLinie_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" DROP CONSTRAINT "fk_RP_RaumkategoriePunkt_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" ADD CONSTRAINT "fk_RP_RaumkategoriePunkt_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
@@ -4776,17 +4774,17 @@ CREATE TRIGGER "delete_RP_Sperrgebiet" AFTER DELETE ON "RP_Siedlungsstruktur"."R
 
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" DROP CONSTRAINT "fk_RP_SperrgebietFlaeche_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" ADD CONSTRAINT "fk_RP_SperrgebietFlaeche_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietLinie" DROP CONSTRAINT "fk_RP_SperrgebietLinie_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietLinie" ADD CONSTRAINT "fk_RP_SperrgebietLinie_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" DROP CONSTRAINT "fk_RP_SperrgebietPunkt_parent";
 ALTER TABLE "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" ADD CONSTRAINT "fk_RP_SperrgebietPunkt_parent" FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
@@ -5344,28 +5342,7 @@ CREATE TRIGGER "delete_RP_SonstigerSiedlungsbereichPunkt" AFTER DELETE ON "RP_Si
 -- ###########################################
 -- Überarbeitung RP_KernmodellSonstiges
 ALTER SCHEMA "RP_KernmodellSonstiges" RENAME TO "RP_Sonstiges";
--- -----------------------------------------------------
--- Table RP_Sonstiges"."RP_Grenze_typ"
--- -----------------------------------------------------
-CREATE TABLE "RP_Sonstiges"."RP_Grenze_typ" (
-  "RP_Grenze_gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL ,
-  PRIMARY KEY ("RP_Grenze_gid", "typ"),
-  CONSTRAINT "fk_RP_Grenze_typ1"
-    FOREIGN KEY ("RP_Grenze_gid" )
-    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Grenze_typ2"
-    FOREIGN KEY ("typ" )
-    REFERENCES "XP_Enumerationen"."XP_GrenzeTypen" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO xp_gast;
-GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO rp_user;
-COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" IS 'Typ der Grenze';
-INSERT INTO "RP_Sonstiges"."RP_Grenze_typ" ("RP_Grenze_gid","typ") SELECT gid,typ FROM "RP_Sonstiges"."RP_Grenze";
-ALTER TABLE "RP_Sonstiges"."RP_Grenze_typ" DROP COLUMN "typ";
+ALTER TABLE "RP_Sonstiges"."RP_Grenze" RENAME TO "RP_GrenzeLinie";
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_SpezifischeGrenzeTypen"
@@ -5388,13 +5365,64 @@ INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VA
 INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('7000', 'GrenzeBraunkohlenplan');
 INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('8000', 'Grenzuebergangsstelle');
 
-ALTER TABLE "RP_Sonstiges"."RP_Grenze_typ" ADD COLUMN "spezifischerTyp" INTEGER;
-COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."spezifischerTyp" IS 'Spezifischer Typ der Grenze';
-ALTER TABLE "RP_Sonstiges"."RP_Grenze_typ" ADD CONSTRAINT "fk_RP_Grenze_spezifischerTyp"
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_Grenze"
+-- -----------------------------------------------------
+CREATE TABLE  "RP_Sonstiges"."RP_Grenze" (
+  "gid" BIGINT NOT NULL,
+  "spezifischerTyp" INTEGER NULL,
+  "sonstTyp" INTEGER NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Grenze_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Grenze_spezifischerTyp"
     FOREIGN KEY ("spezifischerTyp")
     REFERENCES "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code")
     ON DELETE NO ACTION
-    ON UPDATE CASCADE;
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Grenze_sonstTyp"
+    FOREIGN KEY ("sonstTyp")
+    REFERENCES "RP_Sonstiges"."RP_SonstGrenzeTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_RP_Grenze_spezifischerTyp" ON "RP_Sonstiges"."RP_Grenze" ("spezifischerTyp");
+CREATE INDEX "idx_fk_RP_Grenze_sonstTyp" ON "RP_Sonstiges"."RP_Grenze" ("sonstTyp");
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze" IS 'Grenzen';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."spezifischerTyp" IS 'Spezifischer Typ der Grenze';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."sonstTyp" IS 'Erweiterter Typ';
+INSERT INTO "RP_Sonstiges"."RP_Grenze" (gid) SELECT gid FROM "RP_Sonstiges"."RP_GrenzeLinie";
+CREATE TRIGGER "change_to_RP_Grenze" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Grenze" AFTER DELETE ON "RP_Sonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table RP_Sonstiges"."RP_Grenze_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_Grenze_typ" (
+  "RP_Grenze_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL ,
+  PRIMARY KEY ("RP_Grenze_gid", "typ"),
+  CONSTRAINT "fk_RP_Grenze_typ1"
+    FOREIGN KEY ("RP_Grenze_gid" )
+    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Grenze_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "XP_Enumerationen"."XP_GrenzeTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" IS 'Typ der Grenze';
+INSERT INTO "RP_Sonstiges"."RP_Grenze_typ" ("RP_Grenze_gid","typ") SELECT gid,typ FROM "RP_Sonstiges"."RP_GrenzeLinie";
+ALTER TABLE "RP_Sonstiges"."RP_GrenzeLinie" DROP COLUMN "typ";
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_GrenzeFlaeche"
@@ -5415,27 +5443,6 @@ COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeFlaeche"."gid" IS 'Primärschlüssel,
 CREATE TRIGGER "change_to_RP_GrenzeFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GrenzeFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "RP_GrenzeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
-
--- -----------------------------------------------------
--- Table "RP_Sonstiges"."RP_GrenzeLinie"
--- -----------------------------------------------------
-CREATE TABLE "RP_Sonstiges"."RP_GrenzeLinie" (
-  "gid" BIGINT NOT NULL ,
-  PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_GrenzeLinie_parent"
-    FOREIGN KEY ("gid" )
-    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
-
-GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO rp_user;
-COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-INSERT INTO "RP_Sonstiges"."RP_GrenzeLinie" (gid,position) SELECT gid,position from "RP_Sonstiges"."RP_Grenze";
-ALTER TABLE "RP_Sonstiges"."RP_Grenze" DROP COLUMN "position";
-CREATE TRIGGER "change_to_RP_GrenzeLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GrenzeLinie" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_GrenzePunkt"
@@ -5493,7 +5500,7 @@ INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumFlaeche" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumFlaeche_gidx" ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" USING gist(position);
+CREATE INDEX "RP_PlanungsraumFlaeche_gidx" ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_PlanungsraumFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_PlanungsraumFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -5514,7 +5521,7 @@ INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumLinie" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumLinie" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumLinie_gidx" ON "RP_Sonstiges"."RP_PlanungsraumLinie" USING gist(position);
+CREATE INDEX "RP_PlanungsraumLinie_gidx" ON "RP_Sonstiges"."RP_PlanungsraumLinie" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_PlanungsraumLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_PlanungsraumLinie" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -5534,7 +5541,7 @@ INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumPunkt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumPunkt" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumPunkt_gidx" ON "RP_Sonstiges"."RP_PlanungsraumPunkt" USING gist(position);
+CREATE INDEX "RP_PlanungsraumPunkt_gidx" ON "RP_Sonstiges"."RP_PlanungsraumPunkt" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_PlanungsraumPunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_PlanungsraumPunkt" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
