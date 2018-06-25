@@ -29,19 +29,19 @@ CREATE SCHEMA "RP_Basisobjekte";
 CREATE SCHEMA "RP_Freiraumstruktur";
 CREATE SCHEMA "RP_Infrastruktur";
 CREATE SCHEMA "RP_Siedlungsstruktur";
-CREATE SCHEMA "RP_KernmodellSonstiges";
+CREATE SCHEMA "RP_Sonstiges";
 
 COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
 COMMENT ON SCHEMA "RP_Freiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
 COMMENT ON SCHEMA "RP_Infrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
 COMMENT ON SCHEMA "RP_Siedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
-COMMENT ON SCHEMA "RP_KernmodellSonstiges" IS 'Sonstige Festlegungen.';
+COMMENT ON SCHEMA "RP_Sonstiges" IS 'Sonstige Festlegungen.';
 
 GRANT USAGE ON SCHEMA "RP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Freiraumstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Infrastruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Siedlungsstruktur" TO xp_gast;
-GRANT USAGE ON SCHEMA "RP_KernmodellSonstiges" TO xp_gast;
+GRANT USAGE ON SCHEMA "RP_Sonstiges" TO xp_gast;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -4761,20 +4761,20 @@ CREATE TRIGGER "change_to_RP_ZentralerOrtPunkt" BEFORE INSERT OR UPDATE ON "RP_S
 CREATE TRIGGER "delete_RP_ZentralerOrtPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen"
+-- Table "RP_Sonstiges"."RP_GenerischesObjektTypen"
 -- -----------------------------------------------------
-CREATE TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" (
+CREATE TABLE "RP_Sonstiges"."RP_GenerischesObjektTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjektTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_GenerischesObjekt"
+-- Table "RP_Sonstiges"."RP_GenerischesObjekt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" (
+CREATE  TABLE  "RP_Sonstiges"."RP_GenerischesObjekt" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NULL,
+  "typ" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_GenerischesObjekt_parent"
     FOREIGN KEY ("gid" )
@@ -4783,93 +4783,104 @@ CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_GenerischesObjekt_typ"
     FOREIGN KEY ("typ" )
-    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen" ("Code" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjektTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjekt" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
-COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellSonstiges"."RP_GenerischesObjekt"."typ" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
-CREATE TRIGGER "change_to_RP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GenerischesObjekt" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt" TO rp_user;
+COMMENT ON TABLE  "RP_Sonstiges"."RP_GenerischesObjekt" IS 'Klasse zur Modellierung aller Inhalte des Raumordnungsplans, die durch keine andere Klasse des RPlan-Fachschemas dargestellt werden können.';
+COMMENT ON COLUMN  "RP_Sonstiges"."RP_GenerischesObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN  "RP_Sonstiges"."RP_GenerischesObjekt"."typ" IS 'Über eine CodeList definierte Zweckbestimmung der Festlegung.';
+CREATE TRIGGER "change_to_RP_GenerischesObjekt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GenerischesObjekt" AFTER DELETE ON "RP_Sonstiges"."RP_GenerischesObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche"
+-- Table "RP_Sonstiges"."RP_GenerischesObjektFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" (
+CREATE  TABLE  "RP_Sonstiges"."RP_GenerischesObjektFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GenerischesObjektFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjekt" ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GenerischesObjektFlaeche" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_GenerischesObjektFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjektFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjektFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GenerischesObjektFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GenerischesObjektFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GenerischesObjektFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_GenerischesObjektFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjektFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie"
+-- Table "RP_Sonstiges"."RP_GenerischesObjektLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie" (
+CREATE  TABLE  "RP_Sonstiges"."RP_GenerischesObjektLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GenerischesObjektLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjekt" ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GenerischesObjektLinie" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjektLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjektLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GenerischesObjektLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GenerischesObjektLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GenerischesObjektLinie" AFTER DELETE ON "RP_Sonstiges"."RP_GenerischesObjektLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt"
+-- Table "RP_Sonstiges"."RP_GenerischesObjektPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt" (
+CREATE  TABLE  "RP_Sonstiges"."RP_GenerischesObjektPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_GenerischesObjektPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellSonstiges"."RP_GenerischesObjekt" ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_GenerischesObjekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GenerischesObjektPunkt" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjektPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjektPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GenerischesObjektPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GenerischesObjektPunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GenerischesObjektPunkt" AFTER DELETE ON "RP_Sonstiges"."RP_GenerischesObjektPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_SonstGrenzeTypen"
+-- Table "RP_Sonstiges"."RP_SonstGrenzeTypen"
 -- -----------------------------------------------------
-CREATE TABLE  "RP_KernmodellSonstiges"."RP_SonstGrenzeTypen" (
+CREATE TABLE  "RP_Sonstiges"."RP_SonstGrenzeTypen" (
   "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_SonstGrenzeTypen" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_SonstGrenzeTypen" TO so_user;
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO so_user;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSonstiges"."RP_Grenze"
+-- Table "RP_Sonstiges"."RP_SpezifischeGrenzeTypen"
 -- -----------------------------------------------------
-CREATE TABLE  "RP_KernmodellSonstiges"."RP_Grenze" (
+CREATE TABLE  "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" TO so_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_Grenze"
+-- -----------------------------------------------------
+CREATE TABLE  "RP_Sonstiges"."RP_Grenze" (
   "gid" BIGINT NOT NULL,
-  "typ" INTEGER NULL,
+  "spezifischerTyp" INTEGER NULL,
   "sonstTyp" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Grenze_parent"
@@ -4877,28 +4888,193 @@ CREATE TABLE  "RP_KernmodellSonstiges"."RP_Grenze" (
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Grenze_typ"
-    FOREIGN KEY ("typ")
-    REFERENCES "XP_Enumerationen"."XP_GrenzeTypen" ("Code")
+  CONSTRAINT "fk_RP_Grenze_spezifischerTyp"
+    FOREIGN KEY ("spezifischerTyp")
+    REFERENCES "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Grenze_sonstTyp"
     FOREIGN KEY ("sonstTyp")
-    REFERENCES "RP_KernmodellSonstiges"."RP_SonstGrenzeTypen" ("Code")
+    REFERENCES "RP_Sonstiges"."RP_SonstGrenzeTypen" ("Code")
     ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_RP_Grenze_spezifischerTyp_idx" ON "RP_Sonstiges"."RP_Grenze" ("spezifischerTyp");
+CREATE INDEX "idx_fk_RP_Grenze_sonstTyp_idx" ON "RP_Sonstiges"."RP_Grenze" ("sonstTyp");
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze" IS 'Grenzen';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."spezifischerTyp" IS 'Spezifischer Typ der Grenze';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Grenze"."sonstTyp" IS 'Erweiterter Typ';
+CREATE TRIGGER "change_to_RP_Grenze" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Grenze" AFTER DELETE ON "RP_Sonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table RP_Sonstiges"."RP_Grenze_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_Grenze_typ" (
+  "RP_Grenze_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NULL ,
+  PRIMARY KEY ("RP_Grenze_gid", "typ"),
+  CONSTRAINT "fk_RP_Grenze_typ1"
+    FOREIGN KEY ("RP_Grenze_gid" )
+    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Grenze_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "XP_Enumerationen"."XP_GrenzeTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" IS 'Typ der Grenze';
+INSERT INTO "RP_Sonstiges"."RP_Grenze_typ" ("RP_Grenze_gid","typ") SELECT gid,typ FROM "RP_Sonstiges"."RP_Grenze";
+ALTER TABLE "RP_Sonstiges"."RP_Grenze_typ" DROP COLUMN "typ";
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_GrenzeFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_GrenzeFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_GrenzeFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzeFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzeFlaeche" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_GrenzeFlaeche_gidx" ON "RP_Sonstiges"."RP_GrenzeFlaeche" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GrenzeFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GrenzeFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_GrenzeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_GrenzeLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_GrenzeLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_GrenzeLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-CREATE INDEX "idx_fk_RP_Grenze_typ_idx" ON "RP_KernmodellSonstiges"."RP_Grenze" ("typ");
-CREATE INDEX "idx_fk_RP_Grenze_sonstTyp_idx" ON "RP_KernmodellSonstiges"."RP_Grenze" ("sonstTyp");
-GRANT SELECT ON TABLE "RP_KernmodellSonstiges"."RP_Grenze" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSonstiges"."RP_Grenze" TO rp_user;
-COMMENT ON TABLE "RP_KernmodellSonstiges"."RP_Grenze" IS 'Grenzen';
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_Grenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_Grenze"."typ" IS 'Typ der Grenze';
-COMMENT ON COLUMN "RP_KernmodellSonstiges"."RP_Grenze"."sonstTyp" IS 'Erweiterter Typ';
-CREATE TRIGGER "change_to_RP_Grenze" BEFORE INSERT OR UPDATE ON "RP_KernmodellSonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_Grenze" AFTER DELETE ON "RP_KernmodellSonstiges"."RP_Grenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_GrenzeLinie_gidx" ON "RP_Sonstiges"."RP_GrenzeLinie" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GrenzeLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GrenzeLinie" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_GrenzePunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_GrenzePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_GrenzePunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Sonstiges"."RP_Grenze" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzePunkt" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_GrenzePunkt_gidx" ON "RP_Sonstiges"."RP_GrenzePunkt" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_GrenzePunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_GrenzePunkt" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_Planungsraum"
+-- -----------------------------------------------------
+CREATE TABLE  "RP_Sonstiges"."RP_Planungsraum" (
+  "gid" BIGINT NOT NULL,
+  "planungsraumBeschreibung" TEXT,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Planungsraum_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Planungsraum" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_Planungsraum" TO rp_user;
+COMMENT ON TABLE "RP_Sonstiges"."RP_Planungsraum" IS 'Modelliert einen allgemeinen Planungsraum.';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Planungsraum"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Sonstiges"."RP_Planungsraum"."planungsraumBeschreibung" IS 'Textliche Beschreibung eines Planungsrauminhalts.';
+CREATE TRIGGER "change_to_RP_Planungsraum" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_Planungsraum" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Planungsraum" AFTER DELETE ON "RP_Sonstiges"."RP_Planungsraum" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_PlanungsraumFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_PlanungsraumFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_PlanungsraumFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_Planungsraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumFlaeche" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumFlaeche_gidx" ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_PlanungsraumFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_PlanungsraumFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_PlanungsraumFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_PlanungsraumLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_PlanungsraumLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_PlanungsraumLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Sonstiges"."RP_Planungsraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumLinie" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumLinie_gidx" ON "RP_Sonstiges"."RP_PlanungsraumLinie" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_PlanungsraumLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_PlanungsraumLinie" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Sonstiges"."RP_PlanungsraumPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Sonstiges"."RP_PlanungsraumPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_PlanungsraumPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Sonstiges"."RP_Planungsraum" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Sonstiges"."RP_PlanungsraumPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_PlanungsraumPunkt" TO rp_user;
+CREATE INDEX "RP_Sonstiges"."RP_PlanungsraumPunkt_gidx" ON "RP_Sonstiges"."RP_PlanungsraumPunkt" USING gist(position);
+COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_PlanungsraumPunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_PlanungsraumPunkt" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -5760,3 +5936,16 @@ INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner
 INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('4000', 'SicherungEntwicklungWohnstaetten');
 INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('5000', 'AllgemeinerSiedlungsbereichASB');
 INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeWohnenSiedlung');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Sonstiges"."RP_SpezifischeGrenzeTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('1000', 'Zwoelfmeilenzone');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('1001', 'BegrenzungDesKuestenmeeres');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('2000', 'VerlaufUmstritten');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('3000', 'GrenzeDtAusschlWirtschaftszone');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('4000', 'MittlereTideHochwasserlinie');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('5000', 'PlanungsregionsgrenzeRegion');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('6000', 'PlanungsregionsgrenzeLand');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('7000', 'GrenzeBraunkohlenplan');
+INSERT INTO "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" ("Code", "Bezeichner") VALUES ('8000', 'Grenzuebergangsstelle');
