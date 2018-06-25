@@ -28,19 +28,19 @@ GRANT xp_user TO rp_user;
 CREATE SCHEMA "RP_Basisobjekte";
 CREATE SCHEMA "RP_Freiraumstruktur";
 CREATE SCHEMA "RP_Infrastruktur";
-CREATE SCHEMA "RP_KernmodellSiedlungsstruktur";
+CREATE SCHEMA "RP_Siedlungsstruktur";
 CREATE SCHEMA "RP_KernmodellSonstiges";
 
 COMMENT ON SCHEMA "RP_Basisobjekte" IS 'Dies Paket enthält die Basisobjekte des Raumordnungsplanschemas.';
 COMMENT ON SCHEMA "RP_Freiraumstruktur" IS 'Festlegungen im Bereich Freiraumstruktur.';
 COMMENT ON SCHEMA "RP_Infrastruktur" IS 'Festlegungen im Bereich Infrastruktur.';
-COMMENT ON SCHEMA "RP_KernmodellSiedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
+COMMENT ON SCHEMA "RP_Siedlungsstruktur" IS 'Festlegungen im Bereich Siedlungsstruktur.';
 COMMENT ON SCHEMA "RP_KernmodellSonstiges" IS 'Sonstige Festlegungen.';
 
 GRANT USAGE ON SCHEMA "RP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Freiraumstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_Infrastruktur" TO xp_gast;
-GRANT USAGE ON SCHEMA "RP_KernmodellSiedlungsstruktur" TO xp_gast;
+GRANT USAGE ON SCHEMA "RP_Siedlungsstruktur" TO xp_gast;
 GRANT USAGE ON SCHEMA "RP_KernmodellSonstiges" TO xp_gast;
 
 -- *****************************************************
@@ -3714,432 +3714,1051 @@ CREATE TRIGGER "change_to_RP_WasserwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "
 CREATE TRIGGER "delete_RP_WasserwirtschaftPunkt" AFTER DELETE ON "RP_Infrastruktur"."RP_WasserwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen"
+-- Table "RP_Siedlungsstruktur"."RP_AchseTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_AchseTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_AchseTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_Achse"
+-- Table "RP_Siedlungsstruktur"."RP_Achse"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_Achse" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_Achse" (
   "gid" BIGINT NOT NULL ,
-  "achsenTyp" INTEGER NULL,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Achse_achsenTyp"
-    FOREIGN KEY ("achsenTyp" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Achse_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Achse" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Achse" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Achse" IS 'Achsen bündeln i.d.R. Verkehrs- und Versorgungsinfrastruktur und enthalten eine relativ dichte Folge von Siedlungskonzentrationen und Zentralen Orten. ';
+CREATE TRIGGER "change_to_RP_Achse" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Achse" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Achse_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" (
+  "RP_Achse_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Achse_gid", "typ"),
+  CONSTRAINT "fk_RP_Achse_typ1"
+    FOREIGN KEY ("RP_Achse_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_Achse" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Achse_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_AchsenTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" IS 'Klassifikation verschiedener Achsen.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Achse_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_AchseFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_AchseFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_AchseFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_AchseFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_AchseFlaeche" TO rp_user;
+CREATE INDEX "RP_AchseFlaeche_gidx" ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" using gist ("position");
+CREATE TRIGGER "change_to_RP_AchseFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_AchseFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_AchseFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_AchseLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_AchseLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_Achse" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_Achse" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_Achse" IS 'Abgrenzungen unterschiedlicher Ziel- und Zweckbestimmungen und Nutzungsarten, Abgrenzungen unterschiedlicher Biotoptypen.';
-CREATE INDEX "RP_WasserrechtWirtschaftAbflussHochwSchutzLinie_gidx" ON "RP_KernmodellSiedlungsstruktur"."RP_Achse" using gist ("position");
-CREATE TRIGGER "change_to_RP_WasserrechtWirtschaftAbflussHochwSchutzLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_WasserrechtWirtschaftAbflussHochwSchutzLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_Achse" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" TO rp_user;
+CREATE INDEX "RP_AchseLinie_gidx" ON "RP_Siedlungsstruktur"."RP_AchseLinie" using gist ("position");
+CREATE TRIGGER "change_to_RP_AchseLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchseLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_AchseLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchseLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen"
+-- Table "RP_Siedlungsstruktur"."RP_AchsePunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_AchsePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_AchsePunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Achse" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_AchsePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_AchsePunkt" TO rp_user;
+CREATE INDEX "RP_AchsePunkt_gidx" ON "RP_Siedlungsstruktur"."RP_AchsePunkt" using gist ("position");
+CREATE TRIGGER "change_to_RP_AchsePunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchsePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_AchsePunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchsePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung"
+-- Table "RP_Siedlungsstruktur"."RP_Funktionszuweisung"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung" (
   "gid" BIGINT NOT NULL ,
+  "bezeichnung" VARCHAR(256),
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklung_parent"
+  CONSTRAINT "fk_RP_Funktionszuweisung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" IS 'Infrastruktur zur Energieversorgung ';
-COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GemeindeFunktionSiedlungsentwicklung" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GemeindeFunktionSiedlungsentwicklung" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung" IS 'Gebiets- und Gemeindefunktionen.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Funktionszuweisung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Funktionszuweisung"."bezeichnung" IS 'Bezeichnung und/oder Erörterung einer Gebietsfunktion.';
+CREATE TRIGGER "change_to_RP_Funktionszuweisung" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Funktionszuweisung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Funktionszuweisung" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Funktionszuweisung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion"
+-- Table "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion" (
-  "RP_GemeindeFunktionSiedlungsentwicklung_gid" BIGINT NOT NULL ,
-  "funktion" INTEGER NOT NULL ,
-  PRIMARY KEY ("RP_GemeindeFunktionSiedlungsentwicklung_gid", "funktion"),
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklung_funktion1"
-    FOREIGN KEY ("RP_GemeindeFunktionSiedlungsentwicklung_gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" ("gid" )
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" (
+  "RP_Funktionszuweisung_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Funktionszuweisung_gid", "typ"),
+  CONSTRAINT "fk_RP_Funktionszuweisung_typ1"
+    FOREIGN KEY ("RP_Funktionszuweisung_gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Funktionszuweisung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklung_funktion2"
-    FOREIGN KEY ("funktion" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code" )
+  CONSTRAINT "fk_RP_Funktionszuweisung_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung_funktion" IS 'Klassifikation von Gemeindefunktionen.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" TO rp_user;
+COMMENT ON TABLE  "RP_Siedlungsstruktur"."RP_Funktionszuweisung_typ" IS 'Klassifikation von Gemeindefunktionen.';
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche"
+-- Table "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklungFlaeche_parent"
+  CONSTRAINT "fk_RP_FunktionszuweisungFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Funktionszuweisung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GemeindeFunktionSiedlungsentwicklungFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GemeindeFunktionSiedlungsentwicklungFlaeche" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_GemeindeFunktionSiedlungsentwicklungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_FunktionszuweisungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_FunktionszuweisungFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_FunktionszuweisungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie"
+-- Table "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklungLinie_parent"
+  CONSTRAINT "fk_RP_FunktionszuweisungLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Funktionszuweisung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GemeindeFunktionSiedlungsentwicklungLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GemeindeFunktionSiedlungsentwicklungLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_FunktionszuweisungLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_FunktionszuweisungLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt"
+-- Table "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_GemeindeFunktionSiedlungsentwicklungPunkt_parent"
+  CONSTRAINT "fk_RP_FunktionszuweisungPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklung" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Funktionszuweisung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_GemeindeFunktionSiedlungsentwicklungPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_GemeindeFunktionSiedlungsentwicklungPunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_GemeindeFunktionSiedlungsentwicklungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_FunktionszuweisungPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_FunktionszuweisungPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_FunktionszuweisungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche"
+-- Table "RP_Siedlungsstruktur"."RP_RaumkategorieTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Raumkategorie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie" (
+  "gid" BIGINT NOT NULL ,
+  "besondererTyp" INTEGER,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_Raumkategorie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Raumkategorie_besondererTyp"
+    FOREIGN KEY ("besondererTyp" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie" IS 'Raumkategorien sind nach bestimmten Kriterien abgegrenze Gebiete, in denen vergleichbare Strukturen bestehen und in denen die Raumordnung gleichartige Ziele verfolgt. Kriterien können z.B. siedlungsstrukturell, qualitativ oder potentialorientiert sein.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Raumkategorie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Raumkategorie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Raumkategorie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Raumkategorie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Raumkategorie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Raumkategorie_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie_typ" (
+  "RP_Raumkategorie_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Raumkategorie_gid", "typ"),
+  CONSTRAINT "fk_RP_Raumkategorie_typ1"
+    FOREIGN KEY ("RP_Raumkategorie_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Raumkategorie_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie_typ" IS 'Klassifikation verschiedener Raumkategorien.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Raumkategorie_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategorieFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RaumkategorieFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RaumkategorieFlaeche" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_RaumkategorieFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RaumkategorieFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RaumkategorieFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_RaumkategorieFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie"
+-- Table "RP_Siedlungsstruktur"."RP_RaumkategorieLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategorieLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RaumkategorieLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RaumkategorieLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategorieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_RaumkategorieLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RaumkategorieLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RaumkategorieLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt"
+-- Table "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategoriePunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_RaumkategoriePunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_RaumkategoriePunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_RaumkategoriePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_RaumkategoriePunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_RaumkategoriePunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur"
+-- Table "RP_Siedlungsstruktur"."RP_Siedlung"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Siedlung" (
   "gid" BIGINT NOT NULL ,
+  "bauhoehenbeschraenkung" INTEGER,
+  "istSiedlungsbeschraenkung" BOOLEAN,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstruktur_parent"
+  CONSTRAINT "fk_RP_Siedlung_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" IS 'Sonstige Siedlungsstruktur';
-COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeSiedlungsstruktur" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeSiedlungsstruktur" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Siedlung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Siedlung" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Siedlung" IS 'Allgemeines Siedlungsobjekt. Dieses vererbt an mehrere Spezialisierungen, ist aber selbst nicht abstrakt.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Siedlung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Siedlung"."bauhoehenbeschraenkung" IS 'Assoziierte Bauhöhenbeschränkung.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Siedlung"."istSiedlungsbeschraenkung" IS 'Abfrage, ob der FeatureType eine Siedlungsbeschränkung ist.';
+CREATE TRIGGER "change_to_RP_Siedlung" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Siedlung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Siedlung" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Siedlung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche"
+-- Table "RP_Siedlungsstruktur"."RP_SiedlungFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstrukturFlaeche_parent"
+  CONSTRAINT "fk_RP_SiedlungFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeSiedlungsstrukturFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeSiedlungsstrukturFlaeche" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_SonstigeSiedlungsstrukturFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SiedlungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SiedlungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SiedlungFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SiedlungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie"
+-- Table "RP_Siedlungsstruktur"."RP_SiedlungLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SiedlungLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstrukturLinie_parent"
+  CONSTRAINT "fk_RP_SiedlungLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeSiedlungsstrukturLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeSiedlungsstrukturLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SiedlungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SiedlungLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SiedlungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SiedlungLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SiedlungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt"
+-- Table "RP_Siedlungsstruktur"."RP_SiedlungPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SiedlungPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_RP_SonstigeSiedlungsstrukturPunkt_parent"
+  CONSTRAINT "fk_RP_SiedlungPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstruktur" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SonstigeSiedlungsstrukturPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SonstigeSiedlungsstrukturPunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SonstigeSiedlungsstrukturPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SiedlungPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SiedlungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SiedlungPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SiedlungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SiedlungPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SiedlungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche"
+-- Table "RP_Siedlungsstruktur"."RP_EinzelhandelTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Einzelhandel"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_Einzelhandel_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel" IS 'Einzelhandelsstruktur und -funktionen.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Einzelhandel"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_Einzelhandel" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Einzelhandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Einzelhandel" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Einzelhandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Einzelhandel_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel_typ" (
+  "RP_Einzelhandel_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Einzelhandel_gid", "typ"),
+  CONSTRAINT "fk_RP_Einzelhandel_typ1"
+    FOREIGN KEY ("RP_Einzelhandel_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_Einzelhandel" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Einzelhandel_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel_typ" IS 'Klassifikation von Einzelhandelstypen';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Einzelhandel_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_EinzelhandelFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Einzelhandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EinzelhandelFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EinzelhandelFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_EinzelhandelFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_EinzelhandelFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_EinzelhandelLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_EinzelhandelLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Einzelhandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_EinzelhandelLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EinzelhandelLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_EinzelhandelLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EinzelhandelLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_EinzelhandelLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_EinzelhandelPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_Einzelhandel" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_EinzelhandelPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_EinzelhandelPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_EinzelhandelPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbe"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_IndustrieGewerbe_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" IS 'Industrie- und Gewerbestrukturen und -funktionen.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_IndustrieGewerbe"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_IndustrieGewerbe" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_IndustrieGewerbe" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbe_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe_typ" (
+  "RP_IndustrieGewerbe_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_IndustrieGewerbe_gid", "typ"),
+  CONSTRAINT "fk_RP_IndustrieGewerbe_typ1"
+    FOREIGN KEY ("RP_IndustrieGewerbe_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_IndustrieGewerbe_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe_typ" IS 'Klassifikation von Industrie- und Gewerbetypen.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbe_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_IndustrieGewerbeFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_IndustrieGewerbeFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_IndustrieGewerbeFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_IndustrieGewerbeFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_IndustrieGewerbeLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_IndustrieGewerbeLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_IndustrieGewerbeLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_IndustrieGewerbePunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_IndustrieGewerbe" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_IndustrieGewerbePunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_IndustrieGewerbePunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_IndustrieGewerbePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_SonstigerSiedlungsbereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" IS 'Wohn- und Siedlungsstruktur und -funktionen.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerSiedlungsbereich" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerSiedlungsbereich" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerSiedlungsbereichFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerSiedlungsbereichFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerSiedlungsbereichFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SonstigerSiedlungsbereichFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerSiedlungsbereichLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerSiedlungsbereichLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerSiedlungsbereichLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_SonstigerSiedlungsbereichPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereich" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SonstigerSiedlungsbereichPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SonstigerSiedlungsbereichPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SonstigerSiedlungsbereichPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlung"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_RP_WohnenSiedlung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Siedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung" IS 'Wohn- und Siedlungsstruktur und -funktionen.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_WohnenSiedlung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WohnenSiedlung" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WohnenSiedlung" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlung_typ"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung_typ" (
+  "RP_WohnenSiedlung_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_WohnenSiedlung_gid", "typ"),
+  CONSTRAINT "fk_RP_WohnenSiedlung_typ1"
+    FOREIGN KEY ("RP_WohnenSiedlung_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_WohnenSiedlung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_WohnenSiedlung_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung_typ" IS 'Klassifikation von Wohnen- und Siedlungstypen';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlung_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WohnenSiedlungFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_WohnenSiedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WohnenSiedlungFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WohnenSiedlungFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_WohnenSiedlungFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WohnenSiedlungLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_WohnenSiedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WohnenSiedlungLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WohnenSiedlungLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_WohnenSiedlungPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_WohnenSiedlung" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_WohnenSiedlungPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_WohnenSiedlungPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_WohnenSiedlungPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SperrgebietTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_SperrgebietTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_Sperrgebiet"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_Sperrgebiet" (
+  "gid" BIGINT NOT NULL ,
+  "typ" INTEGER,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_RP_Sperrgebiet_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Sperrgebiet_Typen"
+    FOREIGN KEY ("typ" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_Sperrgebiet" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_Sperrgebiet" TO rp_user;
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_Sperrgebiet" IS 'Sperrgebiet, Gelände oder Areal, das für die Zivilbevölkerung überhaupt nicht oder zeitweise nicht zugänglich ist.';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Sperrgebiet"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_Sperrgebiet"."typ" IS 'Klassifikation verschiedener Sperrgebiettypen.';
+CREATE TRIGGER "change_to_RP_Sperrgebiet" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_Sperrgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_Sperrgebiet" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_Sperrgebiet" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SperrgebietFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SperrgebietFlaeche" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_SperrgebietFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SperrgebietFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SperrgebietFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_SperrgebietFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie"
+-- Table "RP_Siedlungsstruktur"."RP_SperrgebietLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SperrgebietLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SperrgebietLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SperrgebietLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SperrgebietLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SperrgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SperrgebietLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SperrgebietLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt"
+-- Table "RP_Siedlungsstruktur"."RP_SperrgebietPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_SperrgebietPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_SperrgebietPunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_SperrgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_SperrgebietPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_SperrgebietPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_SperrgebietPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen"
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt"
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrt"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrt" (
   "gid" BIGINT NOT NULL ,
-  "funktion" INTEGER NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_ZentralerOrt_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_ZentralerOrt_funktion"
-    FOREIGN KEY ("funktion" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" TO rp_user;
-COMMENT ON TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" IS 'Zentrale Orte';
-COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt"."funktion" IS 'Klassifikation von zentralen Orten.';
-CREATE TRIGGER "change_to_RP_ZentralerOrt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ZentralerOrt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt" TO rp_user;
+COMMENT ON TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrt" IS 'Zentrale Orte';
+COMMENT ON COLUMN  "RP_Siedlungsstruktur"."RP_ZentralerOrt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ZentralerOrt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_ZentralerOrt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ZentralerOrt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_ZentralerOrt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche"
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrt_typ"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" (
+CREATE TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_typ" (
+  "RP_ZentralerOrt_gid" BIGINT NOT NULL,
+  "typ" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_ZentralerOrt_gid", "typ"),
+  CONSTRAINT "fk_RP_ZentralerOrt_typ1"
+    FOREIGN KEY ("RP_ZentralerOrt_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_ZentralerOrt_typ2"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_typ" IS 'Klassifikation von Zentralen Orten.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_typ" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_typ" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrt_sonstigerTyp"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_sonstigerTyp" (
+  "RP_ZentralerOrt_gid" BIGINT NOT NULL,
+  "sonstigerTyp" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_ZentralerOrt_gid", "sonstigerTyp"),
+  CONSTRAINT "fk_RP_ZentralerOrt_sonstigerTyp1"
+    FOREIGN KEY ("RP_ZentralerOrt_gid")
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_ZentralerOrt_sonstigerTyp2"
+    FOREIGN KEY ("sonstigerTyp")
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_sonstigerTyp" IS 'Sonstige Klassifikation von Zentralen Orten.';
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_sonstigerTyp" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrt_sonstigerTyp" TO rp_user;
+
+-- -----------------------------------------------------
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche"
+-- -----------------------------------------------------
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ZentralerOrtFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ZentralerOrtFlaeche" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ZentralerOrtFlaeche" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "RP_ZentralerOrtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ZentralerOrtFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ZentralerOrtFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "RP_ZentralerOrtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie"
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ZentralerOrtLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ZentralerOrtLinie" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ZentralerOrtLinie" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ZentralerOrtLinie" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ZentralerOrtLinie" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt"
+-- Table "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" (
+CREATE  TABLE  "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_ZentralerOrtPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrt" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_ZentralerOrt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
-GRANT SELECT ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" TO xp_gast;
-GRANT ALL ON TABLE "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" TO rp_user;
-COMMENT ON COLUMN "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-CREATE TRIGGER "change_to_RP_ZentralerOrtPunkt" BEFORE INSERT OR UPDATE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_RP_ZentralerOrtPunkt" AFTER DELETE ON "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" TO xp_gast;
+GRANT ALL ON TABLE "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" TO rp_user;
+COMMENT ON COLUMN "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_RP_ZentralerOrtPunkt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_RP_ZentralerOrtPunkt" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_ZentralerOrtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "RP_KernmodellSonstiges"."RP_GenerischesObjektTypen"
@@ -4767,31 +5386,74 @@ INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner")
 INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeWasserwirtschaft');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen"
+-- Data for table "RP_Siedlungsstruktur"."RP_AchseTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('1000', 'Siedlungsachse');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('2000', 'GrossraeumigeAchse');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAchse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('1000', 'Achse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('2000', 'Siedlungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3000', 'Entwicklungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3001', 'Landesentwicklungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3002', 'Verbindungsachse');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('3003', 'Entwicklungskorridor');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('4000', 'AbgrenzungEntwicklungsEntlastungsorte');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('5000', 'Achsengrundrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('6000', 'AuessererAchsenSchwerpunkt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_AchseTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAchse');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen"
+-- Data for table "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('1000', 'Wohnen');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('2000', 'Arbeiten');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('3000', 'Landwirtschaft');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('4000', 'Einzelhandel');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('5000', 'ErholungFremdenverkehr');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('6000', 'Verteidigung');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_Gemeindefunktionen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wohnen');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Arbeit');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('3000', 'GewerbeDienstleistung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('4000', 'Einzelhandel');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Landwirtschaft');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('6000', 'ErholungFremdenverkehr');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('7000', 'Verteidigung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('8000', 'UeberoertlicheVersorgungsfunktionLaendlicherRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
 
 -- -----------------------------------------------------
--- Data for table "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen"
+-- Data for table "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('1000', 'Oberzentrum');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('2000', 'Mittelzentrum');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('3000', 'Grundzentrum');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('4000', 'Kleinzentrum');
-INSERT INTO "RP_KernmodellSiedlungsstruktur"."RP_ZentralerOrtFunktionen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeFunktion');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('1000', 'Oberzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('1001', 'GemeinsamesOberzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('1500', 'Oberbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('2000', 'Mittelzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('2500', 'Mittelbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('3000', 'Grundzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('3001', 'Unterzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('3500', 'Nahbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('4000', 'Kleinzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('5000', 'LaendlicherZentralort');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('6000', 'Stadtrandkern1Ordnung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('6001', 'Stadtrandkern2Ordnung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('7000', 'VersorgungskernSiedlungskern');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('8000', 'ZentralesSiedlungsgebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('9000', 'Metropole');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerZentralerOrt');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1000', 'Doppelzentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1100', 'Funktionsteilig');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1101', 'MitOberzentralerTeilfunktion');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1102', 'MitMittelzentralerTeilfunktion');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1200', 'ImVerbund');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1300', 'Kooperierend');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1301', 'KooperierendFreiwillig');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1302', 'KooperierendVerpflichtend');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1400', 'ImVerdichtungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1500', 'SiedlungsGrundnetz');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1501', 'SiedlungsErgaenzungsnetz');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1600', 'Entwicklungsschwerpunkt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1700', 'Ueberschneidungsbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1800', 'Ergaenzungsfunktion');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('1900', 'Nachbar');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2000', 'MoeglichesZentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2100', 'FunktionsraumEindeutigeAusrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2101', 'FunktionsraumBilateraleAusrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSonstigerZentralerOrt');
 
 -- -----------------------------------------------------
 -- Data for table "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen"
@@ -5000,3 +5662,101 @@ INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALU
 INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'ZoneB');
 INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('5000', 'ZoneC');
 INSERT INTO "RP_Infrastruktur"."RP_LaermschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerLaermschutzBauschutz');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_RaumkategorieTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1000', 'Ordnungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1001', 'OrdnungsraumTourismusErholung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1100', 'Verdichtungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1101', 'KernzoneVerdichtungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1102', 'RandzoneVerdichtungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1103', 'Ballungskernzone');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1104', 'Ballungsrandzone');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1105', 'HochverdichteterRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1106', 'StadtUmlandBereichVerdichtungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1200', 'LaendlicherRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1201', 'VerdichteterBereichimLaendlichenRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1202', 'Gestaltungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1203', 'LaendlicherGestaltungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1300', 'StadtUmlandRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1301', 'StadtUmlandBereichLaendlicherRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1400', 'AbgrenzungOrdnungsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1500', 'DuennbesiedeltesAbgelegenesGebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1600', 'Umkreis10KM');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1700', 'RaummitbesonderemHandlungsbedarf');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1800', 'Funktionsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1900', 'GrenzeWirtschaftsraum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2000', 'Funktionsschwerpunkt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2100', 'Grundversorgung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2200', 'Alpengebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2300', 'RaeumeMitGuenstigenEntwicklungsvoraussetzungen');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2400', 'RaeumeMitAusgeglichenenEntwicklungspotenzialen');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2500', 'RaeumeMitBesonderenEntwicklungsaufgaben');
+INSERT INTO "RP_Siedlungsstruktur"."RP_RaumkategorieTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeRaumkategorie');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" ("Code", "Bezeichner") VALUES ('1000', 'Grenzgebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" ("Code", "Bezeichner") VALUES ('2000', 'Bergbaufolgelandschaft');
+INSERT INTO "RP_Siedlungsstruktur"."RP_BesondereRaumkategorieTypen" ("Code", "Bezeichner") VALUES ('3000', 'Braunkohlenfolgelandschaft');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_SperrgebietTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('1000', 'Verteidigung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('2000', 'SondergebietBund');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('3000', 'Warngebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('4000', 'MilitaerischeEinrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('4001', 'GrosseMilitaerischeAnlage');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('5000', 'MilitaerischeLiegenschaft');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('6000', 'Konversionsflaeche');
+INSERT INTO "RP_Siedlungsstruktur"."RP_SperrgebietTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigesSperrgebiet');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_EinzelhandelTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('1000', 'Einzelhandel');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('2000', 'ZentralerVersorgungsbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('3000', 'ZentralerEinkaufsbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('4000', 'ZentrenrelevantesGrossprojekt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('5000', 'NichtzentrenrelevantesGrossprojekt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('6000', 'GrossflaechigerEinzelhandel');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('7000', 'Fachmarktstandort');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('8000', 'Ergaenzungsstandort');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('9000', 'StaedtischerKernbereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_EinzelhandelTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerEinzelhandel');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('1000', 'Industrie');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('1001', 'IndustrielleAnlage');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('2000', 'Gewerbe');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('2001', 'GewerblicherBereich');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('2002', 'Gewerbepark');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('2003', 'DienstleistungGewerbeZentrum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('3000', 'GewerbeIndustrie');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('3001', 'BedeutsamerEntwicklungsstandortGewerbeIndustrie');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('4000', 'SicherungundEntwicklungvonArbeitsstaetten');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('5000', 'FlaechenintensivesGrossvorhaben');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('6000', 'BetriebsanlageBergbau');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('7000', 'HafenorientierteWirtschaftlicheAnlage');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('8000', 'TankRastanlage');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('9000', 'BereichFuerGewerblicheUndIndustrielleNutzungGIB');
+INSERT INTO "RP_Siedlungsstruktur"."RP_IndustrieGewerbeTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeIndustrieGewerbe');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Wohnen');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Baugebietsgrenze');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('3000', 'Siedlungsgebiet');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('3001', 'Siedlungsschwerpunkt');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('3002', 'Siedlungsentwicklung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('3003', 'Siedlungsbeschraenkung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('3004', 'Siedlungsnutzung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('4000', 'SicherungEntwicklungWohnstaetten');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('5000', 'AllgemeinerSiedlungsbereichASB');
+INSERT INTO "RP_Siedlungsstruktur"."RP_WohnenSiedlungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeWohnenSiedlung');
