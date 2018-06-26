@@ -235,11 +235,7 @@ $BODY$
             new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
         END IF;
 
-        IF new."referenzName" IS NULL THEN
-            new."referenzName" := 'Externe Referenz ' || CAST(new.id as varchar);
-        END IF;
-
-        INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, new."referenzName");
+        INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
         RETURN new;
     ELSIf (TG_OP = 'UPDATE') THEN
         new.id := old.id;
