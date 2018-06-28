@@ -1364,6 +1364,8 @@ DROP SCHEMA "RP_Raster" CASCADE;
 DROP TABLE "RP_Basisobjekte"."RP_Bereich_rasterAenderung";
 DROP SCHEMA "SO_Raster" CASCADE;
 DROP TABLE "XP_Raster"."XP_RasterplanAenderung" CASCADE;
+DROP TABLE "XP_Raster"."XP_RasterplanAenderung_refLegende";
+DROP TABLE "XP_Raster"."XP_RasterplanAenderung_refScan";
 DROP TABLE "XP_Raster"."XP_GeltungsbereichAenderung";
 DROP SEQUENCE "XP_Raster"."XP_RasterplanAenderung_gid_seq";
 DROP FUNCTION "XP_Raster"."child_of_XP_RasterplanAenderung"();
