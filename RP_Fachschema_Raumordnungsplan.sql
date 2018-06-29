@@ -16,7 +16,7 @@
 -- CREATE GROUP ROLES
 -- *****************************************************
 
--- editierende Rolle für RP_Fachschema_FPlan
+-- editierende Rolle für RP_Fachschema_RPlan
 CREATE ROLE rp_user
   NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 GRANT xp_user TO rp_user;
@@ -518,7 +518,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ForstwirtschaftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ForstwirtschaftTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Forstwirtschaft"
@@ -762,7 +762,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_ZaesurTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ZaesurTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ZaesurTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_GruenzugGruenzaesur"
@@ -870,7 +870,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_LuftTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_LuftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LuftTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Klimaschutz"
@@ -1068,7 +1068,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_LandwirtschaftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LandwirtschaftTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Landwirtschaft"
@@ -1161,7 +1161,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_NaturLandschaftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_NaturLandschaft"
@@ -1368,7 +1368,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_RadwegWanderwegTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_RadwegWanderwegTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_RadwegWanderweg"
@@ -1542,7 +1542,6 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_Rohstoff" (
 
 GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" TO xp_gast;
 GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" TO rp_user;
-CREATE INDEX "idx_fk_RP_Rohstoff_abbaugut" ON "RP_Freiraumstruktur"."RP_Rohstoff" ("abbaugut") ;
 COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Rohstoff" IS 'Rohstoffsicherung';
 COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Rohstoff"."folgenutzungText" IS 'Textliche Festlegungen und Spezifizierungen zur Folgenutzung einer Bergbauplanung.';
@@ -1688,7 +1687,6 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" (
 
 GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" TO xp_gast;
 GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" TO rp_user;
-COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"."typ" IS 'Sonstiger Freiraumschutz. Nicht anderweitig zuzuordnende Freiraumstrukturen.';
 COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_SonstigerFreiraumschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_SonstigerFreiraumschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_SonstigerFreiraumschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -1758,7 +1756,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_SportanlageTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_SportanlageTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_SportanlageTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Sportanlage"
@@ -1852,7 +1850,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_HochwasserschutzTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Hochwasserschutz"
@@ -1953,7 +1951,7 @@ COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt"."gid" IS 'Pri
 CREATE TRIGGER "change_to_RP_HochwasserschutzPunkt" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_HochwasserschutzPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_HochwasserschutzPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_WasserschutzTypen"
 -- -----------------------------------------------------
 CREATE TABLE "RP_Freiraumstruktur"."RP_WasserschutzTypen" (
@@ -2070,7 +2068,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_ErneuerbareEnergieTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_ErneuerbareEnergie"
@@ -2348,11 +2346,6 @@ CREATE  TABLE  "RP_Infrastruktur"."RP_Entsorgung" (
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_RP_Entsorgung_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "RP_Infrastruktur"."RP_EntsorgungTypen" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_Entsorgung" TO xp_gast;
@@ -2362,7 +2355,7 @@ COMMENT ON COLUMN  "RP_Infrastruktur"."RP_Entsorgung"."gid" IS 'Primärschlüsse
 CREATE TRIGGER "change_to_RP_Entsorgung" BEFORE INSERT OR UPDATE ON "RP_Infrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Entsorgung" AFTER DELETE ON "RP_Infrastruktur"."RP_Entsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Table "RP_Infrastruktur"."RP_Entsorgung_typAE"
 -- -----------------------------------------------------
 CREATE TABLE "RP_Infrastruktur"."RP_Entsorgung_typAE" (
@@ -2604,7 +2597,7 @@ GRANT SELECT ON TABLE "RP_Infrastruktur"."RP_LaermschutzTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE TABLE "RP_Infrastruktur"."RP_LaermschutzBauschutz" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER
+  "typ" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_LaermschutzBauschutz_parent"
     FOREIGN KEY ("gid" )
@@ -2892,11 +2885,6 @@ CREATE  TABLE  "RP_Infrastruktur"."RP_Verkehr" (
   "gid" BIGINT NOT NULL ,
   "bezeichnung" VARCHAR(64),
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_RP_Verkehr_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "RP_Infrastruktur"."RP_VerkehrTypen" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Verkehr_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
@@ -3781,7 +3769,7 @@ CREATE TRIGGER "change_to_RP_AchseFlaeche" BEFORE INSERT OR UPDATE ON "RP_Siedlu
 CREATE TRIGGER "delete_RP_AchseFlaeche" AFTER DELETE ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "RP_AchseFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "RP_Siedlungsstruktur"."RP_AchseFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."positionFollowsRHR"();
 
-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Table "RP_Siedlungsstruktur"."RP_AchseLinie"
 -- -----------------------------------------------------
 CREATE TABLE "RP_Siedlungsstruktur"."RP_AchseLinie" (
@@ -4000,7 +3988,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategorieFlaeche" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategorieFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
@@ -4020,7 +4008,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategorieLinie" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategorieLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
@@ -4039,7 +4027,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_RaumkategoriePunkt" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_RaumkategoriePunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_Basisobjekte"."RP_Raumkategorie" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Raumkategorie" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
@@ -4573,7 +4561,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietFlaeche" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
@@ -4593,7 +4581,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietLinie" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietLinie_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
@@ -4612,7 +4600,7 @@ CREATE  TABLE  "RP_Siedlungsstruktur"."RP_SperrgebietPunkt" (
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_RP_SperrgebietPunkt_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "RP_Basisobjekte"."RP_Sperrgebiet" ("gid" )
+    REFERENCES "RP_Siedlungsstruktur"."RP_Sperrgebiet" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
@@ -4930,7 +4918,6 @@ CREATE TABLE "RP_Sonstiges"."RP_Grenze_typ" (
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_Grenze_typ" TO rp_user;
 COMMENT ON TABLE "RP_Sonstiges"."RP_Grenze_typ" IS 'Typ der Grenze';
-INSERT INTO "RP_Sonstiges"."RP_Grenze_typ" ("RP_Grenze_gid","typ") SELECT gid,typ FROM "RP_Sonstiges"."RP_Grenze";
 ALTER TABLE "RP_Sonstiges"."RP_Grenze_typ" DROP COLUMN "typ";
 
 -- -----------------------------------------------------
@@ -4948,7 +4935,7 @@ INHERITS("RP_Basisobjekte"."RP_Flaechenobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzeFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzeFlaeche" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_GrenzeFlaeche_gidx" ON "RP_Sonstiges"."RP_GrenzeFlaeche" USING gist(position);
+CREATE INDEX "RP_GrenzeFlaeche_gidx" ON "RP_Sonstiges"."RP_GrenzeFlaeche" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_GrenzeFlaeche" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GrenzeFlaeche" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4969,7 +4956,7 @@ INHERITS("RP_Basisobjekte"."RP_Linienobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzeLinie" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_GrenzeLinie_gidx" ON "RP_Sonstiges"."RP_GrenzeLinie" USING gist(position);
+CREATE INDEX "RP_GrenzeLinie_gidx" ON "RP_Sonstiges"."RP_GrenzeLinie" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzeLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_GrenzeLinie" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GrenzeLinie" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzeLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4989,7 +4976,7 @@ INHERITS("RP_Basisobjekte"."RP_Punktobjekt");
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GrenzePunkt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Sonstiges"."RP_GrenzePunkt" TO rp_user;
-CREATE INDEX "RP_Sonstiges"."RP_GrenzePunkt_gidx" ON "RP_Sonstiges"."RP_GrenzePunkt" USING gist(position);
+CREATE INDEX "RP_GrenzePunkt_gidx" ON "RP_Sonstiges"."RP_GrenzePunkt" USING gist(position);
 COMMENT ON COLUMN "RP_Sonstiges"."RP_GrenzePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_GrenzePunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GrenzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_GrenzePunkt" AFTER DELETE ON "RP_Sonstiges"."RP_GrenzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -5762,7 +5749,6 @@ INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner"
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('6000', 'Erholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('7000', 'Gewaesser');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('8000', 'Verkehr');
-INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9000', 'Altbergbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauFolgenutzung" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
 
