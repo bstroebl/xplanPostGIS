@@ -854,7 +854,7 @@ CREATE TRIGGER  "XP_RaeumlicherGeltungsbereich_isAbstract" BEFORE INSERT ON "XP_
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_Geltungsbereich" (
   "gid" BIGINT NOT NULL ,
-  "geltungsbereich" GEOMETRY(Multipolygon,25832) NOT NULL ,
+  "geltungsbereich" GEOMETRY(Multipolygon,25832),
   PRIMARY KEY ("gid") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Geltungsbereich" TO xp_user;
