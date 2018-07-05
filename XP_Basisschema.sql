@@ -412,7 +412,10 @@ $BODY$
             new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
         END IF;
 
-        new.uuid := "XP_Basisobjekte"."create_uuid"();
+        IF new.uuid IS NULL THEN
+            new.uuid := "XP_Basisobjekte"."create_uuid"();
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -431,6 +434,7 @@ $BODY$
     parent_nspname varchar;
     parent_relname varchar;
     rec record;
+    num_parents integer;
  BEGIN
     parent_nspname := NULL;
     -- die Elterntabelle rauskriegen und in Variablen speichern
@@ -453,7 +457,17 @@ $BODY$
 
     IF (TG_OP = 'INSERT') THEN
         IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
-            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+            IF new.gid IS NOT NULL THEN
+                -- prüfen, ob es breits ein Elternobjekt gibt
+                EXECUTE 'SELECT count(gid) FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
+                    ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+                
+                IF num_parents = 0 THEN 
+                    new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+                END IF;
+            ELSE
+                new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+            END IF;
         ELSE
             IF new.gid IS NULL THEN
                 new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
@@ -1216,6 +1230,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige B
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
 CREATE INDEX "idx_fk_XP_Objekt_xp_gesetzlichegrundlage1" ON "XP_Basisobjekte"."XP_Objekt" ("gesetzlicheGrundlage") ;
+CREATE INDEX "idx_XP_Objekt_uuid" ON "XP_Basisobjekte"."XP_Objekt" ("uuid");
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt" TO xp_user;
 
