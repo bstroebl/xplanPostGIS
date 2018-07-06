@@ -125,6 +125,21 @@ LANGUAGE 'plpgsql' VOLATILE
 COST 100;
 GRANT EXECUTE ON FUNCTION "QGIS"."ObjektKopieren"(varchar, varchar ,bigint, varchar, varchar) TO xp_user;
 
+CREATE OR REPLACE FUNCTION "QGIS"."imp_create_xp_gid"(nspname character varying, relname character varying)
+  RETURNS integer AS
+$BODY$
+BEGIN
+    EXECUTE 'ALTER TABLE ' ||
+        quote_ident(nspname) || '.' || quote_ident(relname) || 
+        ' ADD COLUMN IF NOT EXISTS xp_gid bigint;';
+    RETURN 1;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE STRICT
+COST 100;
+GRANT EXECUTE ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, character varying) TO xp_user;
+COMMENT ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, character varying) IS 'Legt in der übergebenen Tabelle ein bigint-Feld xp_gid an; Funktion ist nötig, da der ALTER TABLE-Befehl aus QGIS selbst über QtSql nicht geht :-(';
+
 -- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************

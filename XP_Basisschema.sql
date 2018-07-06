@@ -272,21 +272,32 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+        IF new.name IS NULL THEN
+             new.name := 'XP_Plan ' || CAST(new.gid as varchar);
+        END IF;
+
+        IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
+            num_parents := 0;
         ELSE
-            IF new.gid IS NULL THEN
+            EXECUTE 'SELECT count(gid) FROM "XP_Basisobjekte"."XP_Plan"' ||
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+            IF num_parents > 0 THEN
+                RAISE WARNING 'Einen XP_Plan mit dieser gid gibt es bereits, erzeuge neue gid';
                 new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
+                num_parents := 0;
+            ELSE
+                RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        IF new.name IS NULL THEN
-            new.name := 'XP_Plan ' || CAST(new.gid as varchar);
+        IF num_parents = 0 THEN
+            INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, new.name);
         END IF;
-
-        INSERT INTO "XP_Basisobjekte"."XP_Plan"(gid, name) VALUES(new.gid, new.name);
 
         IF new."raeumlicherGeltungsbereich" IS NOT NULL THEN
             new."raeumlicherGeltungsbereich" := ST_ForceRHR(new."raeumlicherGeltungsbereich");
@@ -369,17 +380,32 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."propagate_name_to_child"() TO xp_us
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+        IF new.name IS NULL THEN
+            new.name := 'XP_Bereich ' || CAST(new.gid as varchar);
+        END IF;
+
+        IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
+            num_parents := 0;
         ELSE
-            IF new.gid IS NULL THEN
+            EXECUTE 'SELECT count(gid) FROM "XP_Basisobjekte"."XP_Bereich"' ||
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+            IF num_parents > 0 THEN
+                RAISE WARNING 'Einen XP_Bereich mit dieser gid gibt es bereits, erzeuge neue gid';
                 new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
+                num_parents := 0;
+            ELSE
+                RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, COALESCE(new.name,'XP_Bereich ' || CAST(new.gid as varchar)));
+        IF num_parents = 0 THEN
+            INSERT INTO "XP_Basisobjekte"."XP_Bereich"(gid, name) VALUES(new.gid, new.name);
+        END IF;
 
         IF new."geltungsbereich" IS NOT NULL THEN
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
@@ -415,11 +441,13 @@ $BODY$
         IF new.uuid IS NULL THEN
             new.uuid := "XP_Basisobjekte"."create_uuid"();
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
-        new.uuid := old.uuid;
+        IF new.uuid IS NULL THEN
+            new.uuid := old.uuid;
+        END IF;
         RETURN new;
     END IF;
  END; $BODY$
@@ -427,9 +455,17 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() TO xp_user;
 
+-- FUNCTION: "XP_Basisobjekte"."child_of_XP_Objekt"()
+
+-- DROP FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"();
+
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"()
-RETURNS trigger AS
-$BODY$
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+
  DECLARE
     parent_nspname varchar;
     parent_relname varchar;
@@ -456,29 +492,24 @@ $BODY$
     END LOOP;
 
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
-            IF new.gid IS NOT NULL THEN
-                -- prüfen, ob es breits ein Elternobjekt gibt
-                EXECUTE 'SELECT count(gid) FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
-                    ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
-                
-                IF num_parents = 0 THEN 
-                    new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-                END IF;
-            ELSE
-                new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
-            END IF;
+        IF new.gid IS NULL THEN
+            num_parents := 0;
+            new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
         ELSE
-            IF new.gid IS NULL THEN
-                new.gid := nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"');
+            EXECUTE 'SELECT count(gid) FROM ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        IF parent_nspname IS NOT NULL THEN
+        IF parent_nspname IS NOT NULL AND num_parents = 0 THEN
             -- Elternobjekt anlegen
             EXECUTE 'INSERT INTO ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
                 '(gid) VALUES(' || CAST(new.gid as varchar) || ');';
         END IF;
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -491,9 +522,8 @@ $BODY$
         END IF;
         RETURN old;
     END IF;
- END; $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
+ END;
+$BODY$;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"()
