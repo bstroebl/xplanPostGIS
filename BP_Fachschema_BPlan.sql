@@ -1679,7 +1679,8 @@ CREATE  TABLE  "BP_Wasser"."BP_GewaesserFlaeche" (
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_XP_ZweckbestimmungGewaesser" ON "BP_Wasser"."BP_GewaesserFlaeche" ("zweckbestimmung") ;
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_BP_DetailZweckbestGewaesser1" ON "BP_Wasser"."BP_GewaesserFlaeche" ("detaillierteZweckbestimmung") ;
