@@ -2102,7 +2102,7 @@ GRANT SELECT ON "BP_Sonstiges"."BP_DetailAbgrenzungenTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_NutzungsartenGrenze" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER NOT NULL DEFAULT 1000,
+  "typ" INTEGER ,
   "detailTyp" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_NutzungsartenGrenze_parent"
