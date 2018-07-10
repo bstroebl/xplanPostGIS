@@ -143,46 +143,6 @@ $BODY$
         NEW."GF" := NULL;
     END IF;
 
-    IF NEW."BMZmin" IS NOT NULL AND NEW."BMZmax" IS NULL THEN
-        IF NEW."BMZ" IS NOT NULL THEN
-            NEW."BMZmax" := NEW."BMZ";
-        ELSE
-            NEW."BMZmax" := NEW."BMZmin";
-        END IF;
-    ELSIF NEW."BMZmin" IS NULL AND NEW."BMZmax" IS NOT NULL THEN
-        NEW."BMZmin" := NEW."BMZmax";
-    ELSE
-        IF NEW."BMZmin" > NEW."BMZmax" THEN
-            NEW."BMZmin" := NEW."BMZmax";
-        END IF;
-    END IF;
-
-    IF NEW."BMZmin" IS NOT NULL AND NEW."BMZ" IS NOT NULL THEN
-        NEW."BMZ" := NULL;
-    END IF;
-
-    IF NEW."BMmin" IS NOT NULL AND NEW."BM" IS NOT NULL THEN
-        NEW."BM" := NULL;
-    END IF;
-
-    IF NEW."BMmin" IS NOT NULL AND NEW."BMmax" IS NULL THEN
-        IF NEW."BM" IS NOT NULL THEN
-            NEW."BMmax" := NEW."BM";
-        ELSE
-            NEW."BMmax" := NEW."BMmin";
-        END IF;
-    ELSIF NEW."BMmin" IS NULL AND NEW."BMmax" IS NOT NULL THEN
-        NEW."BMmin" := NEW."BMmax";
-    ELSE
-        IF NEW."BMmin" > NEW."BMmax" THEN
-            NEW."BMmin" := NEW."BMmax";
-        END IF;
-    END IF;
-
-    IF NEW."BMmin" IS NOT NULL AND NEW."BM" IS NOT NULL THEN
-        NEW."BM" := NULL;
-    END IF;
-
     IF NEW."GRZmin" IS NOT NULL AND NEW."GRZ" IS NOT NULL THEN
         NEW."GRZ" := NULL;
     END IF;
