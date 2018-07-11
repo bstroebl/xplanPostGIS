@@ -529,17 +529,27 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"() TO xp_user;
 CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+        IF new.gid IS NULL THEN
+            num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            IF new.gid IS NULL THEN
-                new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"' || 
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -556,17 +566,27 @@ GRANT EXECUTE ON FUNCTION "XP_Praesentationsobjekte"."child_of_XP_APObjekt"() TO
 CREATE OR REPLACE FUNCTION "XP_Praesentationsobjekte"."child_of_XP_TPO"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+        IF new.gid IS NULL THEN
+            num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            IF new.gid IS NULL THEN
-                new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_TPO"' || 
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
+
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -586,12 +606,13 @@ $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
         IF new.text IS NULL AND new."refText" IS NULL THEN
-            RAISE EXCEPTION 'Entweder text oder refText muss belegt sein!';
+            new.text := 'kein Text';
+            RAISE WARNING 'Entweder text oder refText muss belegt sein!';
         ELSIF new.text IS NOT NULL AND new."refText" IS NOT NULL THEN
-            RAISE EXCEPTION 'text und refText dürfen nicht gleichzeitig belegt sein!';
-        ELSE
-            RETURN new;
+            new.text := NULL;
+            RAISE WARNING 'text und refText dürfen nicht gleichzeitig belegt sein!';
         END IF;
+        RETURN new;
     END IF;
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
@@ -601,17 +622,27 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"() TO xp_
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+        IF new.id IS NULL THEN
+            num_parents := 0;
             new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
         ELSE
-            IF new.id IS NULL THEN
-                new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_TextAbschnitt"' || 
+                ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
+
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die id sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
 
-        INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
+        END IF;
+        
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.id := old.id; --no change in id allowed
