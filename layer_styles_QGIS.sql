@@ -49609,52 +49609,31 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#33a02c');
-INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche', '<qgis version="2.14.12-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche', '<qgis version="2.18.21" simplifyAlgorithm="0" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="allgArtDerBaulNutzung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="besondereArtDerBaulNutzung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="sondernutzung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="detaillierteArtDerBaulNutzung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="nutzungText">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="abweichungBauNVO">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="bauweise">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="abweichendeBauweise">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="vertikaleDifferenzierung">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="bebauungsArt">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="bebauungVordereGrenze">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="bebauungRueckwaertigeGrenze">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-  </edittype>
-  <edittype widgetv2type="TextEdit" name="bebauungSeitlicheGrenze">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
   <edittype widgetv2type="TextEdit" name="zugunstenVon">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
  </edittypes>
  <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
@@ -49663,6 +49642,15 @@ INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche',
    <rule filter=" &quot;allgArtDerBaulNutzung&quot;  = 2000" key="{3c6f60c1-c9d4-4215-82c4-d58652032327}" symbol="1" label="GemischteBauflaeche"/>
    <rule filter=" &quot;allgArtDerBaulNutzung&quot;  = 3000" key="{6d0b9988-bb6d-4f5a-8d29-6b2b15b4a110}" symbol="2" label="GewerblicheBauflaeche"/>
    <rule filter=" &quot;allgArtDerBaulNutzung&quot;  = 4000" key="{8eb523a0-6d5e-4c49-98ed-7833a5e792e5}" symbol="3" label="SonderBauflaeche"/>
+   <rule filter=" &quot;allgArtDerBaulNutzung&quot;  = 9999" key="{19b27837-2360-4fa9-a3b5-ec99922411ad}" symbol="4" label="sonstigeBauflaeche"/>
+   <rule filter=" &quot;allgArtDerBaulNutzung&quot;  IS NULL" key="{0956c7a0-575f-41e9-8dfb-35872f85c2c1}">
+    <rule filter=" &quot;besondereArtDerBaulNutzung&quot; >= 1000 AND  &quot;besondereArtDerBaulNutzung&quot; &lt;= 1300" key="{9179a45a-33d3-45d2-9361-3a355cfe15bb}" symbol="5" label="WohnbauFlaeche (besondereArtDerBaulNutzung)"/>
+    <rule filter=" &quot;besondereArtDerBaulNutzung&quot; >= 1400 AND  &quot;besondereArtDerBaulNutzung&quot; &lt;= 1600" key="{7e5a2708-88bd-484b-98fc-a67bc8e339bc}" symbol="6" label="GemischteBauflaeche (besondereArtDerBaulNutzung)"/>
+    <rule filter=" &quot;besondereArtDerBaulNutzung&quot; >= 1700 AND  &quot;besondereArtDerBaulNutzung&quot; &lt;= 1800" key="{ff1edb23-ab6e-42bf-aa9a-bc463ecebb1c}" symbol="7" label="gewerblicheBauflaeche (besondereArtDerBaulNutzung)"/>
+    <rule filter=" &quot;besondereArtDerBaulNutzung&quot; >= 2000 AND  &quot;besondereArtDerBaulNutzung&quot; &lt;= 4000" key="{fe5da2f8-3ad5-4161-a1cf-31c1ceb476f7}" symbol="8" label="SonderBauflaeche (besondereArtDerBaulNutzung)"/>
+    <rule filter=" &quot;besondereArtDerBaulNutzung&quot; = 9999" key="{d5bb0c74-4d1e-45f0-99fb-5c25347d6bcf}" symbol="9" label="SonstigesGebiet"/>
+   </rule>
+   <rule filter="ELSE" key="{a70e4701-6ced-4350-8cd4-e703cf11f38c}" symbol="10" label="ELSE"/>
   </rules>
   <symbols>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
@@ -49695,6 +49683,61 @@ INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche',
      <prop k="style" v="solid"/>
     </layer>
    </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="10">
+    <layer pass="0" class="PointPatternFill" locked="0">
+     <prop k="displacement_x" v="4.2"/>
+     <prop k="displacement_x_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="displacement_x_unit" v="MM"/>
+     <prop k="displacement_y" v="0"/>
+     <prop k="displacement_y_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="displacement_y_unit" v="MM"/>
+     <prop k="distance_x" v="16.8"/>
+     <prop k="distance_x_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="distance_x_unit" v="MM"/>
+     <prop k="distance_y" v="8.4"/>
+     <prop k="distance_y_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="distance_y_unit" v="MM"/>
+     <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <symbol alpha="1" clip_to_extent="1" type="marker" name="@10@0">
+      <layer pass="0" class="SvgMarker" locked="0">
+       <prop k="angle" v="0"/>
+       <prop k="color" v="137,205,102,255"/>
+       <prop k="horizontal_anchor_point" v="1"/>
+       <prop k="name" v=""/>
+       <prop k="offset" v="0,0"/>
+       <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="offset_unit" v="MM"/>
+       <prop k="outline_color" v="0,0,0,255"/>
+       <prop k="outline_width" v="0"/>
+       <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="outline_width_unit" v="MM"/>
+       <prop k="scale_method" v="diameter"/>
+       <prop k="size" v="5.8"/>
+       <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+       <prop k="size_unit" v="MM"/>
+       <prop k="vertical_anchor_point" v="1"/>
+      </layer>
+     </symbol>
+    </layer>
+    <layer pass="0" class="SimpleLine" locked="0">
+     <prop k="capstyle" v="square"/>
+     <prop k="customdash" v="5;2"/>
+     <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="customdash_unit" v="MM"/>
+     <prop k="draw_inside_polygon" v="0"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="line_color" v="0,0,0,255"/>
+     <prop k="line_style" v="solid"/>
+     <prop k="line_width" v="0.26"/>
+     <prop k="line_width_unit" v="MM"/>
+     <prop k="offset" v="0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="use_custom_dash" v="0"/>
+     <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+    </layer>
+   </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
     <layer pass="0" class="SimpleFill" locked="0">
      <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -49725,10 +49768,101 @@ INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche',
      <prop k="style" v="solid"/>
     </layer>
    </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="246,191,90,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="255,138,111,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="6">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="168,112,0,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="7">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="192,192,192,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="8">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="228,92,0,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
+   <symbol alpha="1" clip_to_extent="1" type="fill" name="9">
+    <layer pass="0" class="SimpleFill" locked="0">
+     <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="color" v="246,191,90,255"/>
+     <prop k="joinstyle" v="bevel"/>
+     <prop k="offset" v="0,0"/>
+     <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+     <prop k="offset_unit" v="MM"/>
+     <prop k="outline_color" v="0,0,0,255"/>
+     <prop k="outline_style" v="solid"/>
+     <prop k="outline_width" v="0.26"/>
+     <prop k="outline_width_unit" v="MM"/>
+     <prop k="style" v="solid"/>
+    </layer>
+   </symbol>
   </symbols>
  </renderer-v2>
  <labeling type="simple"/>
  <customproperties>
+  <property key="embeddedWidgets/count" value="0"/>
   <property key="labeling" value="pal"/>
   <property key="labeling/addDirectionSymbol" value="false"/>
   <property key="labeling/angleOffset" value="0"/>
@@ -49878,12 +50012,14 @@ INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche',
   <property key="labeling/shapeSizeY" value="0"/>
   <property key="labeling/shapeTransparency" value="0"/>
   <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/substitutions" value="&lt;substitutions/>"/>
   <property key="labeling/textColorA" value="255"/>
   <property key="labeling/textColorB" value="0"/>
   <property key="labeling/textColorG" value="0"/>
   <property key="labeling/textColorR" value="0"/>
   <property key="labeling/textTransp" value="0"/>
   <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/useSubstitutions" value="false"/>
   <property key="labeling/wrapChar" value=""/>
   <property key="labeling/xOffset" value="0"/>
   <property key="labeling/yOffset" value="0"/>
@@ -49916,17 +50052,62 @@ INSERT INTO "QGIS".layer VALUES (219, 'BP_Bebauung', 'BP_BaugebietsTeilFlaeche',
   <multilineenabled fieldname="" on=""/>
   <selectedonly on=""/>
  </labelattributes>
- <SingleCategoryDiagramRenderer diagramType="Pie">
-  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+ <SingleCategoryDiagramRenderer diagramType="Pie" sizeLegend="0" attributeLegend="1">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="inf">
    <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
    <attribute field="" color="#000000" label=""/>
   </DiagramCategory>
+  <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
+   <layer pass="0" class="SimpleMarker" locked="0">
+    <prop k="angle" v="0"/>
+    <prop k="color" v="255,0,0,255"/>
+    <prop k="horizontal_anchor_point" v="1"/>
+    <prop k="joinstyle" v="bevel"/>
+    <prop k="name" v="circle"/>
+    <prop k="offset" v="0,0"/>
+    <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="offset_unit" v="MM"/>
+    <prop k="outline_color" v="0,0,0,255"/>
+    <prop k="outline_style" v="solid"/>
+    <prop k="outline_width" v="0"/>
+    <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="outline_width_unit" v="MM"/>
+    <prop k="scale_method" v="diameter"/>
+    <prop k="size" v="2"/>
+    <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="size_unit" v="MM"/>
+    <prop k="vertical_anchor_point" v="1"/>
+   </layer>
+  </symbol>
  </SingleCategoryDiagramRenderer>
- <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <DiagramLayerSettings yPosColumn="-1" showColumn="0" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
  <annotationform>.</annotationform>
+ <aliases>
+  <alias field="gid" index="0" name=""/>
+  <alias field="allgArtDerBaulNutzung" index="1" name=""/>
+  <alias field="besondereArtDerBaulNutzung" index="2" name=""/>
+  <alias field="sondernutzung" index="3" name=""/>
+  <alias field="detaillierteArtDerBaulNutzung" index="4" name=""/>
+  <alias field="nutzungText" index="5" name=""/>
+  <alias field="abweichungBauNVO" index="6" name=""/>
+  <alias field="zugunstenVon" index="7" name=""/>
+ </aliases>
  <excludeAttributesWMS/>
  <excludeAttributesWFS/>
- <attributeactions/>
+ <attributeactions default="-1"/>
+ <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+  <columns>
+   <column width="-1" hidden="0" type="field" name="gid"/>
+   <column width="-1" hidden="0" type="field" name="allgArtDerBaulNutzung"/>
+   <column width="-1" hidden="0" type="field" name="besondereArtDerBaulNutzung"/>
+   <column width="-1" hidden="0" type="field" name="sondernutzung"/>
+   <column width="-1" hidden="0" type="field" name="detaillierteArtDerBaulNutzung"/>
+   <column width="-1" hidden="0" type="field" name="nutzungText"/>
+   <column width="-1" hidden="0" type="field" name="abweichungBauNVO"/>
+   <column width="-1" hidden="0" type="field" name="zugunstenVon"/>
+   <column width="-1" hidden="1" type="actions"/>
+  </columns>
+ </attributetableconfig>
  <editform>.</editform>
  <editforminit/>
  <editforminitcodesource>0</editforminitcodesource>
@@ -49953,6 +50134,17 @@ def my_form_open(dialog, layer, feature):
   <rowstyles/>
   <fieldstyles/>
  </conditionalstyles>
+ <defaults>
+  <default field="gid" expression=""/>
+  <default field="allgArtDerBaulNutzung" expression=""/>
+  <default field="besondereArtDerBaulNutzung" expression=""/>
+  <default field="sondernutzung" expression=""/>
+  <default field="detaillierteArtDerBaulNutzung" expression=""/>
+  <default field="nutzungText" expression=""/>
+  <default field="abweichungBauNVO" expression=""/>
+  <default field="zugunstenVon" expression=""/>
+ </defaults>
+ <previewExpression></previewExpression>
 </qgis>
 ', NULL, NULL, '#ff8a6f');
 INSERT INTO "QGIS".layer VALUES (220, 'BP_Verkehr', 'BP_VerkehrsFlaecheBesondererZweckbestimmung', '<qgis version="2.14.12-Essen" minimumScale="-4.65661009752e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
