@@ -12,6 +12,24 @@
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- View "FP_Basisobjekte"."FP_Bereich_qv" berücksichtigt NULL geltungsbereich
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Basisobjekte"."FP_Bereich_qv" AS
+SELECT b.gid ,
+    COALESCE(b.geltungsbereich ,p."raeumlicherGeltungsbereich")::geometry(MultiPolygon,25832) as geltungsbereich,
+    b."name",
+    b."versionBauNVOText" ,
+    b."versionBauGBDatum" ,
+    b."versionBauGBText" ,
+    b."gehoertZuPlan",
+    b"versionBauNVODatum" ,
+    b."versionSonstRechtsgrundlageDatum" ,
+    b."versionSonstRechtsgrundlageText"
+FROM "FP_Basisobjekte"."FP_Bereich" b
+	JOIN "FP_Basisobjekte"."FP_Plan" p ON b."gehoertZuPlan" = p.gid;
+GRANT SELECT ON "FP_Basisobjekte"."FP_Bereich_qv" TO xp_gast;    
+
+-- -----------------------------------------------------
 -- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv" AS

@@ -31,6 +31,24 @@ FROM "BP_Basisobjekte"."BP_Plan" b
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Plan_qv" TO xp_gast;
 
 -- -----------------------------------------------------
+-- View "BP_Basisobjekte"."BP_Bereich_qv" berücksichtigt NULL geltungsbereich
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Bereich_qv" AS
+SELECT b.gid ,
+    COALESCE(b.geltungsbereich ,p."raeumlicherGeltungsbereich")::geometry(MultiPolygon,25832) as geltungsbereich,
+    b."name" ,
+    b."versionBauNVODatum" ,
+    b."versionBauNVOText" ,
+    b."versionBauGBDatum" ,
+    b."versionBauGBText" ,
+    b."versionSonstRechtsgrundlageDatum" ,
+    b."versionSonstRechtsgrundlageText" ,
+    b."gehoertZuPlan" 
+	FROM "BP_Basisobjekte"."BP_Bereich" b
+	JOIN "BP_Basisobjekte"."BP_Plan" p ON b."gehoertZuPlan" = p.gid;
+GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich_qv" TO xp_gast;
+
+-- -----------------------------------------------------
 -- View "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
 -- -----------------------------------------------------
 

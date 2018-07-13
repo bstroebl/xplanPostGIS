@@ -12,6 +12,18 @@
 -- *****************************************************
 
 -- -----------------------------------------------------
+-- View "SO_Basisobjekte"."SO_Bereich_qv" berücksichtigt NULL geltungsbereich
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "SO_Basisobjekte"."SO_Bereich_qv" AS
+SELECT b.gid ,
+    COALESCE(b.geltungsbereich ,p."raeumlicherGeltungsbereich")::geometry(MultiPolygon,25832) as geltungsbereich,
+    b."name",
+    b."gehoertZuPlan" 
+FROM "SO_Basisobjekte"."SO_Bereich" b
+	JOIN "SO_Basisobjekte"."SO_Plan" p ON b."gehoertZuPlan" = p.gid;
+GRANT SELECT ON "SO_Basisobjekte"."SO_Bereich_qv" TO xp_gast;  
+
+-- -----------------------------------------------------
 -- View "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche_qv" AS 

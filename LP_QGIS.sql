@@ -11,3 +11,14 @@
 -- CREATE Views für LP
 -- *****************************************************
 
+-- -----------------------------------------------------
+-- View "LP_Basisobjekte"."LP_Bereich_qv" berücksichtigt NULL geltungsbereich
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "LP_Basisobjekte"."LP_Bereich_qv" AS
+SELECT b.gid ,
+    COALESCE(b.geltungsbereich ,p."raeumlicherGeltungsbereich")::geometry(MultiPolygon,25832) as geltungsbereich,
+    b."name",
+    b."gehoertZuPlan" 
+FROM "LP_Basisobjekte"."LP_Bereich" b
+	JOIN "LP_Basisobjekte"."LP_Plan" p ON b."gehoertZuPlan" = p.gid;
+GRANT SELECT ON "LP_Basisobjekte"."LP_Bereich_qv" TO xp_gast;  
