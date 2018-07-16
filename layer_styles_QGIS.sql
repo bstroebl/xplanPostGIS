@@ -40382,41 +40382,55 @@ def my_form_open(dialog, layer, feature):
  </conditionalstyles>
 </qgis>
 ', NULL, NULL, '#808080');
-INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_GruenFlaeche', '<qgis version="2.14.0-Essen" minimumScale="-4.65661287308e-10" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_GruenFlaeche', '<qgis version="2.18.21" simplifyAlgorithm="0" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
  <edittypes>
   <edittype widgetv2type="TextEdit" name="gid">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="flaechenschluss">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung1">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="nutzungsform">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung2">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
-  <edittype widgetv2type="TextEdit" name="zugunstenVon">
-   <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung3">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="zweckbestimmung4">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="anz_zweckbestimmung">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label1">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label2">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label3">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+  </edittype>
+  <edittype widgetv2type="TextEdit" name="label4">
+   <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
   </edittype>
  </edittypes>
  <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
   <rules key="{a11541ad-c6ba-4e89-bf1e-cab7adaa442c}">
    <rule key="{b7c7962d-a1ce-4605-aa2f-1fdd3ad6f629}" symbol="0">
-    <rule filter=" &quot;besondereZweckbestimmung&quot;  IS NULL " key="{f0a6c403-c4f5-41d9-947d-f8e02e19692d}" label="keine besondere Zweckbestimmung">
-     <rule filter=" &quot;zweckbestimmung&quot; = 1000" key="{79dba950-cc5d-4306-ab72-65d1ba8a1c25}" symbol="1" label="Parkanlage"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1200" key="{0a896dc9-fc83-4c85-8b65-620ff50b60ce}" symbol="2" label="Dauerkleingäerten"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1400" key="{181e686d-aae4-4300-9bc6-bfc9ee684480}" symbol="3" label="Sportplatz"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1800" key="{bb59ec80-7b82-4112-88da-41913e6ff5ab}" symbol="4" label="Zeltplatz"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 2000" key="{26848329-37a7-4e3a-acd5-030e4d780a92}" symbol="5" label="Badeplatz"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 2600" key="{8e4cffe5-1cf3-491f-bac6-a8cb55c99bba}" symbol="6" label="Friedhof"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1600" key="{5208743c-c2f0-4159-a7db-786673e0c616}" symbol="7" label="Spielplatz"/>
-    </rule>
-    <rule filter=" &quot;besondereZweckbestimmung&quot;  IS NOT NULL " key="{ad85e897-9f96-4c47-ac58-5261a28064fa}" label="besondere Zweckbestimmung">
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1200 AND  &quot;besondereZweckbestimmung&quot; = 12000" key="{ebdad653-e9ba-4108-849d-bc9112e2c591}" symbol="8" label="Erholungsgarten"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1400 AND  &quot;besondereZweckbestimmung&quot; = 14004" key="{1f305a4e-61c5-401c-82c2-1174f999914f}" symbol="9" label="Golfplatz"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 1600 AND  &quot;besondereZweckbestimmung&quot; = 16000" key="{154184ba-2efd-489f-ad88-bab6a6731e5a}" symbol="10" label="Bolzplatz"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 2200 AND  &quot;besondereZweckbestimmung&quot; = 22000" key="{6fb71111-b466-4cf3-9be4-b889233e84e1}" symbol="11" label="Kleintierhaltung"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 2400 AND  &quot;besondereZweckbestimmung&quot; = 24000" key="{92b61746-c783-45f9-841a-76acc90d4c57}" symbol="12" label="Strassenbegleitgrün"/>
-     <rule filter=" &quot;zweckbestimmung&quot;  = 2400 AND  &quot;besondereZweckbestimmung&quot; = 24001" key="{c92e01dd-a392-44c8-b49c-b75cc65ee6ca}" symbol="13" label="Böschungsfläche"/>
-    </rule>
+    <rule filter="1000 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{be07a309-1d4e-4fd3-bceb-0ab80c4ea561}" symbol="1" label="Parkanlage"/>
+    <rule filter="1200 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{fac94b1a-938d-421a-a4af-90fcdb565a2a}" symbol="2" label="Dauerkleingäerten"/>
+    <rule filter="1400 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{023e11a2-abe1-44d9-b0a8-188c162174ba}" symbol="3" label="Sportplatz"/>
+    <rule filter="1800 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{abd34ef2-6e82-4881-ac06-b0eb7ff10e09}" symbol="4" label="Zeltplatz"/>
+    <rule filter="2000 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{c787b557-2d0c-476b-a057-5e43f8000320}" symbol="5" label="Badeplatz"/>
+    <rule filter="2600 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{646c0d5e-979d-43a7-aeec-67d2b1945cb5}" symbol="6" label="Friedhof"/>
+    <rule filter="1600 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{e59774a9-0685-4ec7-80a1-34feb63fb640}" symbol="7" label="Spielplatz"/>
+    <rule filter="1200  in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;) OR 12000  in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{84e62ca8-4514-4783-b243-3cb60070a9b0}" symbol="8" label="Erholungsgarten"/>
+    <rule filter="14004 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{a2a1fb93-9651-4937-886b-4fe85c0c4f89}" symbol="9" label="Golfplatz"/>
+    <rule filter="16000 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{0be95520-3ea1-47b2-8239-9044b7c096d6}" symbol="10" label="Bolzplatz"/>
+    <rule filter="22000 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{a9ab1483-813e-417a-9b96-5e3f2fe79e45}" symbol="11" label="Kleintierhaltung"/>
+    <rule filter=" 24000 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{eef58c1a-7a2b-411f-8672-b4eea5ef2a1b}" symbol="12" label="Strassenbegleitgrün"/>
+    <rule filter="24001 in ( &quot;zweckbestimmung1&quot;, &quot;zweckbestimmung2&quot;, &quot;zweckbestimmung3&quot;, &quot;zweckbestimmung4&quot;)" key="{5f78526f-6533-4d2c-b40f-0d3694090ba7}" symbol="13" label="Böschungsfläche"/>
    </rule>
   </rules>
   <symbols>
@@ -40437,7 +40451,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@1@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40462,7 +40477,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="10">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@10@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40487,7 +40503,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="11">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@11@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40512,7 +40529,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="12">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@12@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40537,7 +40555,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="13">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@13@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40562,7 +40581,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40587,7 +40607,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@3@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40612,7 +40633,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="4">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@4@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40637,7 +40659,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="5">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@5@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40662,7 +40685,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="6">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@6@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40687,7 +40711,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="7">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@7@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40712,7 +40737,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="8">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@8@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40737,7 +40763,8 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
    </symbol>
    <symbol alpha="1" clip_to_extent="1" type="fill" name="9">
     <layer pass="0" class="CentroidFill" locked="0">
-     <prop k="point_on_surface" v="0"/>
+     <prop k="point_on_all_parts" v="1"/>
+     <prop k="point_on_surface" v="1"/>
      <symbol alpha="1" clip_to_extent="1" type="marker" name="@9@0">
       <layer pass="0" class="SvgMarker" locked="0">
        <prop k="angle" v="0"/>
@@ -40764,6 +40791,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
  </renderer-v2>
  <labeling type="simple"/>
  <customproperties>
+  <property key="embeddedWidgets/count" value="0"/>
   <property key="labeling" value="pal"/>
   <property key="labeling/addDirectionSymbol" value="false"/>
   <property key="labeling/angleOffset" value="0"/>
@@ -40780,6 +40808,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/bufferSizeInMapUnits" value="false"/>
   <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
   <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/bufferTransp" value="0"/>
   <property key="labeling/centroidInside" value="false"/>
   <property key="labeling/centroidWhole" value="false"/>
@@ -40789,13 +40818,14 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/distInMapUnits" value="false"/>
   <property key="labeling/distMapUnitMaxScale" value="0"/>
   <property key="labeling/distMapUnitMinScale" value="0"/>
+  <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/drawLabels" value="false"/>
   <property key="labeling/enabled" value="false"/>
-  <property key="labeling/fieldName" value="CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; IS NOT NULL THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1000 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;   CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10000 THEN ''ParkanlageHistorisch''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10001 THEN ''ParkanlageNaturnah''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10002 THEN ''ParkanlageWaldcharakter''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10003 THEN ''Naturnahe Ufer-Parkanlage''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; =1400 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14000 THEN ''Reitsportanlage''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14001 THEN ''Hundesportanlage''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14002 THEN ''Wassersportanlage''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14003 THEN ''Schiessstand''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14005 THEN ''Skisport''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14006 THEN ''Tennisanlage''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14007 THEN ''Sonstiger Sportplatz''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1600 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN   &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 16001 THEN ''Abenteuerspielplatz''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1800 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 18000 THEN ''Campingplatz''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2200 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 22001 THEN ''Festplatz''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2400 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24002 THEN ''Feld/Wald/Wiese''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24003 THEN ''Uferschutzstreifen''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24004 THEN ''Abschirmgrün''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24005 THEN ''Schaugatter''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24006 THEN ''Ruhender Verkehr''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 9999 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 99990 THEN ''Gärtnerei''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;ELSE&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2200 THEN ''Freizeit/Erholung''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2400 THEN ''Spez. Grünfläche''&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;END "/>
+  <property key="labeling/fieldName" value="CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; IS NOT NULL THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1000 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;   CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10000 THEN 'ParkanlageHistorisch'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10001 THEN 'ParkanlageNaturnah'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10002 THEN 'ParkanlageWaldcharakter'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 10003 THEN 'Naturnahe Ufer-Parkanlage'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; =1400 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14000 THEN 'Reitsportanlage'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14001 THEN 'Hundesportanlage'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14002 THEN 'Wassersportanlage'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14003 THEN 'Schiessstand'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14005 THEN 'Skisport'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14006 THEN 'Tennisanlage'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 14007 THEN 'Sonstiger Sportplatz'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1600 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN   &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 16001 THEN 'Abenteuerspielplatz'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 1800 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 18000 THEN 'Campingplatz'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2200 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 22001 THEN 'Festplatz'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2400 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24002 THEN 'Feld/Wald/Wiese'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24003 THEN 'Uferschutzstreifen'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24004 THEN 'Abschirmgrün'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24005 THEN 'Schaugatter'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 24006 THEN 'Ruhender Verkehr'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 9999 THEN&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_BesondereZweckbestGruen.besondereZweckbestimmung&quot; = 99990 THEN 'Gärtnerei'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;ELSE&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;CASE WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2200 THEN 'Freizeit/Erholung'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;WHEN  &quot;XP_ZweckbestimmungGruen.zweckbestimmung&quot; = 2400 THEN 'Spez. Grünfläche'&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;END&#xd;&#xa;END "/>
   <property key="labeling/fitInPolygonOnly" value="false"/>
   <property key="labeling/fontBold" value="false"/>
   <property key="labeling/fontCapitals" value="0"/>
-  <property key="labeling/fontFamily" value="Ubuntu"/>
+  <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
   <property key="labeling/fontItalic" value="false"/>
   <property key="labeling/fontLetterSpacing" value="0"/>
   <property key="labeling/fontLimitPixelSize" value="false"/>
@@ -40805,6 +40835,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/fontSizeInMapUnits" value="false"/>
   <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
   <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/fontStrikeout" value="false"/>
   <property key="labeling/fontUnderline" value="false"/>
   <property key="labeling/fontWeight" value="50"/>
@@ -40814,6 +40845,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/labelOffsetInMapUnits" value="true"/>
   <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
   <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/labelPerPart" value="false"/>
   <property key="labeling/leftDirectionSymbol" value="&lt;"/>
   <property key="labeling/limitNumLabels" value="false"/>
@@ -40824,7 +40856,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/minFeatureSize" value="0"/>
   <property key="labeling/multilineAlign" value="0"/>
   <property key="labeling/multilineHeight" value="1"/>
-  <property key="labeling/namedStyle" value="Medium"/>
+  <property key="labeling/namedStyle" value="Normal"/>
   <property key="labeling/obstacle" value="true"/>
   <property key="labeling/obstacleFactor" value="1"/>
   <property key="labeling/obstacleType" value="0"/>
@@ -40841,6 +40873,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/repeatDistance" value="0"/>
   <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
   <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+  <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/repeatDistanceUnit" value="1"/>
   <property key="labeling/reverseDirectionSymbol" value="false"/>
   <property key="labeling/rightDirectionSymbol" value=">"/>
@@ -40857,11 +40890,13 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/shadowOffsetGlobal" value="true"/>
   <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
   <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shadowOffsetUnits" value="1"/>
   <property key="labeling/shadowRadius" value="1.5"/>
   <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
   <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
   <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+  <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shadowRadiusUnits" value="1"/>
   <property key="labeling/shadowScale" value="100"/>
   <property key="labeling/shadowTransparency" value="30"/>
@@ -40874,6 +40909,7 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/shapeBorderWidth" value="0"/>
   <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
   <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shapeBorderWidthUnits" value="1"/>
   <property key="labeling/shapeDraw" value="false"/>
   <property key="labeling/shapeFillColorA" value="255"/>
@@ -40883,11 +40919,13 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/shapeJoinStyle" value="64"/>
   <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
   <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shapeOffsetUnits" value="1"/>
   <property key="labeling/shapeOffsetX" value="0"/>
   <property key="labeling/shapeOffsetY" value="0"/>
   <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
   <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shapeRadiiUnits" value="1"/>
   <property key="labeling/shapeRadiiX" value="0"/>
   <property key="labeling/shapeRadiiY" value="0"/>
@@ -40896,24 +40934,27 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <property key="labeling/shapeSVGFile" value=""/>
   <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
   <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+  <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
   <property key="labeling/shapeSizeType" value="0"/>
   <property key="labeling/shapeSizeUnits" value="1"/>
   <property key="labeling/shapeSizeX" value="0"/>
   <property key="labeling/shapeSizeY" value="0"/>
   <property key="labeling/shapeTransparency" value="0"/>
   <property key="labeling/shapeType" value="0"/>
+  <property key="labeling/substitutions" value="&lt;substitutions/>"/>
   <property key="labeling/textColorA" value="255"/>
   <property key="labeling/textColorB" value="0"/>
   <property key="labeling/textColorG" value="0"/>
   <property key="labeling/textColorR" value="0"/>
   <property key="labeling/textTransp" value="0"/>
   <property key="labeling/upsidedownLabels" value="0"/>
+  <property key="labeling/useSubstitutions" value="false"/>
   <property key="labeling/wrapChar" value=""/>
   <property key="labeling/xOffset" value="0"/>
   <property key="labeling/yOffset" value="0"/>
   <property key="labeling/zIndex" value="0"/>
-  <property key="variableNames" value="_fields_"/>
-  <property key="variableValues" value=""/>
+  <property key="variableNames"/>
+  <property key="variableValues"/>
  </customproperties>
  <blendMode>0</blendMode>
  <featureBlendMode>0</featureBlendMode>
@@ -40940,20 +40981,70 @@ INSERT INTO "QGIS".layer VALUES (184, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_Gr
   <multilineenabled fieldname="" on=""/>
   <selectedonly on=""/>
  </labelattributes>
- <SingleCategoryDiagramRenderer diagramType="Pie">
-  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
+ <SingleCategoryDiagramRenderer diagramType="Pie" sizeLegend="0" attributeLegend="1">
+  <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="inf">
    <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
+   <attribute field="" color="#000000" label=""/>
   </DiagramCategory>
+  <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
+   <layer pass="0" class="SimpleMarker" locked="0">
+    <prop k="angle" v="0"/>
+    <prop k="color" v="255,0,0,255"/>
+    <prop k="horizontal_anchor_point" v="1"/>
+    <prop k="joinstyle" v="bevel"/>
+    <prop k="name" v="circle"/>
+    <prop k="offset" v="0,0"/>
+    <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="offset_unit" v="MM"/>
+    <prop k="outline_color" v="0,0,0,255"/>
+    <prop k="outline_style" v="solid"/>
+    <prop k="outline_width" v="0"/>
+    <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="outline_width_unit" v="MM"/>
+    <prop k="scale_method" v="diameter"/>
+    <prop k="size" v="2"/>
+    <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+    <prop k="size_unit" v="MM"/>
+    <prop k="vertical_anchor_point" v="1"/>
+   </layer>
+  </symbol>
  </SingleCategoryDiagramRenderer>
- <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+ <DiagramLayerSettings yPosColumn="-1" showColumn="0" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
  <annotationform>.</annotationform>
+ <aliases>
+  <alias field="gid" index="0" name=""/>
+  <alias field="zweckbestimmung1" index="1" name=""/>
+  <alias field="zweckbestimmung2" index="2" name=""/>
+  <alias field="zweckbestimmung3" index="3" name=""/>
+  <alias field="zweckbestimmung4" index="4" name=""/>
+  <alias field="anz_zweckbestimmung" index="5" name=""/>
+  <alias field="label1" index="6" name=""/>
+  <alias field="label2" index="7" name=""/>
+  <alias field="label3" index="8" name=""/>
+  <alias field="label4" index="9" name=""/>
+ </aliases>
  <excludeAttributesWMS/>
  <excludeAttributesWFS/>
- <attributeactions/>
+ <attributeactions default="-1"/>
+ <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+  <columns>
+   <column width="-1" hidden="0" type="field" name="gid"/>
+   <column width="-1" hidden="0" type="field" name="zweckbestimmung1"/>
+   <column width="-1" hidden="0" type="field" name="zweckbestimmung2"/>
+   <column width="-1" hidden="0" type="field" name="zweckbestimmung3"/>
+   <column width="-1" hidden="0" type="field" name="zweckbestimmung4"/>
+   <column width="-1" hidden="0" type="field" name="anz_zweckbestimmung"/>
+   <column width="-1" hidden="0" type="field" name="label1"/>
+   <column width="-1" hidden="0" type="field" name="label2"/>
+   <column width="-1" hidden="0" type="field" name="label3"/>
+   <column width="-1" hidden="0" type="field" name="label4"/>
+   <column width="-1" hidden="1" type="actions"/>
+  </columns>
+ </attributetableconfig>
  <editform>.</editform>
  <editforminit/>
  <editforminitcodesource>0</editforminitcodesource>
- <editforminitfilepath></editforminitfilepath>
+ <editforminitfilepath>.</editforminitfilepath>
  <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS-Formulare können eine Python-Funktion haben, die beim Öffnen des Formulars gestartet wird.
@@ -40976,6 +41067,19 @@ def my_form_open(dialog, layer, feature):
   <rowstyles/>
   <fieldstyles/>
  </conditionalstyles>
+ <defaults>
+  <default field="gid" expression=""/>
+  <default field="zweckbestimmung1" expression=""/>
+  <default field="zweckbestimmung2" expression=""/>
+  <default field="zweckbestimmung3" expression=""/>
+  <default field="zweckbestimmung4" expression=""/>
+  <default field="anz_zweckbestimmung" expression=""/>
+  <default field="label1" expression=""/>
+  <default field="label2" expression=""/>
+  <default field="label3" expression=""/>
+  <default field="label4" expression=""/>
+ </defaults>
+ <previewExpression></previewExpression>
 </qgis>
 ', NULL, NULL, '#01e408');
 INSERT INTO "QGIS".layer VALUES (185, 'BP_Landwirtschaft_Wald_und_Gruen', 'BP_WaldFlaeche', '<qgis version="2.14.0-Essen" minimumScale="0.0" maximumScale="100000000.0" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
