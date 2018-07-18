@@ -455,6 +455,20 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."create_gml_id"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF new.gml_id IS NULL THEN
+        new.gml_id := "XP_Basisobjekte"."create_uuid"();
+    END IF;
+
+    RETURN new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."create_gml_id"() TO xp_user;
+
 -- FUNCTION: "XP_Basisobjekte"."child_of_XP_Objekt"()
 
 -- DROP FUNCTION "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -537,7 +551,7 @@ DECLARE
             num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"' || 
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"' ||
                 ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -549,7 +563,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -574,7 +588,7 @@ DECLARE
             num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_TPO"' || 
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_TPO"' ||
                 ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -586,7 +600,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -630,7 +644,7 @@ DECLARE
             num_parents := 0;
             new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
         ELSE
-            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_TextAbschnitt"' || 
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_TextAbschnitt"' ||
                 ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -642,7 +656,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.id := old.id; --no change in id allowed
@@ -972,6 +986,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenz" (
   "referenzMimeType" VARCHAR(64) NULL ,
   "beschreibung" VARCHAR(255) NULL ,
   "datum" DATE NULL,
+  "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_xp_externereferenz_xp_mimetypes"
     FOREIGN KEY ("referenzMimeType" )
@@ -1000,6 +1015,8 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mi
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente: Beliebiges Dokument oder georeferenzierter Plan';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+CREATE TRIGGER "XP_ExterneReferenz_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_ExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("referenzMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("georefMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_externereferenzart1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("art") ;
@@ -1130,6 +1147,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "erstellungsMassstab" INTEGER  NULL ,
   "bezugshoehe" REAL NULL ,
   "refExternalCodeList" INTEGER NULL ,
+  "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Plan_XP_ExterneReferenz1"
     FOREIGN KEY ("refExternalCodeList" )
@@ -1149,7 +1167,8 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."untergangsDatum" IS 'Datum, an de
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei der Erstellung des Plans benutzte Kartenmassstab.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugshöhe (absolut NhN) für relative Höhenangaben von Planinhalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
-
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+CREATE TRIGGER "XP_Plan_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
 CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
 CREATE TRIGGER "XP_Plan_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
@@ -1167,6 +1186,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Bereich" (
   "detaillierteBedeutung" VARCHAR(255) NULL ,
   "erstellungsMassstab" INTEGER NULL ,
   "rasterBasis" INTEGER NULL,
+  "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Bereich_XP_BedeutungenBereich1"
     FOREIGN KEY ("bedeutung" )
@@ -1190,11 +1210,13 @@ Diese Relation ist veraltet und wird in XPlanGML 6.0 wegfallen. XP_Rasterdarstel
 XP_Rasterdarstellung.refScan --> XP_Bereich.refScan
 XP_Rasterdarstellung.refText --> XP_Plan.texte
 XP_Rasterdarstellung.refLegende --> XP_Plan.externeReferenz';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Bereich"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
 CREATE INDEX "idx_fk_XP_Bereich_XP_BedeutungenBereich1" ON "XP_Basisobjekte"."XP_Bereich" ("bedeutung") ;
 CREATE INDEX "idx_fk_XP_Bereich_XP_Rasterdarstellung1" ON "XP_Basisobjekte"."XP_Bereich" ("rasterBasis") ;
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
+CREATE TRIGGER "XP_Bereich_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Bereich_refScan"
@@ -1251,6 +1273,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   "ebene" INTEGER NULL DEFAULT 0 ,
   "startBedingung" INTEGER NULL ,
   "endeBedingung" INTEGER NULL ,
+  "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Objekt_XP_Rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
@@ -1287,7 +1310,8 @@ Bei Plan-Objekten, die unterirdische Bereiche (z.B. Tunnel) modellieren, ist ebe
 Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit eines Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit eines Planinhalts.';
-
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+CREATE TRIGGER "XP_Objekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
 CREATE INDEX "idx_fk_XP_Objekt_xp_gesetzlichegrundlage1" ON "XP_Basisobjekte"."XP_Objekt" ("gesetzlicheGrundlage") ;
@@ -1490,6 +1514,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_TextAbschnitt" (
   "gesetzlicheGrundlage" VARCHAR(255) NULL ,
   "text" VARCHAR(1024) NULL ,
   "refText" INTEGER NULL ,
+  "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("id") ,
   CONSTRAINT "fk_XP_TextAbschnitt_XP_ExterneReferenz1"
     FOREIGN KEY ("refText" )
@@ -1503,6 +1528,8 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."gesetzlicheGrundlage" IS
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."text" IS 'Inhalt eines Abschnitts der textlichen Planinhalte';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."refText" IS 'Referenz auf ein externes Dokument das den Textabschnitt enthält.';
 CREATE INDEX "idx_fk_XP_TextAbschnitt_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_TextAbschnitt" ("refText") ;
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+CREATE TRIGGER "XP_TextAbschnitt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 CREATE TRIGGER "change_to_XP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"();
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_TextAbschnitt" TO xp_gast;
@@ -1608,6 +1635,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (
   "stylesheetId" INTEGER NULL ,
   "darstellungsprioritaet" INTEGER NULL ,
   "gehoertZuBereich" INTEGER NULL ,
+  "gml_id" VARCHAR(64) NULL,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_xp_abstraktespraesentationsobjekt_XP_Bereich1"
     FOREIGN KEY ("gehoertZuBereich" )
@@ -1630,10 +1658,12 @@ Jedem Stylesheet ist weiterhin eine Darstellungspriorität zugeordnet.
 Ausserdem kann ein Stylesheet logische Elemente enthalten, die die Visualisierung abhängig machen vom Wert des durch "art" definierten Attributes des Fachobjektes, das durch die Relation "dientZurDarstellungVon" referiert wird.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"."darstellungsprioritaet" IS 'Enthält die Darstellungspriorität für Elemente der Signatur. Eine vom Standardwert abweichende Priorität wird über dieses Attribut definiert und nicht über eine neue Signatur.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"."gehoertZuBereich" IS 'Relation zu XP_Bereich';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
 CREATE INDEX "idx_fk_xp_abstraktespraesentationsobjekt_XP_Bereich1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_AbstraktesPraesentationsobjekt_xp_stylesheetliste1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("stylesheetId") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_user;
+CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
