@@ -1029,7 +1029,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Besc
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente: Beliebiges Dokument oder georeferenzierter Plan';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
-CREATE TRIGGER "XP_ExterneReferenz_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_ExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_ExterneReferenz_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_ExterneReferenz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("referenzMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_mimetypes1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("georefMimeType") ;
 CREATE INDEX "idx_fk_xp_externereferenz_xp_externereferenzart1" ON "XP_Basisobjekte"."XP_ExterneReferenz" ("art") ;
@@ -1181,7 +1181,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei 
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugshöhe (absolut NhN) für relative Höhenangaben von Planinhalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
-CREATE TRIGGER "XP_Plan_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_Plan_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 CREATE INDEX "idx_fk_XP_Plan_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_Plan" ("refExternalCodeList") ;
 CREATE TRIGGER "XP_Plan_hasChanged" AFTER INSERT OR UPDATE OR DELETE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_Plan"();
 CREATE TRIGGER "XP_Plan_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
@@ -1229,7 +1229,7 @@ CREATE INDEX "idx_fk_XP_Bereich_XP_Rasterdarstellung1" ON "XP_Basisobjekte"."XP_
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
-CREATE TRIGGER "XP_Bereich_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_Bereich_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Bereich_refScan"
@@ -1324,7 +1324,7 @@ Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit eines Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit eines Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
-CREATE TRIGGER "XP_Objekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_Objekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
 CREATE INDEX "idx_fk_XP_Objekt_xp_gesetzlichegrundlage1" ON "XP_Basisobjekte"."XP_Objekt" ("gesetzlicheGrundlage") ;
@@ -1542,7 +1542,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."text" IS 'Inhalt eines A
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."refText" IS 'Referenz auf ein externes Dokument das den Textabschnitt enthält.';
 CREATE INDEX "idx_fk_XP_TextAbschnitt_XP_ExterneReferenz1" ON "XP_Basisobjekte"."XP_TextAbschnitt" ("refText") ;
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_TextAbschnitt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
-CREATE TRIGGER "XP_TextAbschnitt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_TextAbschnitt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 CREATE TRIGGER "change_to_XP_TextAbschnitt" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_TextAbschnitt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Abschnitt_Konformitaet"();
 
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_TextAbschnitt" TO xp_gast;
@@ -1676,7 +1676,7 @@ CREATE INDEX "idx_fk_xp_abstraktespraesentationsobjekt_XP_Bereich1" ON "XP_Praes
 CREATE INDEX "idx_fk_XP_AbstraktesPraesentationsobjekt_xp_stylesheetliste1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("stylesheetId") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_user;
-CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id";
+CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
