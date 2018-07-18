@@ -229,13 +229,26 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isAbstract"() TO xp_user;
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"()
 RETURNS trigger AS
 $BODY$
+DECLARE
+    num_parents integer;
  BEGIN
     If (TG_OP = 'INSERT') THEN
-        IF pg_trigger_depth() = 1 THEN
+        IF new.id IS NULL THEN
+            num_parents := 0;
             new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+        ELSE
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_ExterneReferenz"' ||
+                ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die id sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
+            END IF;
+        END IF;
+        
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
         END IF;
 
-        INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
         RETURN new;
     ELSIf (TG_OP = 'UPDATE') THEN
         new.id := old.id;
