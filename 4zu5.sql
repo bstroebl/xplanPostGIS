@@ -5545,3 +5545,68 @@ CREATE INDEX "RP_PlanungsraumPunkt_gidx" ON "RP_Sonstiges"."RP_PlanungsraumPunkt
 COMMENT ON COLUMN "RP_Sonstiges"."RP_PlanungsraumPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_RP_PlanungsraumPunkt" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_PlanungsraumPunkt" AFTER DELETE ON "RP_Sonstiges"."RP_PlanungsraumPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- ###########################################
+-- Überarbeitung RP_Basisobjekte
+-- RP_Plan
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refUmweltbericht",1050 FROM "RP_Basisobjekte"."RP_Plan" WHERE "refUmweltbericht" IS NOT NULL;
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "gid", "refUmweltbericht" FROM "RP_Basisobjekte"."RP_Plan" WHERE "refUmweltbericht" IS NOT NULL;
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "refUmweltbericht" CASCADE;
+INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refSatzung",1060 FROM "RP_Basisobjekte"."RP_Plan" WHERE "refSatzung" IS NOT NULL;
+INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
+SELECT "gid", "refUmweltbericht" FROM "RP_Basisobjekte"."RP_Plan" WHERE "refSatzung" IS NOT NULL;
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "refSatzung" CASCADE;
+
+-- RP_Bereich
+ALTER TABLE "RP_Basisobjekte"."RP_Bereich" ADD COLUMN "geltungsmassstab" INTEGER;
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."geltungsmassstab" IS '(Rechtlicher) Geltungsmaßstab des Bereichs.';
+
+-- RP_Objekt
+ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ADD COLUMN "kuestenmeer" BOOLEAN;
+ALTER TABLE "RP_Basisobjekte"."RP_Objekt" ADD COLUMN "istZweckbindung" BOOLEAN;
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."kuestenmeer" IS 'Zeigt an, ob das Objekt im Küstenmeer liegt.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Objekt"."istZweckbindung" IS 'Zeigt an, ob es sich bei diesem Objekt um eine Zweckbindung handelt.';
+
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Bedeutsamkeit"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Bedeutsamkeit" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Bedeutsamkeit" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" (
+  "RP_Objekt_gid" BIGINT NOT NULL ,
+  "bedeutsamkeit" INTEGER NOT NULL ,
+  PRIMARY KEY ("RP_Objekt_gid", "bedeutsamkeit"),
+  CONSTRAINT "fk_RP_Bodenschutz_bedeutsamkeit1"
+    FOREIGN KEY ("RP_Objekt_gid" )
+    REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Objekt_bedeutsamkeit2"
+    FOREIGN KEY ("bedeutsamkeit" )
+    REFERENCES "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" TO xp_gast;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" TO rp_user;
+COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" IS 'Bedeutsamkeit eines Objekts.';
+
+-- -----------------------------------------------------
+-- Data for table "RP_Basisobjekte"."RP_Bedeutsamkeit"
+-- -----------------------------------------------------
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('1000', 'Regional');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('2000', 'Ueberregional');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('3000', 'Grossraeumig');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('4000', 'Landesweit');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('5000', 'Bundesweit');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('6000', 'Europaeisch');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('7000', 'International');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('8000', 'Flaechenerschliessend');
+INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('9000', 'Herausragend');
