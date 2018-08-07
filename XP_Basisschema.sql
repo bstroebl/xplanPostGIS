@@ -230,7 +230,7 @@ DECLARE
                 RAISE WARNING 'Die id sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
         END IF;
-        
+
         IF num_parents = 0 THEN
             -- Elternobjekt anlegen
             INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
@@ -2636,6 +2636,8 @@ INSERT INTO "XP_Enumerationen"."XP_AnpflanzungBindungErhaltungsGegenstand" ("Cod
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezug"
 -- -----------------------------------------------------
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1000', 'absolutNHN');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1100', 'absolutNN');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1200', 'absolutDHHN');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2000', 'relativGelaendeoberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2500', 'relativGehwegOberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3000', 'relativBezugshoehe');

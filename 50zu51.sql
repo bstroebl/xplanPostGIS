@@ -220,3 +220,10 @@ INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeich
 INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2200', 'Kongruenzraum');
 INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'Torferhalt');
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('2001', 'Teststrecke');
+
+-- CR 023
+-- nicht relevant
+
+-- CR 024
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1100', 'absolutNN');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1200', 'absolutDHHN');
