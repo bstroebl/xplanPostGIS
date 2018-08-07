@@ -2406,6 +2406,30 @@ ALTER TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" ADD CONSTRAINT "fk_RP_Bodensc
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 ALTER TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" DROP COLUMN "istAusgleichsgebiet";
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BodenschutzTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BodenschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzTypen" TO xp_gast;
+
+ALTER TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" ADD COLUMN "typ" INTEGER;
+ALTER TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" ADD CONSTRAINT "fk_RP_Bodenschutz_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code")
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Bodenschutz"."typ" IS 'Klassifikation von Bodenschutztypen.';
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BodenschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'BeseitigungErheblicherBodenbelastung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'SicherungSanierungAltlasten');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'Erosionsschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerBodenschutz');
+
 -- RP_FreizeitErholung -> RP_Erholung
 ALTER TABLE "RP_Freiraumstruktur"."RP_FreizeitErholung" RENAME TO "RP_Erholung";
 ALTER TABLE "RP_Freiraumstruktur"."RP_Erholung" DROP CONSTRAINT "fk_RP_FreizeitErholung_parent";
@@ -5610,3 +5634,5 @@ INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES (
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('7000', 'International');
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('8000', 'Flaechenerschliessend');
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('9000', 'Herausragend');
+
+
