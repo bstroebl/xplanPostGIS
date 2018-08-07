@@ -215,3 +215,8 @@ ALTER TABLE "RP_Sonstiges"."RP_GenerischesObjekt" DROP COLUMN "typ";
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "genehmigungsbehoerde" VARCHAR(256);
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."genehmigungsbehoerde" IS 'Zuständige Genehmigungsbehörde';
 INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('5000', 'Wasserkraft');
+
+-- CR 022
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2200', 'Kongruenzraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'Torferhalt');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('2001', 'Teststrecke');

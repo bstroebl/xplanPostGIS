@@ -5548,6 +5548,7 @@ INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VAL
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1800', 'Infrastrukturkorridor');
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('1900', 'Tunnel');
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('2000', 'NeueVerkehrstechniken');
+INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('2001', 'Teststrecke');
 INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerVerkehr');
 
 -- -----------------------------------------------------
@@ -5647,6 +5648,7 @@ INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Beze
 INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2000', 'MoeglichesZentrum');
 INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2100', 'FunktionsraumEindeutigeAusrichtung');
 INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2101', 'FunktionsraumBilateraleAusrichtung');
+INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('2200', 'Kongruenzraum');
 INSERT INTO "RP_Siedlungsstruktur"."RP_ZentralerOrtSonstigeTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeSonstigerZentralerOrt');
 
 -- -----------------------------------------------------
@@ -5987,4 +5989,5 @@ INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES (
 INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'BeseitigungErheblicherBodenbelastung');
 INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'SicherungSanierungAltlasten');
 INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'Erosionsschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('4000', 'Torferhalt');
 INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerBodenschutz');
