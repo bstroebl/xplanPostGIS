@@ -448,21 +448,37 @@ CREATE TRIGGER "change_to_RP_Freiraum" BEFORE INSERT OR UPDATE ON "RP_Freiraumst
 CREATE TRIGGER "delete_RP_Freiraum" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Freiraum" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BodenschutzTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BodenschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BodenschutzTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Bodenschutz"
 -- -----------------------------------------------------
 CREATE TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" (
   "gid" BIGINT NOT NULL ,
+  "typ" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_RP_Bodenschutz_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "RP_Freiraumstruktur"."RP_Freiraum" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Bodenschutz_typ"
+    FOREIGN KEY ("typ")
+    REFERENCES "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code")
+    ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" TO xp_gast;
 GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Bodenschutz" TO rp_user;
 COMMENT ON TABLE  "RP_Freiraumstruktur"."RP_Bodenschutz" IS 'Bodenschutz ';
 COMMENT ON COLUMN  "RP_Freiraumstruktur"."RP_Bodenschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Bodenschutz"."typ" IS 'Klassifikation von Bodenschutztypen.';
 CREATE TRIGGER "change_to_RP_Bodenschutz" BEFORE INSERT OR UPDATE ON "RP_Freiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_RP_Bodenschutz" AFTER DELETE ON "RP_Freiraumstruktur"."RP_Bodenschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -5961,3 +5977,11 @@ INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES (
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('7000', 'International');
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('8000', 'Flaechenerschliessend');
 INSERT INTO "RP_Basisobjekte"."RP_Bedeutsamkeit" ("Code", "Bezeichner") VALUES ('9000', 'Herausragend');
+
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BodenschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'BeseitigungErheblicherBodenbelastung');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'SicherungSanierungAltlasten');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'Erosionsschutz');
+INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerBodenschutz');
