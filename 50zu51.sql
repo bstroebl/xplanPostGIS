@@ -211,4 +211,7 @@ COMMENT ON TABLE "RP_Sonstiges"."RP_GenerischesObjekt_typ" IS 'Über eine CodeLi
 INSERT INTO "RP_Sonstiges"."RP_GenerischesObjekt_typ"("RP_GenerischesObjekt_gid", "typ") SELECT "gid","typ" FROM "RP_Sonstiges"."RP_GenerischesObjekt";
 ALTER TABLE "RP_Sonstiges"."RP_GenerischesObjekt" DROP COLUMN "typ";
 
-
+-- CR 021
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "genehmigungsbehoerde" VARCHAR(256);
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."genehmigungsbehoerde" IS 'Zuständige Genehmigungsbehörde';
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('5000', 'Wasserkraft');

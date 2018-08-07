@@ -121,6 +121,7 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
   "entwurfsbeschlussDatum" DATE NULL ,
   "planbeschlussDatum" DATE NULL ,
   "datumDesInkrafttretens" DATE NULL ,
+  "genehmigungsbehoerde" VARCHAR(256),
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_rp_plan_rp_planart1"
     FOREIGN KEY ("planArt" )
@@ -169,6 +170,7 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."aenderungenBisDatum" IS 'Datum, b
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."entwurfsbeschlussDatum" IS 'Datum des Entwurfsbeschlusses';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planbeschlussDatum" IS 'Datum des Planbeschlusses';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."datumDesInkrafttretens" IS 'Datum des Inkrafttretens des Plans.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."genehmigungsbehoerde" IS 'Zuständige Genehmigungsbehörde';
 CREATE TRIGGER "change_to_RP_Plan" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_RP_Plan" AFTER DELETE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "RP_Plan_propagate_name" AFTER UPDATE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
@@ -5638,6 +5640,7 @@ INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeich
 INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('2000', 'Solarenergie');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('3000', 'Geothermie');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('4000', 'Biomasse');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('5000', 'Wasserkraft');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeErneuerbareEnergie');
 
 -- -----------------------------------------------------
