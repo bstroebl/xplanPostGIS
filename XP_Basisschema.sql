@@ -21,19 +21,6 @@
 CREATE LANGUAGE plpython2u; -- auskommentieren, falls Python bereits installiert ist
 
 -- *****************************************************
--- CREATE GROUP ROLES
--- *****************************************************
-
--- Lesende Rolle
-CREATE ROLE xp_gast
-  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE;
-
--- allgemein editierende Rolle, spezielle editierende Rollen werden in den jeweiligen Objektbereichen erzeugt
-CREATE ROLE xp_user
-  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
-GRANT xp_gast TO xp_user;
-
--- *****************************************************
 -- CREATE SCHEMAS
 -- *****************************************************
 
