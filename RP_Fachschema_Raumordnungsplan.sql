@@ -347,7 +347,7 @@ CREATE TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" (
   "RP_Objekt_gid" BIGINT NOT NULL ,
   "bedeutsamkeit" INTEGER NOT NULL ,
   PRIMARY KEY ("RP_Objekt_gid", "bedeutsamkeit"),
-  CONSTRAINT "fk_RP_Bodenschutz_bedeutsamkeit1"
+  CONSTRAINT "fk_RP_Objekt_bedeutsamkeit1"
     FOREIGN KEY ("RP_Objekt_gid" )
     REFERENCES "RP_Basisobjekte"."RP_Objekt" ("gid" )
     ON DELETE CASCADE
