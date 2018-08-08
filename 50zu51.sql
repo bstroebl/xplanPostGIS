@@ -245,3 +245,9 @@ INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALU
 UPDATE "SO_SonstigeGebiete"."SO_GebietsArt" SET "Bezeichner" = 'BusinessImprovementDistrict' WHERE "Code" = 1500;
 UPDATE "SO_SonstigeGebiete"."SO_GebietsArt" SET "Bezeichner" = 'HousingImprovementDistrict' WHERE "Code" = 1600;
 -- andere Änderungen nicht relevant
+
+-- CR 028
+-- nicht relevant, da Konformitätsbedingung nicht umgesetzt war
+
+-- CR 030
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6500', 'WH');
