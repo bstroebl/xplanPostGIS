@@ -255,3 +255,75 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALU
 -- CR 031
 ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ADD COLUMN "zugunstenVon" VARCHAR(64);
 COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zugunstenVon" IS 'Begünstigter der Festsetzung';
+
+-- CR 032
+CREATE SEQUENCE "BP_Bebauung"."BP_Dachgestaltung_id_seq"
+   MINVALUE 1;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_Dachgestaltung_id_seq" TO GROUP bp_user;
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_Dachgestaltung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_Dachgestaltung" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"BP_Bebauung"."BP_Dachgestaltung_id_seq"'),
+  "DNmin" INTEGER,
+  "DNmax" INTEGER,
+  "DN" INTEGER,
+  "DNZwingend" INTEGER,
+  "dachform" INTEGER,
+  "detaillierteDachform" INTEGER,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "fk_BP_Dachgestaltung_dachform1"
+    FOREIGN KEY ("dachform" )
+    REFERENCES "BP_Bebauung"."BP_Dachform" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Dachgestaltung_detaillierteDachform1"
+    FOREIGN KEY ("detaillierteDachform")
+    REFERENCES "BP_Bebauung"."BP_DetailDachform" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_Dachgestaltung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_Dachgestaltung" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_Dachgestaltung" IS 'Zusammenfassung von Parametern zur Festlegung der zulässigen Dachformen.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNmin" IS 'Minimale Dachneigung bei einer Bereichsangabe. Das Attribut DNmax muss ebenfalls belegt sein.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNmax" IS 'Maximale Dachneigung bei einer Bereichsangabe. Das Attribut DNmin muss ebenfalls belegt sein.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DN" IS 'Maximal zulässige Dachneigung.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNZwingend" IS 'Zwingend vorgeschriebene Dachneigung.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."dachform" IS 'Erlaubte Dachform';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.';
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_GestaltungBaugebiet_dachgestaltung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachgestaltung" (
+  "BP_GestaltungBaugebiet_gid" BIGINT NOT NULL ,
+  "dachgestaltung" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_GestaltungBaugebiet_gid", "dachgestaltung"),
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_dachgestaltung1"
+    FOREIGN KEY ("BP_GestaltungBaugebiet_gid" )
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GestaltungBaugebiet_dachgestaltung2"
+    FOREIGN KEY ("dachgestaltung" )
+    REFERENCES "BP_Bebauung"."BP_Dachgestaltung" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachgestaltung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachgestaltung" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachgestaltung" IS 'Parameter zur Einschränkung der zulässigen Dachformen.';
+
+COMMENT ON COLUMN "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmin" IS 'Minimal zulässige Dachneigung bei einer Bereichsangabe.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GestaltungBaugebiet"."DNmax" IS 'Maximal zulässige Dachneigung bei einer Bereichsangabe.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GestaltungBaugebiet"."DN" IS 'Maximal zulässige Dachneigung.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_GestaltungBaugebiet"."DNZwingend" IS 'Zwingend vorgeschriebene Dachneigung.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
+COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_dachform" IS 'Erlaubte Dachformen.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
+COMMENT ON TABLE "BP_Bebauung"."BP_GestaltungBaugebiet_detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.
+Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteDachform" bezieht sich auf den an gleicher Position stehenden Attributwert von dachform.
+Dies Attribut ist veraltet und wird in Version 6.0 wegfallen. Es sollte stattdessen der Datentyp BP_Dachgestaltung (Attribut dachgestaltung) verwendet werden.';
