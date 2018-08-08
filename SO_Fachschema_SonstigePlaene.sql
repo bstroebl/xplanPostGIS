@@ -2013,8 +2013,8 @@ INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1200, 'StaedtebaulicheEntwicklungsmassnahme');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1300, 'Stadtumbaugebiet');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1400, 'SozialeStadt');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1500, 'BusinessImprovementDestrict');
-INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1600, 'HousingImprovementDestrict');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1500, 'BusinessImprovementDistrict');
+INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1600, 'HousingImprovementDistrict');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (1999, 'Erhaltungsverordnung');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (2000, 'ErhaltungsverordnungStaedebaulicheGestalt');
 INSERT INTO "SO_SonstigeGebiete"."SO_GebietsArt" ("Code", "Bezeichner") VALUES (2100, 'ErhaltungsverordnungWohnbevoelkerung');

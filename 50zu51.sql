@@ -240,3 +240,8 @@ INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALU
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7300', 'Formsand');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7400', 'Gabbro');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7500', 'MikrodioritKuselit');
+
+-- CR 027
+UPDATE "SO_SonstigeGebiete"."SO_GebietsArt" SET "Bezeichner" = 'BusinessImprovementDistrict' WHERE "Code" = 1500;
+UPDATE "SO_SonstigeGebiete"."SO_GebietsArt" SET "Bezeichner" = 'HousingImprovementDistrict' WHERE "Code" = 1600;
+-- andere Änderungen nicht relevant
