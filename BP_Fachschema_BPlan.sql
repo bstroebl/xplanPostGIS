@@ -4258,6 +4258,7 @@ CREATE TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" (
   "zweckbestimmung" INTEGER,
   "detaillierteZweckbestimmung" INTEGER,
   "nutzungsform" INTEGER,
+  "zugunstenVon" VARCHAR(64),
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_VerkehrsFlaecheBesondererZweckbestimmung_parent"
     FOREIGN KEY ("gid")
@@ -4289,6 +4290,7 @@ COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."g
 COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zweckbestimmung" IS 'Zweckbestimmung der Fläche';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';
 COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."nutzungsform" IS 'Nutzungform der Fläche.';
+COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zugunstenVon" IS 'Begünstigter der Festsetzung';
 CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmung" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmung" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

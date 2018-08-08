@@ -251,3 +251,7 @@ UPDATE "SO_SonstigeGebiete"."SO_GebietsArt" SET "Bezeichner" = 'HousingImproveme
 
 -- CR 030
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6500', 'WH');
+
+-- CR 031
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ADD COLUMN "zugunstenVon" VARCHAR(64);
+COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zugunstenVon" IS 'Begünstigter der Festsetzung';
