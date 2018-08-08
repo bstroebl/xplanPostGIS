@@ -5579,7 +5579,7 @@ SELECT "gid", "refUmweltbericht" FROM "RP_Basisobjekte"."RP_Plan" WHERE "refUmwe
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "refUmweltbericht" CASCADE;
 INSERT INTO "XP_Basisobjekte"."XP_SpezExterneReferenz" (id,typ) SELECT "refSatzung",1060 FROM "RP_Basisobjekte"."RP_Plan" WHERE "refSatzung" IS NOT NULL;
 INSERT INTO "XP_Basisobjekte"."XP_Plan_externeReferenz" ("XP_Plan_gid", "externeReferenz")
-SELECT "gid", "refUmweltbericht" FROM "RP_Basisobjekte"."RP_Plan" WHERE "refSatzung" IS NOT NULL;
+SELECT "gid", "refSatzung" FROM "RP_Basisobjekte"."RP_Plan" WHERE "refSatzung" IS NOT NULL;
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" DROP COLUMN "refSatzung" CASCADE;
 
 -- RP_Bereich
