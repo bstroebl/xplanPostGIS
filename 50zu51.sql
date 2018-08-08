@@ -227,3 +227,16 @@ INSERT INTO "RP_Infrastruktur"."RP_SonstVerkehrTypen" ("Code", "Bezeichner") VAL
 -- CR 024
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1100', 'absolutNN');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1200', 'absolutDHHN');
+
+-- CR 026
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('9000', 'LaendlicheSiedlung');
+UPDATE "RP_Freiraumstruktur"."RP_BergbauplanungTypen" SET "Bezeichner" = 'Abbau' WHERE "Code" = 1300;
+ALTER TABLE "RP_Freiraumstruktur"."RP_LuftTypen" RENAME TO "RP_KlimaschutzTypen";
+INSERT INTO "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'BesondereKlimaschutzfunktion');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3001', 'InfrastrukturelleErholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2001', 'LandschaftebezogeneErholung');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('8000', 'Korridor');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7200', 'Andesit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7300', 'Formsand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7400', 'Gabbro');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7500', 'MikrodioritKuselit');

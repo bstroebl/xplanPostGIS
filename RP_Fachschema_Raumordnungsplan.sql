@@ -970,13 +970,13 @@ CREATE TRIGGER "change_to_RP_GruenzugGruenzaesurPunkt" BEFORE INSERT OR UPDATE O
 CREATE TRIGGER "delete_RP_GruenzugGruenzaesurPunkt" AFTER DELETE ON "RP_Freiraumstruktur"."RP_GruenzugGruenzaesurPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "RP_Freiraumstruktur"."RP_LuftTypen"
+-- Table "RP_Freiraumstruktur"."RP_KlimaschutzTypen"
 -- -----------------------------------------------------
-CREATE TABLE "RP_Freiraumstruktur"."RP_LuftTypen" (
+CREATE TABLE "RP_Freiraumstruktur"."RP_KlimaschutzTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_LuftTypen" TO xp_gast;
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_KlimaschutzTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "RP_Freiraumstruktur"."RP_Klimaschutz"
@@ -1011,7 +1011,7 @@ CREATE TABLE "RP_Freiraumstruktur"."RP_Klimaschutz_typ" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_RP_Klimaschutz_typ2"
     FOREIGN KEY ("typ")
-    REFERENCES "RP_Freiraumstruktur"."RP_LuftTypen" ("Code")
+    REFERENCES "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Klimaschutz_typ" TO xp_gast;
@@ -5398,6 +5398,10 @@ INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALU
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('6900', 'Uran');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7000', 'Vulkanit');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7100', 'Werkstein');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7200', 'Andesit');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7300', 'Formsand');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7400', 'Gabbro');
+INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('7500', 'MikrodioritKuselit');
 INSERT INTO "RP_Freiraumstruktur"."RP_RohstoffTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
@@ -5424,6 +5428,7 @@ INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner"
 INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Umspannwerk');
 INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('6000', 'Raffinerie');
 INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('7000', 'Leitungsabbau');
+INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('8000', 'Korridor');
 INSERT INTO "RP_Infrastruktur"."RP_EnergieversorgungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeEnergieversorgung');
 
 -- -----------------------------------------------------
@@ -5680,6 +5685,7 @@ INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeic
 INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('6000', 'ErholungFremdenverkehr');
 INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('7000', 'Verteidigung');
 INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('8000', 'UeberoertlicheVersorgungsfunktionLaendlicherRaum');
+INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('9000', 'LaendlicheSiedlung');
 INSERT INTO "RP_Siedlungsstruktur"."RP_FunktionszuweisungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeNutzung');
 
 -- -----------------------------------------------------
@@ -5779,11 +5785,12 @@ INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichne
 INSERT INTO "RP_Freiraumstruktur"."RP_HochwasserschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerHochwasserschutz');
 
 -- -----------------------------------------------------
--- Data for table "RP_Freiraumstruktur"."RP_LuftTypen"
+-- Data for table "RP_Freiraumstruktur"."RP_KlimaschutzTypen"
 -- -----------------------------------------------------
-INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('1000', 'Kaltluft');
-INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('2000', 'Frischluft');
-INSERT INTO "RP_Freiraumstruktur"."RP_LuftTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeLufttypen');
+INSERT INTO "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code", "Bezeichner") VALUES ('1000', 'Kaltluft');
+INSERT INTO "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code", "Bezeichner") VALUES ('2000', 'Frischluft');
+INSERT INTO "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code", "Bezeichner") VALUES ('3000', 'BesondereKlimaschutzfunktion');
+INSERT INTO "RP_Freiraumstruktur"."RP_KlimaschutzTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeLufttypen');
 
 -- -----------------------------------------------------
 -- Data for table "RP_Freiraumstruktur"."RP_KulturlandschaftTypen"
@@ -5879,7 +5886,7 @@ INSERT INTO "RP_Freiraumstruktur"."RP_BodenschatzTiefen" ("Code", "Bezeichner") 
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Lagerstaette');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1100', 'Sicherung');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1200', 'Gewinnung');
-INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1300', 'Abbaubereich');
+INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1300', 'Abbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1400', 'Sicherheitszone');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1500', 'AnlageEinrichtungBergbau');
 INSERT INTO "RP_Freiraumstruktur"."RP_BergbauplanungTypen" ("Code", "Bezeichner") VALUES ('1600', 'Halde');
@@ -6072,7 +6079,9 @@ INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") V
 -- -----------------------------------------------------
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Erholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2000', 'RuhigeErholungInNaturUndLandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2001', 'LandschaftebezogeneErholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3000', 'ErholungMitStarkerInanspruchnahmeDurchBevoelkerung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3001', 'InfrastrukturelleErholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('4000', 'Erholungswald');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Freizeitanlage');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('5001', 'Ferieneinrichtung');
