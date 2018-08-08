@@ -2447,6 +2447,102 @@ ALTER TABLE "RP_Freiraumstruktur"."RP_FreizeitErholungLinie" RENAME CONSTRAINT "
 ALTER TABLE "RP_Freiraumstruktur"."RP_FreizeitErholungLinie" RENAME TO "RP_ErholungLinie";
 ALTER TABLE "RP_Freiraumstruktur"."RP_FreizeitErholungPunkt" RENAME CONSTRAINT "fk_RP_FreizeitErholungPunkt_parent" TO "fk_RP_ErholungPunkt_parent";
 ALTER TABLE "RP_Freiraumstruktur"."RP_FreizeitErholungPunkt" RENAME TO "RP_ErholungPunkt";
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" TO xp_gast;
+ALTER TABLE "RP_Freiraumstruktur"."RP_Erholung" ADD COLUMN "besondererTyp" INTEGER;
+ALTER TABLE "RP_Freiraumstruktur"."RP_Erholung" ADD CONSTRAINT "fk_RP_Erholung_besondererTyp"
+    FOREIGN KEY ("besondererTyp" )
+    REFERENCES "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" ("Code" )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "RP_Freiraumstruktur"."RP_Erholung"."besondererTyp" IS 'Klassifikation von besonderen Typen für Tourismus und/oder Erholung.';
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_ErholungTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_ErholungTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_ErholungTypen" TO xp_gast;
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Erholung_typErholung"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Erholung_typErholung" (
+  "RP_Erholung_gid" BIGINT NOT NULL,
+  "typErholung" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Erholung_gid", "typErholung"),
+  CONSTRAINT "fk_RP_Erholung_typErholung1"
+    FOREIGN KEY ("RP_Erholung_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Erholung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Erholung_typErholung2"
+    FOREIGN KEY ("typErholung")
+    REFERENCES "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typErholung" IS 'Klassifikation von Erholungstypen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typErholung" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typErholung" TO rp_user;
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_TourismusTypen"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_TourismusTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_TourismusTypen" TO xp_gast;
+-- -----------------------------------------------------
+-- Table "RP_Freiraumstruktur"."RP_Erholung_typTourismus"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Freiraumstruktur"."RP_Erholung_typTourismus" (
+  "RP_Erholung_gid" BIGINT NOT NULL,
+  "typTourismus" INTEGER NOT NULL,
+  PRIMARY KEY ("RP_Erholung_gid", "typTourismus"),
+  CONSTRAINT "fk_RP_Erholung_typTourismus1"
+    FOREIGN KEY ("RP_Erholung_gid")
+    REFERENCES "RP_Freiraumstruktur"."RP_Erholung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_RP_Erholung_typTourismus2"
+    FOREIGN KEY ("typTourismus")
+    REFERENCES "RP_Freiraumstruktur"."RP_TourismusTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typTourismus" IS 'Klassifikation von Tourismustypen.';
+GRANT SELECT ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typTourismus" TO xp_gast;
+GRANT ALL ON TABLE "RP_Freiraumstruktur"."RP_Erholung_typTourismus" TO rp_user;
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_ErholungTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Erholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2000', 'RuhigeErholungInNaturUndLandschaft');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3000', 'ErholungMitStarkerInanspruchnahmeDurchBevoelkerung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('4000', 'Erholungswald');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('5000', 'Freizeitanlage');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('5001', 'Ferieneinrichtung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('6000', 'ErholungslandschaftAlpen');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('7000', 'Kureinrichtung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeErholung');
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_TourismusTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_TourismusTypen" ("Code", "Bezeichner") VALUES ('1000', 'Tourismus');
+INSERT INTO "RP_Freiraumstruktur"."RP_TourismusTypen" ("Code", "Bezeichner") VALUES ('2000', 'Kuestenraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_TourismusTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigerTourismus');
+-- -----------------------------------------------------
+-- Data for table "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen"
+-- -----------------------------------------------------
+INSERT INTO "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Entwicklungsgebiet');
+INSERT INTO "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" ("Code", "Bezeichner") VALUES ('2000', 'Kernbereich');
+INSERT INTO "RP_Freiraumstruktur"."RP_BesondereTourismusErholungTypen" ("Code", "Bezeichner") VALUES ('3000', 'BesondereEntwicklungsaufgabe');
+
 -- RP_Windenergienutzung -> RP_ErneuerbareEnergie
 CREATE TABLE "RP_Freiraumstruktur"."RP_ErneuerbareEnergieTypen" (
   "Code" INTEGER NOT NULL ,
