@@ -2705,7 +2705,6 @@ GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_Wegerecht" (
   "gid" BIGINT NOT NULL ,
-  "typ" INTEGER,
   "zugunstenVon" CHARACTER VARYING(64),
   "thema" CHARACTER VARYING(256) ,
   PRIMARY KEY ("gid") ,
@@ -2713,11 +2712,6 @@ CREATE  TABLE  "BP_Sonstiges"."BP_Wegerecht" (
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Wegerecht_typ"
-    FOREIGN KEY ("typ" )
-    REFERENCES "BP_Sonstiges"."BP_WegerechtTypen" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO xp_gast;
@@ -2725,11 +2719,32 @@ GRANT ALL ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO bp_user;
 CREATE INDEX "idx_fk_BP_Wegerecht_typ" ON "BP_Sonstiges"."BP_Wegerecht" ("typ") ;
 COMMENT ON TABLE  "BP_Sonstiges"."BP_Wegerecht" IS 'Unverbindliche Vormerkung späterer Planungsabsichten.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."typ" IS 'Typ des Wegerechts';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."zugunstenVon" IS 'Inhaber der Rechte.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."thema" IS 'Beschreibung des Rechtes.';
 CREATE TRIGGER "change_to_BP_Wegerecht" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Wegerecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Wegerecht" AFTER DELETE ON "BP_Sonstiges"."BP_Wegerecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_Wegerecht_typ"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_Wegerecht_typ" (
+  "BP_Wegerecht_gid" BIGINT NOT NULL ,
+  "typ" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Wegerecht_gid", "typ"),
+  CONSTRAINT "fk_BP_Wegerecht_typ1"
+    FOREIGN KEY ("BP_Wegerecht_gid" )
+    REFERENCES "BP_Sonstiges"."BP_Wegerecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Wegerecht_typ2"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Sonstiges"."BP_WegerechtTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" TO bp_user;
+COMMENT ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" IS 'Typ des Wegerechts.
+Die kombinierten Enumerationswerte sind veraltet und werden in Version 6.0 wegfallen. Stattdessen sollte das Attribut typ mehrfach belegt werden.';
 
 -- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_WegerechtFlaeche"
@@ -4760,6 +4775,7 @@ INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES 
 -- -----------------------------------------------------
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('1000', 'Gehrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('2000', 'Fahrrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('2500', 'Radfahrrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('3000', 'GehFahrrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4000', 'Leitungsrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4100', 'GehLeitungsrecht');
