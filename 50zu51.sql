@@ -505,3 +505,7 @@ CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "SO_Basisobjekte"."SO_Plan_gemein
 
 -- CR 044
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGruen" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 24002;
+
+-- CR 046
+COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_RekultivierungsFlaeche" IS 'Rekultivierungs-Fläche
+Die Klasse wird als veraltet gekennzeichnet und wird in XPlanGML 6.0 wegfallen. Es sollte stattdessen die Klasse SO_SonstigesRecht verwendet werden.';
