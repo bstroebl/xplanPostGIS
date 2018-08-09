@@ -506,6 +506,7 @@ CREATE  TABLE  "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung" (
   "pflanztiefe" NUMERIC(6,2) ,
   "istAusgleich" BOOLEAN,
   "mindesthoehe" NUMERIC(6,2),
+  "anzahl" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_LP_AnpflanzungBindungErhaltung_parent"
     FOREIGN KEY ("gid" )
@@ -529,6 +530,7 @@ COMMENT ON COLUMN  "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."
 COMMENT ON COLUMN  "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."pflanztiefe" IS 'Pflanztiefe';
 COMMENT ON COLUMN  "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."istAusgleich" IS 'Gibt an, ob die Fläche oder Maßnahme zum Ausgleich von Eingriffen genutzt wird.';
 COMMENT ON COLUMN  "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."mindesthoehe" IS 'Mindesthöhe einer Pflanze (z.B. Mindesthöhe einer zu pflanzenden Hecke)';
+COMMENT ON COLUMN "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."anzahl" IS 'Anzahl der anzupflanzenden Objekte';
 CREATE TRIGGER "change_to_LP_AnpflanzungBindungErhaltung" BEFORE INSERT OR UPDATE ON "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_LP_AnpflanzungBindungErhaltung" AFTER DELETE ON "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

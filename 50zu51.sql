@@ -396,3 +396,9 @@ INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bez
 
 -- CR 038
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3700, 'Fahrradstellplaetze');
+
+-- CR 039
+ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung" ADD COLUMN "anzahl" INTEGER;
+COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."anzahl" IS 'Anzahl der anzupflanzenden Objekte';
+ALTER TABLE "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung" ADD COLUMN "anzahl" INTEGER;
+COMMENT ON COLUMN "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."anzahl" IS 'Anzahl der anzupflanzenden Objekte';
