@@ -616,7 +616,8 @@ CREATE TRIGGER "change_to_BP_NichtUeberbaubareGrundstuecksflaeche" BEFORE INSERT
 CREATE TRIGGER "delete_BP_NichtUeberbaubareGrundstuecksflaeche" AFTER DELETE ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_BP_NichtUeberbaubareGrundstuecksflaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
-
+-- CR 051
+INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('2000', 'UnterschiedlicheHoehen');
 
 
 

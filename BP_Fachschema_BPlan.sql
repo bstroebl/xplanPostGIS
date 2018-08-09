@@ -4836,6 +4836,7 @@ INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code
 -- Data for table "BP_Sonstiges"."BP_AbgrenzungenTypen"
 -- -----------------------------------------------------
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('1000', 'Nutzungsartengrenze');
+INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('2000', 'UnterschiedlicheHoehen');
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAbgrenzung');
 
 -- -----------------------------------------------------
