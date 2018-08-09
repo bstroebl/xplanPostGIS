@@ -4015,6 +4015,27 @@ CREATE TRIGGER "delete_BP_UeberbaubareGrundstuecksFlaeche" AFTER DELETE ON "BP_B
 CREATE TRIGGER "ueberlagerung_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_NichtUeberbaubareGrundstuecksflaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" TO bp_user;
+CREATE INDEX "BP_NichtUeberbaubareGrundstuecksflaeche_gidx" ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" using gist ("position");
+COMMENT ON COLUMN "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_NichtUeberbaubareGrundstuecksflaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_NichtUeberbaubareGrundstuecksflaeche" AFTER DELETE ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_NichtUeberbaubareGrundstuecksflaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BauGrenze"
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Bebauung"."BP_BauGrenze" (
