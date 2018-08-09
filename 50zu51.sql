@@ -402,3 +402,7 @@ ALTER TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindun
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"."anzahl" IS 'Anzahl der anzupflanzenden Objekte';
 ALTER TABLE "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung" ADD COLUMN "anzahl" INTEGER;
 COMMENT ON COLUMN "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."anzahl" IS 'Anzahl der anzupflanzenden Objekte';
+
+-- CR 040
+ALTER TABLE "XP_Basisobjekte"."XP_Plan" ADD COLUMN "technischerPlanersteller" VARCHAR(1024);
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."technischerPlanersteller" IS 'Bezeichnung der Institution oder Firma, die den Plan technisch erstellt hat.';

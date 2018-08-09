@@ -1146,6 +1146,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "untergangsDatum" DATE NULL ,
   "erstellungsMassstab" INTEGER  NULL ,
   "bezugshoehe" REAL NULL ,
+  "technischerPlanersteller" VARCHAR(1024),
   "refExternalCodeList" INTEGER NULL ,
   "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
@@ -1166,6 +1167,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."genehmigungsDatum" IS 'Datum der 
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."untergangsDatum" IS 'Datum, an dem der Plan (z.B. durch Ratsbeschluss oder Gerichtsurteil) aufgehoben oder für nichtig erklärt wurde.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."erstellungsMassstab" IS 'Der bei der Erstellung des Plans benutzte Kartenmassstab.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."bezugshoehe" IS 'Standard Bezugshöhe (absolut NhN) für relative Höhenangaben von Planinhalten.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."technischerPlanersteller" IS 'Bezeichnung der Institution oder Firma, die den Plan technisch erstellt hat.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."refExternalCodeList" IS 'Referenz auf ein GML-Dictionary mit Codelists.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
 CREATE TRIGGER "XP_Plan_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
