@@ -393,3 +393,6 @@ INSERT INTO "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4100, 'Fahrradstellplaetze');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4200, 'Gemeinschaftsdachgaerten');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4300, 'GemeinschaftlichNutzbareDachflaechen');
+
+-- CR 038
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3700, 'Fahrradstellplaetze');

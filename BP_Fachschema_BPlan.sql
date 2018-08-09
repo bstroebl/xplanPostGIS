@@ -4893,6 +4893,7 @@ INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner"
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3400, 'AbfallSammelanlagen');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3500, 'EnergieVerteilungsanlagen');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3600, 'AbfallWertstoffbehaelter');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (3700, 'Fahrradstellplaetze');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungNebenanlagen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
