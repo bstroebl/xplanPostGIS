@@ -474,3 +474,7 @@ GRANT ALL ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
 CREATE INDEX "idx_fk_planaufstellendeGemeinde_SO_Plan1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("SO_Plan_gid") ;
 CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");
+
+-- CR 042
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2700, 'UmweltbezogeneStellungnahmen');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2800, 'Beschluss');
