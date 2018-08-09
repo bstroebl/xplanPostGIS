@@ -673,6 +673,8 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() TO xp_
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
 $BODY$
+DECLARE:
+    ebene integer;
  BEGIN
     IF (TG_OP = 'DELETE') THEN
         RETURN old;
@@ -681,7 +683,13 @@ $BODY$
             new."position" := ST_ForceRHR(new."position");
         END IF;
 
-        new.flaechenschluss := true;
+        -- Neu 5.1: Flächenschluss wird nur zwischen Objekten der ebene = 0 hergestellt
+        EXECUTE 'SELECT ebene FROM "XP_Basisobjekte"."XP_Objekt"' ||
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO ebene;
+
+        IF ebene = 0 THEN
+            new.flaechenschluss := true;
+        END IF;
         RETURN new;
     END IF;
  END; $BODY$

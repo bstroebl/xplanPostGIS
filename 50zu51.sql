@@ -619,6 +619,34 @@ CREATE TRIGGER "ueberlagerung_BP_NichtUeberbaubareGrundstuecksflaeche" BEFORE IN
 -- CR 051
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('2000', 'UnterschiedlicheHoehen');
 
+-- CR 052
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
+RETURNS trigger AS
+$BODY$
+DECLARE:
+    ebene integer;
+ BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        RETURN old;
+    ELSE
+        IF new."position" IS NOT NULL THEN
+            new."position" := ST_ForceRHR(new."position");
+        END IF;
+
+        -- Neu 5.1: Flächenschluss wird nur zwischen Objekten der ebene = 0 hergestellt
+        EXECUTE 'SELECT ebene FROM "XP_Basisobjekte"."XP_Objekt"' ||
+                ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO ebene;
+
+        IF ebene = 0 THEN
+            new.flaechenschluss := true;
+        END IF;
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_user;
+
 
 
 
