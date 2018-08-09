@@ -657,3 +657,6 @@ CREATE TRIGGER "flaechenschluss_BP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDA
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 
+-- CR 054
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD COLUMN "aufschrift" VARCHAR(64);
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."aufschrift" IS 'Spezifischer Text zur Beschriftung von Planinhalten';

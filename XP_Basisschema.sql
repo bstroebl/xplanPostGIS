@@ -1284,6 +1284,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   "startBedingung" INTEGER NULL ,
   "endeBedingung" INTEGER NULL ,
   "gml_id" VARCHAR(64) NULL ,
+  "aufschrift" VARCHAR(64) NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_XP_Objekt_XP_Rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
@@ -1321,6 +1322,7 @@ Bei "überirdischen" Objekten (z.B. Festsetzungen auf Brücken) ist ebene > 0.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."startBedingung" IS 'Notwendige Bedingung für die Wirksamkeit eines Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."endeBedingung" IS 'Notwendige Bedingung für das Ende der Wirksamkeit eines Planinhalts.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."aufschrift" IS 'Spezifischer Text zur Beschriftung von Planinhalten';
 CREATE TRIGGER "XP_Objekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 CREATE TRIGGER "XP_Objekt_hasChanged" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_Objekt" FOR EACH ROW EXECUTE PROCEDURE  "XP_Basisobjekte"."change_to_XP_Objekt"();
 CREATE INDEX "idx_fk_XP_Objekt_XP_Rechtsstand1" ON "XP_Basisobjekte"."XP_Objekt" ("rechtsstand") ;
