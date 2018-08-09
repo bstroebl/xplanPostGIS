@@ -4863,6 +4863,9 @@ INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bez
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3800, 'Laermschutzanlagen');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (3900, 'AbwasserRegenwasser');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4000, 'Ausgleichsmassnahmen');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4100, 'Fahrradstellplaetze');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4200, 'Gemeinschaftsdachgaerten');
+INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (4300, 'GemeinschaftlichNutzbareDachflaechen');
 INSERT INTO "BP_Bebauung"."BP_ZweckbestimmungGemeinschaftsanlagen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
