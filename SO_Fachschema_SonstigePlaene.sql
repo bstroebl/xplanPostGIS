@@ -615,6 +615,29 @@ CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR 
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
 
 -- -----------------------------------------------------
+-- Table "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde"
+-- -----------------------------------------------------
+CREATE TABLE "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" (
+  "SO_Plan_gid" BIGINT NOT NULL ,
+  "planaufstellendeGemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Plan_gid", "planaufstellendeGemeinde") ,
+  CONSTRAINT "fk_planaufstellendeGemeinde_SO_Plan1"
+    FOREIGN KEY ("SO_Plan_gid" )
+    REFERENCES "SO_Basisobjekte"."SO_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_planaufstellendeGemeinde_XP_Gemeinde1"
+    FOREIGN KEY ("planaufstellendeGemeinde" )
+    REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" TO xp_gast;
+GRANT ALL ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" TO so_user;
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_SO_Plan1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("SO_Plan_gid") ;
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");
+
+-- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Bereich"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_Bereich" (

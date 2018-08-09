@@ -406,3 +406,71 @@ COMMENT ON COLUMN "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung"."a
 -- CR 040
 ALTER TABLE "XP_Basisobjekte"."XP_Plan" ADD COLUMN "technischerPlanersteller" VARCHAR(1024);
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan"."technischerPlanersteller" IS 'Bezeichnung der Institution oder Firma, die den Plan technisch erstellt hat.';
+
+-- CR 041
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" (
+  "BP_Plan_gid" BIGINT NOT NULL ,
+  "planaufstellendeGemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Plan_gid", "planaufstellendeGemeinde") ,
+  CONSTRAINT "fk_planaufstellendeGemeinde_BP_Plan1"
+    FOREIGN KEY ("BP_Plan_gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_planaufstellendeGemeinde_XP_Gemeinde1"
+    FOREIGN KEY ("planaufstellendeGemeinde" )
+    REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_BP_Plan1" ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" ("BP_Plan_gid") ;
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");
+-- -----------------------------------------------------
+-- Table "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" (
+  "FP_Plan_gid" BIGINT NOT NULL ,
+  "planaufstellendeGemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("FP_Plan_gid", "planaufstellendeGemeinde") ,
+  CONSTRAINT "fk_planaufstellendeGemeinde_FP_Plan1"
+    FOREIGN KEY ("FP_Plan_gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_planaufstellendeGemeinde_XP_Gemeinde1"
+    FOREIGN KEY ("planaufstellendeGemeinde" )
+    REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" TO xp_gast;
+GRANT ALL ON "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" TO fp_user;
+COMMENT ON TABLE "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_FP_Plan1" ON "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" ("FP_Plan_gid") ;
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "FP_Basisobjekte"."FP_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");
+-- -----------------------------------------------------
+-- Table "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde"
+-- -----------------------------------------------------
+CREATE TABLE "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" (
+  "SO_Plan_gid" BIGINT NOT NULL ,
+  "planaufstellendeGemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Plan_gid", "planaufstellendeGemeinde") ,
+  CONSTRAINT "fk_planaufstellendeGemeinde_SO_Plan1"
+    FOREIGN KEY ("SO_Plan_gid" )
+    REFERENCES "SO_Basisobjekte"."SO_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_planaufstellendeGemeinde_XP_Gemeinde1"
+    FOREIGN KEY ("planaufstellendeGemeinde" )
+    REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" TO xp_gast;
+GRANT ALL ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" TO so_user;
+COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_SO_Plan1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("SO_Plan_gid") ;
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "SO_Basisobjekte"."SO_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");

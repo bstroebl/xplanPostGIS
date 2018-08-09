@@ -668,6 +668,29 @@ CREATE INDEX "idx_fk_gemeinde_BP_Plan1" ON "BP_Basisobjekte"."BP_Plan_gemeinde" 
 CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."BP_Plan_gemeinde" ("gemeinde") ;
 
 -- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" (
+  "BP_Plan_gid" BIGINT NOT NULL ,
+  "planaufstellendeGemeinde" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Plan_gid", "planaufstellendeGemeinde") ,
+  CONSTRAINT "fk_planaufstellendeGemeinde_BP_Plan1"
+    FOREIGN KEY ("BP_Plan_gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Plan" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_planaufstellendeGemeinde_XP_Gemeinde1"
+    FOREIGN KEY ("planaufstellendeGemeinde" )
+    REFERENCES "XP_Sonstiges"."XP_Gemeinde" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" IS 'Die für die ursprüngliche Planaufstellung zuständige Gemeinde, falls diese nicht unter dem Attribut gemeinde aufgeführt ist. Dies kann z.B. nach Gemeindefusionen der Fall sein.';
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_BP_Plan1" ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" ("BP_Plan_gid") ;
+CREATE INDEX "idx_fk_planaufstellendeGemeinde_XP_Gemeinde1" ON "BP_Basisobjekte"."BP_Plan_planaufstellendeGemeinde" ("planaufstellendeGemeinde");
+
+-- -----------------------------------------------------
 -- Table "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaeche" (
