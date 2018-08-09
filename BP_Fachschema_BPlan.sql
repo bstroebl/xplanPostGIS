@@ -1983,24 +1983,24 @@ GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_detaill
 COMMENT ON TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_detaillierteZweckbestimmung" IS 'ZÜber eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
 -- -----------------------------------------------------
--- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche"
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" (
+CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_BP_LandwirtschaftFlaeche_parent"
+  CONSTRAINT "fk_BP_LandwirtschaftsFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
-GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" TO xp_gast;
-GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" TO bp_user;
-CREATE INDEX "BP_LandwirtschaftFlaeche_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" using gist ("position");
-CREATE TRIGGER "change_to_BP_LandwirtschaftFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_BP_LandwirtschaftFlaeche" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "BP_LandwirtschaftFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" TO bp_user;
+CREATE INDEX "BP_LandwirtschaftsFlaeche_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" using gist ("position");
+CREATE TRIGGER "change_to_BP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_LandwirtschaftsFlaeche" AFTER DELETE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 
 -- -----------------------------------------------------
 -- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie"
@@ -2015,6 +2015,7 @@ CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" (
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
 
+COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" TO bp_user;
 CREATE INDEX "BP_LandwirtschaftLinie_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" using gist ("position");
@@ -2034,6 +2035,7 @@ CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" (
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
 
+COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" TO xp_gast;
 GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" TO bp_user;
 CREATE INDEX "BP_LandwirtschaftPunkt_gidx" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" using gist ("position");
