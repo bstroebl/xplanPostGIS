@@ -3925,6 +3925,27 @@ CREATE TRIGGER "delete_BP_SpezielleBauweise" AFTER DELETE ON "BP_Bebauung"."BP_S
 CREATE TRIGGER "ueberlagerung_BP_SpezielleBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_SpezielleBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_SpezielleBauweise_wegerecht"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" (
+  "BP_SpezielleBauweise_gid" BIGINT NOT NULL ,
+  "wegerecht" BIGINT NOT NULL ,
+  PRIMARY KEY ("BP_SpezielleBauweise_gid", "wegerecht"),
+  CONSTRAINT "fk_BP_SpezielleBauweise_wegerecht1"
+    FOREIGN KEY ("BP_SpezielleBauweise_gid" )
+    REFERENCES "BP_Bebauung"."BP_SpezielleBauweise" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpezielleBauweise_wegerecht2"
+    FOREIGN KEY ("wegerecht" )
+    REFERENCES "BP_Bebauung"."BP_Wegerecht" ("gid" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" IS 'Relation auf Angaben zu Wegerechten.';
+
+-- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" (
@@ -4887,6 +4908,9 @@ INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VAL
 INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1300, 'Auskragung');
 INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1400, 'Arkade');
 INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1500, 'Luftgeschoss');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1600, 'Bruecke');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1700, 'Tunnel');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1800, 'Rampe');
 INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------

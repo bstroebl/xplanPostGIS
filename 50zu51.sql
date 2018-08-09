@@ -355,3 +355,28 @@ INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT g
 INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 4000 WHERE "typ" IN (4000,4100,4200,5000);
 ALTER TABLE "BP_Sonstiges"."BP_Wegerecht" DROP COLUMN "typ";
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('2500', 'Radfahrrecht');
+
+-- CR 034
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_SpezielleBauweise_wegerecht"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" (
+  "BP_SpezielleBauweise_gid" BIGINT NOT NULL ,
+  "wegerecht" BIGINT NOT NULL ,
+  PRIMARY KEY ("BP_SpezielleBauweise_gid", "wegerecht"),
+  CONSTRAINT "fk_BP_SpezielleBauweise_wegerecht1"
+    FOREIGN KEY ("BP_SpezielleBauweise_gid" )
+    REFERENCES "BP_Bebauung"."BP_SpezielleBauweise" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_SpezielleBauweise_wegerecht2"
+    FOREIGN KEY ("wegerecht" )
+    REFERENCES "BP_Bebauung"."BP_Wegerecht" ("gid" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" IS 'Relation auf Angaben zu Wegerechten.';
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1600, 'Bruecke');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1700, 'Tunnel');
+INSERT INTO "BP_Bebauung"."BP_SpezielleBauweiseTypen" ("Code", "Bezeichner") VALUES (1800, 'Rampe');
