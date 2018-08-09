@@ -1214,67 +1214,121 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLand
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" TO fp_user;
 
 -- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_Landwirtschaft_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" TO fp_user;
+COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" IS 'Darstellung einer Landwirtschaftsfläche nach §5, Abs. 2, Nr. 9a.';
+COMMENT ON COLUMN "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_FP_Landwirtschaft" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_Landwirtschaft" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_zweckbestimmung" (
+  "FP_Landwirtschaft_gid" BIGINT NOT NULL ,
+  "zweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("FP_Landwirtschaft_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Landwirtschaft_zweckbestimmung1"
+    FOREIGN KEY ("FP_Landwirtschaft_gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Landwirtschaft_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_zweckbestimmung" IS 'Zweckbestimmungen der Fläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_detaillierteZweckbestimmung" (
+  "FP_Landwirtschaft_gid" BIGINT NOT NULL ,
+  "detaillierteZweckbestimmung" INTEGER NULL ,
+  PRIMARY KEY ("FP_Landwirtschaft_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_Landwirtschaft_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("FP_Landwirtschaft_gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Landwirtschaft_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.
+Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteZweckbestimmung" bezieht sich auf den an gleicher Position stehenden Attributwert von "zweckbestimmung". ';
+
+-- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" (
   "gid" BIGINT NOT NULL ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_parent"
     FOREIGN KEY ("gid" )
-    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" TO fp_user;
-COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" IS 'Darstellung einer Landwirtschaftsfläche nach §5, Abs. 2, Nr. 9a.';
-COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 CREATE TRIGGER "change_to_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_LandwirtschaftsFlaeche" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung"
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" (
-  "FP_LandwirtschaftsFlaeche_gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_LandwirtschaftsFlaeche_gid", "zweckbestimmung"),
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_zweckbestimmung1"
-    FOREIGN KEY ("FP_LandwirtschaftsFlaeche_gid" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("gid" )
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_LandwirtschaftLinie_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_zweckbestimmung2"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Fläche';
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Linienobjekt");
 
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie" TO fp_user;
+CREATE TRIGGER "change_to_FP_LandwirtschaftLinie" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_LandwirtschaftLinie" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung"
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt"
 -- -----------------------------------------------------
-CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" (
-  "FP_LandwirtschaftsFlaeche_gid" BIGINT NOT NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
-  PRIMARY KEY ("FP_LandwirtschaftsFlaeche_gid", "detaillierteZweckbestimmung"),
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung1"
-    FOREIGN KEY ("FP_LandwirtschaftsFlaeche_gid" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche" ("gid" )
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_LandwirtschaftPunkt_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft" ("gid" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung2"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
-GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" TO xp_gast;
-GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" TO fp_user;
-COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftsFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Punktobjekt");
+
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" TO fp_user;
+CREATE TRIGGER "change_to_FP_LandwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_LandwirtschaftPunkt" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen"
