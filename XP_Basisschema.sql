@@ -2343,7 +2343,7 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") 
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('22001', 'Festplatz');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24000', 'StrassenbegleitGruen');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24001', 'BoeschungsFlaeche');
-INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24002', 'FeldWaldWiese');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24002', 'veraltet - FeldWaldWiese');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24003', 'Uferschutzstreifen');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24004', 'Abschirmgruen');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") VALUES ('24005', 'UmweltbildungsparkSchaugatter');

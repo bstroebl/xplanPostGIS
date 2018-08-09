@@ -502,3 +502,6 @@ GRANT ALL ON "SO_Basisobjekte"."SO_Plan_gemeinde" TO so_user;
 COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan_gemeinde" IS 'Zuständige Gemeinde';
 CREATE INDEX "idx_fk_gemeinde_SO_Plan1" ON "SO_Basisobjekte"."SO_Plan_gemeinde" ("SO_Plan_gid") ;
 CREATE INDEX "idx_fk_gemeinde_XP_Gemeinde1" ON "SO_Basisobjekte"."SO_Plan_gemeinde" ("gemeinde");
+
+-- CR 044
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGruen" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" = 24002;
