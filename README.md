@@ -15,6 +15,7 @@ Die komplette Anlage einer neuen Datenbank (ohne Gruppenrollen) kann auch über 
 
 # Version
 
-Dieses Projekt implementiert den Standard XPlanung 5.0.1. Der Vorgängerstandard ist in der Branch
-[xplan_4_1](https://github.com/bstroebl/xplanPostGIS/tree/xplan_4_1) abgelegt. Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.0 erfolgt mit dem Script 4zu5.sql.
-Dabei sollte das Script nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden. Vor der Ausführung sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
+Dieses Projekt implementiert den Standard XPlanung 5.1. Die Vorgängerstandards 5.0.1 und 4.1 sind in eigenen Branches abgelegt.
+Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.1 erfolgt mit den Konvertierungsskripten 4zu5.sql und 50zu51.sql; für eine Umstellung von 5.0.1 auf 5.1 ist nur 50zu51.sql auszuführen.
+Dabei sollten die Skripte möglichst nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden, so dass leichter auf mögliche Fehler reagiert werden kann. Die Skripte sind zwar getestet aber in einer bestehenden Datenbank könnten Datensätze vorhanden sein, die andere Attribute belegen, als es die Testdatensätze des Authors tun.
+Vor der Ausführung der Konvertierungsskripte sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
