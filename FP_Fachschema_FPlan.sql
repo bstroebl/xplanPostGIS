@@ -2401,6 +2401,7 @@ CREATE TRIGGER "FP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR 
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" (
   "gid" BIGINT NOT NULL ,
+  "aufschuettungsmaterial" VARCHAR (64),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Aufschuettung_FP_Objekt"
     FOREIGN KEY ("gid" )
@@ -2412,6 +2413,7 @@ GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettu
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" TO fp_user;
 COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Aufschüttungen.';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."aufschuettungsmaterial" IS 'Bezeichnung des aufgeschütteten Materials';
 CREATE TRIGGER "change_to_FP_Aufschuettung" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_Aufschuettung" AFTER DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

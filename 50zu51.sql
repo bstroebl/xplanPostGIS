@@ -660,3 +660,10 @@ COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" IS 
 -- CR 054
 ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ADD COLUMN "aufschrift" VARCHAR(64);
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_Objekt"."aufschrift" IS 'Spezifischer Text zur Beschriftung von Planinhalten';
+
+-- CR 055
+ALTER TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" ADD COLUMN "aufschuettungsmaterial" VARCHAR (64);
+COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche"."aufschuettungsmaterial" IS 'Bezeichnung des aufgeschütteten Materials';
+ALTER TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" ADD COLUMN "aufschuettungsmaterial" VARCHAR (64);
+COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."aufschuettungsmaterial" IS 'Bezeichnung des aufgeschütteten Materials';
+

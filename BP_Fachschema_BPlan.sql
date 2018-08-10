@@ -957,6 +957,7 @@ CREATE TRIGGER "delete_BP_AnpflanzungBindungErhaltungPunkt" AFTER DELETE ON "BP_
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" (
   "gid" BIGINT NOT NULL ,
+  "aufschuettungsmaterial" VARCHAR (64),
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_AufschuettungsFlaeche_parent"
     FOREIGN KEY ("gid" )
@@ -970,6 +971,7 @@ GRANT SELECT ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_Aufschuettu
 GRANT ALL ON TABLE "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" TO bp_user;
 CREATE INDEX "BP_AufschuettungsFlaeche_gidx" ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§ 9 Abs. 1 Nr. 17 und Abs. 6 BauGB). Hier: Flächen für Aufschüttungen';
+COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche"."aufschuettungsmaterial" IS 'Bezeichnung des aufgeschütteten Materials';
 CREATE TRIGGER "change_to_BP_AufschuettungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AufschuettungsFlaeche" AFTER DELETE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_AufschuettungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
