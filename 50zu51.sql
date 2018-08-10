@@ -667,3 +667,6 @@ COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AufschuettungsF
 ALTER TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung" ADD COLUMN "aufschuettungsmaterial" VARCHAR (64);
 COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung"."aufschuettungsmaterial" IS 'Bezeichnung des aufgeschütteten Materials';
 
+-- CR 056
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1500, 'Rekultivierungsflaeche');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1600, 'Renaturierungsflaeche');
