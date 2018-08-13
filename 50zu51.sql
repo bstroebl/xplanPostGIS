@@ -351,9 +351,9 @@ GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" TO bp_user;
 COMMENT ON TABLE "BP_Sonstiges"."BP_Wegerecht_typ" IS 'Typ des Wegerechts.
 Die kombinierten Enumerationswerte sind veraltet und werden in Version 6.0 wegfallen. Stattdessen sollte das Attribut typ mehrfach belegt werden.';
-INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 1000 WHERE "typ" IN (1000,3000,4100,5000);
-INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 2000 WHERE "typ" IN (2000,3000,4200,5000);
-INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 4000 WHERE "typ" IN (4000,4100,4200,5000);
+INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 1000 FROM "BP_Sonstiges"."BP_Wegerecht" WHERE "typ" IN (1000,3000,4100,5000);
+INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 2000 FROM "BP_Sonstiges"."BP_Wegerecht" WHERE "typ" IN (2000,3000,4200,5000);
+INSERT INTO "BP_Sonstiges"."BP_Wegerecht_typ"("BP_Wegerecht_gid","typ") SELECT gid, 4000 FROM "BP_Sonstiges"."BP_Wegerecht" WHERE "typ" IN (4000,4100,4200,5000);
 ALTER TABLE "BP_Sonstiges"."BP_Wegerecht" DROP COLUMN "typ";
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('2500', 'Radfahrrecht');
 
