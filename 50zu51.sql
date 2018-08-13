@@ -97,9 +97,9 @@ COMMENT ON COLUMN "BP_Aufschuettung_Abgrabung_Bodenschaetze"."BP_AbgrabungsFlaec
 REVOKE ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" FROM fp_user;
 COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.
 Die Klasse wird als veraltet gekennzeichnet und wird in XPlanGML V. 6.0 wegfallen. Es sollte stattdessen die Klasse FP_AbgrabungsFlaeche verwendet werden.';
-ALTER TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungsFlaeche" ADD COLUMN "abbaugut" VARCHAR(255);
-COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen und die Gewinnung von Bodenschätzen.';
-COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
+ALTER TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" ADD COLUMN "abbaugut" VARCHAR(255);
+COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen und die Gewinnung von Bodenschätzen.';
+COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 
 -- CR 009
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungGemeinbedarf" SET "Bezeichner" = 'veraltet - ' || "Bezeichner" WHERE "Code" IN (10003,12004,14003,16004,18001,20002,22002,24003,26001);
@@ -652,7 +652,7 @@ ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" RENAME
 ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME CONSTRAINT "fk_BP_LandwirtschaftFlaeche_parent" TO "fk_BP_LandwirtschaftsFlaeche_parent";
 ALTER TRIGGER "change_to_BP_LandwirtschaftFlaeche" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME TO "change_to_BP_LandwirtschaftsFlaeche"
 ALTER TRIGGER "delete_BP_LandwirtschaftFlaeche" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME TO "delete_BP_LandwirtschaftsFlaeche";
-DROP TRIGGER "BP_LandwirtschaftsFlaeche_Flaechenobjekt";
+DROP TRIGGER "BP_LandwirtschaftFlaeche_Flaechenobjekt";
 CREATE TRIGGER "flaechenschluss_BP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';

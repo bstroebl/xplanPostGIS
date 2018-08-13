@@ -2477,6 +2477,7 @@ CREATE TRIGGER "delete_FP_AufschuettungPunkt" AFTER DELETE ON "FP_Aufschuettung_
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" (
   "gid" BIGINT NOT NULL ,
+  "abbaugut" VARCHAR(255),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Abgrabung_parent"
     FOREIGN KEY ("gid" )
@@ -2488,6 +2489,7 @@ GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" 
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" TO fp_user;
 COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_FP_Abgrabung" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_Abgrabung" AFTER DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Abgrabung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2496,7 +2498,6 @@ CREATE TRIGGER "delete_FP_Abgrabung" AFTER DELETE ON "FP_Aufschuettung_Abgrabung
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" (
   "gid" BIGINT NOT NULL ,
-  "abbaugut" VARCHAR(255),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AbgrabungFlaeche_parent"
     FOREIGN KEY ("gid" )
@@ -2505,8 +2506,6 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" 
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
-COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB). Hier: Flächen für Abgrabungen und die Gewinnung von Bodenschätzen.';
-COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" TO fp_user;
 CREATE TRIGGER "change_to_FP_AbgrabungFlaeche" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_AbgrabungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
