@@ -138,6 +138,7 @@ CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" AFTER
 CREATE TRIGGER "flaechenschluss_BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 
 DROP TRIGGER "flaechenschluss_BP_VerkehrsFlaecheBesondererZweckbestimmung" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung";
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" NO INHERIT "BP_Basisobjekte"."BP_Flaechenobjekt";
 ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "position" CASCADE;
 ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "flaechenschluss";
 
