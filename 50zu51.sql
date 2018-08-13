@@ -650,9 +650,9 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"() TO xp_us
 -- CR 053
 ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche" RENAME TO "BP_LandwirtschaftsFlaeche";
 ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME CONSTRAINT "fk_BP_LandwirtschaftFlaeche_parent" TO "fk_BP_LandwirtschaftsFlaeche_parent";
-ALTER TRIGGER "change_to_BP_LandwirtschaftFlaeche" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME TO "change_to_BP_LandwirtschaftsFlaeche"
+ALTER TRIGGER "change_to_BP_LandwirtschaftFlaeche" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME TO "change_to_BP_LandwirtschaftsFlaeche";
 ALTER TRIGGER "delete_BP_LandwirtschaftFlaeche" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" RENAME TO "delete_BP_LandwirtschaftsFlaeche";
-DROP TRIGGER "BP_LandwirtschaftFlaeche_Flaechenobjekt";
+DROP TRIGGER "BP_LandwirtschaftFlaeche_Flaechenobjekt" ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftFlaeche";
 CREATE TRIGGER "flaechenschluss_BP_LandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftLinie" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
 COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_LandwirtschaftPunkt" IS 'Die Klasse wird als veraltet gekennzeichnet und wird in Version 6.0 wegfallen. Es sollte stattdessen die Klasse BP_LandwirtschaftsFlaeche verwendet werden.';
