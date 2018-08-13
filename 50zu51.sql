@@ -372,7 +372,7 @@ CREATE TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_SpezielleBauweise_wegerecht2"
     FOREIGN KEY ("wegerecht" )
-    REFERENCES "BP_Bebauung"."BP_Wegerecht" ("gid" )
+    REFERENCES "BP_Sonstiges"."BP_Wegerecht" ("gid" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_SpezielleBauweise_wegerecht" TO xp_gast;
