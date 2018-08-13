@@ -624,7 +624,7 @@ INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
 $BODY$
-DECLARE:
+DECLARE
     ebene integer;
  BEGIN
     IF (TG_OP = 'DELETE') THEN

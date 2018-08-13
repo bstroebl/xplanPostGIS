@@ -673,7 +673,7 @@ GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_TextAbschnitt"() TO xp_
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isFlaechenschlussobjekt"()
 RETURNS trigger AS
 $BODY$
-DECLARE:
+DECLARE
     ebene integer;
  BEGIN
     IF (TG_OP = 'DELETE') THEN
