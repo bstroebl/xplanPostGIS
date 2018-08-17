@@ -380,6 +380,10 @@ $BODY$
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
         END IF;
 
+        IF new.name IS NULL THEN
+            new.name := old.name;
+        END IF;
+
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Bereich" WHERE gid = old.gid;
@@ -389,6 +393,21 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
+
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_Bereich_before_update"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF new.name IS NULL THEN
+        new.name := old.name;
+    END IF;
+
+    return new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_Bereich_before_update"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"()
 RETURNS trigger AS
@@ -480,7 +499,7 @@ DECLARE
             num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"' || 
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"' ||
                 ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -492,7 +511,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" (gid) VALUES (new.gid);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -517,7 +536,7 @@ DECLARE
             num_parents := 0;
             new.gid := nextval('"XP_Praesentationsobjekte"."XP_APObjekt_gid_seq"');
         ELSE
-            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_TPO"' || 
+            EXECUTE 'SELECT count(gid) FROM "XP_Praesentationsobjekte"."XP_TPO"' ||
                 ' WHERE gid = ' || CAST(new.gid as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -529,7 +548,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Praesentationsobjekte"."XP_TPO" (gid) VALUES (new.gid);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
@@ -573,7 +592,7 @@ DECLARE
             num_parents := 0;
             new.id := nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"');
         ELSE
-            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_TextAbschnitt"' || 
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_TextAbschnitt"' ||
                 ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
 
             IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
@@ -585,7 +604,7 @@ DECLARE
             -- Elternobjekt anlegen
             INSERT INTO "XP_Basisobjekte"."XP_TextAbschnitt" (id) VALUES (new.id);
         END IF;
-        
+
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.id := old.id; --no change in id allowed
@@ -1133,6 +1152,33 @@ CREATE INDEX "idx_fk_XP_Bereich_XP_Rasterdarstellung1" ON "XP_Basisobjekte"."XP_
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
+CREATE TRIGGER "XP_Bereich_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
+CREATE TRIGGER "XP_Bereich_has_update" BEFORE UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Bereich_before_update"();
+
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Bereich_refScan"
+-- -----------------------------------------------------
+CREATE TABLE "XP_Basisobjekte"."XP_Bereich_refScan" (
+  "XP_Bereich_gid" BIGINT NOT NULL ,
+  "externeReferenz" INTEGER NOT NULL ,
+  PRIMARY KEY ("XP_Bereich_gid", "externeReferenz") ,
+  CONSTRAINT "fk_XP_Bereich_refScan_XP_Bereich"
+    FOREIGN KEY ("XP_Bereich_gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Bereich" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT "fk_XP_Bereich_refScan_XP_ExterneReferenz"
+    FOREIGN KEY ("externeReferenz" )
+    REFERENCES "XP_Basisobjekte"."XP_SpezExterneReferenz" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Bereich_refScan" IS 'Referenz auf einen georeferenzierten Rasterplan, der die Inhalte des Bereichs wiedergibt. Das über refScan referierte Rasterbild zeigt einen Plan, dessen Geltungsbereich durch den Geltungsbereich des Bereiches (Attribut geltungsbereich von XP_Bereich) oder, wenn geltungsbereich nicht belegt ist, den Geltungsbereich des Gesamtplans (Attribut raeumlicherGeltungsbereich von XP_PLan) definiert ist.
+Im Standard sind nur georeferenzierte Rasterpläne zugelassen. Die über refScan referierte externe Referenz muss deshalb entweder vom Typ "PlanMitGeoreferenz" sein oder einen WMS-Request enthalten.';
+CREATE INDEX "idx_fk_XP_Bereich_refScan_XP_Bereich" ON "XP_Basisobjekte"."XP_Bereich_refScan" ("XP_Bereich_gid") ;
+CREATE INDEX "idx_fk_XP_Bereich_refScan_XP_ExterneReferenz" ON "XP_Basisobjekte"."XP_Plan_externeReferenz" ("externeReferenz");
+
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich_refScan" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich_refScan" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_WirksamkeitBedingung"
