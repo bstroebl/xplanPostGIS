@@ -419,6 +419,10 @@ DECLARE
             new."geltungsbereich" := ST_ForceRHR(new."geltungsbereich");
         END IF;
 
+        IF new.name IS NULL THEN
+            new.name := old.name;
+        END IF;
+
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_Bereich" WHERE gid = old.gid;
@@ -428,6 +432,21 @@ DECLARE
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_Bereich"() TO xp_user;
+
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."XP_Bereich_before_update"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF new.name IS NULL THEN
+        new.name := old.name;
+    END IF;
+
+    return new;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."XP_Bereich_before_update"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_Objekt"()
 RETURNS trigger AS
@@ -1227,6 +1246,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Bereich" TO xp_user;
 CREATE TRIGGER "XP_Bereich_propagate_name" AFTER UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_child"();
 CREATE TRIGGER "XP_Bereich_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
+CREATE TRIGGER "XP_Bereich_has_update" BEFORE UPDATE ON "XP_Basisobjekte"."XP_Bereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."XP_Bereich_before_update"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Bereich_refScan"
