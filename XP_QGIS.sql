@@ -96,3 +96,36 @@ FROM "XP_Praesentationsobjekte"."XP_LTO" b
     JOIN "XP_Praesentationsobjekte"."XP_TPO_qv" p ON b.gid = p.gid;
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LTO_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_FPO_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_FPO_qv" AS
+SELECT p.*, b.position::geometry(MultiPolygon, 25832)
+FROM "XP_Praesentationsobjekte"."XP_FPO" b
+    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
+
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_FPO_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_LPO_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_LPO_qv" AS
+SELECT p.*, b.position::geometry(MultiLinestring, 25832)
+FROM "XP_Praesentationsobjekte"."XP_LPO" b
+    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
+
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_LPO_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "XP_Praesentationsobjekte"."XP_PPO_qv"
+-- -----------------------------------------------------
+
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_PPO_qv" AS
+SELECT p.*, b.position::geometry(MultiPoint, 25832)
+FROM "XP_Praesentationsobjekte"."XP_PPO" b
+    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
+
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PPO_qv" TO xp_gast;
