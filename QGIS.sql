@@ -102,10 +102,10 @@ GRANT EXECUTE ON FUNCTION "QGIS"."pruefe_Sperre"() TO xp_user;
 -- *****************************************************
 
 CREATE OR REPLACE FUNCTION "QGIS"."ObjektKopieren"(
-    quellschema varchar, 
-    quelltabelle varchar, 
-    gid bigint, 
-    zielschema varchar, 
+    quellschema varchar,
+    quelltabelle varchar,
+    gid bigint,
+    zielschema varchar,
     zieltabelle varchar)
 RETURNS integer -- 1 = Erfolg, 0 = Fehler
 AS
@@ -116,10 +116,10 @@ $BODY$
         rec record;
     BEGIN
         EXECUTE 'INSERT INTO ' || quote_ident(zielschema) || '.' || quote_ident(zieltabelle) ||
-                'SELECT position FROM ' || quote_ident(zielschema) || '.' || quote_ident(zieltabelle) || 
+                'SELECT position FROM ' || quote_ident(zielschema) || '.' || quote_ident(zieltabelle) ||
                 ' WHERE gid = ' || gid::varchar || ';';
-        
-    END; 
+
+    END;
 $BODY$
 LANGUAGE 'plpgsql' VOLATILE
 COST 100;
@@ -130,8 +130,8 @@ CREATE OR REPLACE FUNCTION "QGIS"."imp_create_xp_gid"(nspname character varying,
 $BODY$
 BEGIN
     EXECUTE 'ALTER TABLE ' ||
-        quote_ident(nspname) || '.' || quote_ident(relname) || 
-        ' ADD COLUMN IF NOT EXISTS xp_gid bigint;';
+        quote_ident(nspname) || '.' || quote_ident(relname) ||
+        ' ADD COLUMN xp_gid bigint;';
     RETURN 1;
 END;
 $BODY$
@@ -141,7 +141,7 @@ GRANT EXECUTE ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, characte
 COMMENT ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, character varying) IS 'Legt in der übergebenen Tabelle ein bigint-Feld xp_gid an; Funktion ist nötig, da der ALTER TABLE-Befehl aus QGIS selbst über QtSql nicht geht :-(';
 
 CREATE OR REPLACE FUNCTION "QGIS".imp_create_schema(
-	nspname character varying)
+    nspname character varying)
     RETURNS integer AS
 $BODY$
 BEGIN
@@ -186,9 +186,9 @@ CREATE INDEX "idx_fk_layer_XP_Bereich1_idx" ON "QGIS"."layer" ("XP_Bereich_gid")
 -- UNIQUE Indices, um den UNIQUE-Constraint auch bei XP_Bereich_gid = NULL sicherzustellen
 -- siehe http://stackoverflow.com/questions/8289100/create-unique-constraint-with-null-columns
 CREATE UNIQUE INDEX layer_3col_uni_idx ON "QGIS".layer (schemaname, tablename, "XP_Bereich_gid")
-	WHERE "XP_Bereich_gid" IS NOT NULL;
+    WHERE "XP_Bereich_gid" IS NOT NULL;
 CREATE UNIQUE INDEX layer_2col_uni_idx ON "QGIS".layer (schemaname, tablename)
-	WHERE "XP_Bereich_gid" IS NULL;
+    WHERE "XP_Bereich_gid" IS NULL;
 GRANT SELECT ON TABLE "QGIS"."layer" TO xp_gast;
 GRANT ALL ON TABLE "QGIS"."layer" TO xp_user;
 COMMENT ON TABLE  "QGIS"."layer" IS 'Layersteuerung für QGIS; für einzelne Layer kann ein Stil (qml-xml) definiert werden, der angewendet wird, wenn dieser Layer in diesen Bereich geladen wird. Die loadorder legt optional fest, in welcher Reihenfolge die Layer geladen werden sollen (wichtig bei sich überlagernden Polygonlayern). Unabhängig von den hier getroffenen Einstellungen wird ein Layer nur in einen Bereich geladen, wenn er dafür Objekte hat.';
