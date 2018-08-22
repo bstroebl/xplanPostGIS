@@ -140,6 +140,24 @@ COST 100;
 GRANT EXECUTE ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, character varying) TO xp_user;
 COMMENT ON FUNCTION "QGIS"."imp_create_xp_gid"(character varying, character varying) IS 'Legt in der übergebenen Tabelle ein bigint-Feld xp_gid an; Funktion ist nötig, da der ALTER TABLE-Befehl aus QGIS selbst über QtSql nicht geht :-(';
 
+CREATE OR REPLACE FUNCTION "QGIS".imp_create_schema(
+	nspname character varying)
+    RETURNS integer AS
+$BODY$
+BEGIN
+    EXECUTE 'DROP SCHEMA IF EXISTS ' ||
+        quote_ident(nspname) || ' CASCADE;';
+    EXECUTE 'CREATE SCHEMA ' ||
+        quote_ident(nspname) || ' ;';
+    RETURN 1;
+END;
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE
+COST 100;
+GRANT EXECUTE ON FUNCTION "QGIS".imp_create_schema(character varying) TO xp_user;
+COMMENT ON FUNCTION "QGIS".imp_create_schema(character varying)
+    IS 'Legt übergebenes Schema neu an; Funktion ist nötig, da der CREATE-Befehl aus QGIS selbst über QtSql nicht geht :-(';
+
 -- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************
