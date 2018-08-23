@@ -19,3 +19,6 @@ Dieses Projekt implementiert den Standard XPlanung 5.1. Die Vorgängerstandards 
 Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.1 erfolgt mit den Konvertierungsskripten 4zu5.sql und 50zu51.sql; für eine Umstellung von 5.0.1 auf 5.1 ist nur 50zu51.sql auszuführen.
 Dabei sollten die Skripte möglichst nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden, so dass leichter auf mögliche Fehler reagiert werden kann. Die Skripte sind zwar getestet aber in einer bestehenden Datenbank könnten Datensätze vorhanden sein, die andere Attribute belegen, als es die Testdatensätze des Authors tun.
 Vor der Ausführung der Konvertierungsskripte sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
+
+# Importfunktion des QGIS-Plugins
+Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen imp_create_schema und imp_create_xp_gid aus QGIS.sql vorhanden sein.
