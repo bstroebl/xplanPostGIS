@@ -21,4 +21,4 @@ Dabei sollten die Skripte möglichst nicht als ganzes, sondern jeder CR (ChangeR
 Vor der Ausführung der Konvertierungsskripte sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
 
 # Importfunktion des QGIS-Plugins
-Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen imp_create_schema und imp_create_xp_gid aus QGIS.sql vorhanden sein.
+Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen `imp_create_schema()`) und `imp_create_xp_gid()` aus QGIS.sql vorhanden sein.
