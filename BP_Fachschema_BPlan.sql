@@ -2746,7 +2746,6 @@ CREATE  TABLE  "BP_Sonstiges"."BP_Wegerecht" (
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_Wegerecht" TO bp_user;
-CREATE INDEX "idx_fk_BP_Wegerecht_typ" ON "BP_Sonstiges"."BP_Wegerecht" ("typ") ;
 COMMENT ON TABLE  "BP_Sonstiges"."BP_Wegerecht" IS 'Unverbindliche Vormerkung späterer Planungsabsichten.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_Wegerecht"."zugunstenVon" IS 'Inhaber der Rechte.';
