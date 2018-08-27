@@ -1690,12 +1690,12 @@ Jedem Stylesheet ist weiterhin eine Darstellungspriorität zugeordnet.
 Ausserdem kann ein Stylesheet logische Elemente enthalten, die die Visualisierung abhängig machen vom Wert des durch "art" definierten Attributes des Fachobjektes, das durch die Relation "dientZurDarstellungVon" referiert wird.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"."darstellungsprioritaet" IS 'Enthält die Darstellungspriorität für Elemente der Signatur. Eine vom Standardwert abweichende Priorität wird über dieses Attribut definiert und nicht über eine neue Signatur.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"."gehoertZuBereich" IS 'Relation zu XP_Bereich';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt"."gml_id" IS 'Eindeutiger Identifier des Objektes für Im- und Export.';
 CREATE INDEX "idx_fk_xp_abstraktespraesentationsobjekt_XP_Bereich1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_AbstraktesPraesentationsobjekt_xp_stylesheetliste1" ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("stylesheetId") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" TO xp_user;
-CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_Basisobjekte"."XP_AbstraktesPraesentationsobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
+CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."create_gml_id"();
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
