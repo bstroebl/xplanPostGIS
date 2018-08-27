@@ -276,10 +276,6 @@ DECLARE
     num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.name IS NULL THEN
-             new.name := 'XP_Plan ' || CAST(new.gid as varchar);
-        END IF;
-
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Plan_gid_seq"');
             num_parents := 0;
@@ -293,6 +289,10 @@ DECLARE
             ELSE
                 RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
+        END IF;
+
+        IF new.name IS NULL THEN
+             new.name := 'XP_Plan ' || CAST(new.gid as varchar);
         END IF;
 
         IF num_parents = 0 THEN
@@ -384,10 +384,6 @@ DECLARE
     num_parents integer;
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        IF new.name IS NULL THEN
-            new.name := 'XP_Bereich ' || CAST(new.gid as varchar);
-        END IF;
-
         IF new.gid IS NULL THEN
             new.gid := nextval('"XP_Basisobjekte"."XP_Bereich_gid_seq"');
             num_parents := 0;
@@ -401,6 +397,10 @@ DECLARE
             ELSE
                 RAISE WARNING 'Die gid sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
             END IF;
+        END IF;
+
+        IF new.name IS NULL THEN
+            new.name := 'XP_Bereich ' || CAST(new.gid as varchar);
         END IF;
 
         IF num_parents = 0 THEN
