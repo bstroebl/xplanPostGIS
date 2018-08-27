@@ -15,9 +15,7 @@ GRANT USAGE ON SCHEMA "QGIS" TO xp_gast;
 -- *****************************************************
 -- tabblefunc enthält crosstab für Views
 -- *****************************************************
-CREATE EXTENSION tablefunc
-  SCHEMA public
-  VERSION "1.0";
+CREATE EXTENSION tablefunc;
 
 -- *****************************************************
 -- CREATE Sequences
