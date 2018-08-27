@@ -52183,7 +52183,7 @@ INSERT INTO "QGIS".layer VALUES (224, 'XP_Praesentationsobjekte', 'XP_Nutzungssc
      <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
      <prop k="outline_width_unit" v="MM"/>
      <prop k="scale_method" v="diameter"/>
-     <prop k="size" v="20"/>
+     <prop k="size_dd_expression" v="20 *  &quot;skalierung&quot;"/>
      <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
      <prop k="size_unit" v="MapUnit"/>
      <prop k="vertical_anchor_point" v="1"/>
