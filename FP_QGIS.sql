@@ -22,7 +22,7 @@ SELECT b.gid ,
     b."versionBauGBDatum" ,
     b."versionBauGBText" ,
     b."gehoertZuPlan",
-    b"versionBauNVODatum" ,
+    b."versionBauNVODatum" ,
     b."versionSonstRechtsgrundlageDatum" ,
     b."versionSonstRechtsgrundlageText"
 FROM "FP_Basisobjekte"."FP_Bereich" b
