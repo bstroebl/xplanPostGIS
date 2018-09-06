@@ -15,10 +15,9 @@
  ************************************************************************* */
 
 -- *****************************************************
--- CREATE LANGUAGE Python2
+-- pgcrypto enthält einen uuid-Generator
 -- *****************************************************
-
-CREATE LANGUAGE plpython2u; -- auskommentieren, falls Python bereits installiert ist
+CREATE EXTENSION pgcrypto;
 
 -- *****************************************************
 -- CREATE SCHEMAS
@@ -85,16 +84,14 @@ COMMENT ON FUNCTION "XP_Basisobjekte".ensure_sequence(character varying, charact
 'Erzeugt Trigger, die für das PK-Feld den nächsten Wert aus der Sequenz vergeben und sicherstellen, dass der PK-Wert
 vom Nutzer nicht geändert werden kann.';
 
--- needs Python 2.5 or higher
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte".create_uuid()
   RETURNS character varying AS
 $BODY$
-    import uuid
-    return uuid.uuid1()
+BEGIN
+    return gen_random_uuid(); -- version 4 uuid
+END;
 $BODY$
-  LANGUAGE 'plpython2u' VOLATILE
-  -- sollte Python3 installiert sein, so ist anstelle dieser Zeile die folgende zu benutzen
-  -- LANGUAGE 'plpython3u' VOLATILE
+  LANGUAGE plpgsql VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
 
