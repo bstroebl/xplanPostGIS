@@ -16,3 +16,7 @@ $BODY$
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte".create_uuid() TO xp_user;
 
 DROP LANGUAGE plpython2u;
+
+-- vergrössere Felder, damit auch lange Tabellenamen reinpassen
+ALTER TABLE "QGIS"."layer" ALTER COLUMN schemaname character varying (256);
+ALTER TABLE "QGIS"."layer" ALTER COLUMN tablename character varying (256);

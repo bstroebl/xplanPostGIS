@@ -168,8 +168,8 @@ COMMENT ON FUNCTION "QGIS".imp_create_schema(character varying,integer)
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."layer" (
   "id" INTEGER NOT NULL ,
-  "schemaname" VARCHAR(45) NOT NULL ,
-  "tablename" VARCHAR(45) NOT NULL ,
+  "schemaname" VARCHAR(256) NOT NULL ,
+  "tablename" VARCHAR(256) NOT NULL ,
   "style" TEXT NOT NULL ,
   "XP_Bereich_gid" BIGINT NULL ,
   "loadorder" INTEGER NULL,
