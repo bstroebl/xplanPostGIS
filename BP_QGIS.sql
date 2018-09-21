@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ************************************************************************* */
- 
+
 -- *****************************************************
 -- CREATE Views für BP
 -- *****************************************************
@@ -40,9 +40,9 @@ SELECT b.gid ,
     b."versionBauGBText" ,
     b."versionSonstRechtsgrundlageDatum" ,
     b."versionSonstRechtsgrundlageText" ,
-    b."gehoertZuPlan" 
-	FROM "BP_Basisobjekte"."BP_Bereich" b
-	JOIN "BP_Basisobjekte"."BP_Plan" p ON b."gehoertZuPlan" = p.gid;
+    b."gehoertZuPlan"
+    FROM "BP_Basisobjekte"."BP_Bereich" b
+    JOIN "BP_Basisobjekte"."BP_Plan" p ON b."gehoertZuPlan" = p.gid;
 GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich_qv" TO xp_gast;
 
 -- -----------------------------------------------------
@@ -359,3 +359,13 @@ SELECT g.gid,g.position,p.typ
  "BP_Verkehr"."BP_Strassenkoerper" p
  ON g.gid=p.gid;
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenkoerperPunkt_qv" TO xp_gast;
+
+-- -----------------------------------------------------
+-- View "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" AS
+ SELECT g.gid, g.position,zweckbestimmung
+ FROM
+ "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" g
+ JOIN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" p ON g.gid = p.gid;
+ GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" TO xp_gast;
