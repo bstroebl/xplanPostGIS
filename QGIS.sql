@@ -167,7 +167,7 @@ COMMENT ON FUNCTION "QGIS".imp_create_schema(character varying,integer)
 -- Table "QGIS"."layer"
 -- -----------------------------------------------------
 CREATE  TABLE  "QGIS"."layer" (
-  "id" INTEGER NOT NULL ,
+  "id" INTEGER NOT NULL DEFAULT nextval('"QGIS"."layer_id_seq"'),
   "schemaname" VARCHAR(256) NOT NULL ,
   "tablename" VARCHAR(256) NOT NULL ,
   "style" TEXT NOT NULL ,
