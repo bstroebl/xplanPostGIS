@@ -671,3 +671,18 @@ COMMENT ON COLUMN "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Aufschuettung".
 -- CR 056
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1500, 'Rekultivierungsflaeche');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1600, 'Renaturierungsflaeche');
+
+-- Korrekturen Datenmodell Version 5.1.1
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+-- BP_ZweckbestimmungStrassenverkehr 1000 -> Parkplatz bereits implementiert
+
+-- Korrekturen Objektartenkatalog Version 5.1.1
+COMMENT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze. Die Klasse wird als veraltet gekennzeichnet und wird in XPlanGML V. 6.0 wegfallen. Es sollte stattdessen die Klasse FP_Abgrabung verwendet werden.';
+-- Korrektur gehoertZuBereich: Attribut in *_Bereich Klassen nicht vorhanden -> unklar
+COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" IS 'Umgrenzung von Flächen für Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9 Abs. 1 Nr. 20 und Abs. 6 BauGB)';
+COMMENT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" IS 'Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9 Abs. 1 Nr. 20 und Abs. 6 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Sondergebieten nach BauNVO 1977 oder 1000 (besondereArtDerBaulNutzung == 2000 oder 2100): Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
+
+-- Korrekturen Datenmodell Version 5.1.2
+-- bereits implementiert

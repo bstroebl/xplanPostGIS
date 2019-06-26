@@ -2180,7 +2180,7 @@ CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsFlaeche_refMassnahmenText" ON "B
 CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsFlaeche_refLandschaftsplan" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" ("refLandschaftsplan") ;
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" TO bp_user;
-COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
+COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche" IS 'Umgrenzung von Flächen für Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9 Abs. 1 Nr. 20 und Abs. 6 BauGB)';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
@@ -2247,7 +2247,7 @@ CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsMassnahme_refMassnahmenText" ON 
 CREATE INDEX "idx_fk_BP_SchutzPflegeEntwicklungsMassnahme_refLandschaftsplan" ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" ("refLandschaftsplan") ;
 GRANT SELECT ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" TO xp_gast;
 GRANT ALL ON TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" TO bp_user;
-COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
+COMMENT ON TABLE  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme" IS 'Maßnahmen zum Schutz, zur Pflege und zur Entwicklung von Natur und Landschaft (§9 Abs. 1 Nr. 20 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
 COMMENT ON COLUMN "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_SchutzPflegeEntwicklungsMassnahme"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
@@ -3264,9 +3264,9 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt" IS '';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Nutzungsform "Sondergebiet": Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Sondergebieten nach BauNVO 1977 oder 1000 (besondereArtDerBaulNutzung == 2000 oder 2100): Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
+COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
 CREATE TRIGGER "change_to_BP_BaugebietObjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -4853,6 +4853,7 @@ INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4100', 'GehLeitungsrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('4200', 'FahrLeitungsrecht');
 INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('5000', 'GehFahrLeitungsrecht');
+INSERT INTO "BP_Sonstiges"."BP_WegerechtTypen" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Bebauung"."BP_Bauweise"

@@ -2563,7 +2563,7 @@ CREATE  TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" (
 
 GRANT SELECT ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO xp_gast;
 GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" TO fp_user;
-COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze.';
+COMMENT ON TABLE  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" IS 'Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Bodenschätzen (§5, Abs. 2, Nr. 8 BauGB. Hier: Flächen für Bodenschätze. Die Klasse wird als veraltet gekennzeichnet und wird in XPlanGML V. 6.0 wegfallen. Es sollte stattdessen die Klasse FP_Abgrabung verwendet werden.';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze"."abbaugut" IS 'Bezeichnung des Abbauguts.';
 CREATE TRIGGER "change_to_FP_Bodenschaetze" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_Bodenschaetze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
