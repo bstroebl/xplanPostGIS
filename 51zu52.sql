@@ -1,7 +1,7 @@
--- Umstellung von XPlan 5.1 auf ?
--- Änderngen in der DB
+-- Umstellung von XPlan 5.1 auf 5.2
+-- Änderungen in der DB
 
--- Umsellen des UUID-Generators von Python auf eine in einer Extension entahltenen Funktion
+-- Umstellen des UUID-Generators von Python auf eine in einer Extension enthaltenen Funktion
 CREATE EXTENSION pgcrypto;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte".create_uuid()
