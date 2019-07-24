@@ -1541,7 +1541,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_TextAbschnitt" (
   "id" INTEGER NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_TextAbschnitt_id_seq"'),
   "schluessel" VARCHAR(255) NULL ,
   "gesetzlicheGrundlage" VARCHAR(255) NULL ,
-  "text" VARCHAR(1024) NULL ,
+  "text" text NULL,
   "refText" INTEGER NULL ,
   "gml_id" VARCHAR(64) NULL ,
   PRIMARY KEY ("id") ,
