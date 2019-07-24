@@ -4018,15 +4018,31 @@ CREATE TRIGGER "delete_BP_UeberbaubareGrundstuecksFlaeche" AFTER DELETE ON "BP_B
 CREATE TRIGGER "ueberlagerung_BP_UeberbaubareGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche"
 -- -----------------------------------------------------
 CREATE TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" (
   "gid" BIGINT NOT NULL,
+  "nutzung" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_NichtUeberbaubareGrundstuecksflaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_NichtUeberbaubareGrundstuecksflaeche_nutzung"
+    FOREIGN KEY ("nutzung")
+    REFERENCES "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 

@@ -671,3 +671,39 @@ def my_form_open(dialog, layer, feature):
 
 -- CR 001
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3000, 'GeneigtesDach');
+
+-- CR 009
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" TO xp_gast;
+
+ALTER TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" ADD COLUMN "nutzung" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" ADD CONSTRAINT "fk_BP_NichtUeberbaubareGrundstuecksflaeche_nutzung"
+    FOREIGN KEY ("nutzung")
+    REFERENCES "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
