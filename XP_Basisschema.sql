@@ -1163,7 +1163,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan" (
   "name" VARCHAR(256) NOT NULL ,
   "nummer" VARCHAR(16) NULL ,
   "internalId" VARCHAR(255) NULL ,
-  "beschreibung" VARCHAR(255) NULL ,
+  "beschreibung" text NULL ,
   "kommentar" VARCHAR(1028) NULL ,
   "technHerstellDatum" DATE NULL ,
   "genehmigungsDatum" DATE NULL ,
