@@ -4886,6 +4886,7 @@ INSERT INTO "BP_Bebauung"."BP_GrenzBebauung" ("Code", "Bezeichner") VALUES (3000
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (1000, 'Flachdach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (2100, 'Pultdach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (2200, 'Versetztes Pultdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3000, 'GeneigtesDach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3100, 'Satteldach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3200, 'Walmdach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3300, 'Krüppelwalmdach');

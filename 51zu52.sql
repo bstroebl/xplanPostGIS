@@ -668,3 +668,6 @@ def my_form_open(dialog, layer, feature):
  </defaults>
  <previewExpression></previewExpression>
 </qgis>');
+
+-- CR 001
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3000, 'GeneigtesDach');
