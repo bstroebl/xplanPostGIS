@@ -873,6 +873,28 @@ CREATE TRIGGER "change_to_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" BEFO
 CREATE TRIGGER "delete_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
+-- CR 012
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_Sichtflaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_Sichtflaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_Sichtflaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" TO bp_user;
+CREATE INDEX "BP_Sichtflaeche_gidx" ON "BP_Sonstiges"."BP_Sichtflaeche" using gist ("position");
+COMMENT ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" IS 'Flächenhafte Festlegung einer Sichtfläche';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_Sichtflaeche" AFTER DELETE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 
 
