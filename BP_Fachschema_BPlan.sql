@@ -1757,13 +1757,40 @@ CREATE TRIGGER "change_to_BP_HoehenMassPunkt" BEFORE INSERT OR UPDATE ON "BP_Son
 CREATE TRIGGER "delete_BP_HoehenMassPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_HoehenMassPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "BP_Basisobjekte"."BP_Laermpegelbereich"
+-- Table "BP_Umwelt"."BP_Laermpegelbereich"
 -- -----------------------------------------------------
-CREATE  TABLE  "BP_Basisobjekte"."BP_Laermpegelbereich" (
+CREATE TABLE "BP_Umwelt"."BP_Laermpegelbereich" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON "BP_Basisobjekte"."BP_Laermpegelbereich" TO xp_gast;
+GRANT SELECT ON "BP_Umwelt"."BP_Laermpegelbereich" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "BP_Umwelt"."BP_ImmissionsschutzTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Umwelt"."BP_ImmissionsschutzTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Umwelt"."BP_ImmissionsschutzTypen" TO xp_gast;
 
 -- -----------------------------------------------------
 -- Table "BP_Umwelt"."BP_Immissionsschutz"
@@ -1772,6 +1799,9 @@ CREATE  TABLE  "BP_Umwelt"."BP_Immissionsschutz" (
   "gid" BIGINT NOT NULL ,
   "nutzung" CHARACTER VARYING (256),
   "laermpegelbereich" INTEGER,
+  "technVorkehrung" INTEGER,
+  "detaillierteTechnVorkehrung" INTEGER,
+  "typ" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_Immissionsschutz_parent"
     FOREIGN KEY ("gid" )
@@ -1780,7 +1810,22 @@ CREATE  TABLE  "BP_Umwelt"."BP_Immissionsschutz" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_Immissionsschutz_BP_Laermpegelbereich1"
     FOREIGN KEY ("laermpegelbereich")
-    REFERENCES "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code")
+    REFERENCES "BP_Umwelt"."BP_Laermpegelbereich" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Immissionsschutz_BP_TechnVorkehrungenImmissionsschutz1"
+    FOREIGN KEY ("technVorkehrung")
+    REFERENCES "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Immissionsschutz_BP_DetailTechnVorkehrung1"
+    FOREIGN KEY ("detaillierteTechnVorkehrung")
+    REFERENCES "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Immissionsschutz_BP_ImmissionsschutzTypen1"
+    FOREIGN KEY ("typ")
+    REFERENCES "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -1790,6 +1835,9 @@ COMMENT ON TABLE  "BP_Umwelt"."BP_Immissionsschutz" IS 'Festsetzung einer von de
 COMMENT ON COLUMN  "BP_Umwelt"."BP_Immissionsschutz"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_Immissionsschutz"."nutzung" IS 'Festgesetzte Nutzung einer Schutzfläche';
 COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."laermpegelbereich" IS 'FFestlegung der erforderlichen Luftschalldämmung von Außenbauteilen nach DIN 4109.';
+COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."technVorkehrung" IS 'Klassifizierung der auf der Fläche zu treffenden baulichen oder sonstigen technischen Vorkehrungen';
+COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."detaillierteTechnVorkehrung" IS 'Detaillierte Klassifizierung der auf der Fläche zu treffenden baulichen oder sonstigen technischen Vorkehrungen';
+COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."typ" IS 'Differenzierung der Immissionsschutz-Fläche';
 CREATE TRIGGER "change_to_BP_Immissionsschutz" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_Immissionsschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Immissionsschutz" AFTER DELETE ON "BP_Umwelt"."BP_Immissionsschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -5140,10 +5188,26 @@ INSERT INTO "BP_Umwelt"."BP_ZweckbestimmungenTMF" ("Code", "Bezeichner") VALUES 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Laermpegelbereich"
 -- -----------------------------------------------------
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1000, 'I');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1100, 'II');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1200, 'III');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1300, 'IV');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1400, 'V');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1500, 'VI');
-INSERT INTO "BP_Basisobjekte"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1600, 'VII');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1000, 'I');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1100, 'II');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1200, 'III');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1300, 'IV');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1400, 'V');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1500, 'VI');
+INSERT INTO "BP_Umwelt"."BP_Laermpegelbereich" ("Code", "Bezeichner") VALUES (1600, 'VII');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Basisobjekte"."BP_TechnVorkehrungenImmissionsschutz"
+-- -----------------------------------------------------
+INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeichner") VALUES (1000, 'Laermschutzvorkehrung');
+INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeichner") VALUES (10000, 'FassadenMitSchallschutzmassnahmen');
+INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeichner") VALUES (10001, 'Laermschutzwand');
+INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeichner") VALUES (10002, 'Laermschutzwall');
+INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeichner") VALUES (9999, 'SonstigeVorkehrung');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Basisobjekte"."BP_ImmissionsschutzTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (1000, 'Schutzflaeche');
+INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (2000, 'BesondereAnlagenVorkehrungen');
+
