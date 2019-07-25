@@ -1009,7 +1009,8 @@ ALTER TABLE  "RP_Basisobjekte"."RP_Plan" ADD CONSTRAINT "fk_rp_plan_rp_verfahren
     ON UPDATE CASCADE;
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."verfahren" IS 'Verfahrensstatus des Plans.';
 
-
+-- CR 016
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
 
 
 
