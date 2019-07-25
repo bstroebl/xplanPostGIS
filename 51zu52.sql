@@ -977,7 +977,9 @@ COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."technVorkehrung" IS 'Klassi
 COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."detaillierteTechnVorkehrung" IS 'Detaillierte Klassifizierung der auf der Fläche zu treffenden baulichen oder sonstigen technischen Vorkehrungen';
 COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."typ" IS 'Differenzierung der Immissionsschutz-Fläche';
 
-
+-- CR 014
+ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "amtlicherSchluessel" VARCHAR(256);
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."amtlicherSchluessel" IS 'Amtlicher Schlüssel eines Plans auf Basis des AGS-Schlüssels (Amtlicher Gemeindeschlüssel).';
 
 
 
