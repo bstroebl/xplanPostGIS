@@ -1904,6 +1904,8 @@ CREATE TRIGGER "delete_BP_ImmissionsschutzPunkt" AFTER DELETE ON "BP_Umwelt"."BP
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_KennzeichnungsFlaeche" (
   "gid" BIGINT NOT NULL ,
+  "istVerdachtsflaeche" BOOLEAN,
+  "nummer" CHARACTER VARYING(256),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_KennzeichnungsFlaeche_parent"
     FOREIGN KEY ("gid" )
@@ -1917,6 +1919,8 @@ GRANT ALL ON TABLE "BP_Sonstiges"."BP_KennzeichnungsFlaeche" TO bp_user;
 CREATE INDEX "BP_KennzeichnungsFlaeche_gidx" ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" using gist ("position");
 COMMENT ON TABLE  "BP_Sonstiges"."BP_KennzeichnungsFlaeche" IS 'Flächen für Kennzeichnungen gemäß §9 Abs. 5 BauGB.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."istVerdachtsflaeche" IS 'Legt fest, ob eine Altlast-Verdachtsfläche vorliegt';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."nummer" IS 'Nummer im Altlastkataster';
 CREATE TRIGGER "change_to_BP_KennzeichnungsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_KennzeichnungsFlaeche" AFTER DELETE ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_KennzeichnungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_KennzeichnungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();

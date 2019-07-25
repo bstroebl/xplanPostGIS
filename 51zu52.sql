@@ -1012,8 +1012,19 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."verfahren" IS 'Verfahrensstatus d
 -- CR 016
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
 
-
-
+-- CR 017
+-- BP
+ALTER TABLE "BP_Sonstiges"."BP_KennzeichnungsFlaeche" ADD COLUMN "istVerdachtsflaeche" BOOLEAN;
+ALTER TABLE "BP_Sonstiges"."BP_KennzeichnungsFlaeche" ADD COLUMN "nummer" CHARACTER VARYING(256);
+COMMENT ON COLUMN "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."istVerdachtsflaeche" IS 'Legt fest, ob eine Altlast-Verdachtsfläche vorliegt';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_KennzeichnungsFlaeche"."nummer" IS 'Nummer im Altlastkataster';
+-- FP
+ALTER TABLE "FP_Sonstiges"."FP_Kennzeichnung" ADD COLUMN "istVerdachtsflaeche" BOOLEAN;
+ALTER TABLE "FP_Sonstiges"."FP_Kennzeichnung" ADD COLUMN "nummer" CHARACTER VARYING(256);
+COMMENT ON COLUMN "FP_Sonstiges"."FP_Kennzeichnung"."istVerdachtsflaeche" IS 'Legt fest, ob eine Altlast-Verdachtsfläche vorliegt';
+COMMENT ON COLUMN "FP_Sonstiges"."FP_Kennzeichnung"."nummer" IS 'Nummer im Altlastkataster';
+-- SO
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung bzw. Nummer in einem Altlast-Kataster.';
 
 
 

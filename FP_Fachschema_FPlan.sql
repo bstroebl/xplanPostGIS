@@ -1574,6 +1574,8 @@ CREATE TRIGGER "delete_FP_GenerischesObjektPunkt" AFTER DELETE ON "FP_Sonstiges"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Sonstiges"."FP_Kennzeichnung" (
   "gid" BIGINT NOT NULL ,
+  "istVerdachtsflaeche" BOOLEAN,
+  "nummer" CHARACTER VARYING(256),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_Kennzeichnung_parent"
     FOREIGN KEY ("gid" )
@@ -1585,6 +1587,8 @@ GRANT SELECT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" TO fp_user;
 COMMENT ON TABLE "FP_Sonstiges"."FP_Kennzeichnung" IS 'Kennzeichnungen gemäß §5 Abs. 3 BauGB.';
 COMMENT ON COLUMN  "FP_Sonstiges"."FP_Kennzeichnung"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "FP_Sonstiges"."FP_Kennzeichnung"."istVerdachtsflaeche" IS 'Legt fest, ob eine Altlast-Verdachtsfläche vorliegt';
+COMMENT ON COLUMN "FP_Sonstiges"."FP_Kennzeichnung"."nummer" IS 'Nummer im Altlastkataster';
 CREATE TRIGGER "change_to_FP_Kennzeichnung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_Kennzeichnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_Kennzeichnung" AFTER DELETE ON "FP_Sonstiges"."FP_Kennzeichnung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 

@@ -1554,7 +1554,7 @@ COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."artDerFe
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."istVerdachtsflaeche" IS 'Angabe ob es sich um eine Verdachtsfläche handelt.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
-COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung bzw. Nummer in einem Altlast-Kataster.';
 CREATE TRIGGER "change_to_SO_Bodenschutzrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_Bodenschutzrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
