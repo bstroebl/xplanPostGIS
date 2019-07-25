@@ -981,10 +981,33 @@ COMMENT ON COLUMN "BP_Umwelt"."BP_Immissionsschutz"."typ" IS 'Differenzierung de
 ALTER TABLE "RP_Basisobjekte"."RP_Plan" ADD COLUMN "amtlicherSchluessel" VARCHAR(256);
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."amtlicherSchluessel" IS 'Amtlicher Schlüssel eines Plans auf Basis des AGS-Schlüssels (Amtlicher Gemeindeschlüssel).';
 
-
-
-
-
+-- CR 015
+-- von 4 auf 5.0 wurde RP_Plan um das Attribut verfahren erweitert, dies ist in der DB bisher noch nicht nachvollzogen
+-- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Verfahren"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Verfahren" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "RP_Basisobjekte"."RP_Verfahren" TO xp_gast;
+-- -----------------------------------------------------
+-- Data for table "RP_Basisobjekte"."RP_Verfahren"
+-- -----------------------------------------------------
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (1000, 'Aenderung');
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (2000, 'Teilfortschreibung');
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (3000, 'Neuaufstellung');
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (4000, 'Gesamtfortschreibung');
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (5000, 'Aktualisierung');
+INSERT INTO "RP_Basisobjekte"."RP_Verfahren" ("Code", "Bezeichner") VALUES (6000, 'Neubekanntmachung');
+-- RP_Plan ändern
+ALTER TABLE  "RP_Basisobjekte"."RP_Plan" ADD COLUMN "verfahren" INTEGER;
+ALTER TABLE  "RP_Basisobjekte"."RP_Plan" ADD CONSTRAINT "fk_rp_plan_rp_verfahren1"
+    FOREIGN KEY ("verfahren" )
+    REFERENCES "RP_Basisobjekte"."RP_Verfahren" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."verfahren" IS 'Verfahrensstatus des Plans.';
 
 
 

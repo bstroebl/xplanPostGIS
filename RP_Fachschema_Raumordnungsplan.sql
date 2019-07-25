@@ -101,6 +101,15 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Rechtsstand" (
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Rechtsstand" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "RP_Basisobjekte"."RP_Verfahren"
+-- -----------------------------------------------------
+CREATE TABLE "RP_Basisobjekte"."RP_Verfahren" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "RP_Basisobjekte"."RP_Verfahren" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Plan"
 -- -----------------------------------------------------
 CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
@@ -123,6 +132,7 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
   "datumDesInkrafttretens" DATE NULL ,
   "genehmigungsbehoerde" VARCHAR(256),
   "amtlicherSchluessel" VARCHAR(256),
+  "verfahren" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_rp_plan_rp_planart1"
     FOREIGN KEY ("planArt" )
@@ -142,6 +152,11 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Plan" (
   CONSTRAINT "fk_rp_plan_rp_rechtsstand1"
     FOREIGN KEY ("rechtsstand" )
     REFERENCES "RP_Basisobjekte"."RP_Rechtsstand" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_rp_plan_rp_verfahren1"
+    FOREIGN KEY ("verfahren" )
+    REFERENCES "RP_Basisobjekte"."RP_Verfahren" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich");
@@ -173,6 +188,7 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."planbeschlussDatum" IS 'Datum des
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."datumDesInkrafttretens" IS 'Datum des Inkrafttretens des Plans.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."genehmigungsbehoerde" IS 'Zuständige Genehmigungsbehörde';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."amtlicherSchluessel" IS 'Amtlicher Schlüssel eines Plans auf Basis des AGS-Schlüssels (Amtlicher Gemeindeschlüssel).';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Plan"."verfahren" IS 'Verfahrensstatus des Plans.';
 CREATE TRIGGER "change_to_RP_Plan" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_RP_Plan" AFTER DELETE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "RP_Plan_propagate_name" AFTER UPDATE ON "RP_Basisobjekte"."RP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
