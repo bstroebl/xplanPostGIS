@@ -829,7 +829,49 @@ COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bauweise" I
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise" ("bauweise" == 3000).';
 
+-- CR 011
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_AbweichungVonBaugrenze"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_AbweichungVonBaugrenze" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_AbweichungVonBaugrenze_parent0"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Linienobjekt");
 
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_AbweichungVonBaugrenze" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_AbweichungVonBaugrenze" TO bp_user;
+CREATE INDEX "BP_AbweichungVonBaugrenze_gidx" ON "BP_Bebauung"."BP_AbweichungVonBaugrenze" using gist ("position");
+COMMENT ON TABLE "BP_Bebauung"."BP_AbweichungVonBaugrenze" IS 'Linienhafte Festlegung des Umfangs der Abweichung von der Baugrenze (§23 Abs. 3 Satz 3 BauNVO).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_AbweichungVonBaugrenze"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_AbweichungVonBaugrenze" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbweichungVonBaugrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_AbweichungVonBaugrenze" AFTER DELETE ON "BP_Bebauung"."BP_AbweichungVonBaugrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" TO bp_user;
+CREATE INDEX "BP_AbweichungVonUeberbaubererGrundstuecksFlaeche_gidx" ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" using gist ("position");
+COMMENT ON TABLE "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" IS 'Flächenhafte Festlegung des Umfangs der Abweichung von der überbaubaren Grundstücksfläche (§23 Abs. 3 Satz 3 BauNVO).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "ueberlagerung_BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbweichungVonUeberbaubererGrundstuecksFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 
 
