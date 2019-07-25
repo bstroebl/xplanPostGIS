@@ -762,6 +762,73 @@ ALTER TABLE "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche" ADD CONSTRAI
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
 
+-- CR 010
+-- Nacharbeit für BP_UeberbaubareGrundstuecksFlaeche, hätte bereits zu 5.0 geändert werden müssen
+ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise" DISABLE TRIGGER "change_to_BP_BaugebietBauweise";
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" DROP CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent";
+INSERT INTO "BP_Bebauung"."BP_BaugebietBauweise"(gid) SELECT gid FROM "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche";
+ALTER TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" ADD CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietBauweise" ENABLE TRIGGER "change_to_BP_BaugebietBauweise";
+
+-- BP_GemeinbedarfsFlaeche
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD COLUMN "bauweise" INTEGER;
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD COLUMN "bebauungsArt" INTEGER;
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD COLUMN "abweichendeBauweise" INTEGER;
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise" ("bauweise" == 3000).';
+ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" DISABLE TRIGGER "change_to_BP_GestaltungBaugebiet";
+INSERT INTO "BP_Bebauung"."BP_GestaltungBaugebiet"(gid) SELECT gid FROM "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche";
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" DROP CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_parent";
+ALTER TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ADD CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_GestaltungBaugebiet" ENABLE TRIGGER "change_to_BP_GestaltungBaugebiet";
+
+-- BP_BesondererNutzungszweckFlaeche
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD COLUMN "bauweise" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD COLUMN "bebauungsArt" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD COLUMN "abweichendeBauweise" INTEGER;
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" ADD CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise" ("bauweise" == 3000).';
+
 
 
 

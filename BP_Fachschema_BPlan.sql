@@ -3368,11 +3368,29 @@ CREATE TRIGGER "delete_BP_BauLinie" AFTER DELETE ON "BP_Bebauung"."BP_BauLinie" 
 CREATE TABLE  "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" (
   "gid" BIGINT NOT NULL,
   "zweckbestimmung" VARCHAR(256),
+  "bauweise" INTEGER,
+  "bebauungsArt" INTEGER,
+  "abweichendeBauweise" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BesondererNutzungszweckFlaeche_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -3382,6 +3400,9 @@ CREATE INDEX "BP_BesondererNutzungszweckFlaeche_gidx" ON "BP_Bebauung"."BP_Beson
 COMMENT ON TABLE  "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" IS 'Festsetzung einer Fläche mit besonderem Nutzungszweck, der durch besondere städtebauliche Gründe erfordert wird (§9 Abs. 1 Nr. 9 BauGB.)';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."zweckbestimmung" IS 'Angabe des besonderen Nutzungszwecks';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise" ("bauweise" == 3000).';
 CREATE TRIGGER "change_to_BP_BesondererNutzungszweckFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BesondererNutzungszweckFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_BesondererNutzungszweckFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BesondererNutzungszweckFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
@@ -3990,7 +4011,7 @@ CREATE TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" (
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
+    REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_UeberbaubareGrundstuecksFlaeche_BP_Zulaessigkeit"
@@ -4135,11 +4156,29 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche_baugrenze" I
 CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" (
   "gid" BIGINT NOT NULL,
   "zugunstenVon" VARCHAR(64),
+  "bauweise" INTEGER,
+  "bebauungsArt" INTEGER,
+  "abweichendeBauweise" INTEGER,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_FestsetzungenBaugebiet" ("gid")
+    REFERENCES "BP_Bebauung"."BP_GestaltungBaugebiet" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_Bauweise1"
+    FOREIGN KEY ("bauweise")
+    REFERENCES "BP_Bebauung"."BP_Bauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_AbweichendeBauweise1"
+    FOREIGN KEY ("abweichendeBauweise")
+    REFERENCES "BP_Bebauung"."BP_AbweichendeBauweise" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_BP_BebauungsArt1"
+    FOREIGN KEY ("bebauungsArt")
+    REFERENCES "BP_Bebauung"."BP_BebauungsArt" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -4149,6 +4188,9 @@ CREATE INDEX "BP_GemeinbedarfsFlaeche_gidx" ON "BP_Gemeinbedarf_Spiel_und_Sporta
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" IS 'Einrichtungen und Anlagen zur Versorgung mit Gütern und Dienstleistungen des öffentlichen und privaten Bereichs, hier Flächen für den Gemeindebedarf (§9, Abs. 1, Nr.5 und Abs. 6 BauGB).';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."zugunstenVon" IS 'Angabe des Begünstigten einer Ausweisung.';
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."bauweise" IS 'Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."bebauungsArt" IS 'Detaillierte Festsetzung der Bauweise (§9, Abs. 1, Nr. 2 BauGB).';
+COMMENT ON COLUMN "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche"."abweichendeBauweise" IS 'Nähere Bezeichnung einer "Abweichenden Bauweise" ("bauweise" == 3000).';
 CREATE TRIGGER "change_to_BP_GemeinbedarfsFlaeche" BEFORE INSERT OR UPDATE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_GemeinbedarfsFlaeche" AFTER DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_BP_GemeinbedarfsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
