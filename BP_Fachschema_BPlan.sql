@@ -3284,67 +3284,41 @@ CREATE TRIGGER "change_to_BP_BaugebietBauweise" BEFORE INSERT OR UPDATE ON "BP_B
 CREATE TRIGGER "delete_BP_BaugebietBauweise" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
--- Table "BP_Bebauung"."BP_BaugebietObjekt"
+-- Table "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"
 -- -----------------------------------------------------
-CREATE TABLE  "BP_Bebauung"."BP_BaugebietObjekt" (
+CREATE TABLE "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" (
   "gid" BIGINT NOT NULL,
-  "allgArtDerBaulNutzung" INTEGER,
-  "besondereArtDerBaulNutzung" INTEGER,
-  "sondernutzung" INTEGER,
-  "detaillierteArtDerBaulNutzung" INTEGER,
-  "nutzungText" VARCHAR(256),
-  "abweichungBauNVO" INTEGER,
-  "zugunstenVon" VARCHAR(64),
+  "wohnnutzungEGStrasse" INTEGER,
+  "ZWohn" INTEGER,
+  "GFAntWohnen" INTEGER,
+  "GFWohnen" INTEGER,
+  "GFAntGewerbe" INTEGER,
+  "GFGewerbe" INTEGER,
+  "VF" INTEGER,
   PRIMARY KEY ("gid"),
-  CONSTRAINT "fk_BP_Baugebiet_parent"
+  CONSTRAINT "fk_BP_ZusaetzlicheFestsetzungen_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Bebauung"."BP_BaugebietBauweise" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1"
-    FOREIGN KEY ("allgArtDerBaulNutzung")
-    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1"
-    FOREIGN KEY ("besondereArtDerBaulNutzung")
-    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_Sondernutzungen1"
-    FOREIGN KEY ("sondernutzung")
-    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1"
-    FOREIGN KEY ("detaillierteArtDerBaulNutzung")
-    REFERENCES "BP_Bebauung"."BP_DetailArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1"
-    FOREIGN KEY ("abweichungBauNVO")
-    REFERENCES "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code")
+  CONSTRAINT "fk_BP_ZusaetzlicheFestsetzungen_BP_Zulaessigkeit"
+    FOREIGN KEY ("wohnnutzungEGStrasse")
+    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("allgArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("besondereArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_Sondernutzungen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("sondernutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("detaillierteArtDerBaulNutzung");
-CREATE INDEX "idx_fk_BP_Baugebiet_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietObjekt" ("abweichungBauNVO");
-GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO xp_gast;
-GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietObjekt" TO bp_user;
-COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietObjekt" IS '';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietObjekt"."sondernutzung" IS 'Bei Sondergebieten nach BauNVO 1977 oder 1000 (besondereArtDerBaulNutzung == 2000 oder 2100): Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
-COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietObjekt"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
-CREATE TRIGGER "change_to_BP_BaugebietObjekt" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
-CREATE TRIGGER "delete_BP_BaugebietObjekt" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietObjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" TO bp_user;
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen"."VF" IS 'Festsetzung der maximal zulässigen Verkaufsfläche in einem Sondergebiet';
+CREATE TRIGGER "change_to_BP_ZusaetzlicheFestsetzungen" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZusaetzlicheFestsetzungen" AFTER DELETE ON "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt"
@@ -3375,21 +3349,42 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietBauweise_refGebauedequerschnitt" IS
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" (
   "gid" BIGINT NOT NULL,
-  "wohnnutzungEGStrasse" INTEGER,
-  "ZWohn" INTEGER,
-  "GFAntWohnen" INTEGER,
-  "GFWohnen" INTEGER,
-  "GFAntGewerbe" INTEGER,
-  "GFGewerbe" INTEGER,
+  "allgArtDerBaulNutzung" INTEGER,
+  "besondereArtDerBaulNutzung" INTEGER,
+  "sondernutzung" INTEGER,
+  "detaillierteArtDerBaulNutzung" INTEGER,
+  "nutzungText" VARCHAR(256),
+  "abweichungBauNVO" INTEGER,
+  "zugunstenVon" VARCHAR(64),
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_parent"
     FOREIGN KEY ("gid")
-    REFERENCES "BP_Bebauung"."BP_BaugebietObjekt" ("gid")
+    REFERENCES "BP_Bebauung"."BP_ZusaetzlicheFestsetzungen" ("gid")
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_BP_Zulaessigkeit"
-    FOREIGN KEY ("wohnnutzungEGStrasse")
-    REFERENCES "BP_Bebauung"."BP_Zulaessigkeit" ("Code")
+  CONSTRAINT "fk_BP_BaugebietsTF_XP_AllgArtDerBaulNutzung1"
+    FOREIGN KEY ("allgArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_AllgArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTF_XP_BesondereArtDerBaulNutzung1"
+    FOREIGN KEY ("besondereArtDerBaulNutzung")
+    REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTF_XP_Sondernutzungen1"
+    FOREIGN KEY ("sondernutzung")
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTF_BP_DetailArtDerBaulNutzung1"
+    FOREIGN KEY ("detaillierteArtDerBaulNutzung")
+    REFERENCES "BP_Bebauung"."BP_DetailArtDerBaulNutzung" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTF_XP_AbweichungBauNVOTypen1"
+    FOREIGN KEY ("abweichungBauNVO")
+    REFERENCES "XP_Enumerationen"."XP_AbweichungBauNVOTypen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
@@ -3397,14 +3392,20 @@ INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" TO bp_user;
 CREATE INDEX "BP_BaugebietsTeilFlaeche_gidx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" using gist ("position");
+CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("allgArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("besondereArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_Sondernutzungen1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("sondernutzung");
+CREATE INDEX "idx_fk_BP_BaugebietsTF_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("detaillierteArtDerBaulNutzung");
+CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("abweichungBauNVO");
 COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."wohnnutzungEGStrasse" IS 'Festsetzung nach §6a Abs. (4) Nr. 1 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden im Erdgeschoss an der Straßenseite eine Wohnnutzung nicht oder nur ausnahmsweise zulässig ist.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."ZWohn" IS 'Festsetzung nach §4a Abs. (4) Nr. 1 bzw. nach §6a Abs. (4) Nr. 2 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden oberhalb eines im Bebauungsplan bestimmten Geschosses nur Wohnungen zulässig sind.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für Wohnungen zu verwenden ist.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFWohnen" IS 'Festsetzung nach §4a Abs. (4) Nr. 2 bzw. §6a Abs. (4) Nr. 3 BauNVO: Für besondere Wohngebiete und urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für Wohnungen zu verwenden ist.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFAntGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden ein im Bebauungsplan bestimmter Anteil der zulässigen Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."GFGewerbe" IS 'Festsetzung nach §6a Abs. (4) Nr. 4 BauNVO: Für urbane Gebiete oder Teile solcher Gebiete kann festgesetzt werden, dass in Gebäuden eine im Bebauungsplan bestimmte Größe der Geschossfläche für gewerbliche Nutzungen zu verwenden ist.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Bei Sondergebieten nach BauNVO 1977 oder 1000 (besondereArtDerBaulNutzung == 2000 oder 2100): Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."zugunstenVon" IS 'Angabe des Begünstigen einer Ausweisung.';
 CREATE TRIGGER "change_to_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BaugebietsTeilFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();

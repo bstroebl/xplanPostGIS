@@ -50,9 +50,8 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich_qv" TO xp_gast;
 -- -----------------------------------------------------
 
 CREATE OR REPLACE VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" AS
-SELECT g.position, p.*
-FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g
-JOIN "BP_Bebauung"."BP_BaugebietObjekt" p ON g.gid = p.gid;
+SELECT g.*
+FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g;
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
