@@ -1147,6 +1147,17 @@ ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ADD CONSTRAINT "fk_BP_Bauge
 ALTER TABLE "BP_Bebauung"."BP_BaugebietObjekt" DROP CONSTRAINT "fk_BP_Baugebiet_parent";
 DROP TABLE "BP_Bebauung"."BP_BaugebietObjekt";
 
+-- CR 020 nicht relevant
+
+-- CR 021
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ADD COLUMN "versionBauGBDatum" DATE;
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ADD COLUMN "versionBauGBText" VARCHAR(255);
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ADD COLUMN "versionSonstRechtsgrundlageDatum" DATE;
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ADD COLUMN "versionSonstRechtsgrundlageText" VARCHAR(255);
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBText" IS 'Textliche Spezifikation der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
 
 
 

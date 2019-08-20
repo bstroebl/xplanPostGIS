@@ -581,6 +581,10 @@ CREATE TABLE  "SO_Basisobjekte"."SO_Plan" (
   "name" VARCHAR (256) NOT NULL,
   "planArt" VARCHAR(64) NOT NULL DEFAULT 9999,
   "plangeber" INTEGER NULL,
+  "versionBauGBDatum" DATE NULL,
+  "versionBauGBText" VARCHAR(255) NULL,
+  "versionSonstRechtsgrundlageDatum" DATE NULL,
+  "versionSonstRechtsgrundlageText" VARCHAR(255) NULL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_SO_Plan_planArt"
     FOREIGN KEY ("planArt")
@@ -609,7 +613,11 @@ COMMENT ON TABLE "SO_Basisobjekte"."SO_Plan" IS 'Klasse für sonstige, z. B. lä
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."name" IS 'Name des Plans. Der Name kann hier oder in XP_Plan geändert werden.';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."planArt" IS 'Überer eine Codeliste definierter Typ des Plans';
-COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'F𲠤en Plan zuständige Stelle.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."plangeber" IS 'Für den Plan zuständige Stelle.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBText" IS 'Textliche Spezifikation der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
 CREATE TRIGGER "change_to_SO_Plan" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "delete_SO_Plan" AFTER DELETE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "SO_Plan_propagate_name" AFTER UPDATE ON "SO_Basisobjekte"."SO_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."propagate_name_to_parent"();
