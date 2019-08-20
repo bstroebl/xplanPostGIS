@@ -1487,3 +1487,10 @@ UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" SET "B
 
 -- CR 027
 UPDATE "RP_Freiraumstruktur"."RP_ErholungTypen" SET "Bezeichner" = 'LandschaftsbezogeneErholung' WHERE "Code"= 2001;
+
+-- CR 028
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1300, 'PufferzoneWeltkulturerbeEnger');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1400, 'PufferzoneWeltkulturerbeWeiter');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1500, 'ArcheologischesDenkmal');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1600, 'Bodendenkmal');
+
