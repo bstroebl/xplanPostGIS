@@ -1159,12 +1159,173 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBText" IS 'Textliche S
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
 
+-- CR 023 siehe CR 010
 
+-- CR 024
+-- BP
+-- Tabellen anlegen
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" (
+  "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_zweckbestimmung1"
+    FOREIGN KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
 
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_zweckbestimmung1" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_zweckbestimmung2" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" (
+  "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
 
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung1" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung2" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung der Fläche.';
+-- Daten übernehmen
+INSERT INTO "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid","zweckbestimmung") SELECT gid,"zweckbestimmung" FROM "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" WHERE "zweckbestimmung" IS NOT NULL;
+INSERT INTO "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid","detaillierteZweckbestimmung") SELECT gid,"detaillierteZweckbestimmung" FROM "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" WHERE "detaillierteZweckbestimmung" IS NOT NULL;
+-- View ersetzen
+DROP VIEW "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv";
+CREATE OR REPLACE VIEW "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" AS
+ SELECT g.gid, g.position, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung
+  FROM
+ "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" g
+ LEFT JOIN
+ crosstab('SELECT "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", zweckbestimmung FROM "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid;
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" TO xp_gast;
+-- Felder löschen
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "zweckbestimmung";
+ALTER TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" DROP COLUMN "detaillierteZweckbestimmung";
+-- FP
+-- Tabellen anlegen
+-- -----------------------------------------------------
+-- Table "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" (
+  "FP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("FP_Strassenverkehr_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Strassenverkehr_zweckbestimmung1"
+    FOREIGN KEY ("FP_Strassenverkehr_gid")
+    REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Strassenverkehr_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
 
+CREATE INDEX "idx_fk_FP_Strassenverkehr_zweckbestimmung1_idx" ON "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_FP_Strassenverkehr_zweckbestimmung2_idx" ON "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("FP_Strassenverkehr_gid");
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+-- -----------------------------------------------------
+-- Table "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" (
+  "FP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("FP_Strassenverkehr_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_Strassenverkehr_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("FP_Strassenverkehr_gid")
+    REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Strassenverkehr_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
 
-
+CREATE INDEX "idx_fk_FP_Strassenverkehr_detaillierteZweckbestimmung1_idx" ON "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_FP_Strassenverkehr_detaillierteZweckbestimmung2_idx" ON "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("FP_Strassenverkehr_gid");
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte detaillierte Zweckbestimmung der Fläche.';
+-- Daten übernehmen
+INSERT INTO "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("FP_Strassenverkehr_gid","zweckbestimmung") SELECT gid,"zweckbestimmung" FROM "FP_Verkehr"."FP_Strassenverkehr" WHERE "zweckbestimmung" IS NOT NULL;
+INSERT INTO "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("FP_Strassenverkehr_gid","detaillierteZweckbestimmung") SELECT gid,"detaillierteZweckbestimmung" FROM "FP_Verkehr"."FP_Strassenverkehr" WHERE "detaillierteZweckbestimmung" IS NOT NULL;
+-- Views löschen
+DROP VIEW IF EXISTS "FP_Verkehr"."FP_Strassenverkehr_qv";
+DROP VIEW "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv";
+DROP VIEW "FP_Verkehr"."FP_StrassenverkehrLinie_qv";
+DROP VIEW "FP_Verkehr"."FP_StrassenverkehrPunkt_qv";
+-- Views neu anlegen
+-- -----------------------------------------------------
+-- View "FP_Verkehr"."FP_Strassenverkehr_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Verkehr"."FP_Strassenverkehr_qv" AS
+ SELECT g.gid, xpo.ebene, xpo.rechtsstand, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung
+  FROM
+ "FP_Verkehr"."FP_Strassenverkehr" g
+ LEFT JOIN
+ crosstab('SELECT "FP_Strassenverkehr_gid", "FP_Strassenverkehr_gid", zweckbestimmung FROM "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+ JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv" AS
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
+FROM "FP_Verkehr"."FP_StrassenverkehrFlaeche" g
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Verkehr"."FP_StrassenverkehrLinie_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrLinie_qv" AS
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
+FROM "FP_Verkehr"."FP_StrassenverkehrLinie" g
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrLinie_qv" TO xp_gast;
+-- -----------------------------------------------------
+-- View "FP_Verkehr"."FP_StrassenverkehrPunkt_qv"
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" AS
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
+FROM "FP_Verkehr"."FP_StrassenverkehrPunkt" g
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid;
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" TO xp_gast;
+-- Felder löschen
+ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "zweckbestimmung";
+ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "detaillierteZweckbestimmung";
 
 
 

@@ -2069,20 +2069,8 @@ GRANT ALL ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO fp_user;
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
   "gid" BIGINT NOT NULL ,
-  "zweckbestimmung" INTEGER NULL ,
-  "detaillierteZweckbestimmung" INTEGER NULL ,
   "nutzungsform" INTEGER NULL ,
   PRIMARY KEY ("gid") ,
-  CONSTRAINT "fk_FP_Strassenverkehr_FP_ZweckStrassenverkehr"
-    FOREIGN KEY ("zweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_Strassenverkehr_FP_DetailZweckStrassenverkehr1"
-    FOREIGN KEY ("detaillierteZweckbestimmung" )
-    REFERENCES "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" ("Code" )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_Strassenverkehr_XP_Nutzungsform1"
     FOREIGN KEY ("nutzungsform" )
     REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code" )
@@ -2094,18 +2082,62 @@ CREATE  TABLE  "FP_Verkehr"."FP_Strassenverkehr" (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX "idx_fk_FP_Strassenverkehr_FP_ZweckStrassenverkehr" ON "FP_Verkehr"."FP_Strassenverkehr" ("zweckbestimmung") ;
-CREATE INDEX "idx_fk_FP_Strassenverkehr_FP_DetailZweckStrassenverkehr1" ON "FP_Verkehr"."FP_Strassenverkehr" ("detaillierteZweckbestimmung") ;
 CREATE INDEX "idx_fk_FP_Strassenverkehr_XP_Nutzungsform1" ON "FP_Verkehr"."FP_Strassenverkehr" ("nutzungsform") ;
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr" TO fp_user;
 COMMENT ON TABLE  "FP_Verkehr"."FP_Strassenverkehr" IS 'Darstellung von Flächen für den überörtlichen Verkehr und für die örtlichen Hauptverkehrszüge ( §5, Abs. 2, Nr. 3 BauGB).';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."zweckbestimmung" IS 'Allgemeine Zweckbestimmung des Objektes.';
-COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung';
 COMMENT ON COLUMN  "FP_Verkehr"."FP_Strassenverkehr"."nutzungsform" IS 'Nutzungsform';
 CREATE TRIGGER "change_to_FP_Strassenverkehr" BEFORE INSERT OR UPDATE ON "FP_Verkehr"."FP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_Strassenverkehr" AFTER DELETE ON "FP_Verkehr"."FP_Strassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" (
+  "FP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("FP_Strassenverkehr_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_FP_Strassenverkehr_zweckbestimmung1"
+    FOREIGN KEY ("FP_Strassenverkehr_gid")
+    REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Strassenverkehr_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_FP_Strassenverkehr_zweckbestimmung1" ON "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_FP_Strassenverkehr_zweckbestimmung2" ON "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("FP_Strassenverkehr_gid");
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" TO fp_user;
+COMMENT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+
+-- -----------------------------------------------------
+-- Table "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" (
+  "FP_Strassenverkehr_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("FP_Strassenverkehr_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_FP_Strassenverkehr_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("FP_Strassenverkehr_gid")
+    REFERENCES "FP_Verkehr"."FP_Strassenverkehr" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_Strassenverkehr_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_FP_Strassenverkehr_detaillierteZweckbestimmung1" ON "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_FP_Strassenverkehr_detaillierteZweckbestimmung2" ON "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("FP_Strassenverkehr_gid");
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" TO fp_user;
+COMMENT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte detaillierte Zweckbestimmung der Fläche.';
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_StrassenverkehrFlaeche"

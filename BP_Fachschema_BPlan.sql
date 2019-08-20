@@ -4585,8 +4585,6 @@ GRANT SELECT ON TABLE "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" TO xp_gas
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" (
   "gid" BIGINT NOT NULL,
-  "zweckbestimmung" INTEGER,
-  "detaillierteZweckbestimmung" INTEGER,
   "nutzungsform" INTEGER,
   "zugunstenVon" VARCHAR(64),
   PRIMARY KEY ("gid"),
@@ -4598,16 +4596,6 @@ CREATE TABLE  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" (
   CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_nutzungsform"
     FOREIGN KEY ("nutzungsform")
     REFERENCES "XP_Enumerationen"."XP_Nutzungsform" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_zweckbestimmung"
-    FOREIGN KEY ("zweckbestimmung")
-    REFERENCES "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_VerkehrsFlaecheBesZweckbest_detaillierteZweckbestimmung"
-    FOREIGN KEY ("detaillierteZweckbestimmung")
-    REFERENCES "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
@@ -4623,6 +4611,54 @@ COMMENT ON COLUMN  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."n
 COMMENT ON COLUMN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"."zugunstenVon" IS 'Begünstigter der Festsetzung';
 CREATE TRIGGER "change_to_BP_VerkehrsFlaecheBesondererZweckbestimmung" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_VerkehrsFlaecheBesondererZweckbestimmung" AFTER DELETE ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" (
+  "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid" BIGINT NOT NULL,
+  "zweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "zweckbestimmung"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_zweckbestimmung1"
+    FOREIGN KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_zweckbestimmung2"
+    FOREIGN KEY ("zweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_zweckbestimmung1" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ("zweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_zweckbestimmung2" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" IS 'Zweckbestimmung der Fläche';
+
+-- -----------------------------------------------------
+-- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" (
+  "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung1"
+    FOREIGN KEY ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid")
+    REFERENCES "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung1" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" ("detaillierteZweckbestimmung");
+CREATE INDEX "idx_fk_BP_VerkehrsFlaecheBZ_detaillierteZweckbestimmung2" ON "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" ("BP_VerkehrsFlaecheBesondererZweckbestimmung_gid");
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung der Fläche.';
 
 -- -----------------------------------------------------
 -- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche"

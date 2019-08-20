@@ -26,8 +26,8 @@ SELECT b.gid ,
     b."versionSonstRechtsgrundlageDatum" ,
     b."versionSonstRechtsgrundlageText"
 FROM "FP_Basisobjekte"."FP_Bereich" b
-	JOIN "FP_Basisobjekte"."FP_Plan" p ON b."gehoertZuPlan" = p.gid;
-GRANT SELECT ON "FP_Basisobjekte"."FP_Bereich_qv" TO xp_gast;    
+    JOIN "FP_Basisobjekte"."FP_Plan" p ON b."gehoertZuPlan" = p.gid;
+GRANT SELECT ON "FP_Basisobjekte"."FP_Bereich_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_qv"
@@ -354,34 +354,43 @@ SELECT g.position, p.*
  JOIN "FP_Ver_und_Entsorgung"."FP_VerEntsorgung_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_VerEntsorgungPunkt_qv" TO xp_gast;
 
+CREATE OR REPLACE VIEW "FP_Verkehr"."FP_Strassenverkehr_qv" AS
+ SELECT g.gid, xpo.ebene, xpo.rechtsstand, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung
+  FROM
+ "FP_Verkehr"."FP_Strassenverkehr" g
+ LEFT JOIN
+ crosstab('SELECT "FP_Strassenverkehr_gid", "FP_Strassenverkehr_gid", zweckbestimmung FROM "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid
+ JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
+GRANT SELECT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_qv" TO xp_gast;
+
 -- -----------------------------------------------------
 -- View "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv" AS
- SELECT g.gid, g.position, xpo.ebene, xpo.rechtsstand, p.zweckbestimmung as zweckbestimmung1
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
 FROM "FP_Verkehr"."FP_StrassenverkehrFlaeche" g
-    JOIN "FP_Verkehr"."FP_Strassenverkehr" p ON g.gid = p.gid
-    JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Verkehr"."FP_StrassenverkehrLinie_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrLinie_qv" AS
- SELECT g.gid, g.position, xpo.ebene, xpo.rechtsstand, p.zweckbestimmung as zweckbestimmung1
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
 FROM "FP_Verkehr"."FP_StrassenverkehrLinie" g
-    JOIN "FP_Verkehr"."FP_Strassenverkehr" p ON g.gid = p.gid
-    JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrLinie_qv" TO xp_gast;
 
 -- -----------------------------------------------------
 -- View "FP_Verkehr"."FP_StrassenverkehrPunkt_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" AS
- SELECT g.gid, g.position, xpo.ebene, xpo.rechtsstand, p.zweckbestimmung as zweckbestimmung1
+ SELECT g.gid, g.position, p.ebene, p.rechtsstand, p.zweckbestimmung1, p.zweckbestimmung2, p.zweckbestimmung3, p.zweckbestimmung4, p.anz_zweckbestimmung
 FROM "FP_Verkehr"."FP_StrassenverkehrPunkt" g
-    JOIN "FP_Verkehr"."FP_Strassenverkehr" p ON g.gid = p.gid
-    JOIN "XP_Basisobjekte"."XP_Objekt" xpo ON g.gid = xpo.gid;
+    JOIN "FP_Verkehr"."FP_Strassenverkehr_qv" p ON g.gid = p.gid;
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" TO xp_gast;
 
 -- -----------------------------------------------------

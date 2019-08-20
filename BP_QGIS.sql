@@ -363,8 +363,12 @@ GRANT SELECT ON TABLE "BP_Verkehr"."BP_StrassenkoerperPunkt_qv" TO xp_gast;
 -- View "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv"
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" AS
- SELECT g.gid, g.position,zweckbestimmung
- FROM
+ SELECT g.gid, g.position, z1 as zweckbestimmung1,z2 as zweckbestimmung2,z3 as zweckbestimmung3,z4 as zweckbestimmung4,
+ coalesce(z1 / z1, 0) + coalesce(z2 / z2, 0) + coalesce(z3 / z3, 0) + coalesce(z4 / z4, 0) as anz_zweckbestimmung
+  FROM
  "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche" g
- JOIN "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung" p ON g.gid = p.gid;
- GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" TO xp_gast;
+ LEFT JOIN
+ crosstab('SELECT "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", "BP_VerkehrsFlaecheBesondererZweckbestimmung_gid", zweckbestimmung FROM "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung_zweckbestimmung" ORDER BY 1,3') zt
+ (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
+ ON g.gid=zt.zgid;
+GRANT SELECT ON TABLE "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmungFlaeche_qv" TO xp_gast;
