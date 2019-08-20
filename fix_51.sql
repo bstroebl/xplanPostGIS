@@ -1,5 +1,5 @@
-/* 
- * Diese Datei enthält Bugfixes für die Version 5.1 
+/*
+ * Diese Datei enthält Bugfixes für die Version 5.1
  */
 
 -- vergrößere Feld Beschreibung
@@ -10,7 +10,7 @@ DROP VIEW "XP_Basisobjekte"."XP_Plaene";
 
 ALTER TABLE "XP_Basisobjekte"."XP_Plan"
     ALTER COLUMN beschreibung TYPE text;
-    
+
 CREATE  OR REPLACE VIEW "XP_Basisobjekte"."XP_Plaene" AS
 SELECT g.gid, g."raeumlicherGeltungsbereich", name, nummer, "internalId", beschreibung,  kommentar,
   "technHerstellDatum",  "untergangsDatum",  "erstellungsMassstab" ,
@@ -25,7 +25,7 @@ CREATE OR REPLACE RULE _update AS
   WHERE gid = old.gid;
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Plaene" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_RaeumlicherGeltungsbereich"
-  WHERE gid = old.gid;	
+  WHERE gid = old.gid;
 
 CREATE  OR REPLACE VIEW "QGIS"."XP_Bereiche" AS
 SELECT xb.gid, xb.name as bereichsname, xp.gid as plangid, xp.name as planname, xp."Objektart" as planart,
@@ -58,7 +58,7 @@ CREATE OR REPLACE RULE _update AS
 CREATE OR REPLACE RULE _delete AS
     ON DELETE TO "XP_Basisobjekte"."XP_Bereiche" DO INSTEAD  DELETE FROM "XP_Basisobjekte"."XP_Geltungsbereich"
   WHERE gid = old.gid;
-  
+
 CREATE OR REPLACE VIEW "BP_Basisobjekte"."BP_Plan_qv" AS
 SELECT x.gid, b."raeumlicherGeltungsbereich", x.name, x.nummer, x."internalId", x.beschreibung, x.kommentar,
     x."technHerstellDatum", x."genehmigungsDatum", x."untergangsDatum", x."erstellungsMassstab",
@@ -69,3 +69,11 @@ SELECT x.gid, b."raeumlicherGeltungsbereich", x.name, x.nummer, x."internalId", 
 FROM "BP_Basisobjekte"."BP_Plan" b
     JOIN "XP_Basisobjekte"."XP_Plan" x ON b.gid = x.gid;
 GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Plan_qv" TO xp_gast;
+
+-- vergrössere Felder, damit auch lange Tabellenamen reinpassen
+ALTER TABLE "QGIS"."layer" ALTER COLUMN schemaname TYPE character varying (256);
+ALTER TABLE "QGIS"."layer" ALTER COLUMN tablename TYPE character varying (256);
+
+-- vergrößere Feld "text"
+ALTER TABLE "XP_Basisobjekte"."XP_TextAbschnitt"
+    ALTER COLUMN "text" TYPE text;
