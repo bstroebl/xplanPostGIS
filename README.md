@@ -20,5 +20,9 @@ Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.1 erfolg
 Dabei sollten die Skripte möglichst nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden, so dass leichter auf mögliche Fehler reagiert werden kann. Die Skripte sind zwar getestet aber in einer bestehenden Datenbank könnten Datensätze vorhanden sein, die andere Attribute belegen, als es die Testdatensätze des Authors tun.
 Vor der Ausführung der Konvertierungsskripte sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
 
+## Bugfixes
+Im Laufe der Zeit fallen verschiedene Fehler in der DB auf. Die Installationsskripte enthalten immer den aktuellen Stand mit Bugfixes. Alle Bugfixes sind auch im nächsten Updateskript enthalten, für eine 5.1-Datenbank also z.B. das Updateskript auf 5.2. Für die Funktion u.U. kritische Bugfixes sind in der Datei `fix_51.sql` enthalten. Wenn Sie keine Probleme mit den behobenen Bugs haben (z.B. weil Sie fehlende Enumerationswerte nicht brauchen), sollten Sie die Bugfixes mit dem Wechsel auf die nächste Version der DB machen. Wenn Sie die DB mit den aktuellen Skripten anlegen und dann auf die nächste Version updaten, können beim Update Fehler auftreten (z.B. weil Ihre DB die fehlenden Enumerationswerte bereits enthält).
+Dieses Vorgehen wird zukünftig geändert.
+
 # Importfunktion des QGIS-Plugins
 Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen `imp_create_schema()`) und `imp_create_xp_gid()` aus QGIS.sql vorhanden sein.
