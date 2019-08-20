@@ -1,0 +1,1 @@
+-- Sammlung aller Bugfixes für XPlan 5.2 seit dem Release
