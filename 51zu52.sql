@@ -1330,5 +1330,158 @@ ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "detaillierteZweckbest
 -- CR 025
 INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (8000, 'EinzelhaeuserDoppelhaeuserHausgruppen');
 
+-- CR 026
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
 
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" TO so_user;
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" (
+  "gid" BIGINT NOT NULL,
+  "artDerFestlegung" INTEGER,
+  "detailArtDerFestlegung" INTEGER,
+  "rechtlicheGrundlage" INTEGER,
+  "name" VARCHAR(64) NULL,
+  "nummer" VARCHAR(64) NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_Bauverbotszone_SO_Objekt1"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Bauverbotszone_artDerFestlegung"
+    FOREIGN KEY ("artDerFestlegung")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Bauverbotszone_detailArtDerFestlegung"
+    FOREIGN KEY ("detailArtDerFestlegung")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Bauverbotszone_rechtlicheGrundlage"
+    FOREIGN KEY ("rechtlicheGrundlage")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "idx_fk_SO_Bauverbotszone_artDerFestlegung" ON "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("artDerFestlegung");
+CREATE INDEX "idx_fk_SO_Bauverbotszone_detailArtDerFestlegung" ON "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("detailArtDerFestlegung");
+CREATE INDEX "idx_fk_SO_Bauverbotszone_rechtlicheGrundlage" ON "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("rechtlicheGrundlage");
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" IS 'Festlegung nach Bodenschutzrecht.';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."artDerFestlegung" IS 'Klassifizierung des Bauverbots bzw. der Baubeschränkung';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung des Bauverbots bzw. der Baubeschränkung über eine Codeliste';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."rechtlicheGrundlage" IS 'Rechtliche Grundlage des Bauverbots bzw. der Baubeschränkung';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."name" IS 'Informelle Bezeichnung der Festlegung.';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung';
+CREATE TRIGGER "change_to_SO_Bauverbotszone" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Bauverbotszone" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_BauverbotszoneFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_BauverbotszoneFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_BauverbotszoneFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "SO_BauverbotszoneFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_BauverbotszoneLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_BauverbotszoneLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_BauverbotszoneLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszoneLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_BauverbotszonePunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Bauverbotszone" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_BauverbotszonePunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_BauverbotszonePunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_BauverbotszonePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot"
+-- -----------------------------------------------------
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" ("Code", "Bezeichner") VALUES ('1000', 'Bauverbotszone');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" ("Code", "Bezeichner") VALUES ('2000', 'Baubeschraenkungszone');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" ("Code", "Bezeichner") VALUES ('3000', 'Waldabstand');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizBauverbot" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeBeschraenkung');
+
+-- -----------------------------------------------------
+-- Data for table "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot"
+-- -----------------------------------------------------
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" ("Code", "Bezeichner") VALUES ('1000', 'Luftverkehrsrecht');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" ("Code", "Bezeichner") VALUES ('2000', 'Strassenverkehrsrecht');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" ("Code", "Bezeichner") VALUES ('9999', 'SonstigesRecht');
+-- Deprecated
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" SET "Bezeichner" = 'Bauschutzbereich - künftig wegfallend' WHERE "Code" = 1000;
+UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" SET "Bezeichner" = 'Baubeschraenkungsbereich - künftig wegfallend' WHERE "Code" = 7000;
 
