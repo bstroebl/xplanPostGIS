@@ -1327,7 +1327,8 @@ GRANT SELECT ON TABLE "FP_Verkehr"."FP_StrassenverkehrPunkt_qv" TO xp_gast;
 ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "zweckbestimmung";
 ALTER TABLE "FP_Verkehr"."FP_Strassenverkehr" DROP COLUMN "detaillierteZweckbestimmung";
 
-
+-- CR 025
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (8000, 'EinzelhaeuserDoppelhaeuserHausgruppen');
 
 
 

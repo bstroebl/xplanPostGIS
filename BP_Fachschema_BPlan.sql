@@ -5084,6 +5084,7 @@ INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (4000,
 INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (5000, 'EinzelhaeuserHausgruppen');
 INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (6000, 'DoppelhaeuserHausgruppen');
 INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (7000, 'Reihenhaeuser');
+INSERT INTO "BP_Bebauung"."BP_BebauungsArt" ("Code", "Bezeichner") VALUES (8000, 'EinzelhaeuserDoppelhaeuserHausgruppen');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Bebauung"."BP_GrenzBebauung"
