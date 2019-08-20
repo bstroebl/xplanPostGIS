@@ -15,10 +15,13 @@ Die komplette Anlage einer neuen Datenbank (ohne Gruppenrollen) kann auch über 
 
 # Version
 
-Dieses Projekt implementiert den Standard XPlanung 5.1. Die Vorgängerstandards 5.0.1 und 4.1 sind in eigenen Branches abgelegt.
-Eine Umstellung einer vorhandenen XPlanung 4.1-Datenbank auf XPlanung 5.1 erfolgt mit den Konvertierungsskripten 4zu5.sql und 50zu51.sql; für eine Umstellung von 5.0.1 auf 5.1 ist nur 50zu51.sql auszuführen.
-Dabei sollten die Skripte möglichst nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden, so dass leichter auf mögliche Fehler reagiert werden kann. Die Skripte sind zwar getestet aber in einer bestehenden Datenbank könnten Datensätze vorhanden sein, die andere Attribute belegen, als es die Testdatensätze des Authors tun.
-Vor der Ausführung der Konvertierungsskripte sind bisher noch nicht angelegte Fachschematas anzulegen, da sonst einzelne Teile des Skripts, die sich mit diesen Schematas beschäftigen, auskommentiert werden müssten.
+Dieses Projekt implementiert den Standard XPlanung 5.2. Die Vorgängerstandards sind in eigenen Branches abgelegt.
+Eine Umstellung einer vorhandenen XPlanung 5.1-Datenbank auf XPlanung 5.2 erfolgt mit dem Konvertierungsskript `51zu52.sql`; ältere Datenbanken müssen Version für Version umgestellt werden. Vor der Ausführung von `51zu52.sql` sollten Sie - falls noch nicht geschehen - das Skript `fix_51.sql` ausführen, damit Ihre 5.1-Datenbank den vom Konvertierungsskript erwarteten Stand hat.
+Das Konvertierungsskript sollte möglichst nicht als ganzes, sondern jeder CR (ChangeRequest) einzeln ausgeführt werden, so dass leichter auf mögliche Fehler reagiert werden kann. Die Skripte sind zwar getestet aber in einer bestehenden Datenbank könnten Datensätze vorhanden sein, die andere Attribute belegen, als es die Testdatensätze des Authors tun.
+Das Arbeiten in einer Kopie der eigenen Datenbank bzw. das Erzeugen eines aktuellen Dumps ist natürlich auch immer eine gute Idee....
+
+## Bugfixes
+Im Laufe der Zeit fallen verschiedene Fehler in der DB auf. Die Installationsskripte enthalten immer den Stand zum Releasezeitpunkt. Hat ein Installationsskript Syntaxfehler, werden sie nach Bekanntwerden darin gefixt. Alle anderen Bugfixes (inhaltlicher Art) sind in der Datei `fix_52.sql` enthalten. Wenn Sie keine Probleme mit den dort behobenen Bugs haben (z.B. weil Sie fehlende Enumerationswerte nicht brauchen), sollten Sie die Bugfixes erst gesammelt vor dem Wechsel auf die nächste Version der DB machen. Benötigen Sie einen Bufix, führen Sie `fix_52.sql` zum aktuellen Zeitpunkt aus. Vor einem Wechsel auf die nächste Version müssen Sie dann zunächst alle noch ausstehenden Bugfixes ausführen.
 
 # Importfunktion des QGIS-Plugins
 Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen `imp_create_schema()`) und `imp_create_xp_gid()` aus QGIS.sql vorhanden sein.
