@@ -1485,3 +1485,5 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot" ("C
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" SET "Bezeichner" = 'Bauschutzbereich - künftig wegfallend' WHERE "Code" = 1000;
 UPDATE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachLuftverkehrsrecht" SET "Bezeichner" = 'Baubeschraenkungsbereich - künftig wegfallend' WHERE "Code" = 7000;
 
+-- CR 027
+UPDATE "RP_Freiraumstruktur"."RP_ErholungTypen" SET "Bezeichner" = 'LandschaftsbezogeneErholung' WHERE "Code"= 2001;

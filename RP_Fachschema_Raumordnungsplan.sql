@@ -6097,7 +6097,7 @@ INSERT INTO "RP_Freiraumstruktur"."RP_BodenschutzTypen" ("Code", "Bezeichner") V
 -- -----------------------------------------------------
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('1000', 'Erholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2000', 'RuhigeErholungInNaturUndLandschaft');
-INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2001', 'LandschaftebezogeneErholung');
+INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('2001', 'LandschaftsbezogeneErholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3000', 'ErholungMitStarkerInanspruchnahmeDurchBevoelkerung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('3001', 'InfrastrukturelleErholung');
 INSERT INTO "RP_Freiraumstruktur"."RP_ErholungTypen" ("Code", "Bezeichner") VALUES ('4000', 'Erholungswald');
