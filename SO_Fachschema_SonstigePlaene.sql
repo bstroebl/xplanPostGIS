@@ -804,6 +804,123 @@ CREATE TRIGGER "delete_SO_StrassenverkehrsrechtFlaeche" AFTER DELETE ON "SO_Nach
 CREATE TRIGGER "SO_StrassenverkehrsrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_StrassenverkehrsrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" TO so_user;
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" TO so_user;
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" (
+  "gid" BIGINT NOT NULL,
+  "artDerFestlegung" INTEGER NULL,
+  "detailArtDerFestlegung" INTEGER NULL,
+  "name" VARCHAR(64) NULL,
+  "nummer" VARCHAR(64) NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_Gewaesser_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_Basisobjekte"."SO_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Gewaesser_artDerFestlegung"
+    FOREIGN KEY ("artDerFestlegung")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Gewaesser_detailArtDerFestlegung"
+    FOREIGN KEY ("detailArtDerFestlegung")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+CREATE INDEX "fk_SO_Gewaesser_artDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" ("artDerFestlegung");
+CREATE INDEX "fk_SO_Gewaesser_detailArtDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" ("detailArtDerFestlegung");
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" IS 'Abbildung eines bestehenden Gewässers';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"."artDerFestlegung" IS 'Klassifizierung des Gewässers';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"."detailArtDerFestlegung" IS 'Über eine Codeliste definierte detailliertere Klassifizierung des Gewässers';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"."name" IS 'Informelle Bezeichnung des Gewässers';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"."nummer" IS 'Amtliche Bezeichnung / Kennziffer des Gewässers';
+CREATE TRIGGER "change_to_SO_Gewaesser" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_Gewaesser" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_GewaesserPunkt_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Punktobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_GewaesserPunkt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_GewaesserPunkt" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_GewaesserLinie_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Linienobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_GewaesserLinie" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_GewaesserLinie" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserLinie" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" (
+  "gid" BIGINT NOT NULL,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_SO_GewaesserFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Gewaesser" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS("SO_Basisobjekte"."SO_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" TO so_user;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+CREATE TRIGGER "change_to_SO_GewaesserFlaeche" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_SO_GewaesserFlaeche" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "SO_GewaesserFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_GewaesserFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+-- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" (
@@ -855,7 +972,7 @@ CREATE INDEX "idx_fk_SO_Wasserrecht_artDerFestlegung_idx" ON "SO_NachrichtlicheU
 CREATE INDEX "idx_fk_SO_Wasserrecht_detailArtDerFestlegung_idx" ON "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" ("detailArtDerFestlegung");
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" TO so_user;
-COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" IS 'Festlegung nach Wasserrecht.';
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht" IS 'Festlegung nach Wasserhaushaltsgesetz (WHG)';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"."artDerFestlegung" IS 'Grundlegende rechtliche Klassifizierung der Festlegung
 Ueberschwemmungsgebiet: Überschwemmungsgebiet nach . § 31b Abs. 1 WHG ist ein durch Rechtsverordnung festgesetztes oder natürliches Gebiet, das bei Hochwasser überschwemmt werden kann bzw. überschwemmt wird.
@@ -2138,6 +2255,17 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrech
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachStrassenverkehrsrecht" ("Code", "Bezeichner") VALUES (9999, 'SonstOeffentlStrasse');
 
 -- -----------------------------------------------------
+-- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser"
+-- -----------------------------------------------------
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (10000, 'Gewaesser1Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (10001, 'Gewaesser2Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (10002, 'Gewaesser3Ordnung');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (10003, 'StehendesGewaesser');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (2000, 'Hafen');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizGewaesser" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+-- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht"
 -- -----------------------------------------------------
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (1000, 'Gewaesser');
@@ -2148,6 +2276,9 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code"
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20000, 'FestgesetztesUeberschwemmungsgebiet');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20001, 'NochNichtFestgesetztesUeberschwemmungsgebiet');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (20002, 'UeberschwemmGefaehrdetesGebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (3000, 'Risikogebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (4000, 'RisikogebietAusserhUeberschwemmgebiet');
+INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (5000, 'Hochwasserentstehungsgebiet');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachWasserrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
