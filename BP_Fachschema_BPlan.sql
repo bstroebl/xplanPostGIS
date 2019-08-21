@@ -2794,7 +2794,7 @@ GRANT ALL ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" TO bp_user;
 CREATE INDEX "BP_WasserwirtschaftsFlaeche_gidx" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" using gist ("position");
 CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche1" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("zweckbestimmung") ;
 CREATE INDEX "idx_fk_BP_WasserwirtschaftsFlaeche2" ON "BP_Wasser"."BP_WasserwirtschaftsFlaeche" ("detaillierteZweckbestimmung") ;
-COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft, den Hochwasserschutz und die Regelungen des Wasserabflusses (§9 Abs. 1 Nr. 16 und Abs. 6a BauGB).';
+COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft (§9 Abs. 1 Nr. 16a BauGB), sowie Flächen für Hochwasserschutz-anlagen und für die Regelung des Wasserabflusses (§9 Abs. 1 Nr. 16b BauGB).';
 COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Fläche.';
 COMMENT ON COLUMN  "BP_Wasser"."BP_WasserwirtschaftsFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';

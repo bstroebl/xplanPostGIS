@@ -955,3 +955,5 @@ INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner
 COMMENT ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" IS 'Festsetzung neuer Wasserflächen nach §9 Abs. 1 Nr. 16a BauGB.
 Diese Klasse wird in der nächsten Hauptversion des Standards eventuell wegfallen und durch SO_Gewaesser ersetzt werden.';
 
+-- CR 043
+COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft (§9 Abs. 1 Nr. 16a BauGB), sowie Flächen für Hochwasserschutz-anlagen und für die Regelung des Wasserabflusses (§9 Abs. 1 Nr. 16b BauGB).';
