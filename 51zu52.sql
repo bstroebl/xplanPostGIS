@@ -961,3 +961,6 @@ COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die
 -- CR 044
 COMMENT ON TABLE "FP_Wasser"."FP_Wasserwirtschaft" IS 'Die für die Wasserwirtschaft vorgesehenen Flächen sowie Flächen, die im Interesse des Hochwasserschutzes und der Regelung des Wasserabflusses freizuhalten sind (§5 Abs. 2 Nr. 7 BauGB).';
 
+-- CR 045
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWasserwirtschaft" ("Code", "Bezeichner") VALUES ('1500', 'RegenRueckhaltebecken');
+
