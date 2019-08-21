@@ -940,3 +940,7 @@ INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 -- CR 036
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('10000', 'Sportboothafen');
 
+-- CR 037, siehe CR 034 und CR 026
+
+-- CR 040
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';

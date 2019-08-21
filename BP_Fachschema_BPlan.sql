@@ -3429,7 +3429,7 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugeb
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Bei Sondergebieten nach BauNVO 1977 oder 1000 (besondereArtDerBaulNutzung == 2000 oder 2100): Spezifische Nutzung der Sonderbaufläche nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
