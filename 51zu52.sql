@@ -944,3 +944,10 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichne
 
 -- CR 040
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';
+
+--CR 041
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1705', 'Waldlebensraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1706', 'Feuchtlebensraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1707', 'Trockenlebensraum');
+INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1708', 'LebensraumLaenderuebergreifendeVernetzung');
+
