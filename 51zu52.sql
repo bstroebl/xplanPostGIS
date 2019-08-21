@@ -775,3 +775,6 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" 
 
 -- CR 030
 UPDATE "XP_Enumerationen"."XP_Sondernutzungen" SET "Bezeichner" = 'SondergebietHochschuleForschung' WHERE "Code"= 2800;
+
+-- CR 033
+UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'Mobilfunkanlage' WHERE "Code"= 26001;
