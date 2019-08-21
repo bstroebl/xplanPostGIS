@@ -951,3 +951,7 @@ INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner
 INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1707', 'Trockenlebensraum');
 INSERT INTO "RP_Freiraumstruktur"."RP_NaturLandschaftTypen" ("Code", "Bezeichner") VALUES ('1708', 'LebensraumLaenderuebergreifendeVernetzung');
 
+-- CR 042
+COMMENT ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" IS 'Festsetzung neuer Wasserflächen nach §9 Abs. 1 Nr. 16a BauGB.
+Diese Klasse wird in der nächsten Hauptversion des Standards eventuell wegfallen und durch SO_Gewaesser ersetzt werden.';
+

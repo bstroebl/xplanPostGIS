@@ -1671,7 +1671,8 @@ CREATE INDEX "idx_fk_BP_GewaesserFlaeche_XP_ZweckbestimmungGewaesser" ON "BP_Was
 CREATE INDEX "idx_fk_BP_GewaesserFlaeche_BP_DetailZweckbestGewaesser1" ON "BP_Wasser"."BP_GewaesserFlaeche" ("detaillierteZweckbestimmung") ;
 GRANT SELECT ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" TO bp_user;
-COMMENT ON TABLE  "BP_Wasser"."BP_GewaesserFlaeche" IS 'Wasserfläche (§9 Abs. 1 Nr. 16 und Abs. 6 BauGB).';
+COMMENT ON TABLE "BP_Wasser"."BP_GewaesserFlaeche" IS 'Festsetzung neuer Wasserflächen nach §9 Abs. 1 Nr. 16a BauGB.
+Diese Klasse wird in der nächsten Hauptversion des Standards eventuell wegfallen und durch SO_Gewaesser ersetzt werden.';
 COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."zweckbestimmung" IS 'Zweckbestimmung der Wasserfläche.';
 COMMENT ON COLUMN  "BP_Wasser"."BP_GewaesserFlaeche"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte Zweckbestimmung der Fläche.';
