@@ -957,3 +957,7 @@ Diese Klasse wird in der nächsten Hauptversion des Standards eventuell wegfalle
 
 -- CR 043
 COMMENT ON TABLE "BP_Wasser"."BP_WasserwirtschaftsFlaeche" IS 'Flächen für die Wasserwirtschaft (§9 Abs. 1 Nr. 16a BauGB), sowie Flächen für Hochwasserschutz-anlagen und für die Regelung des Wasserabflusses (§9 Abs. 1 Nr. 16b BauGB).';
+
+-- CR 044
+COMMENT ON TABLE "FP_Wasser"."FP_Wasserwirtschaft" IS 'Die für die Wasserwirtschaft vorgesehenen Flächen sowie Flächen, die im Interesse des Hochwasserschutzes und der Regelung des Wasserabflusses freizuhalten sind (§5 Abs. 2 Nr. 7 BauGB).';
+

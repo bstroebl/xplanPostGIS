@@ -2359,7 +2359,7 @@ CREATE INDEX "idx_fk_FP_Wasserwirtschaft_XP_ZweckbestimmungWasserwirtschaft1" ON
 CREATE INDEX "idx_fk_FP_Wasserwirtschaft_FP_DetailZweckbestWasserwirtschaft1" ON "FP_Wasser"."FP_Wasserwirtschaft" ("detaillierteZweckbestimmung") ;
 GRANT SELECT ON TABLE "FP_Wasser"."FP_Wasserwirtschaft" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_Wasserwirtschaft" TO fp_user;
-COMMENT ON TABLE  "FP_Wasser"."FP_Wasserwirtschaft" IS 'Darstellung von Wasserflächen nach §5, Abs. 2, Nr. 7 BauGB.';
+COMMENT ON TABLE "FP_Wasser"."FP_Wasserwirtschaft" IS 'Die für die Wasserwirtschaft vorgesehenen Flächen sowie Flächen, die im Interesse des Hochwasserschutzes und der Regelung des Wasserabflusses freizuhalten sind (§5 Abs. 2 Nr. 7 BauGB).';
 COMMENT ON COLUMN  "FP_Wasser"."FP_Wasserwirtschaft"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Wasser"."FP_Wasserwirtschaft"."zweckbestimmung" IS 'Zweckbestimmung des Gewässers.';
 COMMENT ON COLUMN  "FP_Wasser"."FP_Wasserwirtschaft"."detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmung des Objektes.';
