@@ -2546,6 +2546,7 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" ("Code", "Bezei
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungGewaesser"
 -- -----------------------------------------------------
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1000', 'Hafen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('10000', 'Sportboothafen');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1100', 'Wasserflaeche');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('1200', 'Fliessgewaesser');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGewaesser" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
