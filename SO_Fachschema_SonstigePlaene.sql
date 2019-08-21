@@ -928,16 +928,6 @@ CREATE TRIGGER "delete_SO_WasserrechtFlaeche" AFTER DELETE ON "SO_Nachrichtliche
 CREATE TRIGGER "SO_WasserrechtFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_WasserrechtFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 
 -- -----------------------------------------------------
--- Table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht"
--- -----------------------------------------------------
-CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" (
-  "Code" INTEGER NOT NULL,
-  "Bezeichner" VARCHAR(64) NOT NULL,
-  PRIMARY KEY ("Code"));
-
-GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" TO xp_gast;
-
--- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" (
@@ -965,7 +955,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Forstrecht_artDerFestlegung"
     FOREIGN KEY ("artDerFestlegung")
-    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code")
+    REFERENCES "XP_Enumerationen"."XP_EigentumsartWald" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_SO_Forstrecht_detailArtDerFestlegung"
@@ -981,12 +971,54 @@ GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" TO so_user;
 COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" IS 'Festlegung nach Forstrecht.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."artDerFestlegung" IS 'Grundlegende Klassifizierung der Festlegung';
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."artDerFestlegung" IS 'Klassifizierung der Eigentumsart des Waldes.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."detailArtDerFestlegung" IS 'Detaillierte Klassifizierung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."name" IS 'Informelle Bezeichnung der Festlegung.';
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."nummer" IS 'Amtliche Bezeichnung / Kennziffer der Festlegung.';
 CREATE TRIGGER "change_to_SO_Forstrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_SO_Forstrecht" AFTER DELETE ON "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" (
+  "SO_Forstrecht_gid" BIGINT NOT NULL ,
+  "funktion" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Forstrecht_gid", "funktion"),
+  CONSTRAINT "fk_SO_Forstrecht_funktion1"
+    FOREIGN KEY ("SO_Forstrecht_gid" )
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Forstrecht_funktion2"
+    FOREIGN KEY ("funktion" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" IS 'Klassifizierung der Funktion des Waldes';
+
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" (
+  "SO_Forstrecht_gid" BIGINT NOT NULL ,
+  "betreten" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Forstrecht_gid", "betreten"),
+  CONSTRAINT "fk_SO_Forstrecht_betreten1"
+    FOREIGN KEY ("SO_Forstrecht_gid" )
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Forstrecht_betreten2"
+    FOREIGN KEY ("betreten" )
+    REFERENCES "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" IS 'Festlegung zusätzlicher, normalerweise nicht-gestatteter Aktivitäten, die in dem Wald ausgeführt werden dürfen, nach §14 Abs. 2 Bundeswaldgesetz.';
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_ForstrechtPunkt"

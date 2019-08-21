@@ -778,3 +778,159 @@ UPDATE "XP_Enumerationen"."XP_Sondernutzungen" SET "Bezeichner" = 'SondergebietH
 
 -- CR 033
 UPDATE "XP_Enumerationen"."XP_ZweckbestimmungVerEntsorgung" SET "Bezeichner" = 'Mobilfunkanlage' WHERE "Code"= 26001;
+
+-- CR 034
+-- XP
+-- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_EigentumsartWald"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_EigentumsartWald" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_EigentumsartWald" TO xp_gast;
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_EigentumsartWald"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1000', 'OeffentlicherWald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1100', 'Staatswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1200', 'Koerperschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('12000', 'Kommunalwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('12001', 'Stiftungswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('2000', 'Privatwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('20000', 'Gemeinschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('20001', 'Genossenschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('3000', 'Kirchenwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+-- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_WaldbetretungTyp"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_WaldbetretungTyp" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_WaldbetretungTyp" TO xp_gast;
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_WaldbetretungTyp"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('1000', 'Radfahren');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('2000', 'Reiten');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('3000', 'Fahren');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('4000', 'Hundesport');
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_ZweckbestimmungWald"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('10000', 'Waldschutzgebiet');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16000', 'Bodenschutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16001', 'Biotopschutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16002', 'NaturnaherWald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16003', 'SchutzwaldSchaedlicheUmwelteinwirkungen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16004', 'Schonwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1700', 'Bannwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1900', 'ImmissionsgeschaedigterWald');
+-- BP
+ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" ADD COLUMN "eigentumsart" INTEGER;
+ALTER TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" ADD CONSTRAINT "fk_BP_WaldFlaeche_eigentumsart"
+    FOREIGN KEY ("eigentumsart" )
+    REFERENCES "XP_Enumerationen"."XP_EigentumsartWald" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche"."eigentumsart" IS 'Festlegung der Eigentumsart des Waldes';
+-- -----------------------------------------------------
+-- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_betreten"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_betreten" (
+  "BP_WaldFlaeche_gid" BIGINT NOT NULL ,
+  "betreten" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_WaldFlaeche_gid", "betreten"),
+  CONSTRAINT "fk_BP_WaldFlaeche_betreten1"
+    FOREIGN KEY ("BP_WaldFlaeche_gid" )
+    REFERENCES "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_WaldFlaeche_betreten2"
+    FOREIGN KEY ("betreten" )
+    REFERENCES "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_betreten" TO xp_gast;
+GRANT ALL ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_betreten" TO bp_user;
+COMMENT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_betreten" IS 'Festlegung zusätzlicher, normalerweise nicht-gestatteter Aktivitäten, die in dem Wald ausgeführt werden dürfen, nach §14 Abs. 2 Bundeswaldgesetz.';
+-- FP
+ALTER TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ADD COLUMN "eigentumsart" INTEGER;
+ALTER TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ADD CONSTRAINT "fk_FP_WaldFlaeche_eigentumsart"
+    FOREIGN KEY ("eigentumsart" )
+    REFERENCES "XP_Enumerationen"."XP_EigentumsartWald" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."eigentumsart" IS 'Festlegung der Eigentumsart des Waldes';
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" (
+  "FP_WaldFlaeche_gid" BIGINT NOT NULL ,
+  "betreten" INTEGER NOT NULL ,
+  PRIMARY KEY ("FP_WaldFlaeche_gid", "betreten"),
+  CONSTRAINT "fk_FP_WaldFlaeche_betreten1"
+    FOREIGN KEY ("FP_WaldFlaeche_gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_WaldFlaeche_betreten2"
+    FOREIGN KEY ("betreten" )
+    REFERENCES "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" TO fp_user;
+COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" IS 'Festlegung zusätzlicher, normalerweise nicht-gestatteter Aktivitäten, die in dem Wald ausgeführt werden dürfen, nach §14 Abs. 2 Bundeswaldgesetz.';
+-- SO
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" (
+  "SO_Forstrecht_gid" BIGINT NOT NULL ,
+  "funktion" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Forstrecht_gid", "funktion"),
+  CONSTRAINT "fk_SO_Forstrecht_funktion1"
+    FOREIGN KEY ("SO_Forstrecht_gid" )
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Forstrecht_funktion2"
+    FOREIGN KEY ("funktion" )
+    REFERENCES "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_funktion" IS 'Klassifizierung der Funktion des Waldes';
+-- -----------------------------------------------------
+-- Table "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten"
+-- -----------------------------------------------------
+CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" (
+  "SO_Forstrecht_gid" BIGINT NOT NULL ,
+  "betreten" INTEGER NOT NULL ,
+  PRIMARY KEY ("SO_Forstrecht_gid", "betreten"),
+  CONSTRAINT "fk_SO_Forstrecht_betreten1"
+    FOREIGN KEY ("SO_Forstrecht_gid" )
+    REFERENCES "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_SO_Forstrecht_betreten2"
+    FOREIGN KEY ("betreten" )
+    REFERENCES "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" TO xp_gast;
+GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" TO so_user;
+COMMENT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht_betreten" IS 'Festlegung zusätzlicher, normalerweise nicht-gestatteter Aktivitäten, die in dem Wald ausgeführt werden dürfen, nach §14 Abs. 2 Bundeswaldgesetz.';
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" DROP CONSTRAINT "fk_SO_Forstrecht_artDerFestlegung";
+ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ADD CONSTRAINT "fk_SO_Forstrecht_artDerFestlegung"
+    FOREIGN KEY ("artDerFestlegung")
+    REFERENCES "XP_Enumerationen"."XP_EigentumsartWald" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."artDerFestlegung" IS 'Klassifizierung der Eigentumsart des Waldes.';
+DROP TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht";
+

@@ -875,6 +875,24 @@ CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungWald" (
 GRANT SELECT ON TABLE "XP_Enumerationen"."XP_ZweckbestimmungWald" TO xp_gast;
 
 -- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_EigentumsartWald"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_EigentumsartWald" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_EigentumsartWald" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "XP_Enumerationen"."XP_WaldbetretungTyp"
+-- -----------------------------------------------------
+CREATE  TABLE  "XP_Enumerationen"."XP_WaldbetretungTyp" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "XP_Enumerationen"."XP_WaldbetretungTyp" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft" (
@@ -2381,11 +2399,41 @@ INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungGruen" ("Code", "Bezeichner") 
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungWald"
 -- -----------------------------------------------------
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1000', 'Naturwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('10000', 'Waldschutzgebiet');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1200', 'Nutzwald');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1400', 'Erholungswald');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1600', 'Schutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16000', 'Bodenschutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16001', 'Biotopschutzwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16002', 'NaturnaherWald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16003', 'SchutzwaldSchaedlicheUmwelteinwirkungen');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('16004', 'Schonwald');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1700', 'Bannwald');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1800', 'FlaecheForstwirtschaft');
+INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('1900', 'ImmissionsgeschaedigterWald');
 INSERT INTO "XP_Enumerationen"."XP_ZweckbestimmungWald" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_EigentumsartWald"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1000', 'OeffentlicherWald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1100', 'Staatswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('1200', 'Koerperschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('12000', 'Kommunalwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('12001', 'Stiftungswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('2000', 'Privatwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('20000', 'Gemeinschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('20001', 'Genossenschaftswald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('3000', 'Kirchenwald');
+INSERT INTO "XP_Enumerationen"."XP_EigentumsartWald" ("Code", "Bezeichner") VALUES ('9999', 'Sonstiges');
+
+-- -----------------------------------------------------
+-- Data for table "XP_Enumerationen"."XP_WaldbetretungTyp"
+-- -----------------------------------------------------
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('1000', 'Radfahren');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('2000', 'Reiten');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('3000', 'Fahren');
+INSERT INTO "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code", "Bezeichner") VALUES ('4000', 'Hundesport');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_ZweckbestimmungLandwirtschaft"

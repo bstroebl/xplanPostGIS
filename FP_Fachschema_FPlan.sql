@@ -1144,11 +1144,17 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFla
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" (
   "gid" BIGINT NOT NULL ,
+  "eigentumsart" INTEGER,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_WaldFlaeche_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_WaldFlaeche_eigentumsart"
+    FOREIGN KEY ("eigentumsart" )
+    REFERENCES "XP_Enumerationen"."XP_EigentumsartWald" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
 
@@ -1156,6 +1162,7 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO xp_
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" IS 'Darstellung von Waldflächen nach §5, Abs. 2, Nr. 9b,';
 COMMENT ON COLUMN  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"."eigentumsart" IS 'Festlegung der Eigentumsart des Waldes';
 CREATE TRIGGER "change_to_FP_WaldFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_WaldFlaeche" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_WaldFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
@@ -1181,7 +1188,6 @@ GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbe
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_zweckbestimmung" IS 'Zweckbestimmungen der Waldfläche';
 
-
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung"
 -- -----------------------------------------------------
@@ -1202,6 +1208,27 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZw
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" TO fp_user;
 COMMENT ON TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
+
+-- -----------------------------------------------------
+-- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" (
+  "FP_WaldFlaeche_gid" BIGINT NOT NULL ,
+  "betreten" INTEGER NOT NULL ,
+  PRIMARY KEY ("FP_WaldFlaeche_gid", "betreten"),
+  CONSTRAINT "fk_FP_WaldFlaeche_betreten1"
+    FOREIGN KEY ("FP_WaldFlaeche_gid" )
+    REFERENCES "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_WaldFlaeche_betreten2"
+    FOREIGN KEY ("betreten" )
+    REFERENCES "XP_Enumerationen"."XP_WaldbetretungTyp" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" TO xp_gast;
+GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" TO fp_user;
+COMMENT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche_betreten" IS 'Festlegung zusätzlicher, normalerweise nicht-gestatteter Aktivitäten, die in dem Wald ausgeführt werden dürfen, nach §14 Abs. 2 Bundeswaldgesetz.';
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche"
