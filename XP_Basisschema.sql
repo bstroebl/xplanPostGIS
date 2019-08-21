@@ -2264,7 +2264,7 @@ INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUE
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2500', 'SondergebietKultur');
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2600', 'SondergebietTourismus');
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2700', 'SondergebietBueroUndVerwaltung');
-INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2800', 'SondergebietHochschuleEinrichtungen');
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2800', 'SondergebietHochschuleForschung');
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2900', 'SondergebietMesse');
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('9999', 'SondergebietAndereNutzungen');
 

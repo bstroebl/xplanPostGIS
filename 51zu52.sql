@@ -773,3 +773,5 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" 
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1500, 'ArcheologischesDenkmal');
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (1600, 'Bodendenkmal');
 
+-- CR 030
+UPDATE "XP_Enumerationen"."XP_Sondernutzungen" SET "Bezeichner" = 'SondergebietHochschuleForschung' WHERE "Code"= 2800;
