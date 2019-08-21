@@ -934,3 +934,5 @@ ALTER TABLE "SO_NachrichtlicheUebernahmen"."SO_Forstrecht" ADD CONSTRAINT "fk_SO
 COMMENT ON COLUMN "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"."artDerFestlegung" IS 'Klassifizierung der Eigentumsart des Waldes.';
 DROP TABLE "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht";
 
+-- CR 035
+INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('1300', 'Ortsdurchfahrt');
