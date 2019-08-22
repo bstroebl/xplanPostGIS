@@ -770,7 +770,7 @@ COMMENT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche" IS 'Darstellung der für di
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."allgArtDerBaulNutzung" IS 'Angabe der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."besondereArtDerBaulNutzung" IS 'Angabe der besonderen Art der baulichen Nutzung.';
-COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Bei Nutzungsform "Sondergebiet": Differenzierung verschiedener Arten von Sondergebieten nach §§ 10 und 11 BauNVO.';
+COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."GFZ" IS 'Angabe einer maximalen Geschossflächenzahl als Maß der baulichen Nutzung.';

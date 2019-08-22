@@ -1374,3 +1374,6 @@ CREATE TABLE "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" (
 GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" TO bp_user;
 COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" IS 'Zuordnung einer Richtungssektor-Grenze für die Festlegung zusätzlicher Lärmkontingente';
+
+-- CR 049
+COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
