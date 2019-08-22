@@ -29,6 +29,7 @@ CREATE SCHEMA "BP_Sonstiges";
 CREATE SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze";
 CREATE SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz";
 CREATE SCHEMA "BP_Umwelt";
+CREATE SCHEMA "BP_Laerm";
 
 COMMENT ON SCHEMA "BP_Basisobjekte" IS 'Das Paket enthält die Klassen zur Modellierung eines BPlans (abgeleitet von XP_Plan) und eines BPlan-Bereichs (abgeleitet von XP_Bereich), sowie die Basisklassen für BPlan-Fachobjekte.';
 COMMENT ON SCHEMA "BP_Bebauung" IS 'Festsetzungen über baulich genutzte Flächen';
@@ -42,6 +43,7 @@ COMMENT ON SCHEMA "BP_Sonstiges" IS 'Sonstige Festsetzungen';
 COMMENT ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" IS 'Festsetzungen von Flächen für Aufschüttungen, Abgrabungen oder für die Gewinnung von Steinen, Erden und anderen Bodenschätzen (§9, Abs. 1, Nr. 17 BauGB).';
 COMMENT ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" IS 'Festsetzungen zur Erhaltungssatzungen(§172 BauGB), Denkmalschutz-Ensembles sowie Einzelanlagen des Denkmalschutzes.';
 COMMENT ON SCHEMA "BP_Umwelt" IS 'Umweltbezogene Festsetzungen';
+COMMENT ON SCHEMA "BP_Laerm" IS '';
 
 GRANT USAGE ON SCHEMA "BP_Basisobjekte" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Bebauung" TO xp_gast;
@@ -55,6 +57,7 @@ GRANT USAGE ON SCHEMA "BP_Sonstiges" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Aufschuettung_Abgrabung_Bodenschaetze" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Erhaltungssatzung_und_Denkmalschutz" TO xp_gast;
 GRANT USAGE ON SCHEMA "BP_Umwelt" TO xp_gast;
+GRANT USAGE ON SCHEMA "BP_Laerm" TO xp_gast;
 
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
@@ -228,12 +231,54 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "BP_Bebauung"."BP_FestsetzungenBaugebiet_konsistent"() TO bp_user;
 
+CREATE OR REPLACE FUNCTION "BP_Laerm"."ins_updt_BP_EmissionskontingentLaerm"()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+
+ DECLARE
+    parent_nspname varchar;
+    parent_relname varchar;
+ BEGIN
+    parent_nspname := 'BP_Laerm';
+    parent_relname := 'BP_EmissionskontingentLaerm';
+
+    IF (TG_OP = 'INSERT') THEN
+        IF TG_TABLE_NAME = parent_relname THEN
+            IF new.id IS NULL THEN -- in diese Tabelle kann auch direkt eingefügt werden
+                new.id := nextval('"BP_Laerm"."BP_EmissionskontingentLaerm_id_seq"');
+            END IF;
+        ELSE -- BP_EmissionskontingentLaermGebiet
+            new.id := nextval('"BP_Laerm"."BP_EmissionskontingentLaerm_id_seq"');
+            -- Elternobjekt anlegen
+            EXECUTE 'INSERT INTO ' || quote_ident(parent_nspname) || '.' || quote_ident(parent_relname) ||
+                '(id) VALUES(' || CAST(new.id as varchar) || ');';
+        END IF;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new.id := old.id; --no change in id allowed
+    END IF; -- Kein DELETE weil in BP_EmissionskontingentLaerm auch direkt eingefügt werden kann
+
+    RETURN new;
+ END;
+$BODY$;
+GRANT EXECUTE ON FUNCTION "BP_Laerm"."ins_updt_BP_EmissionskontingentLaerm"() TO bp_user;
+
 -- *****************************************************
 -- CREATE SEQUENCES
 -- *****************************************************
 CREATE SEQUENCE "BP_Bebauung"."BP_Dachgestaltung_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_Dachgestaltung_id_seq" TO GROUP bp_user;
+
+CREATE SEQUENCE "BP_Laerm"."BP_EmissionskontingentLaerm_id_seq"
+   MINVALUE 1;
+GRANT ALL ON TABLE "BP_Laerm"."BP_EmissionskontingentLaerm_id_seq" TO GROUP bp_user;
+
+CREATE SEQUENCE "BP_Laerm"."BP_Richtungssektor_id_seq"
+   MINVALUE 2; -- Wert eins wird durch den Defaulteintrag belegt
+GRANT ALL ON TABLE "BP_Laerm"."BP_Richtungssektor_id_seq" TO GROUP bp_user;
 
 -- *****************************************************
 -- CREATE TABLEs
@@ -568,11 +613,170 @@ GRANT ALL ON TABLE "BP_Basisobjekte"."BP_Flaechenobjekt" TO bp_user;
 CREATE TRIGGER "BP_Flaechenobjekt_isAbstract" BEFORE INSERT ON "BP_Basisobjekte"."BP_Flaechenobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();
 
 -- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_EmissionskontingentLaerm"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_EmissionskontingentLaerm" (
+  "id" INTEGER NOT NULL,
+  "ekwertTag" REAL NOT NULL DEFAULT 0,
+  "ekwertNacht" REAL NOT NULL DEFAULT 0,
+  "erlaeuterung" VARCHAR (256),
+  PRIMARY KEY ("id") );
+
+COMMENT ON TABLE "BP_Laerm"."BP_EmissionskontingentLaerm" IS 'Lärmemissionskontingent eines Teilgebietes nach DIN 45691, Abschnitt 4.6';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaerm"."id" IS 'Primärschlüssel, wird automatisch vergeben';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaerm"."ekwertTag" IS 'Emissionskontingent Tag in db';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaerm"."ekwertNacht" IS 'Emissionskontingent Nacht in db';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaerm"."erlaeuterung" IS 'Erläuterung';
+CREATE TRIGGER "BP_EmissionskontingentLaerm_ins_upd" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_EmissionskontingentLaerm" FOR EACH ROW EXECUTE PROCEDURE "BP_Laerm"."ins_updt_BP_EmissionskontingentLaerm"();
+GRANT SELECT ON TABLE "BP_Laerm"."BP_EmissionskontingentLaerm" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_EmissionskontingentLaerm" TO bp_user;
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_ZusatzkontingentLaerm"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm" (
+  "gid" BIGINT NOT NULL,
+  "bezeichnung" CHARACTER VARYING(256),
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_ZusatzkontingentLaerm_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Punktobjekt");
+
+COMMENT ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm" IS 'Parametrische Spezifikation von zusätzlichen Lärmemissionskontingenten für einzelne Richtungssektoren (DIN 45691, Anhang 2).';
+COMMENT ON COLUMN "BP_Laerm"."BP_ZusatzkontingentLaerm"."gid" IS 'Primärschlüssel, wird automatisch vergeben';
+COMMENT ON COLUMN "BP_Laerm"."BP_ZusatzkontingentLaerm"."bezeichnung" IS 'Bezeichnung des Kontingentes';
+GRANT SELECT ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm" TO bp_user;
+CREATE INDEX "BP_ZusatzkontingentLaerm_gidx" ON "BP_Laerm"."BP_ZusatzkontingentLaerm" using gist ("position");
+CREATE TRIGGER "change_to_BP_ZusatzkontingentLaerm" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_ZusatzkontingentLaerm" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZusatzkontingentLaerm" AFTER DELETE ON "BP_Laerm"."BP_ZusatzkontingentLaerm" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_Richtungssektor"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_Richtungssektor" (
+  "id" INTEGER NOT NULL DEFAULT nextval('"BP_Laerm"."BP_Richtungssektor_id_seq"'),
+  "winkelAnfang" INTEGER NOT NULL DEFAULT 0,
+  "winkelEnde" INTEGER NOT NULL DEFAULT 0,
+  "zkWertTag" INTEGER NOT NULL DEFAULT 1,
+  "zkWertNacht" INTEGER NOT NULL DEFAULT 1,
+  PRIMARY KEY ("id") );
+
+COMMENT ON TABLE "BP_Laerm"."BP_Richtungssektor" IS 'Lärmemissionskontingent eines Teilgebietes nach DIN 45691, Abschnitt 4.6';
+COMMENT ON COLUMN "BP_Laerm"."BP_Richtungssektor"."id" IS 'Primärschlüssel, wird automatisch vergeben';
+COMMENT ON COLUMN "BP_Laerm"."BP_Richtungssektor"."winkelAnfang" IS 'Startwinkel des Emissionssektors';
+COMMENT ON COLUMN "BP_Laerm"."BP_Richtungssektor"."winkelEnde" IS 'Endwinkel des Emissionssektors';
+COMMENT ON COLUMN "BP_Laerm"."BP_Richtungssektor"."zkWertTag" IS 'Zusatzkontingent Tag';
+COMMENT ON COLUMN "BP_Laerm"."BP_Richtungssektor"."zkWertNacht" IS 'Zusatzkontingent Nacht';
+GRANT SELECT ON TABLE "BP_Laerm"."BP_Richtungssektor" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_Richtungssektor" TO bp_user;
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_ZusatzkontingentLaerm_richtungssektor"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm_richtungssektor" (
+  "BP_ZusatzkontingentLaerm_gid" BIGINT NOT NULL ,
+  "richtungssektor" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_ZusatzkontingentLaerm_gid", "richtungssektor") ,
+  CONSTRAINT "fk_BP_ZusatzkontingentLaerm_richtungssektor1"
+    FOREIGN KEY ("BP_ZusatzkontingentLaerm_gid")
+    REFERENCES "BP_Laerm"."BP_ZusatzkontingentLaerm" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_ZusatzkontingentLaerm_richtungssektor2"
+    FOREIGN KEY ("richtungssektor")
+    REFERENCES "BP_Laerm"."BP_Richtungssektor" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Laerm"."BP_ZusatzkontingentLaerm_richtungssektor" TO xp_gast;
+GRANT ALL ON "BP_Laerm"."BP_ZusatzkontingentLaerm_richtungssektor" TO bp_user;
+COMMENT ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaerm_richtungssektor" IS 'Spezifikation der Richtungssektoren';
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_EmissionskontingentLaermGebiet"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_EmissionskontingentLaermGebiet" (
+  "id" INTEGER NOT NULL,
+  "gebietsbezeichnung" VARCHAR (256),
+  PRIMARY KEY ("id"),
+  CONSTRAINT "fk_BP_EmissionskontingentLaermGebiet_parent"
+    FOREIGN KEY ("id")
+    REFERENCES "BP_Laerm"."BP_EmissionskontingentLaerm" ("id")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+COMMENT ON TABLE "BP_Laerm"."BP_EmissionskontingentLaermGebiet" IS 'Lärmemissionskontingent eines Teilgebietes, das einem bestimmten Immissionsgebiet außerhalb des Geltungsbereiches des BPlans zugeordnet ist (Anhang A4 von DIN 45691).';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaermGebiet"."id" IS 'Primärschlüssel, wird automatisch vergeben';
+COMMENT ON COLUMN "BP_Laerm"."BP_EmissionskontingentLaermGebiet"."gebietsbezeichnung" IS 'Bezeichnung des Immissionsgebietes';
+CREATE TRIGGER "BP_EmissionskontingentLaermGebiet_ins_upd" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_EmissionskontingentLaermGebiet" FOR EACH ROW EXECUTE PROCEDURE "BP_Laerm"."ins_updt_BP_EmissionskontingentLaerm"();
+GRANT SELECT ON TABLE "BP_Laerm"."BP_EmissionskontingentLaermGebiet" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_EmissionskontingentLaermGebiet" TO bp_user;
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" (
+  "gid" BIGINT NOT NULL ,
+  "bezeichnung" CHARACTER VARYING(256),
+  "richtungssektor" INTEGER NOT NULL DEFAULT 1,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_ZusatzkontingentLaermFlaeche_parent"
+    FOREIGN KEY ("gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_ZusatzkontingentLaermFlaeche_richtungssektor1"
+    FOREIGN KEY ("richtungssektor")
+    REFERENCES "BP_Laerm"."BP_Richtungssektor" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" TO bp_user;
+CREATE INDEX "BP_ZusatzkontingentLaermFlaeche_gidx" ON "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" using gist ("position");
+COMMENT ON TABLE "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" IS 'Flächenhafte Spezifikation von zusätzlichen Lärmemissionskontingenten für einzelne Richtungssektoren (DIN 45691, Anhang 2).';
+COMMENT ON COLUMN "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche"."bezeichnung" IS 'Bezeichnung des Kontingentes';
+COMMENT ON COLUMN "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche"."richtungssektor" IS 'Spezifikation des zugehörigen Richtungssektors';
+CREATE TRIGGER "change_to_BP_ZusatzkontingentLaermFlaeche" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZusatzkontingentLaermFlaeche" AFTER DELETE ON "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_ZusatzkontingentLaermFlaeche_Ueberlagerung" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Laerm"."BP_RichtungssektorGrenze"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Laerm"."BP_RichtungssektorGrenze" (
+  "gid" BIGINT NOT NULL,
+  "winkel" INTEGER,
+  PRIMARY KEY ("gid"),
+  CONSTRAINT "fk_BP_RichtungssektorGrenze_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Linienobjekt");
+
+COMMENT ON TABLE "BP_Laerm"."BP_RichtungssektorGrenze" IS 'Linienhafte Repräsentation einer Richtungssektor-Grenze';
+COMMENT ON COLUMN "BP_Laerm"."BP_RichtungssektorGrenze"."gid" IS 'Primärschlüssel, wird automatisch vergeben';
+COMMENT ON COLUMN "BP_Laerm"."BP_RichtungssektorGrenze"."winkel" IS 'Richtungswinkel der Sektorengrenze';
+GRANT SELECT ON TABLE "BP_Laerm"."BP_RichtungssektorGrenze" TO xp_gast;
+GRANT ALL ON TABLE "BP_Laerm"."BP_RichtungssektorGrenze" TO bp_user;
+CREATE INDEX "BP_RichtungssektorGrenze_gidx" ON "BP_Laerm"."BP_RichtungssektorGrenze" using gist ("position");
+CREATE TRIGGER "change_to_BP_RichtungssektorGrenze" BEFORE INSERT OR UPDATE ON "BP_Laerm"."BP_RichtungssektorGrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_RichtungssektorGrenze" AFTER DELETE ON "BP_Laerm"."BP_RichtungssektorGrenze" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Objekt"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
   "gid" BIGINT NOT NULL ,
   "rechtscharakter" INTEGER NOT NULL DEFAULT 9998,
+  "laermkontingent" INTEGER,
+  "zusatzkontingent" BIGINT,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_bp_objekt_bp_rechtscharakter1"
     FOREIGN KEY ("rechtscharakter" )
@@ -583,16 +787,91 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Objekt" (
     FOREIGN KEY ("gid" )
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Ojekt_laermkontingent"
+    FOREIGN KEY ("laermkontingent")
+    REFERENCES "BP_Laerm"."BP_EmissionskontingentLaerm" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Ojekt_zusatzkontingent"
+    FOREIGN KEY ("zusatzkontingent")
+    REFERENCES "BP_Laerm"."BP_ZusatzkontingentLaerm" ("gid")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Objekt" TO bp_user;
 COMMENT ON TABLE  "BP_Basisobjekte"."BP_Objekt" IS 'Basisklasse für alle raumbezogenen Festsetzungen, Hinweise, Vermerke und Kennzeichnungen eines Bebauungsplans.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Objekt"."rechtscharakter" IS 'Rechtliche Charakterisierung des Planinhaltes.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Objekt"."laermkontingent" IS 'Festsetzung eines Lärmemissionskontingent nach DIN 45691';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Objekt"."zusatzkontingent" IS 'Festsetzung von Zusatzkontingenten für die Lärmemission, die einzelnen Richtungssektoren zugeordnet sind. Die einzelnen Richtungssektoren werden parametrisch definiert.';
 CREATE INDEX "idx_fk_bp_objekt_bp_rechtscharakter1" ON "BP_Basisobjekte"."BP_Objekt" ("rechtscharakter") ;
 CREATE INDEX "idx_fk_BP_Objekt_XP_Objekt1" ON "BP_Basisobjekte"."BP_Objekt" ("gid") ;
 CREATE TRIGGER "change_to_BP_Objekt" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Objekt" AFTER DELETE ON "BP_Basisobjekte"."BP_Objekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Objekt_laermkontingentGebiet"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Objekt_laermkontingentGebiet" (
+  "BP_Objekt_gid" BIGINT NOT NULL ,
+  "laermkontingentGebiet" INTEGER NOT NULL ,
+  PRIMARY KEY ("BP_Objekt_gid", "laermkontingentGebiet") ,
+  CONSTRAINT "fk_laermkontingentGebiet_BP_Objekt1"
+    FOREIGN KEY ("BP_Objekt_gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_laermkontingentGebiet_BP_EmissionskontingentLaermGebiet1"
+    FOREIGN KEY ("laermkontingentGebiet")
+    REFERENCES "BP_Laerm"."BP_EmissionskontingentLaermGebiet" ("id")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_laermkontingentGebiet" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_laermkontingentGebiet" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_laermkontingentGebiet" IS 'Festsetzung von Lärmemissionskontingenten nach DIN 45691, die einzelnen Immissionsgebieten zugeordnet sind';
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Objekt_zusatzkontingentFlaeche"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Objekt_zusatzkontingentFlaeche" (
+  "BP_Objekt_gid" BIGINT NOT NULL ,
+  "zusatzkontingentFlaeche" BIGINT NOT NULL ,
+  PRIMARY KEY ("BP_Objekt_gid", "zusatzkontingentFlaeche") ,
+  CONSTRAINT "fk_zusatzkontingentFlaeche_BP_Objekt1"
+    FOREIGN KEY ("BP_Objekt_gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_zusatzkontingentFlaeche_BP_ZusatzkontingentLaermFlaeche1"
+    FOREIGN KEY ("zusatzkontingentFlaeche")
+    REFERENCES "BP_Laerm"."BP_ZusatzkontingentLaermFlaeche" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_zusatzkontingentFlaeche" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_zusatzkontingentFlaeche" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_zusatzkontingentFlaeche" IS 'Festsetzung von Zusatzkontingenten für die Lärmemission, die einzelnen Richtungssektoren zugeordnet sind. Die einzelnen Richtungssektoren werden durch explizite Flächen definiert.';
+
+-- -----------------------------------------------------
+-- Table "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" (
+  "BP_Objekt_gid" BIGINT NOT NULL ,
+  "richtungssektorGrenze" BIGINT NOT NULL ,
+  PRIMARY KEY ("BP_Objekt_gid", "richtungssektorGrenze") ,
+  CONSTRAINT "fk_richtungssektorGrenze_BP_Objekt1"
+    FOREIGN KEY ("BP_Objekt_gid")
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_richtungssektorGrenze_BP_RichtungssektorGrenze1"
+    FOREIGN KEY ("richtungssektorGrenze")
+    REFERENCES "BP_Laerm"."BP_RichtungssektorGrenze" ("gid")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" TO xp_gast;
+GRANT ALL ON "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" TO bp_user;
+COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" IS 'Zuordnung einer Richtungssektor-Grenze für die Festlegung zusätzlicher Lärmkontingente';
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_TextAbschnitt"
@@ -5007,6 +5286,11 @@ GRANT SELECT ON TABLE "BP_Basisobjekte"."BP_Objekte" TO xp_gast;
 -- Data for table public."XP_Modellbereich"
 -- -----------------------------------------------------
 INSERT INTO public."XP_Modellbereich" ("Kurz", "Modellbereich") VALUES ('BP', 'Bebauungsplan');
+
+-- -----------------------------------------------------
+-- Defaultwert "BP_Laerm"."BP_Richtungssektor"
+-- -----------------------------------------------------
+INSERT INTO "BP_Laerm"."BP_Richtungssektor" ("id") VALUES (1);
 
 -- -----------------------------------------------------
 -- Data for table "BP_Basisobjekte"."BP_Verfahren"
