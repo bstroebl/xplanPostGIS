@@ -5423,6 +5423,7 @@ INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3700, 'Ku
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3800, 'Sheddach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (3900, 'Bogendach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (4000, 'Turmdach');
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (4100, 'Tonnendach');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (5000, 'Mischform');
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 

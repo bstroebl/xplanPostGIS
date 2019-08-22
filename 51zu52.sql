@@ -1377,3 +1377,8 @@ COMMENT ON TABLE "BP_Basisobjekte"."BP_Objekt_richtungssektorGrenze" IS 'Zuordnu
 
 -- CR 049
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
+
+-- CR 050 Konformitätsbedingungen werden bisher nicht abgebildet
+-- CR 051 nicht relevant
+-- CR 052
+INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (4100, 'Tonnendach');
