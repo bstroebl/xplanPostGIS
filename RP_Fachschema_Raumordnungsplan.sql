@@ -385,7 +385,9 @@ COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_bedeutsamkeit" IS 'Bedeutsamkeit e
 CREATE  TABLE  "RP_Basisobjekte"."RP_Punktobjekt" (
   "gid" BIGINT NOT NULL ,
   "position" GEOMETRY(Multipoint,25832) NOT NULL ,
+  "nordwinkel" INTEGER,
   PRIMARY KEY ("gid") );
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Punktobjekt" TO xp_gast;
 GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Punktobjekt" TO rp_user;
 CREATE TRIGGER "RP_Punktobjekt_isAbstract" BEFORE INSERT ON "RP_Basisobjekte"."RP_Punktobjekt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isAbstract"();

@@ -1392,3 +1392,7 @@ UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Gehw
 -- CR 055
 INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('3100', 'VorhabenUndErschliessungsplan');
 INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2900, 'VorhabenUndErschliessungsplan');
+
+-- CR 057
+ALTER TABLE "RP_Basisobjekte"."RP_Punktobjekt" ADD COLUMN "nordwinkel" INTEGER;
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Punktobjekt"."nordwinkel" IS 'Orientierung des Punktobjektes als Winkel gegen die Nordrichtung. Zählweise im geographischen Sinn (von Nord über Ost nach Süd und West).';
