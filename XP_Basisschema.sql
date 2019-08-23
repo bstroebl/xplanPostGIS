@@ -1050,7 +1050,7 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein exte
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name des referierten Dokuments innerhalb des Informationssystems.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel. Wenn der XPlanGML Datensatz und das referierte Dokument in einem hierarchischen Ordnersystem gespeichert sind, kann die URI auch einen relativen Pfad vom XPlanGML-Datensatz zum Dokument enthalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzMimeType" IS 'Mime-Type des referierten Dokumentes';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
