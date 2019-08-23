@@ -1388,3 +1388,7 @@ UPDATE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'RadG
 UPDATE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Gehweg' WHERE "Code" = 1500;
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'RadGehweg' WHERE "Code" = 14003;
 UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Gehweg' WHERE "Code" = 14005;
+
+-- CR 055
+INSERT INTO "BP_Basisobjekte"."BP_PlanArt" ("Code", "Bezeichner") VALUES ('3100', 'VorhabenUndErschliessungsplan');
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (2900, 'VorhabenUndErschliessungsplan');
