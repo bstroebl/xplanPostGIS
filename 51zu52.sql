@@ -1382,3 +1382,9 @@ COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Differ
 -- CR 051 nicht relevant
 -- CR 052
 INSERT INTO "BP_Bebauung"."BP_Dachform" ("Code", "Bezeichner") VALUES (4100, 'Tonnendach');
+
+-- CR 054
+UPDATE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'RadGehweg' WHERE "Code" = 1300;
+UPDATE "BP_Verkehr"."BP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Gehweg' WHERE "Code" = 1500;
+UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'RadGehweg' WHERE "Code" = 14003;
+UPDATE "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" SET "Bezeichner" = 'Gehweg' WHERE "Code" = 14005;
