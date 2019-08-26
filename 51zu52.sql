@@ -1402,3 +1402,6 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI d
 
 -- CR 060
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2720', 'SondergebietJustiz');
+
+-- CR 061
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('23000', 'Klinikgebiet');
