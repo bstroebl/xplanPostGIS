@@ -1399,3 +1399,6 @@ COMMENT ON COLUMN "RP_Basisobjekte"."RP_Punktobjekt"."nordwinkel" IS 'Orientieru
 
 -- CR 058
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel. Wenn der XPlanGML Datensatz und das referierte Dokument in einem hierarchischen Ordnersystem gespeichert sind, kann die URI auch einen relativen Pfad vom XPlanGML-Datensatz zum Dokument enthalten.';
+
+-- CR 060
+INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('2720', 'SondergebietJustiz');
