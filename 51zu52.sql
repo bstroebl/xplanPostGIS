@@ -1492,3 +1492,7 @@ Bei Maßkreisen (typ == 2000) sollte position nur einen einfachen Kreisbogen (gm
 In der nächsten Hauptversion von XPlanGML werden diese Empfehlungen zu verpflichtenden Konformitätsbedingungen.';
 COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."startWinkel" IS 'Startwinkel für die Plandarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
 COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."endWinkel" IS 'Endwinkel für die Planarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
+
+-- CR 066
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('8000', 'Zuwaesserungskanal');
+INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('8100', 'Entwaesserungskanal');
