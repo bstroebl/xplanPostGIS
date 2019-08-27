@@ -1018,11 +1018,21 @@ CREATE TRIGGER "delete_BP_AbstandsFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_Abs
 CREATE TRIGGER "BP_AbstandsFlaeche_Ueberlagerung" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbstandsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_AbstandsMassTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_AbstandsMassTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_AbstandsMassTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_AbstandsMass"
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_AbstandsMass" (
   "gid" BIGINT NOT NULL ,
-  "wert" NUMERIC(6,2) NOT NULL,
+  "typ" INTEGER,
+  "wert" NUMERIC(6,2),
   "startWinkel" INTEGER,
   "endWinkel" INTEGER,
   PRIMARY KEY ("gid") ,
@@ -1030,15 +1040,24 @@ CREATE  TABLE  "BP_Sonstiges"."BP_AbstandsMass" (
     FOREIGN KEY ("gid" )
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_AbstandsMass_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code")
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_AbstandsMass" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_AbstandsMass" TO bp_user;
-COMMENT ON TABLE  "BP_Sonstiges"."BP_AbstandsMass" IS 'Darstellung von Maßpfeilen oder Maßkreisen in BPlänen um eine eindeutige Vermassung einzelner Festsetzungen zu erreichen.';
+COMMENT ON TABLE  "BP_Sonstiges"."BP_AbstandsMass" IS 'Darstellung von Maßpfeilen oder Maßkreisen in BPlänen, um eine eindeutige Vermassung einzelner Festsetzungen zu erreichen.
+Bei Masspfeilen (typ == 1000) sollte das Geometrie-Attribut position nur eine einfache Linie (gml:LineString mit 2 Punkten) enthalten
+Bei Maßkreisen (typ == 2000) sollte position nur einen einfachen Kreisbogen (gml:Curve mit genau einem gml:Arc enthalten).
+In der nächsten Hauptversion von XPlanGML werden diese Empfehlungen zu verpflichtenden Konformitätsbedingungen.';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_AbstandsMass"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "BP_Sonstiges"."BP_AbstandsMass"."wert" IS 'Längenangabe des Abstandsmasses.';
-COMMENT ON COLUMN  "BP_Sonstiges"."BP_AbstandsMass"."startWinkel" IS 'Startwinkel für Darstellung eines Abstandsmaßes (nur relevant für Maßkeise)';
-COMMENT ON COLUMN  "BP_Sonstiges"."BP_AbstandsMass"."endWinkel" IS 'Endwinkel für Darstellung eines Abstandsmaßes (nur relevant für Maßkeise)';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."typ" IS 'Typ der Massangabe (Maßpfeil oder Maßkreis).';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."startWinkel" IS 'Startwinkel für die Plandarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."endWinkel" IS 'Endwinkel für die Planarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
 CREATE TRIGGER "change_to_BP_AbstandsMass" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_AbstandsMass" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_AbstandsMass" AFTER DELETE ON "BP_Sonstiges"."BP_AbstandsMass" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -5381,6 +5400,12 @@ INSERT INTO "BP_Erhaltungssatzung_und_Denkmalschutz"."BP_ErhaltungsGrund" ("Code
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('1000', 'Nutzungsartengrenze');
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('2000', 'UnterschiedlicheHoehen');
 INSERT INTO "BP_Sonstiges"."BP_AbgrenzungenTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstigeAbgrenzung');
+
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_AbstandsMassTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code", "Bezeichner") VALUES ('1000', 'Masspfeil');
+INSERT INTO "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code", "Bezeichner") VALUES ('2000', 'Masskreis');
 
 -- -----------------------------------------------------
 -- Data for table "BP_Sonstiges"."BP_WegerechtTypen"

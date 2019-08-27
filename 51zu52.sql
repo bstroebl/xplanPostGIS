@@ -1463,3 +1463,32 @@ GRANT ALL ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" TO fp_user;
 COMMENT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
 INSERT INTO "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" ("FP_BebauungsFlaeche_gid","sondernutzung") SELECT gid, "sonderNutzung" FROM "FP_Bebauung"."FP_BebauungsFlaeche" WHERE "sonderNutzung" IS NOT NULL;
 ALTER TABLE "FP_Bebauung"."FP_BebauungsFlaeche" DROP COLUMN "sonderNutzung";
+
+-- CR 065
+ALTER TABLE "BP_Sonstiges"."BP_AbstandsMass" ALTER COLUMN "wert" DROP NOT NULL;
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_AbstandsMassTypen"
+-- -----------------------------------------------------
+CREATE  TABLE  "BP_Sonstiges"."BP_AbstandsMassTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_AbstandsMassTypen" TO xp_gast;
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_AbstandsMassTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code", "Bezeichner") VALUES ('1000', 'Masspfeil');
+INSERT INTO "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code", "Bezeichner") VALUES ('2000', 'Masskreis');
+ALTER TABLE "BP_Sonstiges"."BP_AbstandsMass" ADD COLUMN "typ" INTEGER;
+ALTER TABLE "BP_Sonstiges"."BP_AbstandsMass" ADD CONSTRAINT "fk_BP_AbstandsMass_typ"
+    FOREIGN KEY ("typ" )
+    REFERENCES "BP_Sonstiges"."BP_AbstandsMassTypen" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."typ" IS 'Typ der Massangabe (Maßpfeil oder Maßkreis).';
+COMMENT ON TABLE  "BP_Sonstiges"."BP_AbstandsMass" IS 'Darstellung von Maßpfeilen oder Maßkreisen in BPlänen, um eine eindeutige Vermassung einzelner Festsetzungen zu erreichen.
+Bei Masspfeilen (typ == 1000) sollte das Geometrie-Attribut position nur eine einfache Linie (gml:LineString mit 2 Punkten) enthalten
+Bei Maßkreisen (typ == 2000) sollte position nur einen einfachen Kreisbogen (gml:Curve mit genau einem gml:Arc enthalten).
+In der nächsten Hauptversion von XPlanGML werden diese Empfehlungen zu verpflichtenden Konformitätsbedingungen.';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."startWinkel" IS 'Startwinkel für die Plandarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."endWinkel" IS 'Endwinkel für die Planarstellung des Abstandsmaßes (nur relevant für Maßkreise). Die Winkelwerte beziehen sich auf den Rechtswert (Ost-Richtung)';
