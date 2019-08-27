@@ -49,9 +49,13 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich_qv" TO xp_gast;
 -- View "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
 -- -----------------------------------------------------
 
-CREATE OR REPLACE VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" AS
-SELECT g.*
-FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g;
+SELECT g.*,so1 as sondernutzung1,so2 as sondernutzung2,so3 as sondernutzung3,so4 as sondernutzung4
+  FROM
+ "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g
+ LEFT JOIN
+ crosstab('SELECT "BP_BaugebietsTeilFlaeche_gid", "BP_BaugebietsTeilFlaeche_gid", sondernutzung FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" ORDER BY 1,3') sot
+ (sogid bigint, so1 integer,so2 integer,so3 integer,so4 integer)
+ ON g.gid=sot.sogid;
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" TO xp_gast;
 
 -- -----------------------------------------------------

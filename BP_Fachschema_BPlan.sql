@@ -3659,7 +3659,6 @@ CREATE TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" (
   "gid" BIGINT NOT NULL,
   "allgArtDerBaulNutzung" INTEGER,
   "besondereArtDerBaulNutzung" INTEGER,
-  "sondernutzung" INTEGER,
   "detaillierteArtDerBaulNutzung" INTEGER,
   "nutzungText" VARCHAR(256),
   "abweichungBauNVO" INTEGER,
@@ -3678,11 +3677,6 @@ CREATE TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" (
   CONSTRAINT "fk_BP_BaugebietsTF_XP_BesondereArtDerBaulNutzung1"
     FOREIGN KEY ("besondereArtDerBaulNutzung")
     REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code")
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_BP_BaugebietsTF_XP_Sondernutzungen1"
-    FOREIGN KEY ("sondernutzung")
-    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code")
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_BP_BaugebietsTF_BP_DetailArtDerBaulNutzung1"
@@ -3709,7 +3703,6 @@ COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugeb
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
-COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Nutzungsart.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet" ("besondereArtDerBaulNutzung" == 2000, 2100, 3000 oder 4000): Kurzform der besonderen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."abweichungBauNVO" IS 'Art der Abweichung von der BauNVO.';
@@ -3717,6 +3710,27 @@ COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."zugunstenVon" IS 'An
 CREATE TRIGGER "change_to_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_BaugebietsTeilFlaeche" AFTER DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_BP_BaugebietsTeilFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" (
+  "BP_BaugebietsTeilFlaeche_gid" BIGINT NOT NULL ,
+  "sondernutzung" INTEGER NULL ,
+  PRIMARY KEY ("BP_BaugebietsTeilFlaeche_gid", "sondernutzung"),
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_sondernutzung1"
+    FOREIGN KEY ("BP_BaugebietsTeilFlaeche_gid" )
+    REFERENCES "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_sondernutzung2"
+    FOREIGN KEY ("sondernutzung" )
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_BauLinie"

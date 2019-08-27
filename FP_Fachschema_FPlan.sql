@@ -724,7 +724,6 @@ CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
   "gid" BIGINT NOT NULL ,
   "allgArtDerBaulNutzung" INTEGER NULL ,
   "besondereArtDerBaulNutzung" INTEGER NULL ,
-  "sonderNutzung" INTEGER NULL ,
   "detaillierteArtDerBaulNutzung" INTEGER NULL ,
   "nutzungText" VARCHAR(255) NULL ,
   "GFZ" FLOAT NULL ,
@@ -741,11 +740,6 @@ CREATE  TABLE  "FP_Bebauung"."FP_BebauungsFlaeche" (
   CONSTRAINT "fk_FP_BebauungsFlaeche_XP_BesondereArtDerBaulNutzung1"
     FOREIGN KEY ("besondereArtDerBaulNutzung" )
     REFERENCES "XP_Enumerationen"."XP_BesondereArtDerBaulNutzung" ("Code" )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_FP_BebauungsFlaeche_XP_Sondernutzungen1"
-    FOREIGN KEY ("sonderNutzung" )
-    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_FP_BebauungsFlaeche_parent"
@@ -770,7 +764,6 @@ COMMENT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche" IS 'Darstellung der für di
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."allgArtDerBaulNutzung" IS 'Angabe der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."besondereArtDerBaulNutzung" IS 'Angabe der besonderen Art der baulichen Nutzung.';
-COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."sonderNutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."detaillierteArtDerBaulNutzung" IS 'Über eine CodeList definierte Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."nutzungText" IS 'Bei Nutzungsform "Sondergebiet": Kurzform der besonderen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "FP_Bebauung"."FP_BebauungsFlaeche"."GFZ" IS 'Angabe einer maximalen Geschossflächenzahl als Maß der baulichen Nutzung.';
@@ -782,6 +775,27 @@ CREATE TRIGGER "change_to_FP_BebauungsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Be
 CREATE TRIGGER "delete_FP_BebauungsFlaeche" AFTER DELETE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "flaechenschluss_FP_BebauungsFlaeche" BEFORE INSERT OR UPDATE OR DELETE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 CREATE TRIGGER "FP_BebauungsFlaeche_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "FP_Bebauung"."FP_BebauungsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+
+-- -----------------------------------------------------
+-- Table "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" (
+  "FP_BebauungsFlaeche_gid" BIGINT NOT NULL ,
+  "sondernutzung" INTEGER NULL ,
+  PRIMARY KEY ("FP_BebauungsFlaeche_gid", "sondernutzung"),
+  CONSTRAINT "fk_FP_BebauungsFlaeche_sondernutzung1"
+    FOREIGN KEY ("FP_BebauungsFlaeche_gid" )
+    REFERENCES "FP_Bebauung"."FP_BebauungsFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_BebauungsFlaeche_sondernutzung2"
+    FOREIGN KEY ("sondernutzung" )
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" TO fp_user;
+COMMENT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
 
 -- -----------------------------------------------------
 -- Table "FP_Bebauung"."FP_KeineZentrAbwasserBeseitigungFlaeche"

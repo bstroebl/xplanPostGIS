@@ -1405,3 +1405,61 @@ INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUE
 
 -- CR 061
 INSERT INTO "XP_Enumerationen"."XP_Sondernutzungen" ("Code", "Bezeichner") VALUES ('23000', 'Klinikgebiet');
+
+-- CR 062
+-- BP
+DROP VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv";
+-- -----------------------------------------------------
+-- Table "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" (
+  "BP_BaugebietsTeilFlaeche_gid" BIGINT NOT NULL ,
+  "sondernutzung" INTEGER NULL ,
+  PRIMARY KEY ("BP_BaugebietsTeilFlaeche_gid", "sondernutzung"),
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_sondernutzung1"
+    FOREIGN KEY ("BP_BaugebietsTeilFlaeche_gid" )
+    REFERENCES "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_BaugebietsTeilFlaeche_sondernutzung2"
+    FOREIGN KEY ("sondernutzung" )
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" TO bp_user;
+COMMENT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat.';
+INSERT INTO "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" ("BP_BaugebietsTeilFlaeche_gid","sondernutzung") SELECT gid, "sondernutzung" FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche" WHERE "sondernutzung" IS NOT NULL;
+ALTER TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" DROP COLUMN "sondernutzung";
+CREATE OR REPLACE VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" AS
+SELECT g.gid,g.position,so1 as sondernutzung1,so2 as sondernutzung2,so3 as sondernutzung3,so4 as sondernutzung4
+  FROM
+ "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g
+ LEFT JOIN
+ crosstab('SELECT "BP_BaugebietsTeilFlaeche_gid", "BP_BaugebietsTeilFlaeche_gid", sondernutzung FROM "BP_Bebauung"."BP_BaugebietsTeilFlaeche_sondernutzung" ORDER BY 1,3') sot
+ (sogid bigint, so1 integer,so2 integer,so3 integer,so4 integer)
+ ON g.gid=sot.sogid;
+GRANT SELECT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" TO xp_gast;
+-- FP
+-- -----------------------------------------------------
+-- Table "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" (
+  "FP_BebauungsFlaeche_gid" BIGINT NOT NULL ,
+  "sondernutzung" INTEGER NULL ,
+  PRIMARY KEY ("FP_BebauungsFlaeche_gid", "sondernutzung"),
+  CONSTRAINT "fk_FP_BebauungsFlaeche_sondernutzung1"
+    FOREIGN KEY ("FP_BebauungsFlaeche_gid" )
+    REFERENCES "FP_Bebauung"."FP_BebauungsFlaeche" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_BebauungsFlaeche_sondernutzung2"
+    FOREIGN KEY ("sondernutzung" )
+    REFERENCES "XP_Enumerationen"."XP_Sondernutzungen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+GRANT SELECT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" TO fp_user;
+COMMENT ON TABLE "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" IS 'Differenziert Sondernutzungen nach §10 und §11 der BauNVO von 1977 und 1990. Das Attribut wird nur benutzt, wenn besondereArtDerBaulNutzung unbelegt ist oder einen der Werte 2000 bzw. 2100 hat';
+INSERT INTO "FP_Bebauung"."FP_BebauungsFlaeche_sondernutzung" ("FP_BebauungsFlaeche_gid","sondernutzung") SELECT gid, "sonderNutzung" FROM "FP_Bebauung"."FP_BebauungsFlaeche" WHERE "sonderNutzung" IS NOT NULL;
+ALTER TABLE "FP_Bebauung"."FP_BebauungsFlaeche" DROP COLUMN "sonderNutzung";
