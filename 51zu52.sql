@@ -1496,3 +1496,7 @@ COMMENT ON COLUMN "BP_Sonstiges"."BP_AbstandsMass"."endWinkel" IS 'Endwinkel fü
 -- CR 066
 INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('8000', 'Zuwaesserungskanal');
 INSERT INTO "RP_Infrastruktur"."RP_WasserwirtschaftTypen" ("Code", "Bezeichner") VALUES ('8100', 'Entwaesserungskanal');
+
+-- CR 067 nicht relevant
+-- CR 068
+INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenzTyp" ("Code", "Bezeichner") VALUES (3000, 'MetadatenPlan');
