@@ -49,7 +49,7 @@ GRANT SELECT ON "BP_Basisobjekte"."BP_Bereich_qv" TO xp_gast;
 -- View "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
 -- -----------------------------------------------------
 
-CREATE OR REPLACE VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv"
+CREATE OR REPLACE VIEW "BP_Bebauung"."BP_BaugebietsTeilFlaeche_qv" AS
 SELECT g.*,so1 as sondernutzung1,so2 as sondernutzung2,so3 as sondernutzung3,so4 as sondernutzung4
   FROM
  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" g
