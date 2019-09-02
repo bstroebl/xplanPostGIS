@@ -2294,13 +2294,6 @@ INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" 
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachDenkmalschutzrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 -- -----------------------------------------------------
--- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht"
--- -----------------------------------------------------
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (1000, 'OeffentlicherWald');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (2000, 'Privatwald');
-INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachForstrecht" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
-
--- -----------------------------------------------------
 -- Data for table "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht"
 -- -----------------------------------------------------
 INSERT INTO "SO_NachrichtlicheUebernahmen"."SO_KlassifizNachSonstigemRecht" ("Code", "Bezeichner") VALUES (1000, 'Bauschutzbereich - künftig wegfallend');
