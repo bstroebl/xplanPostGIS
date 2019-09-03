@@ -48,3 +48,6 @@ REVOKE ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" FROM bp_user;
 GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO rp_user;
 REVOKE ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" FROM bp_user;
 GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO rp_user;
+
+-- Korrektur Attributname:
+ALTER TABLE "LP_SchutzgebieteObjekte"."LP_ForstrechtDetailTypen" RENAME TO "LP_WaldschutzDetailTypen";
