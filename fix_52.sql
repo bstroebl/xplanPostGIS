@@ -32,3 +32,19 @@ GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_Gemeinbedarfs
 GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" TO bp_user;
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" IS 'Über eine Codeliste definierte detailliertere Festlegung der Zweckbestimmung.
 Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteZweckbestimmung" bezieht sich auf den an gleicher Position stehenden Attributwert von "zweckbestimmung".';
+
+-- falsche Rechte auf CodeListen
+REVOKE ALL ON TABLE "RP_Basisobjekte"."RP_SonstPlanArt" FROM lp_user;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_SonstPlanArt" TO rp_user;
+REVOKE ALL ON TABLE "RP_Basisobjekte"."RP_Status" FROM fp_user;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Status" TO rp_user;
+REVOKE ALL ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" FROM so_user;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO rp_user;
+REVOKE ALL ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" FROM so_user;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" TO rp_user;
+REVOKE ALL ON FUNCTION "RP_Basisobjekte"."new_RP_Bereich"() FROM fp_user;
+GRANT EXECUTE ON FUNCTION "RP_Basisobjekte"."new_RP_Bereich"() TO rp_user;
+REVOKE ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" FROM bp_user;
+GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO rp_user;
+REVOKE ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" FROM bp_user;
+GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO rp_user;
