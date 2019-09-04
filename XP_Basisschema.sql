@@ -193,6 +193,10 @@ CREATE SEQUENCE "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq"
    MINVALUE 1;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_WirksamkeitBedingung_id_seq" TO GROUP xp_user;
 
+CREATE SEQUENCE "XP_Basisobjekte"."XP_Code_seq"
+   MINVALUE 1000000; -- eigene Codelistenwerte des Benutzers < 1000000
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Code_seq" TO GROUP xp_user;
+
 -- *****************************************************
 -- CREATE TRIGGER FUNCTIONs
 -- *****************************************************
@@ -768,6 +772,28 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."positionFollowsRHR"() TO xp_user;
 
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."isCodeList"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        IF NEW."Code" IS NULL THEN
+            NEW."Code" := nextval('"XP_Basisobjekte"."XP_Code_seq"');
+        ELSE
+            IF NEW."Code" > 1000000 THEN
+                NEW."Code" := nextval('"XP_Basisobjekte"."XP_Code_seq"');
+            END IF;
+        END IF;
+        RETURN new;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new."Code" := old."Code";
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."isCodeList"() TO xp_user;
+
 -- *****************************************************
 -- CREATE TABLEs
 -- *****************************************************
@@ -986,6 +1012,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_GesetzlicheGrundlage" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_GesetzlicheGrundlage" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_GesetzlicheGrundlage" TO xp_user;
+CREATE TRIGGER "ins_upd_XP_GesetzlicheGrundlage" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_GesetzlicheGrundlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_BedeutungenBereich"
@@ -1004,6 +1031,8 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_MimeTypes" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_MimeTypes" TO xp_gast;
+GRANT ALL ON "XP_Basisobjekte"."XP_MimeTypes" TO xp_user;
+CREATE TRIGGER "ins_upd_XP_MimeTypes" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_MimeTypes" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzArt"
@@ -1665,6 +1694,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_StylesheetListe" (
 
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_gast;
 GRANT ALL ON TABLE "XP_Praesentationsobjekte"."XP_StylesheetListe" TO xp_user;
+CREATE TRIGGER "ins_upd_XP_StylesheetListe" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_StylesheetListe" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "XP_Praesentationsobjekte"."XP_APO"

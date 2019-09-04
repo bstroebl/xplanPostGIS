@@ -82,6 +82,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizSchutzgebietNaturschutzrecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietNaturschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Rechtscharakter"
@@ -102,6 +103,8 @@ CREATE TABLE  "SO_Basisobjekte"."SO_SonstRechtscharakter" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO xp_gast;
+GRANT ALL ON TABLE "SO_Basisobjekte"."SO_SonstRechtscharakter" TO so_user;
+CREATE TRIGGER "ins_upd_SO_SonstRechtscharakter" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_SonstRechtscharakter" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Objekt"
@@ -361,6 +364,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" (
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizSchutzgebietWasserrecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietWasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzzonenWasserrecht"
@@ -502,7 +506,7 @@ CREATE TABLE  "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" (
 
 GRANT SELECT ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" TO so_user;
-
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizSchutzgebietSonstRecht" BEFORE INSERT OR UPDATE ON "SO_Schutzgebiete"."SO_DetailKlassifizSchutzgebietSonstRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Schutzgebiete"."SO_SchutzgebietSonstigesRecht"
@@ -572,6 +576,7 @@ CREATE TABLE  "SO_Basisobjekte"."SO_PlanArt" (
 ;
 GRANT SELECT ON TABLE "SO_Basisobjekte"."SO_PlanArt" TO xp_gast;
 GRANT ALL ON TABLE "SO_Basisobjekte"."SO_PlanArt" TO so_user;
+CREATE TRIGGER "ins_upd_SO_PlanArt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_PlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Basisobjekte"."SO_Plan"
@@ -721,6 +726,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverk
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachStrassenverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachStrassenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Strassenverkehrsrecht"
@@ -823,6 +829,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" (
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizGewaesser" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizGewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Gewaesser"
@@ -940,6 +947,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht"
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachWasserrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachWasserrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Wasserrecht"
@@ -1054,6 +1062,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" 
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachForstrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachForstrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Forstrecht"
@@ -1196,6 +1205,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschut
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachDenkmalschutzrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachDenkmalschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Denkmalschutzrecht"
@@ -1317,6 +1327,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRec
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachSonstigemRecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSonstigemRecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_SonstigesRecht"
@@ -1439,6 +1450,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverk
   PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachSchienenverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachSchienenverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Schienenverkehrsrecht"
@@ -1557,6 +1569,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrs
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachLuftverkehrsrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachLuftverkehrsrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_LaermschutzzoneTypen"
@@ -1673,6 +1686,7 @@ CREATE TABLE  "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzr
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizNachBodenschutzrecht" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizNachBodenschutzrecht" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_Bodenschutzrecht"
@@ -1774,6 +1788,7 @@ CREATE TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" (
 
 GRANT SELECT ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" TO xp_gast;
 GRANT ALL ON TABLE "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" TO so_user;
+CREATE TRIGGER "ins_upd_SO_DetailKlassifizBauverbot" BEFORE INSERT OR UPDATE ON "SO_NachrichtlicheUebernahmen"."SO_DetailKlassifizBauverbot" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_NachrichtlicheUebernahmen"."SO_RechtlicheGrundlageBauverbot"
@@ -1910,6 +1925,7 @@ CREATE TABLE  "SO_SonstigeGebiete"."SO_SonstGebietsArt" (
 
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO xp_gast;
 GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstGebietsArt" TO so_user;
+CREATE TRIGGER "ins_upd_SO_SonstGebietsArt" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_SonstGebietsArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_SonstigeGebiete"."SO_RechtsstandGebietTyp"
@@ -1931,6 +1947,7 @@ CREATE TABLE  "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" (
 
 GRANT SELECT ON TABLE "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" TO xp_gast;
 GRANT ALL ON TABLE "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" TO so_user;
+CREATE TRIGGER "ins_upd_SO_SonstRechtsstandGebietTyp" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_SonstigeGebiete"."SO_Gebiet"
@@ -2011,6 +2028,7 @@ CREATE TABLE  "SO_Sonstiges"."SO_SonstGrenzeTypen" (
 
 GRANT SELECT ON TABLE "SO_Sonstiges"."SO_SonstGrenzeTypen" TO xp_gast;
 GRANT ALL ON TABLE "SO_Sonstiges"."SO_SonstGrenzeTypen" TO so_user;
+CREATE TRIGGER "ins_upd_SO_SonstGrenzeTypen" BEFORE INSERT OR UPDATE ON "SO_Sonstiges"."SO_SonstGrenzeTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "SO_Sonstiges"."SO_Grenze"

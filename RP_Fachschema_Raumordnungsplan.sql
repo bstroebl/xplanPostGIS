@@ -55,7 +55,7 @@ $BODY$
  END; $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
-GRANT EXECUTE ON FUNCTION "RP_Basisobjekte"."new_RP_Bereich"() TO fp_user;
+GRANT EXECUTE ON FUNCTION "RP_Basisobjekte"."new_RP_Bereich"() TO rp_user;
 
 
 -- *****************************************************
@@ -79,7 +79,8 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_SonstPlanArt" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_SonstPlanArt" TO xp_gast;
-GRANT ALL ON TABLE "RP_Basisobjekte"."RP_SonstPlanArt" TO lp_user;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_SonstPlanArt" TO rp_user;
+CREATE TRIGGER "ins_upd_RP_SonstPlanArt" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_SonstPlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Status"
@@ -89,7 +90,8 @@ CREATE  TABLE  "RP_Basisobjekte"."RP_Status" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "RP_Basisobjekte"."RP_Status" TO xp_gast;
-GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Status" TO fp_user;
+GRANT ALL ON TABLE "RP_Basisobjekte"."RP_Status" TO rp_user;
+CREATE TRIGGER "ins_upd_RP_Status" BEFORE INSERT OR UPDATE ON "RP_Basisobjekte"."RP_Status" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "RP_Basisobjekte"."RP_Rechtsstand"
@@ -285,7 +287,7 @@ CREATE TABLE "RP_Basisobjekte"."RP_TextAbschnitt" (
     ON UPDATE CASCADE);
 
 GRANT SELECT ON "RP_Basisobjekte"."RP_TextAbschnitt" TO xp_gast;
-GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO bp_user;
+GRANT ALL ON "RP_Basisobjekte"."RP_TextAbschnitt" TO rp_user;
 COMMENT ON TABLE  "RP_Basisobjekte"."RP_TextAbschnitt" IS 'Texlich formulierter Inhalt eines Raumordnungsplans, der einen anderen Rechtscharakter als das zugrunde liegende Fachobjekt hat (Attribut rechtscharakter des Fachobjektes), oder dem Plan als Ganzes zugeordnet ist.';
 COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "RP_Basisobjekte"."RP_TextAbschnitt"."rechtscharakter" IS 'Rechtscharakter des textlich formulierten Planinhalts.';
@@ -344,7 +346,7 @@ CREATE TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO xp_gast;
-GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO bp_user;
+GRANT ALL ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" TO rp_user;
 COMMENT ON TABLE "RP_Basisobjekte"."RP_Objekt_refTextInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf textuell formulierte Planinhalte, insbesondere textliche Festsetzungen.';
 CREATE INDEX "idx_fk_refTextInhalt_RP_Objekt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("RP_Objekt_gid");
 CREATE INDEX "idx_fk_refTextInhalt_RP_TextAbschnitt1" ON "RP_Basisobjekte"."RP_Objekt_refTextInhalt" ("refTextInhalt");
@@ -4882,6 +4884,8 @@ CREATE TABLE "RP_Sonstiges"."RP_GenerischesObjektTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_GenerischesObjektTypen" TO xp_gast;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_GenerischesObjektTypen" TO rp_user;
+CREATE TRIGGER "ins_upd_RP_GenerischesObjektTypen" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_GenerischesObjektTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_GenerischesObjekt"
@@ -4976,7 +4980,8 @@ CREATE TABLE  "RP_Sonstiges"."RP_SonstGrenzeTypen" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO xp_gast;
-GRANT ALL ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO so_user;
+GRANT ALL ON TABLE "RP_Sonstiges"."RP_SonstGrenzeTypen" TO rp_user;
+CREATE TRIGGER "ins_upd_RP_SonstGrenzeTypen" BEFORE INSERT OR UPDATE ON "RP_Sonstiges"."RP_SonstGrenzeTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_SpezifischeGrenzeTypen"
@@ -4987,7 +4992,6 @@ CREATE TABLE  "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" TO xp_gast;
-GRANT ALL ON TABLE "RP_Sonstiges"."RP_SpezifischeGrenzeTypen" TO so_user;
 
 -- -----------------------------------------------------
 -- Table "RP_Sonstiges"."RP_Grenze"

@@ -293,6 +293,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_SonstPlanArt" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_SonstPlanArt" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_SonstPlanArt" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_SonstPlanArt" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_SonstPlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Verfahren"
@@ -312,6 +313,7 @@ CREATE  TABLE  "BP_Basisobjekte"."BP_Status" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Basisobjekte"."BP_Status" TO xp_gast;
 GRANT ALL ON "BP_Basisobjekte"."BP_Status" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_Status" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_Status" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Basisobjekte"."BP_Rechtsstand"
@@ -1130,6 +1132,8 @@ CREATE TABLE "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_Vegetationsobjek
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" TO xp_gast;
+GRANT ALL ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_VegetationsobjektTypen" BEFORE INSERT OR UPDATE ON "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_VegetationsobjektTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Naturschutz_Landschaftsbild_Naturhaushalt"."BP_AnpflanzungBindungErhaltung"
@@ -1834,6 +1838,7 @@ CREATE  TABLE  "BP_Sonstiges"."BP_ZweckbestimmungGenerischeObjekte" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "BP_Sonstiges"."BP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
 GRANT ALL ON TABLE "BP_Sonstiges"."BP_ZweckbestimmungGenerischeObjekte" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_ZweckbestimmungGenerischeObjekte" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_ZweckbestimmungGenerischeObjekte" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_GenerischesObjekt"
@@ -1941,7 +1946,8 @@ CREATE  TABLE  "BP_Wasser"."BP_DetailZweckbestGewaesser" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "BP_Wasser"."BP_DetailZweckbestGewaesser" TO xp_gast;
-GRANT ALL ON TABLE "BP_Wasser"."BP_DetailZweckbestGewaesser" TO bp_user;
+GRANT ALL ON "BP_Wasser"."BP_DetailZweckbestGewaesser" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestGewaesser" BEFORE INSERT OR UPDATE ON "BP_Wasser"."BP_DetailZweckbestGewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Wasser"."BP_GewaesserFlaeche"
@@ -2084,6 +2090,8 @@ CREATE TABLE "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" TO xp_gast;
+GRANT ALL ON "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailTechnVorkehrungImmissionsschutz" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_DetailTechnVorkehrungImmissionsschutz" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Umwelt"."BP_ImmissionsschutzTypen"
@@ -2295,6 +2303,8 @@ CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestLandwirtsch
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestLandwirtschaft" TO xp_gast;
+GRANT ALL ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestLandwirtschaft" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestLandwirtschaft" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestLandwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_Landwirtschaft_zweckbestimmung"
@@ -2437,6 +2447,8 @@ CREATE  TABLE  "BP_Sonstiges"."BP_DetailAbgrenzungenTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON "BP_Sonstiges"."BP_DetailAbgrenzungenTypen" TO xp_gast;
+GRANT ALL ON "BP_Sonstiges"."BP_DetailAbgrenzungenTypen" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailAbgrenzungenTypen" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_DetailAbgrenzungenTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_NutzungsartenGrenze"
@@ -3013,6 +3025,8 @@ CREATE  TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" TO xp_gast;
+GRANT ALL ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestWaldFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestWaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_WaldFlaeche_detaillierteZweckbestimmung"
@@ -3064,6 +3078,8 @@ CREATE  TABLE  "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" TO xp_gast;
+GRANT ALL ON "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestWasserwirtschaft" BEFORE INSERT OR UPDATE ON "BP_Wasser"."BP_DetailZweckbestWasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Wasser"."BP_WasserwirtschaftsFlaeche"
@@ -3286,6 +3302,8 @@ CREATE TABLE  "BP_Bebauung"."BP_DetailDachform" (
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 GRANT SELECT ON "BP_Bebauung"."BP_DetailDachform" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_DetailDachform" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailDachform" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_DetailDachform" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- ----------------------------------------------------
 -- Table "BP_Bebauung"."BP_DetailArtDerBaulNutzung"
@@ -3295,6 +3313,8 @@ CREATE TABLE  "BP_Bebauung"."BP_DetailArtDerBaulNutzung" (
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 GRANT SELECT ON "BP_Bebauung"."BP_DetailArtDerBaulNutzung" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_DetailArtDerBaulNutzung" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailArtDerBaulNutzung" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_DetailArtDerBaulNutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- ----------------------------------------------------
 -- Table "BP_Bebauung"."BP_Zulaessigkeit"
@@ -3313,6 +3333,8 @@ CREATE TABLE  "BP_Bebauung"."BP_AbweichendeBauweise" (
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 GRANT SELECT ON "BP_Bebauung"."BP_AbweichendeBauweise" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_AbweichendeBauweise" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_AbweichendeBauweise" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_AbweichendeBauweise" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_FestsetzungenBaugebiet"
@@ -3956,6 +3978,8 @@ CREATE TABLE  "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestGemeinschaftsanlagen" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_DetailZweckbestGemeinschaftsanlagen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_GemeinschaftsanlagenFlaeche_detaillierteZweckbestimmung"
@@ -4216,6 +4240,8 @@ CREATE TABLE  "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestNebenanlagen" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_DetailZweckbestNebenanlagen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_NebenanlagenFlaeche_zweckbestimmung"
@@ -4345,6 +4371,8 @@ CREATE TABLE  "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_spezielleBauweiseSonstTypen" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_spezielleBauweiseSonstTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_SpezielleBauweise"
@@ -4465,6 +4493,8 @@ CREATE TABLE  "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" TO xp_gast;
+GRANT ALL ON "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_NutzungNichUueberbaubGrundstFlaechen" BEFORE INSERT OR UPDATE ON "BP_Bebauung"."BP_NutzungNichUueberbaubGrundstFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Bebauung"."BP_NichtUeberbaubareGrundstuecksflaeche"
@@ -4681,6 +4711,40 @@ GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFla
 COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_zweckbestimmung" IS 'Allgemeine Zweckbestimmungen der festgesetzten Fläche';
 
 -- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf" (
+  "Code" INTEGER NOT NULL,
+  "Bezeichner" VARCHAR(64) NOT NULL,
+  PRIMARY KEY ("Code"));
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf" TO xp_gast;
+GRANT ALL ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestGemeinbedarf" BEFORE INSERT OR UPDATE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
+-- -----------------------------------------------------
+-- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" (
+  "BP_GemeinbedarfsFlaeche_gid" BIGINT NOT NULL,
+  "detaillierteZweckbestimmung" INTEGER NOT NULL,
+  PRIMARY KEY ("BP_GemeinbedarfsFlaeche_gid", "detaillierteZweckbestimmung"),
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_detaillierteZweckbes1"
+    FOREIGN KEY ("BP_GemeinbedarfsFlaeche_gid")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche" ("gid")
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_GemeinbedarfsFlaeche_detaillierteZweckbes2"
+    FOREIGN KEY ("detaillierteZweckbestimmung")
+    REFERENCES "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestGemeinbedarf" ("Code")
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+
+GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" TO bp_user;
+COMMENT ON TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_GemeinbedarfsFlaeche_detaillierteZweckbestimmung" IS 'Über eine Codeliste definierte detailliertere Festlegung der Zweckbestimmung.
+Der an einer bestimmten Listenposition aufgeführte Wert von "detaillierteZweckbestimmung" bezieht sich auf den an gleicher Position stehenden Attributwert von "zweckbestimmung".';
+
+-- -----------------------------------------------------
 -- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche"
 -- -----------------------------------------------------
 CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche" (
@@ -4736,6 +4800,8 @@ CREATE TABLE  "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielS
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"));
 GRANT SELECT ON TABLE "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" TO xp_gast;
+GRANT ALL ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestSpielSportanlage" BEFORE INSERT OR UPDATE ON "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_DetailZweckbestSpielSportanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Gemeinbedarf_Spiel_und_Sportanlagen"."BP_SpielSportanlagenFlaeche_detaillierteZweckbestimmung"
@@ -4825,6 +4891,8 @@ CREATE TABLE  "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" TO xp_gast;
+GRANT ALL ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestGruenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Landwirtschaft_Wald_und_Gruen"."BP_DetailZweckbestGruenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Landwirtschaft_Wald_und_Gruen"."BP_GruenFlaeche_detaillierteZweckbestimmung"
@@ -4922,6 +4990,8 @@ CREATE TABLE  "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" TO xp_gast;
+GRANT ALL ON "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestStrassenverkehr" BEFORE INSERT OR UPDATE ON "BP_Verkehr"."BP_DetailZweckbestStrassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Verkehr"."BP_VerkehrsFlaecheBesondererZweckbestimmung"
@@ -5181,6 +5251,8 @@ CREATE TABLE  "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" (
   PRIMARY KEY ("Code"));
 
 GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" TO xp_gast;
+GRANT ALL ON "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" TO bp_user;
+CREATE TRIGGER "ins_upd_BP_DetailZweckbestVerEntsorgung" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_DetailZweckbestVerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung"

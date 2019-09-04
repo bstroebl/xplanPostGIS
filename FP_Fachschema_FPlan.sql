@@ -87,6 +87,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_SonstPlanArt" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_SonstPlanArt" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SonstPlanArt" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_SonstPlanArt" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte"."FP_SonstPlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Verfahren"
@@ -106,6 +107,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Status" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_Status" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_Status" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_Status" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte"."FP_Status" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Basisobjekte"."FP_Rechtsstand"
@@ -339,6 +341,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_SpezifischePraegungTypen" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Basisobjekte"."FP_SpezifischePraegungTypen" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_SpezifischePraegungTypen" BEFORE INSERT OR UPDATE ON "FP_Basisobjekte"."FP_SpezifischePraegungTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 
 -- -----------------------------------------------------
@@ -716,6 +719,7 @@ CREATE  TABLE  "FP_Bebauung"."FP_DetailArtDerBaulNutzung" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Bebauung"."FP_DetailArtDerBaulNutzung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Bebauung"."FP_DetailArtDerBaulNutzung" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailArtDerBaulNutzung" BEFORE INSERT OR UPDATE ON "FP_Bebauung"."FP_DetailArtDerBaulNutzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Bebauung"."FP_BebauungsFlaeche"
@@ -825,6 +829,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemei
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestGemeinbedarf" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestGemeinbedarf" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf"
@@ -896,6 +901,7 @@ CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpiel
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestSpielSportanlage" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailZweckbestSpielSportanlage" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage"
@@ -1151,6 +1157,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestWaldFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_WaldFlaeche"
@@ -1252,6 +1259,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtsch
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestLandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Landwirtschaft"
@@ -1368,8 +1376,6 @@ GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" T
 CREATE TRIGGER "change_to_FP_LandwirtschaftPunkt" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_LandwirtschaftPunkt" AFTER DELETE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_LandwirtschaftPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
-
-
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen"
 -- -----------------------------------------------------
@@ -1379,6 +1385,7 @@ CREATE  TABLE  "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" TO xp_gast;
 GRANT ALL ON TABLE "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestGruen" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Landwirtschaft_Wald_und_Gruen"."FP_Gruen"
@@ -1513,6 +1520,7 @@ CREATE  TABLE  "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
 GRANT ALL ON TABLE "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_ZweckbestimmungGenerischeObjekte" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Sonstiges"."FP_GenerischesObjekt"
@@ -1963,6 +1971,7 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO xp_gast;
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestVerEntsorgung" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_VerEntsorgung"
@@ -2103,6 +2112,7 @@ CREATE  TABLE  "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO xp_gast;
 GRANT ALL ON TABLE "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestStrassenverkehr" BEFORE INSERT OR UPDATE ON "FP_Verkehr"."FP_DetailZweckbestStrassenverkehr" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Verkehr"."FP_Strassenverkehr"
@@ -2243,6 +2253,7 @@ CREATE  TABLE  "FP_Wasser"."FP_DetailZweckbestGewaesser" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestGewaesser" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestGewaesser" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_DetailZweckbestGewaesser" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_Gewaesser"
@@ -2344,6 +2355,7 @@ CREATE  TABLE  "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" TO xp_gast;
 GRANT ALL ON TABLE "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_DetailZweckbestWasserwirtschaft" BEFORE INSERT OR UPDATE ON "FP_Wasser"."FP_DetailZweckbestWasserwirtschaft" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Wasser"."FP_Wasserwirtschaft"
@@ -2444,6 +2456,8 @@ CREATE  TABLE  "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegun
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" TO fp_user;
+CREATE TRIGGER "ins_upd_FP_ZentralerVersorgungsbereichAuspraegung" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereich"

@@ -71,6 +71,7 @@ CREATE  TABLE  "LP_Basisobjekte"."LP_SonstPlanArt" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Basisobjekte"."LP_SonstPlanArt" TO xp_gast;
 GRANT ALL ON TABLE "LP_Basisobjekte"."LP_SonstPlanArt" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_SonstPlanArt" BEFORE INSERT OR UPDATE ON "LP_Basisobjekte"."LP_SonstPlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_Basisobjekte"."LP_Rechtsstand"
@@ -416,6 +417,8 @@ CREATE  TABLE  "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" (
   "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" TO xp_gast;
+GRANT ALL ON TABLE "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_ErholungFreizeitDetailFunktionen" BEFORE INSERT OR UPDATE ON "LP_Erholung"."LP_ErholungFreizeitDetailFunktionen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_Erholung"."LP_ErholungFreizeit_detaillierteFunktion"
@@ -563,6 +566,8 @@ CREATE  TABLE  "LP_MassnahmenNaturschutz"."LP_Pflanzart" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_MassnahmenNaturschutz"."LP_Pflanzart" TO xp_gast;
+GRANT ALL ON TABLE "LP_MassnahmenNaturschutz"."LP_Pflanzart" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_Pflanzart" BEFORE INSERT OR UPDATE ON "LP_MassnahmenNaturschutz"."LP_Pflanzart" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_MassnahmenNaturschutz"."LP_AnpflanzungBindungErhaltung_pflanzart"
@@ -1106,6 +1111,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_BodenschutzrechtDetailTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_BodenschutzrechtDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_BodenschutzrechtDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_BodenschutzrechtDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_BodenschutzrechtDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_Bodenschutzrecht"
@@ -1209,13 +1216,15 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_ForstrechtTypen" (
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_ForstrechtTypen" TO xp_gast;
 
 -- -----------------------------------------------------
--- Table "LP_SchutzgebieteObjekte"."LP_ForstrechtDetailTypen"
+-- Table "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen"
 -- -----------------------------------------------------
-CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_ForstrechtDetailTypen" (
+CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen" (
   "Code" INTEGER NOT NULL ,
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
-GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_ForstrechtDetailTypen" TO xp_gast;
+GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_WaldschutzDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_Forstrecht"
@@ -1232,7 +1241,7 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_Forstrecht" (
     ON UPDATE CASCADE,
   CONSTRAINT "fk_LP_Forstrecht_detailTyp1"
     FOREIGN KEY ("detailTyp" )
-    REFERENCES "LP_SchutzgebieteObjekte"."LP_ForstrechtDetailTypen" ("Code" )
+    REFERENCES "LP_SchutzgebieteObjekte"."LP_WaldschutzDetailTypen" ("Code" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT "fk_LP_Forstrecht_parent"
@@ -1326,6 +1335,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_InternatSchutzobjektDetailTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_InternatSchutzobjektDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_InternatSchutzobjektDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_InternatSchutzobjektDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_InternatSchutzobjektDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_SchutzobjektInternatRecht"
@@ -1429,6 +1440,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_SchutzobjektLandesrechtDetailTypen"
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektLandesrechtDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_SchutzobjektLandesrechtDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_SchutzobjektLandesrechtDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_SchutzobjektLandesrechtDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_SchutzobjektLandesrecht"
@@ -1532,6 +1545,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_SonstRechtDetailTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_SonstRechtDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_SonstRechtDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_SonstRechtDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_SonstRechtDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_SonstigesRecht"
@@ -1632,6 +1647,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkung
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_WasserrechtGemeingebrEinschraenkungNaturschutzDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutzDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtGemeingebrEinschraenkungNaturschutz"
@@ -1734,6 +1751,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebietDetailTypen"
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebietDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebietDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_WasserrechtSchutzgebietDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebietDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtSchutzgebiet"
@@ -1837,6 +1856,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtSonstigeTypen" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtSonstigeTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtSonstigeTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_WasserrechtSonstigeTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtSonstigeTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtSonstige"
@@ -1939,6 +1960,8 @@ CREATE  TABLE  "LP_SchutzgebieteObjekte"."LP_WasserrechtWirtschaftAbflussHochwSc
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtWirtschaftAbflussHochwSchutzDetailTypen" TO xp_gast;
+GRANT ALL ON TABLE "LP_SchutzgebieteObjekte"."LP_WasserrechtWirtschaftAbflussHochwSchutzDetailTypen" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_WasserrechtWirtschaftAbflussHochwSchutzDetailTypen" BEFORE INSERT OR UPDATE ON "LP_SchutzgebieteObjekte"."LP_WasserrechtWirtschaftAbflussHochwSchutzDetailTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_SchutzgebieteObjekte"."LP_WasserrechtWirtschaftAbflussHochwSchutz"
@@ -2080,6 +2103,8 @@ CREATE TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO xp_gast;
 GRANT ALL ON TABLE "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_ZweckbestimmungGenerischeObjekte" BEFORE INSERT OR UPDATE ON "LP_Sonstiges"."LP_ZweckbestimmungGenerischeObjekte" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
 
 -- -----------------------------------------------------
 -- Table LP_Sonstiges"."LP_GenerischesObjekt_zweckbestimmung"
@@ -2165,6 +2190,8 @@ CREATE  TABLE  "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" (
   "Bezeichner" VARCHAR(256) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" TO xp_gast;
+GRANT ALL ON TABLE "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" TO lp_user;
+CREATE TRIGGER "ins_upd_LP_MassnahmeLandschaftsbild" BEFORE INSERT OR UPDATE ON "LP_Sonstiges"."LP_MassnahmeLandschaftsbild" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "LP_Sonstiges"."LP_Landschaftsbild"
