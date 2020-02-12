@@ -1004,6 +1004,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_MimeTypes" (
   "Bezeichner" VARCHAR(64) NOT NULL ,
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_MimeTypes" TO xp_gast;
+GRANT ALL ON "XP_Basisobjekte"."XP_MimeTypes" TO xp_user;
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzArt"
