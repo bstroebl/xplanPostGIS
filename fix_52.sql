@@ -197,3 +197,6 @@ CREATE TRIGGER "ins_upd_SO_DetailKlassifizSchutzgebietWasserrecht" BEFORE INSERT
 CREATE TRIGGER "ins_upd_SO_SonstGebietsArt" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_SonstGebietsArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_SO_SonstRechtsstandGebietTyp" BEFORE INSERT OR UPDATE ON "SO_SonstigeGebiete"."SO_SonstRechtsstandGebietTyp" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_SO_SonstGrenzeTypen" BEFORE INSERT OR UPDATE ON "SO_Sonstiges"."SO_SonstGrenzeTypen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
+-- lösche Autowerttrigger auf XP_MimeTypes
+DROP TRIGGER IF EXISTS "ins_upd_XP_MimeTypes" ON "XP_Basisobjekte"."XP_MimeTypes";

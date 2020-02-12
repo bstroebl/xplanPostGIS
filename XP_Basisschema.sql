@@ -1032,7 +1032,6 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_MimeTypes" (
   PRIMARY KEY ("Code") );
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_MimeTypes" TO xp_gast;
 GRANT ALL ON "XP_Basisobjekte"."XP_MimeTypes" TO xp_user;
-CREATE TRIGGER "ins_upd_XP_MimeTypes" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_MimeTypes" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_ExterneReferenzArt"
