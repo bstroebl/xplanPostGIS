@@ -1305,7 +1305,7 @@ CREATE TABLE "XP_Basisobjekte"."XP_Bereich_refScan" (
     ON UPDATE CASCADE,
     CONSTRAINT "fk_XP_Bereich_refScan_XP_ExterneReferenz"
     FOREIGN KEY ("externeReferenz" )
-    REFERENCES "XP_Basisobjekte"."XP_SpezExterneReferenz" ("id" )
+    REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Bereich_refScan" IS 'Referenz auf einen georeferenzierten Rasterplan, der die Inhalte des Bereichs wiedergibt. Das über refScan referierte Rasterbild zeigt einen Plan, dessen Geltungsbereich durch den Geltungsbereich des Bereiches (Attribut geltungsbereich von XP_Bereich) oder, wenn geltungsbereich nicht belegt ist, den Geltungsbereich des Gesamtplans (Attribut raeumlicherGeltungsbereich von XP_PLan) definiert ist.
