@@ -208,3 +208,6 @@ ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" DROP CONSTRAINT "fk_XP_Bereic
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
 
+-- korrigiere Rechtschreibfehler
+ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "aufstellungsbechlussDatum" TO "aufstellungsbeschlussDatum";
+

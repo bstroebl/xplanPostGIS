@@ -140,7 +140,7 @@ CREATE  TABLE  "FP_Basisobjekte"."FP_Plan" (
   "verfahren" INTEGER NULL ,
   "rechtsstand" INTEGER NULL ,
   "status" INTEGER NULL ,
-  "aufstellungsbechlussDatum" DATE NULL ,
+  "aufstellungsbeschlussDatum" DATE NULL ,
   "auslegungsStartDatum" DATE[],
   "auslegungsEndDatum" DATE[],
   "traegerbeteiligungsStartDatum" DATE[],
