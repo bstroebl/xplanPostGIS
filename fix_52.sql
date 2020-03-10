@@ -236,3 +236,6 @@ CREATE INDEX "idx_fk_refBegruendungInhalt_XP_BegruendungAbschnitt1" ON "XP_Basis
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" TO xp_user;
 
+-- Änderungen zu 5.2.1
+ALTER TABLE "BP_Bebauung"."BP_Dachgestaltung" RENAME "DNZwingend" TO "DNzwingend";
+

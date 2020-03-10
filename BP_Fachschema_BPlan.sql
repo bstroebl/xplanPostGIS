@@ -3474,7 +3474,7 @@ CREATE TABLE "BP_Bebauung"."BP_Dachgestaltung" (
   "DNmin" INTEGER,
   "DNmax" INTEGER,
   "DN" INTEGER,
-  "DNZwingend" INTEGER,
+  "DNzwingend" INTEGER,
   "dachform" INTEGER,
   "detaillierteDachform" INTEGER,
   PRIMARY KEY ("id"),
@@ -3496,7 +3496,7 @@ COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."id" IS 'Primärschlüssel, 
 COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNmin" IS 'Minimale Dachneigung bei einer Bereichsangabe. Das Attribut DNmax muss ebenfalls belegt sein.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNmax" IS 'Maximale Dachneigung bei einer Bereichsangabe. Das Attribut DNmin muss ebenfalls belegt sein.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DN" IS 'Maximal zulässige Dachneigung.';
-COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNZwingend" IS 'Zwingend vorgeschriebene Dachneigung.';
+COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."DNzwingend" IS 'Zwingend vorgeschriebene Dachneigung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."dachform" IS 'Erlaubte Dachform';
 COMMENT ON COLUMN "BP_Bebauung"."BP_Dachgestaltung"."detaillierteDachform" IS 'Über eine Codeliste definiertere detailliertere Dachform.';
 
