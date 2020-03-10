@@ -211,3 +211,28 @@ ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" DROP CONSTRAINT "fk_XP_Bereic
 -- korrigiere Rechtschreibfehler
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "aufstellungsbechlussDatum" TO "aufstellungsbeschlussDatum";
 
+-- füge fehlendes Attribut XP_Objekt.refBegruendungInhalt ein
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt"
+-- -----------------------------------------------------
+CREATE TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" (
+  "XP_Objekt_gid" BIGINT NOT NULL ,
+  "refBegruendungInhalt" INTEGER NOT NULL ,
+  PRIMARY KEY ("XP_Objekt_gid", "refBegruendungInhalt") ,
+  CONSTRAINT "fk_XP_Objekt_refBegruendungInhalt_XP_Objekt1"
+    FOREIGN KEY ("XP_Objekt_gid" )
+    REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_XP_Objekt_refBegruendungInhalt_XP_BegruendungAbschnitt1"
+    FOREIGN KEY ("refBegruendungInhalt" )
+    REFERENCES "XP_Basisobjekte"."XP_BegruendungAbschnitt" ("id" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" IS 'Referenz eines raumbezogenen Fachobjektes auf Teile der Begründung.';
+CREATE INDEX "idx_fk_refBegruendungInhalt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" ("XP_Objekt_gid") ;
+CREATE INDEX "idx_fk_refBegruendungInhalt_XP_BegruendungAbschnitt1" ON "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" ("refBegruendungInhalt") ;
+
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" TO xp_gast;
+GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" TO xp_user;
+
