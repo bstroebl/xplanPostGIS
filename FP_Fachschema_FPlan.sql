@@ -494,6 +494,7 @@ CREATE  TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" (
   "refMassnahmenText" INTEGER NULL ,
   "refLandschaftsplan" INTEGER NULL ,
   "ziel" INTEGER NULL ,
+  "sonstZiel" VARCHAR (255),
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AusgleichsFlaeche_XP_SPEZiele1"
     FOREIGN KEY ("ziel" )
@@ -525,6 +526,7 @@ GRANT ALL ON TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" TO fp_user;
 COMMENT ON TABLE  "FP_Naturschutz"."FP_AusgleichsFlaeche" IS 'Flächen und Maßnahmen zum Ausgleich gemäß §5, Abs. 2a BauBG.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."ziel" IS 'Unterscheidung nach den Zielen "Schutz, Pflege" und "Entwicklung".';
+COMMENT ON COLUMN "FP_Naturschutz"."FP_AusgleichsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refMassnahmenText" IS 'Referenz auf ein Dokument in dem die Massnahmen beschrieben werden.';
 COMMENT ON COLUMN  "FP_Naturschutz"."FP_AusgleichsFlaeche"."refLandschaftsplan" IS 'Referenz auf den Landschaftsplan.';
 CREATE TRIGGER "change_to_FP_AusgleichsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Naturschutz"."FP_AusgleichsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

@@ -239,3 +239,7 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt" TO xp_user
 -- Änderungen zu 5.2.1
 ALTER TABLE "BP_Bebauung"."BP_Dachgestaltung" RENAME "DNZwingend" TO "DNzwingend";
 
+-- füge fehlendes Attribut FP_Ausgleichsflaeche.sonstZiel ein
+ALTER TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" ADD COLUMN "sonstZiel" VARCHAR (255);
+COMMENT ON COLUMN "FP_Naturschutz"."FP_AusgleichsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
+
