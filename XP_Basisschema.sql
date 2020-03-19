@@ -1407,7 +1407,7 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 -- Table "XP_Basisobjekte"."XP_VerbundenerPlan"
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
-  "planName" VARCHAR(64) NOT NULL ,
+  "planName" VARCHAR(256) NOT NULL ,
   "nummer" VARCHAR(64) NULL ,
   "verbundenerPlan" BIGINT NOT NULL ,
   PRIMARY KEY ("verbundenerPlan"));

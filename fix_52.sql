@@ -243,3 +243,5 @@ ALTER TABLE "BP_Bebauung"."BP_Dachgestaltung" RENAME "DNZwingend" TO "DNzwingend
 ALTER TABLE "FP_Naturschutz"."FP_AusgleichsFlaeche" ADD COLUMN "sonstZiel" VARCHAR (255);
 COMMENT ON COLUMN "FP_Naturschutz"."FP_AusgleichsFlaeche"."sonstZiel" IS 'Textlich formuliertes Ziel, wenn das Attribut ziel den Wert 9999 (Sonstiges) hat.';
 
+-- passe Feldgröße an Feld name in XP_Plan an
+ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN "planName" TYPE character varying(256);
