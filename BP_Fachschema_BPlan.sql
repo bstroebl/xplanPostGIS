@@ -3133,7 +3133,7 @@ GRANT SELECT ON TABLE "BP_Sonstiges"."BP_WegerechtTypen" TO xp_gast;
 -- -----------------------------------------------------
 CREATE  TABLE  "BP_Sonstiges"."BP_Wegerecht" (
   "gid" BIGINT NOT NULL ,
-  "zugunstenVon" CHARACTER VARYING(64),
+  "zugunstenVon" CHARACTER VARYING(256),
   "thema" CHARACTER VARYING(256) ,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_BP_Wegerecht_parent"

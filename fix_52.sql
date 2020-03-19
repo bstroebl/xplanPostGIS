@@ -245,3 +245,6 @@ COMMENT ON COLUMN "FP_Naturschutz"."FP_AusgleichsFlaeche"."sonstZiel" IS 'Textli
 
 -- passe Feldgröße an Feld name in XP_Plan an
 ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN "planName" TYPE character varying(256);
+
+-- vergrössere Feld
+ALTER TABLE "BP_Sonstiges"."BP_Wegerecht" ALTER COLUMN "zugunstenVon" TYPE character varying(256);
