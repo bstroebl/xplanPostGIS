@@ -210,6 +210,7 @@ ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" DROP CONSTRAINT "fk_XP_Bereic
 
 -- korrigiere Rechtschreibfehler
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "aufstellungsbechlussDatum" TO "aufstellungsbeschlussDatum";
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."aufstellungsbeschlussDatum" IS 'Datum des Plan-Aufstellungsbeschlusses.';
 
 -- füge fehlendes Attribut XP_Objekt.refBegruendungInhalt ein
 -- -----------------------------------------------------
@@ -248,3 +249,21 @@ ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN "planName" TYPE 
 
 -- vergrössere Feld
 ALTER TABLE "BP_Sonstiges"."BP_Wegerecht" ALTER COLUMN "zugunstenVon" TYPE character varying(256);
+
+-- 
+-- Korrektur Column Type von "Code" und "planArt" in "SO_Basisobjekte"."SO_Plan" bzw. "SO_Basisobjekte"."SO_PlanArt"
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" DROP CONSTRAINT "fk_SO_Plan_planArt";
+
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ALTER COLUMN "planArt" TYPE integer USING "planArt"::integer;
+ALTER TABLE "SO_Basisobjekte"."SO_PlanArt" ALTER COLUMN "Code" TYPE integer USING "Code"::integer;
+
+ALTER TABLE "SO_Basisobjekte"."SO_Plan" ADD CONSTRAINT "fk_SO_Plan_planArt" FOREIGN KEY ("planArt")
+    REFERENCES "SO_Basisobjekte"."SO_PlanArt" ("Code") MATCH SIMPLE
+    ON UPDATE CASCADE ON DELETE NO ACTION;
+
+-- fehlgeschlagenes Insert in "SO_Basisobjekte""."SO_PlanArt" nachholen
+DROP TRIGGER "ins_upd_SO_PlanArt" ON "SO_Basisobjekte"."SO_PlanArt";
+
+INSERT INTO "SO_Basisobjekte"."SO_PlanArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
+
+CREATE TRIGGER "ins_upd_SO_PlanArt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_PlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
