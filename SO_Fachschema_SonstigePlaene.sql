@@ -570,7 +570,7 @@ CREATE TRIGGER "SO_SchutzgebietSonstigesRechtFlaeche_Flaechenobjekt" BEFORE INSE
 -- Table "SO_Basisobjekte"."SO_PlanArt"
 -- -----------------------------------------------------
 CREATE TABLE  "SO_Basisobjekte"."SO_PlanArt" (
-  "Code" VARCHAR(64) NOT NULL,
+  "Code" INTEGER NOT NULL,
   "Bezeichner" VARCHAR(64) NOT NULL,
   PRIMARY KEY ("Code"))
 ;
@@ -584,7 +584,7 @@ CREATE TRIGGER "ins_upd_SO_PlanArt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"
 CREATE TABLE  "SO_Basisobjekte"."SO_Plan" (
   "gid" BIGINT NOT NULL,
   "name" VARCHAR (256) NOT NULL,
-  "planArt" VARCHAR(64) NOT NULL DEFAULT 9999,
+  "planArt" INTEGER NOT NULL DEFAULT 9999,
   "plangeber" INTEGER NULL,
   "versionBauGBDatum" DATE NULL,
   "versionBauGBText" VARCHAR(255) NULL,
