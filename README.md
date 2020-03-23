@@ -26,4 +26,5 @@ Das Konvertierungsskript `51zu52.sql` sollte ebenfalls möglichst nicht als ganz
 Das Arbeiten in einer Kopie der eigenen Datenbank bzw. das Erzeugen eines aktuellen Dumps ist natürlich auch immer eine gute Idee....
 
 # Importfunktion des QGIS-Plugins
-Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen `imp_create_schema()`) und `imp_create_xp_gid()` aus QGIS.sql vorhanden sein. Sind in den Plänen CodeList-Einträge vorhanden, muß das entsprechende Feature aus `fix_52.sql` i der Datenbank implementiert sein.
+Ein Import funktioniert nur in eine Datenbank Version 5.1 oder neuer.
+Um mit dem XPlanung-Plugin für QGIS Pläne importieren zu können, müssen auf der Datenbank die beiden Funktionen `imp_create_schema()`) und `imp_create_xp_gid()` aus QGIS.sql vorhanden sein. Sind in den Plänen CodeList-Einträge vorhanden, muß das entsprechende Feature aus `fix_52.sql` in der Datenbank implementiert sein.
