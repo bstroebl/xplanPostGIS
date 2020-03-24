@@ -285,3 +285,13 @@ ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ADD 
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
 UPDATE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" SET "index" = ARRAY ["index_alt"] WHERE "index_alt" IS NOT NULL;
 ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP COLUMN "index_alt";
+
+-- Zeige auch TPOs ohne Ausrichtung
+CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_TPO_qv" AS
+SELECT p.*, b."schriftinhalt", b."fontSperrung",
+	b."skalierung", COALESCE(ha."Bezeichner",'left')::varchar(64) as "horizontaleAusrichtung", COALESCE(va."Bezeichner",'Half')::varchar(64) as "vertikaleAusrichtung"
+FROM "XP_Praesentationsobjekte"."XP_TPO" b
+    JOIN "QGIS"."HorizontaleAusrichtung" ha ON b."horizontaleAusrichtung" = ha."Code"
+    LEFT JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
+    LEFT JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
+GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO_qv" TO xp_gast;

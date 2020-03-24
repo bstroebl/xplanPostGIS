@@ -57,11 +57,11 @@ GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobj
 
 CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_TPO_qv" AS
 SELECT p.*, b."schriftinhalt", b."fontSperrung",
-	b."skalierung", ha."Bezeichner" as "horizontaleAusrichtung", va."Bezeichner" as "vertikaleAusrichtung"
+	b."skalierung", COALESCE(ha."Bezeichner",'left')::varchar(64) as "horizontaleAusrichtung", COALESCE(va."Bezeichner",'Half')::varchar(64) as "vertikaleAusrichtung"
 FROM "XP_Praesentationsobjekte"."XP_TPO" b
     JOIN "QGIS"."HorizontaleAusrichtung" ha ON b."horizontaleAusrichtung" = ha."Code"
-    JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
-    JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
+    LEFT JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
+    LEFT JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO_qv" TO xp_gast;
 
 -- -----------------------------------------------------
