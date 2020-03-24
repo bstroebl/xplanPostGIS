@@ -1771,9 +1771,9 @@ CREATE TRIGGER "XP_AbstraktesPraesentationsobjekt_gml_id" BEFORE INSERT ON "XP_P
 CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" (
   "XP_APObjekt_gid" BIGINT NOT NULL ,
   "dientZurDarstellungVon" BIGINT NOT NULL ,
-  "art" VARCHAR(64) NOT NULL DEFAULT 'text',
-  "index" INTEGER,
-  PRIMARY KEY ("XP_APObjekt_gid", "dientZurDarstellungVon", "art") ,
+  "art" VARCHAR(64)[] NOT NULL DEFAULT '{"text"}',
+  "index" INTEGER[],
+  PRIMARY KEY ("XP_APObjekt_gid", "dientZurDarstellungVon") ,
   CONSTRAINT "fk_dientzurdarstellungvon_XP_APOt1"
     FOREIGN KEY ("XP_APObjekt_gid" )
     REFERENCES "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt" ("gid" )

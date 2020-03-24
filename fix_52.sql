@@ -267,3 +267,21 @@ DROP TRIGGER "ins_upd_SO_PlanArt" ON "SO_Basisobjekte"."SO_PlanArt";
 INSERT INTO "SO_Basisobjekte"."SO_PlanArt" ("Code", "Bezeichner") VALUES (9999, 'Sonstiges');
 
 CREATE TRIGGER "ins_upd_SO_PlanArt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"."SO_PlanArt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
+-- Ändere Felder in Arrays
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP CONSTRAINT "XP_APObjekt_dientZurDarstellungVon_pkey";
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
+  ADD CONSTRAINT "XP_APObjekt_dientZurDarstellungVon_pkey" PRIMARY KEY("XP_APObjekt_gid", "dientZurDarstellungVon");
+  
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" rename art TO art_alt;
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ADD COLUMN "art" VARCHAR(64)[] NOT NULL DEFAULT '{"text"}';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
+Die Attributart "Art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+UPDATE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" SET art = ARRAY [art_alt] WHERE art_alt IS NOT NULL;
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP COLUMN art_alt;
+
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" rename "index" TO "index_alt";
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ADD COLUMN "index" INTEGER[];
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
+UPDATE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" SET "index" = ARRAY ["index_alt"] WHERE "index_alt" IS NOT NULL;
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP COLUMN "index_alt";
