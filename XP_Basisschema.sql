@@ -1408,11 +1408,18 @@ GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" TO xp_
 -- -----------------------------------------------------
 CREATE  TABLE  "XP_Basisobjekte"."XP_VerbundenerPlan" (
   "planName" VARCHAR(256) NOT NULL ,
+  "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
   "nummer" VARCHAR(64) NULL ,
   "verbundenerPlan" BIGINT NOT NULL ,
-  PRIMARY KEY ("verbundenerPlan"));
+  PRIMARY KEY ("verbundenerPlan"),
+  CONSTRAINT "fk_XP_VerbundenerPlan_XP_RechtscharakterPlanaenderung1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE);
 COMMENT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" IS 'Spezifikation eines anderen Plans, der mit dem Ausgangsplan verbunden ist und diesen ändert bzw. von ihm geändert wird.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (Attribut name von XP_Plan) des verbundenen Plans.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."nummer" IS 'Nummer des verbundenen Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."verbundenerPlan" IS 'Referenz auf einen anderen Plan, der den aktuellen Plan ändert oder von ihm geändert wird.';
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
@@ -1424,7 +1431,6 @@ GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_aendert" (
   "XP_Plan_gid" BIGINT NOT NULL ,
   "aendert" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
   PRIMARY KEY ("XP_Plan_gid", "aendert") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan1"
     FOREIGN KEY ("XP_Plan_gid" )
@@ -1435,19 +1441,12 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_aendert" (
     FOREIGN KEY ("aendert" )
     REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("verbundenerPlan" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_aendert_XP_RechtscharakterPlanaenderung1"
-    FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan_aendert" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_aendert" TO xp_user;
 CREATE INDEX "idx_fk_aendert_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_aendert_XP_VerbundenerPlan1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("aendert") ;
-CREATE INDEX "idx_fk_aendert_XP_RechtscharakterPlanaenderung1" ON "XP_Basisobjekte"."XP_Plan_aendert" ("rechtscharakter") ;
 COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_aendert" IS 'Bezeichnung eines anderen Planes, der durch den vorliegenden Plan geändert wird.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan_aendert"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon"
@@ -1455,7 +1454,6 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan_aendert"."rechtscharakter" IS 'Rech
 CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" (
   "XP_Plan_gid" BIGINT NOT NULL ,
   "wurdeGeaendertVon" BIGINT NOT NULL ,
-  "rechtscharakter" INTEGER NOT NULL DEFAULT 1000 ,
   PRIMARY KEY ("XP_Plan_gid", "wurdeGeaendertVon") ,
   CONSTRAINT "fk_XP_Plan_has_XP_VerbundenerPlan_XP_Plan2"
     FOREIGN KEY ("XP_Plan_gid" )
@@ -1466,19 +1464,12 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" (
     FOREIGN KEY ("wurdeGeaendertVon" )
     REFERENCES "XP_Basisobjekte"."XP_VerbundenerPlan" ("verbundenerPlan" )
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT "fk_wurdeGeaendertVon_XP_RechtscharakterPlanaenderung1"
-    FOREIGN KEY ("rechtscharakter" )
-    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
-    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" TO xp_user;
 CREATE INDEX "idx_fk_wurdeGeaendertVon_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_wurdeGeaendertVon_XP_VerbundenerPlan1" ON "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" ("wurdeGeaendertVon") ;
-CREATE INDEX "idx_fk_wurdeGeaendertVon_XP_RechtscharakterPlanaenderung1" ON "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" ("rechtscharakter") ;
 COMMENT ON TABLE  "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" IS 'Bezeichnung eines anderen Plans , durch den der vorliegende Plan geändert wurde.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
 
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_VerfahrensMerkmal"

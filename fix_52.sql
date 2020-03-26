@@ -295,3 +295,23 @@ FROM "XP_Praesentationsobjekte"."XP_TPO" b
     LEFT JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
     LEFT JOIN "XP_Praesentationsobjekte"."XP_AbstraktesPraesentationsobjekt_qv" p ON b.gid = p.gid;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_TPO_qv" TO xp_gast;
+
+-- ziehe rechtscharakter in XP_VerbundenerPlan hinein, wie im Standard
+ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ADD COLUMN "rechtscharakter" INTEGER;
+UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "rechtscharakter" = 1000;
+ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN rechtscharakter SET NOT NULL;
+ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN rechtscharakter SET DEFAULT 1000;
+ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ADD CONSTRAINT "fk_XP_VerbundenerPlan_XP_RechtscharakterPlanaenderung1"
+    FOREIGN KEY ("rechtscharakter" )
+    REFERENCES "XP_Basisobjekte"."XP_RechtscharakterPlanaenderung" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
+UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" = 
+	(SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_aendert" a WHERE a."aendert" = vp."verbundenerPlan")
+	WHERE vp."verbundenerPlan" IN (SELECT "aendert" FROM "XP_Basisobjekte"."XP_Plan_aendert");
+UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" = 
+	(SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" a WHERE a."wurdeGeaendertVon" = vp."verbundenerPlan")
+	WHERE vp."verbundenerPlan" IN (SELECT "wurdeGeaendertVon" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon");
+ALTER TABLE "XP_Basisobjekte"."XP_Plan_aendert" DROP COLUMN "rechtscharakter";
+ALTER TABLE "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" DROP COLUMN "rechtscharakter";
