@@ -255,11 +255,12 @@ RETURNS trigger AS
 $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"("verbundenerPlan", "planName") VALUES(new.gid, COALESCE(new.name, 'XP_Plan ' || CAST(new.gid as varchar)));
+        INSERT INTO "XP_Basisobjekte"."XP_VerbundenerPlan"("verbundenerPlan", "planName", "nummer") VALUES(new.gid, new."name", new."nummer");
         RETURN new;
     ELSIF (TG_OP = 'UPDATE') THEN
         new.gid := old.gid; --no change in gid allowed
-        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new.name WHERE "verbundenerPlan" = old.gid;
+        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "planName" = new."name" WHERE "verbundenerPlan" = old.gid;
+        UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" SET "nummer" = new."nummer" WHERE "verbundenerPlan" = old.gid;
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_VerbundenerPlan" WHERE "verbundenerPlan" = old.gid;
@@ -269,6 +270,35 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_Plan"() TO xp_user;
+
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."change_to_XP_VerbundenerPlan"()
+RETURNS trigger AS
+$BODY$
+ BEGIN
+    IF (TG_OP = 'INSERT') THEN
+		new."planName" := COALESCE(new."planName",'kein Name in XP_VerbundenerPlan');
+		
+		IF NEW."verbundenerPlan" IS NULL THEN
+			INSERT INTO "XP_Basisobjekte"."XP_Plan" ("name","nummer") VALUES(new."planName", new."nummer");
+			RETURN NULL;
+		ELSE
+			RETURN new;
+		END IF;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        new."verbundenerPlan" := old."verbundenerPlan"; --no change in gid allowed
+        
+        IF pg_trigger_depth() = 1 THEN 
+        -- UPDATE-Statement wird nicht über den Trigger change_to_XP_Plan aufgerufen, sondern das UPDATE erfolgt direkt auf XP_VerbundenerPlan
+			new."planName" := old."planName";
+			new."nummer" := old."nummer";
+		END IF;
+		
+        RETURN new;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_VerbundenerPlan"() TO xp_user;
 
 CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_Plan"()
 RETURNS trigger AS
@@ -1422,6 +1452,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."planName" IS 'Name (At
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."nummer" IS 'Nummer des verbundenen Plans.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."verbundenerPlan" IS 'Referenz auf einen anderen Plan, der den aktuellen Plan ändert oder von ihm geändert wird.';
+CREATE TRIGGER "XP_VerbundenerPlan_InsUpd" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_VerbundenerPlan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_VerbundenerPlan"();
 GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
 GRANT ALL ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_user;
 
