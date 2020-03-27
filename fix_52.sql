@@ -136,7 +136,6 @@ CREATE TRIGGER "ins_upd_FP_DetailZweckbestSpielSportanlage" BEFORE INSERT OR UPD
 CREATE TRIGGER "ins_upd_FP_DetailZweckbestLandwirtschaftsFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestLandwirtschaftsFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_FP_DetailZweckbestGruen" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestGruen" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_FP_DetailZweckbestWaldFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
-CREATE TRIGGER "ins_upd_FP_DetailZweckbestWaldFlaeche" BEFORE INSERT OR UPDATE ON "FP_Landwirtschaft_Wald_und_Gruen"."FP_DetailZweckbestWaldFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_FP_ZweckbestimmungGenerischeObjekte" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_ZweckbestimmungGenerischeObjekte" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 CREATE TRIGGER "ins_upd_FP_DetailZweckbestVerEntsorgung" BEFORE INSERT OR UPDATE ON "FP_Ver_und_Entsorgung"."FP_DetailZweckbestVerEntsorgung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
 GRANT ALL ON TABLE "FP_Ver_und_Entsorgung"."FP_ZentralerVersorgungsbereichAuspraegung" TO fp_user;
@@ -203,7 +202,7 @@ DROP TRIGGER IF EXISTS "ins_upd_XP_MimeTypes" ON "XP_Basisobjekte"."XP_MimeTypes
 
 -- referenziere auf XP_ExterneReferenz anstatt auf XP_SpezExterneReferenz
 ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" DROP CONSTRAINT "fk_XP_Bereich_refScan_XP_ExterneReferenz";
-ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" DROP CONSTRAINT "fk_XP_Bereich_refScan_XP_ExterneReferenz" FOREIGN KEY ("externeReferenz" )
+ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" ADD CONSTRAINT "fk_XP_Bereich_refScan_XP_ExterneReferenz" FOREIGN KEY ("externeReferenz" )
     REFERENCES "XP_Basisobjekte"."XP_ExterneReferenz" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
