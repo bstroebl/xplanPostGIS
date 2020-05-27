@@ -88,7 +88,7 @@ END as label1
   FROM
  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage" g
  LEFT JOIN
- crosstab('SELECT "FP_SpielSportanlage_gid", "FP_SpielSportanlage_gid", zweckbestimmung FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_Gemeinbedarf_zweckbestimmung" ORDER BY 1,3') zt
+ crosstab('SELECT "FP_SpielSportanlage_gid", "FP_SpielSportanlage_gid", zweckbestimmung FROM "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_zweckbestimmung" ORDER BY 1,3') zt
  (zgid bigint, z1 integer,z2 integer,z3 integer,z4 integer)
  ON g.gid=zt.zgid;
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlage_qv" TO xp_gast;
