@@ -559,10 +559,10 @@ COMMENT ON TABLE "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" I
 INSERT INTO "FP_Verkehr"."FP_Strassenverkehr_zweckbestimmung" ("FP_Strassenverkehr_gid","zweckbestimmung") SELECT gid,"zweckbestimmung" FROM "FP_Verkehr"."FP_Strassenverkehr" WHERE "zweckbestimmung" IS NOT NULL;
 INSERT INTO "FP_Verkehr"."FP_Strassenverkehr_detaillierteZweckbestimmung" ("FP_Strassenverkehr_gid","detaillierteZweckbestimmung") SELECT gid,"detaillierteZweckbestimmung" FROM "FP_Verkehr"."FP_Strassenverkehr" WHERE "detaillierteZweckbestimmung" IS NOT NULL;
 -- Views löschen
-DROP VIEW IF EXISTS "FP_Verkehr"."FP_Strassenverkehr_qv";
-DROP VIEW "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv";
-DROP VIEW "FP_Verkehr"."FP_StrassenverkehrLinie_qv";
-DROP VIEW "FP_Verkehr"."FP_StrassenverkehrPunkt_qv";
+DROP VIEW IF EXISTS "FP_Verkehr"."FP_Strassenverkehr_qv" CASCADE;
+DROP VIEW IF EXISTS "FP_Verkehr"."FP_StrassenverkehrFlaeche_qv";
+DROP VIEW IF EXISTS "FP_Verkehr"."FP_StrassenverkehrLinie_qv";
+DROP VIEW IF EXISTS "FP_Verkehr"."FP_StrassenverkehrPunkt_qv";
 -- Views neu anlegen
 -- -----------------------------------------------------
 -- View "FP_Verkehr"."FP_Strassenverkehr_qv"
