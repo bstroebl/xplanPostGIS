@@ -17,7 +17,7 @@ Die komplette Anlage einer neuen Datenbank (ohne Gruppenrollen) kann auch über 
 
 Dieses Projekt implementiert den Standard XPlanung 5.2. Die Vorgängerstandards sind in eigenen Branches abgelegt.
 
-## Bufixes und Verbesserungen
+## Bugfixes und Verbesserungen
 Die Branch `master` enthält immer den aktuellen Stand des Projekts, eine Installation mit den darin enthaltenen Skripten erzeugt also eine Datenbank mit allen Verbesserungen und Bugfixes, die zu diesem Zeitpunkt vorhanden sind. Im Unterschied dazu sind in einer Versionsbranch die Installationsskripte zum Releasezeitpunkt enthalten (dies gilt leider erst seit Version 5.2!). Hat ein Installationsskript Syntaxfehler, werden sie nach Bekanntwerden darin gefixt. Alle anderen Bugfixes (inhaltlicher Art) und Verbesserungen sind in der Datei `fix_<version>.sql` enthalten. Wenn Sie keine Probleme mit den dort behobenen Bugs haben (z.B. weil Sie fehlende Enumerationswerte nicht benötigen) oder die Verbesserungen nicht brauchen, können Sie das Skript erst vor dem Wechsel auf die nächste Version der DB machen. Benötigen Sie einen Bufix, führen Sie `fix_<version>.sql` zum aktuellen Zeitpunkt aus. Vor einem Wechsel auf die nächste Version müssen Sie dann zunächst alle noch ausstehenden Bugfixes ausführen.
 
 ## Upgrade auf neuere Version
