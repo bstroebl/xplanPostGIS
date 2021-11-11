@@ -276,23 +276,23 @@ RETURNS trigger AS
 $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-		new."planName" := COALESCE(new."planName",'kein Name in XP_VerbundenerPlan');
-		
-		IF NEW."verbundenerPlan" IS NULL THEN
-			INSERT INTO "XP_Basisobjekte"."XP_Plan" ("name","nummer") VALUES(new."planName", new."nummer");
-			RETURN NULL;
-		ELSE
-			RETURN new;
-		END IF;
+        new."planName" := COALESCE(new."planName",'kein Name in XP_VerbundenerPlan');
+
+        IF NEW."verbundenerPlan" IS NULL THEN
+            INSERT INTO "XP_Basisobjekte"."XP_Plan" ("name","nummer") VALUES(new."planName", new."nummer");
+            RETURN NULL;
+        ELSE
+            RETURN new;
+        END IF;
     ELSIF (TG_OP = 'UPDATE') THEN
         new."verbundenerPlan" := old."verbundenerPlan"; --no change in gid allowed
-        
-        IF pg_trigger_depth() = 1 THEN 
+
+        IF pg_trigger_depth() = 1 THEN
         -- UPDATE-Statement wird nicht über den Trigger change_to_XP_Plan aufgerufen, sondern das UPDATE erfolgt direkt auf XP_VerbundenerPlan
-			new."planName" := old."planName";
-			new."nummer" := old."nummer";
-		END IF;
-		
+            new."planName" := old."planName";
+            new."nummer" := old."nummer";
+        END IF;
+
         RETURN new;
     END IF;
  END; $BODY$
