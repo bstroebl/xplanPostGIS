@@ -366,4 +366,4 @@ $BODY$
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."change_to_XP_VerbundenerPlan"() TO xp_user;
 CREATE TRIGGER "XP_VerbundenerPlan_InsUpd" BEFORE INSERT OR UPDATE ON "XP_Basisobjekte"."XP_VerbundenerPlan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."change_to_XP_VerbundenerPlan"();
-GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_V
+GRANT SELECT ON TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" TO xp_gast;
