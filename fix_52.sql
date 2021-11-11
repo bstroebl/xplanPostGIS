@@ -249,7 +249,7 @@ ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ALTER COLUMN "planName" TYPE 
 -- vergrössere Feld
 ALTER TABLE "BP_Sonstiges"."BP_Wegerecht" ALTER COLUMN "zugunstenVon" TYPE character varying(256);
 
--- 
+--
 -- Korrektur Column Type von "Code" und "planArt" in "SO_Basisobjekte"."SO_Plan" bzw. "SO_Basisobjekte"."SO_PlanArt"
 ALTER TABLE "SO_Basisobjekte"."SO_Plan" DROP CONSTRAINT "fk_SO_Plan_planArt";
 
@@ -271,7 +271,7 @@ CREATE TRIGGER "ins_upd_SO_PlanArt" BEFORE INSERT OR UPDATE ON "SO_Basisobjekte"
 ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP CONSTRAINT "XP_APObjekt_dientZurDarstellungVon_pkey";
 ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"
   ADD CONSTRAINT "XP_APObjekt_dientZurDarstellungVon_pkey" PRIMARY KEY("XP_APObjekt_gid", "dientZurDarstellungVon");
-  
+
 ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" rename art TO art_alt;
 ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ADD COLUMN "art" VARCHAR(64)[] NOT NULL DEFAULT '{"text"}';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
@@ -288,7 +288,7 @@ ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP
 -- Zeige auch TPOs ohne Ausrichtung
 CREATE OR REPLACE VIEW "XP_Praesentationsobjekte"."XP_TPO_qv" AS
 SELECT p.*, b."schriftinhalt", b."fontSperrung",
-	b."skalierung", COALESCE(ha."Bezeichner",'left')::varchar(64) as "horizontaleAusrichtung", COALESCE(va."Bezeichner",'Half')::varchar(64) as "vertikaleAusrichtung"
+  b."skalierung", COALESCE(ha."Bezeichner",'left')::varchar(64) as "horizontaleAusrichtung", COALESCE(va."Bezeichner",'Half')::varchar(64) as "vertikaleAusrichtung"
 FROM "XP_Praesentationsobjekte"."XP_TPO" b
     JOIN "QGIS"."HorizontaleAusrichtung" ha ON b."horizontaleAusrichtung" = ha."Code"
     LEFT JOIN "QGIS"."VertikaleAusrichtung" va ON b."vertikaleAusrichtung" = va."Code"
@@ -306,12 +306,12 @@ ALTER TABLE "XP_Basisobjekte"."XP_VerbundenerPlan" ADD CONSTRAINT "fk_XP_Verbund
     ON DELETE NO ACTION
     ON UPDATE CASCADE;
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_VerbundenerPlan"."rechtscharakter" IS 'Rechtscharakter der Planänderung.';
-UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" = 
-	(SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_aendert" a WHERE a."aendert" = vp."verbundenerPlan")
-	WHERE vp."verbundenerPlan" IN (SELECT "aendert" FROM "XP_Basisobjekte"."XP_Plan_aendert");
-UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" = 
-	(SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" a WHERE a."wurdeGeaendertVon" = vp."verbundenerPlan")
-	WHERE vp."verbundenerPlan" IN (SELECT "wurdeGeaendertVon" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon");
+UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" =
+  (SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_aendert" a WHERE a."aendert" = vp."verbundenerPlan")
+  WHERE vp."verbundenerPlan" IN (SELECT "aendert" FROM "XP_Basisobjekte"."XP_Plan_aendert");
+UPDATE "XP_Basisobjekte"."XP_VerbundenerPlan" vp SET "rechtscharakter" =
+  (SELECT "rechtscharakter" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" a WHERE a."wurdeGeaendertVon" = vp."verbundenerPlan")
+  WHERE vp."verbundenerPlan" IN (SELECT "wurdeGeaendertVon" FROM "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon");
 ALTER TABLE "XP_Basisobjekte"."XP_Plan_aendert" DROP COLUMN "rechtscharakter";
 ALTER TABLE "XP_Basisobjekte"."XP_Plan_wurdeGeaendertVon" DROP COLUMN "rechtscharakter";
 
@@ -342,23 +342,23 @@ RETURNS trigger AS
 $BODY$
  BEGIN
     IF (TG_OP = 'INSERT') THEN
-		new."planName" := COALESCE(new."planName",'kein Name in XP_VerbundenerPlan');
-		
-		IF NEW."verbundenerPlan" IS NULL THEN
-			INSERT INTO "XP_Basisobjekte"."XP_Plan" ("name","nummer") VALUES(new."planName", new."nummer");
-			RETURN NULL;
-		ELSE
-			RETURN new;
-		END IF;
+    new."planName" := COALESCE(new."planName",'kein Name in XP_VerbundenerPlan');
+
+    IF NEW."verbundenerPlan" IS NULL THEN
+      INSERT INTO "XP_Basisobjekte"."XP_Plan" ("name","nummer") VALUES(new."planName", new."nummer");
+      RETURN NULL;
+    ELSE
+      RETURN new;
+    END IF;
     ELSIF (TG_OP = 'UPDATE') THEN
         new."verbundenerPlan" := old."verbundenerPlan"; --no change in gid allowed
-        
-        IF pg_trigger_depth() = 1 THEN 
+
+        IF pg_trigger_depth() = 1 THEN
         -- UPDATE-Statement wird nicht über den Trigger change_to_XP_Plan aufgerufen, sondern das UPDATE erfolgt direkt auf XP_VerbundenerPlan
-			new."planName" := old."planName";
-			new."nummer" := old."nummer";
-		END IF;
-		
+      new."planName" := old."planName";
+      new."nummer" := old."nummer";
+    END IF;
+
         RETURN new;
     END IF;
  END; $BODY$
