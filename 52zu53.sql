@@ -136,3 +136,48 @@ INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichne
 INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichner") VALUES (9999, 'SonstigeStruktur');
 
 --CR-005: nichts zu ändern
+
+--CR-006
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" TO xp_gast;
+CREATE TRIGGER "ins_upd_FP_DetailMassnahmeKlimawandel" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
+ALTER TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ADD COLUMN "massnahme" integer;
+ALTER TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ADD COLUMN "detailMassnahme" integer;
+ALTER TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ADD
+CONSTRAINT "fk_FP_AnpassungKlimawandel_massnahme"
+    FOREIGN KEY ("massnahme" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+ALTER TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" ADD
+  CONSTRAINT "fk_FP_AnpassungKlimawandel_detailMassnahme"
+    FOREIGN KEY ("detailMassnahme" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."massnahme" IS 'Klassifikation der Massnahme';
+COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."detailMassnahme" IS 'Detaillierung der durch das Attribut massnahme festgelegten Maßnahme über eine Codeliste.';
+
+-- -----------------------------------------------------
+-- Data for table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen"
+-- -----------------------------------------------------
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('1000', 'ErhaltFreiflaechen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10000', 'ErhaltPrivGruen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10001', 'ErhaltOeffentlGruen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstMassnahme');
