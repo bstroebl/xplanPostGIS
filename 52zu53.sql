@@ -134,3 +134,5 @@ INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichne
 INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichner") VALUES (1100, 'Rinne');
 INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichner") VALUES (1200, 'EhemMaeander');
 INSERT INTO "SO_Sonstiges"."SO_KlassifizGelaendemorphologie" ("Code", "Bezeichner") VALUES (9999, 'SonstigeStruktur');
+
+--CR-005: nichts zu ändern
