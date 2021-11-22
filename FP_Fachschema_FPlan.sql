@@ -1022,21 +1022,54 @@ CREATE TRIGGER "change_to_FP_SpielSportanlagePunkt" BEFORE INSERT OR UPDATE ON "
 CREATE TRIGGER "delete_FP_SpielSportanlagePunkt" AFTER DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_SpielSportanlagePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" TO xp_gast;
+
+-- -----------------------------------------------------
+-- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" TO xp_gast;
+CREATE TRIGGER "ins_upd_FP_DetailMassnahmeKlimawandel" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isCodeList"();
+
+-- -----------------------------------------------------
 -- Table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"
 -- -----------------------------------------------------
 CREATE  TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" (
   "gid" BIGINT NOT NULL ,
+  "massnahme" integer,
+  "detailMassnahme" integer,
   PRIMARY KEY ("gid") ,
   CONSTRAINT "fk_FP_AnpassungKlimawandel_parent"
     FOREIGN KEY ("gid" )
     REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_AnpassungKlimawandel_massnahme"
+    FOREIGN KEY ("massnahme" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_FP_AnpassungKlimawandel_detailMassnahme"
+    FOREIGN KEY ("detailMassnahme" )
+    REFERENCES "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_DetailMassnahmeKlimawandel" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
 GRANT SELECT ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" TO xp_gast;
 GRANT ALL ON TABLE "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" TO fp_user;
 COMMENT ON TABLE  "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" IS 'Anlagen, Einrichtungen und sonstige Maßnahmen, die der Anpassung an den Klimawandel dienen.';
 COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."massnahme" IS 'Klassifikation der Massnahme';
+COMMENT ON COLUMN "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel"."detailMassnahme" IS 'Detaillierung der durch das Attribut massnahme festgelegten Maßnahme über eine Codeliste.';
 CREATE TRIGGER "change_to_FP_AnpassungKlimawandel" BEFORE INSERT OR UPDATE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_AnpassungKlimawandel" AFTER DELETE ON "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_AnpassungKlimawandel" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
@@ -2994,3 +3027,11 @@ INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichne
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3300', 'Parkhaus');
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3400', 'Mischverkehrsflaeche');
 INSERT INTO "FP_Verkehr"."FP_ZweckbestimmungStrassenverkehr" ("Code", "Bezeichner") VALUES ('3500', 'Ladestation');
+
+-- -----------------------------------------------------
+-- Data for table "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen"
+-- -----------------------------------------------------
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('1000', 'ErhaltFreiflaechen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10000', 'ErhaltPrivGruen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10001', 'ErhaltOeffentlGruen');
+INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstMassnahme');
