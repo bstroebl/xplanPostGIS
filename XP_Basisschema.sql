@@ -1698,7 +1698,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_begruendungsTexte" (
     REFERENCES "XP_Basisobjekte"."XP_BegruendungAbschnitt" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Verweis auf eine Abschnitt der Begründung.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Referenz auf einen Abschnitt der Begründung. Diese Relation darf nicht verwendet werden, wenn die Begründung als Gesamt-Dokument referiert werden soll. In diesem Fall sollte über das Attribut externeReferenz eine Objekt XP_SpezExterneReferent mit typ=1010 (Begruendung) verwendet werden.';
 CREATE INDEX "idx_fk_begruendungsTexte_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_begruendungsTexte_XP_BegruendungAbschnitt1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("begruendungsTexte") ;
 
