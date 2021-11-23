@@ -1104,14 +1104,16 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenz" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument, einen extern gespeicherten, georeferenzierten Plan oder einen Datenbank-Eintrag. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument oder einen extern gespeicherten, georeferenzierten Plan. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name des referierten Dokuments innerhalb des Informationssystems.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name bzw. Titel des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel. Wenn der XPlanGML Datensatz und das referierte Dokument in einem hierarchischen Ordnersystem gespeichert sind, kann die URI auch einen relativen Pfad vom XPlanGML-Datensatz zum Dokument enthalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzMimeType" IS 'Mime-Type des referierten Dokumentes';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.
+Das Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente: Beliebiges Dokument oder georeferenzierter Plan';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
@@ -2678,7 +2680,6 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('app
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.sld+xml', 'application/vnd.ogc.sld+xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.wms_xml', 'application/vnd.ogc.wms_xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.gml', 'application/vnd.ogc.gml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/odt', 'application/odt');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/jpg', 'image/jpg');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/png', 'image/png');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/tiff', 'image/tiff');
@@ -2686,6 +2687,13 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('ima
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/svg+xml', 'image/svg+xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/html', 'text/html');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/plain', 'text/plain');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shp', 'application/vnd.shp');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.dbf', 'application/vnd.dbf');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shx', 'application/vnd.shx');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/octet-stream', 'application/octet-stream');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dxf ', 'image/vnd.dxf ');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dwg', 'image/vnd.dwg');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/bmp', 'image/bmp');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_ExterneReferenzArt"

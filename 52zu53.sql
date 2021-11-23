@@ -193,3 +193,19 @@ COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Referenz auf 
 SELECT * FROM "XP_Basisobjekte"."XP_Plan_externeReferenz" er
 JOIN "XP_Basisobjekte"."XP_Plan_begruendungsTexte" bt ON er."XP_Plan_gid" = bt."XP_Plan_gid";
 */
+
+--CR-013
+COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument oder einen extern gespeicherten, georeferenzierten Plan. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.
+Das Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shp', 'application/vnd.shp');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.dbf', 'application/vnd.dbf');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shx', 'application/vnd.shx');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/octet-stream', 'application/octet-stream');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dxf ', 'image/vnd.dxf ');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dwg', 'image/vnd.dwg');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/bmp', 'image/bmp');
+-- DELETE FROM "XP_Basisobjekte"."XP_MimeTypes" WHERE "Code" = 'application/odt'; 
+-- Dieser MimeType ist in der CodeList nicht mehr definiert. Um kongruent mit dem Standard zu sein, kann er entfernt werden. Da es sich um eine CodeList handelt, ist das jedoch nicht zwingend erforderlich, insbesondere, wenn dieser MimeType bereits verknüpft wurde.
