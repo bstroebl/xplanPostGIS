@@ -209,3 +209,6 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('ima
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/bmp', 'image/bmp');
 -- DELETE FROM "XP_Basisobjekte"."XP_MimeTypes" WHERE "Code" = 'application/odt'; 
 -- Dieser MimeType ist in der CodeList nicht mehr definiert. Um kongruent mit dem Standard zu sein, kann er entfernt werden. Da es sich um eine CodeList handelt, ist das jedoch nicht zwingend erforderlich, insbesondere, wenn dieser MimeType bereits verknüpft wurde.
+
+--CR-014: nichts zu ändern
+--CR-015: nichts zu ändern
