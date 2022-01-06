@@ -4,6 +4,9 @@
 -- aus CR-011
 --"BP_Bebauung"."BP_BaugebietsTeilFlaeche" und "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" Konformitätsregel neu vorhanden?
 
--- aus CR-013: zwei Attribute als evtl. wegfalend gekennzeichnet
+-- aus CR-013: zwei Attribute als evtl. wegfallend gekennzeichnet
 ALTER TABLE "XP_Basisobjekte"."XP_ExterneReferenz" DROP COLUMN "georefMimeType";
 ALTER TABLE "XP_Basisobjekte"."XP_ExterneReferenz" DROP COLUMN "informationssystemURL";
+
+--aus CR 026: ein Attribut als evtl. wegfallend gekennzeichnet 
+ALTER TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" DROP COLUMN "index";

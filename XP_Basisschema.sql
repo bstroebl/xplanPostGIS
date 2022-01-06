@@ -1812,9 +1812,10 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" (
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" IS 'Relation zu XP_Objekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."dientZurDarstellungVon" IS 'Verweis auf das Fachobjekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."XP_APObjekt_gid" IS 'Verweis auf das Präsentationsobjekt';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
-Die Attributart "Art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"art" gibt die Namen der Attribute an, die mit dem Präsentationsobjekt dargestellt werden sollen. Dabei ist beim Verweis auf komplexe Attribute des Fachobjekts die Xpath-Syntax zu verwenden. Wenn das zugehörige Attribut oder Sub-Attribut des Fachobjekts mehrfach belegt ist, sollte die []-Syntax zur Spezifikation des zugehörigen Instanz-Attributs benutzt werden. 
+Die Attributart "art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut, das vom Inhalt des Attributs "art“ bezeichnet wird, im Fachobjekt mehrfach belegt ist gibt "index" an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 voraussichtlich wegfallen. Alternativ sollte im Attribut "art" die XPath-Syntax benutzt werden.';
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_APO1" ON "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ("XP_APObjekt_gid") ;
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_Objekt1" ON "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ("dientZurDarstellungVon") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" TO xp_gast;

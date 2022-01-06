@@ -300,3 +300,12 @@ COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBDatum" IS 'Bekanntmac
 COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageDatum" IS 'Bekanntmachungs-Datum einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."versionBROG" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version des ROG.';
 COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."versionLPLG" IS 'Bekanntmachungs-Datum des zugrunde liegenden Landesplanungsgesetzes.';
+
+--CR-025: nichts zu ändern
+
+--CR-026 und CR-027
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"art" gibt die Namen der Attribute an, die mit dem Präsentationsobjekt dargestellt werden sollen. Dabei ist beim Verweis auf komplexe Attribute des Fachobjekts die Xpath-Syntax zu verwenden. Wenn das zugehörige Attribut oder Sub-Attribut des Fachobjekts mehrfach belegt ist, sollte die []-Syntax zur Spezifikation des zugehörigen Instanz-Attributs benutzt werden. 
+Die Attributart "art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut, das vom Inhalt des Attributs "art“ bezeichnet wird, im Fachobjekt mehrfach belegt ist gibt "index" an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 voraussichtlich wegfallen. Alternativ sollte im Attribut "art" die XPath-Syntax benutzt werden.';
+
