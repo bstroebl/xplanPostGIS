@@ -3237,15 +3237,32 @@ CREATE TRIGGER "change_to_BP_WegerechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sons
 CREATE TRIGGER "delete_BP_WegerechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_Sichtflaeche"
 -- -----------------------------------------------------
 CREATE TABLE "BP_Sonstiges"."BP_Sichtflaeche" (
   "gid" BIGINT NOT NULL,
+  "knotenpunkt" INTEGER,
+  "geschwindigkeit" INTEGER,
+  "schenkellaenge" REAL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_Sichtflaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Sichtflaeche_Knotenpunkt"
+    FOREIGN KEY ("knotenpunkt" )
+    REFERENCES "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -3254,6 +3271,9 @@ GRANT ALL ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" TO bp_user;
 CREATE INDEX "BP_Sichtflaeche_gidx" ON "BP_Sonstiges"."BP_Sichtflaeche" using gist ("position");
 COMMENT ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" IS 'Flächenhafte Festlegung einer Sichtfläche';
 COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."knotenpunkt" IS 'Klassifikation des Knotenpunktes, dem die Sichtfläche zugeordnet ist';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."geschwindigkeit" IS 'Zulässige Geschwindigkeit in der übergeordneten Straße, im km/h';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."schenkellaenge" IS 'Schenkellänge des Sichtdreiecks gemäß RAST 06';
 CREATE TRIGGER "change_to_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Sichtflaeche" AFTER DELETE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
@@ -5720,3 +5740,13 @@ INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeich
 INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (1000, 'Schutzflaeche');
 INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (2000, 'BesondereAnlagenVorkehrungen');
 
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (1000, 'AnlgStr-AnlgWeg');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (2000, 'AnlgStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (3000, 'SammelStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (4000, 'HauptSammelStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (5000, 'HauptVerkStrAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (6000, 'HauptVerkStrNichtAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstigerKnotenpunkt');

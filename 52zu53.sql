@@ -309,3 +309,35 @@ Die Attributart "art" darf im Regelfall nur bei "Freien Präsentationsobjekten" 
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut, das vom Inhalt des Attributs "art“ bezeichnet wird, im Fachobjekt mehrfach belegt ist gibt "index" an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.
 Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 voraussichtlich wegfallen. Alternativ sollte im Attribut "art" die XPath-Syntax benutzt werden.';
 
+-- CR-028
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" TO xp_gast;
+
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "knotenpunkt" INTEGER;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "geschwindigkeit" INTEGER;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "schenkellaenge" REAL;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD CONSTRAINT "fk_BP_Sichtflaeche_Knotenpunkt"
+    FOREIGN KEY ("knotenpunkt" )
+    REFERENCES "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."knotenpunkt" IS 'Klassifikation des Knotenpunktes, dem die Sichtfläche zugeordnet ist';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."geschwindigkeit" IS 'Zulässige Geschwindigkeit in der übergeordneten Straße, im km/h';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."schenkellaenge" IS 'Schenkellänge des Sichtdreiecks gemäß RAST 06';
+
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (1000, 'AnlgStr-AnlgWeg');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (2000, 'AnlgStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (3000, 'SammelStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (4000, 'HauptSammelStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (5000, 'HauptVerkStrAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (6000, 'HauptVerkStrNichtAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstigerKnotenpunkt');
