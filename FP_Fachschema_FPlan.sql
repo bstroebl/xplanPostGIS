@@ -2751,6 +2751,27 @@ GRANT ALL ON TABLE "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzeP
 CREATE TRIGGER "change_to_FP_BodenschaetzePunkt" BEFORE INSERT OR UPDATE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_FP_BodenschaetzePunkt" AFTER DELETE ON "FP_Aufschuettung_Abgrabung_Bodenschaetze"."FP_BodenschaetzePunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_FlaecheOhneDarstellung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_FlaecheOhneDarstellung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO fp_user;
+CREATE INDEX "FP_FlaecheOhneDarstellung_gidx" ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" using gist ("position");
+CREATE TRIGGER "change_to_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_FlaecheOhneDarstellung" AFTER DELETE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
+
 -- *****************************************************
 -- CREATE spatial indices
 -- *****************************************************

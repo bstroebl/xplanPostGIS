@@ -216,3 +216,50 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('ima
 --CR-016:
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3500', 'relativStrasse');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6600', 'GOK');
+
+--CR-017: nichts zu ändern
+--CR-018: nichts zu ändern
+--CR-019: nichts zu ändern
+
+--CR-020:
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FlaecheOhneFestsetzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FlaecheOhneFestsetzung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO bp_user;
+CREATE INDEX "BP_FlaecheOhneFestsetzung_gidx" ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" using gist ("position");
+CREATE TRIGGER "change_to_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FlaecheOhneFestsetzung" AFTER DELETE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
+
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_FlaecheOhneDarstellung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_FlaecheOhneDarstellung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO fp_user;
+CREATE INDEX "FP_FlaecheOhneDarstellung_gidx" ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" using gist ("position");
+CREATE TRIGGER "change_to_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_FlaecheOhneDarstellung" AFTER DELETE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';

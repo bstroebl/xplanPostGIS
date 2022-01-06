@@ -5279,6 +5279,26 @@ GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZwec
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" TO bp_user;
 COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FlaecheOhneFestsetzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FlaecheOhneFestsetzung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO bp_user;
+CREATE INDEX "BP_FlaecheOhneFestsetzung_gidx" ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" using gist ("position");
+CREATE TRIGGER "change_to_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FlaecheOhneFestsetzung" AFTER DELETE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
 
 -- *****************************************************
 -- CREATE VIEWs
