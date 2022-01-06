@@ -5300,6 +5300,28 @@ CREATE TRIGGER "delete_BP_FlaecheOhneFestsetzung" AFTER DELETE ON "BP_Sonstiges"
 CREATE TRIGGER "flaechenschluss_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
 COMMENT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
 
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_ZentralerVersorgungsbereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO bp_user;
+CREATE INDEX "BP_ZentralerVersorgungsbereich_gidx" ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" using gist ("position");
+CREATE TRIGGER "change_to_BP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZentralerVersorgungsbereich" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+COMMENT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" IS 'Zentraler Versorgungsbereich gem. § 9 Abs. 2a BauGB';
+
+
 -- *****************************************************
 -- CREATE VIEWs
 -- *****************************************************
