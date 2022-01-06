@@ -285,3 +285,6 @@ CREATE TRIGGER "change_to_BP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDAT
 CREATE TRIGGER "delete_BP_ZentralerVersorgungsbereich" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "BP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
 COMMENT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" IS 'Zentraler Versorgungsbereich gem. § 9 Abs. 2a BauGB';
+
+--CR-022: nichts zu ändern
+--CR-023: nichts zu ändern
