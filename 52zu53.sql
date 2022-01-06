@@ -212,3 +212,7 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('ima
 
 --CR-014: nichts zu ändern
 --CR-015: nichts zu ändern
+
+--CR-016:
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3500', 'relativStrasse');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6600', 'GOK');

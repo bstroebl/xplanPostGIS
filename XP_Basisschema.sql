@@ -2811,6 +2811,7 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2000', 'relativGelaendeoberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2500', 'relativGehwegOberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3000', 'relativBezugshoehe');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3500', 'relativStrasse');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezugspunkt"
@@ -2825,6 +2826,7 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALU
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('5500', 'UK');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6000', 'GBH');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6500', 'WH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6600', 'GOK');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht"
