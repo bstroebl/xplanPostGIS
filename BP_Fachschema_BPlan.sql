@@ -1720,7 +1720,7 @@ GRANT ALL ON TABLE "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" TO bp_user;
 CREATE INDEX "BP_TechnischeMassnahmenFlaeche_gidx" ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" IS 'Fläche für technische oder bauliche Maßnahmen nach § 9, Abs. 1, Nr. 23 BauGB.';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23a BauGB.';
+COMMENT ON COLUMN "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23 BauGB.';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."technischeMassnahme" IS 'Beschreibung der Maßnahme.';
 CREATE TRIGGER "change_to_BP_TechnischeMassnahmenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_TechnischeMassnahmenFlaeche" AFTER DELETE ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();

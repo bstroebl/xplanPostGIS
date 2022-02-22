@@ -396,3 +396,11 @@ DECLARE
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"() TO xp_user;
+
+--CR-035: nichts zu ändern
+--CR-036: nichts zu ändern
+--CR-037: nichts zu ändern, abgelehnt
+--CR-038: nichts zu ändern, abgelehnt
+
+--CR-039
+COMMENT ON COLUMN "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23 BauGB.';
