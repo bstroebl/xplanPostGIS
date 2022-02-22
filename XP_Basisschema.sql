@@ -1952,7 +1952,7 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."schriftinhalt" IS 'Schrif
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."fontSperrung" IS 'Die Zeichensperrung steuert den zusätzlichen Raum, der zwischen 2 aufeinanderfolgende Zeichenkörper geschoben wird.
 Er ist ein Faktor, der mit der angegebenen Zeichenhöhe mulitpliziert wird, um den einzufügenden Zusatzabstand zu erhalten.
 Mit der Abhängigkeit von der Zeichenhöhe wird erreicht, dass das Schriftbild unabhängig von der Zeichenhöhe gleich wirkt.';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor für die Schriftgröße (fontGroesse * skalierung).';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor der Schriftgröße, bezogen auf die von der interpretierenden Software festgelegte Standardschrift.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."horizontaleAusrichtung" IS 'Gibt die Ausrichtung des Textes bezüglich der Textgeometrie an.
 linksbündig : Der Text beginnt an der Punktgeometrie bzw. am Anfangspunkt der Liniengeometrie.
 rechtsbündig: Der Text endet an der Punktgeometrie bzw. am Endpunkt der Liniengeometrie
