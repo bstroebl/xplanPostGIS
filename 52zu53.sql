@@ -350,3 +350,6 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um
 
 --CR-031
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor der Schriftgröße, bezogen auf die von der interpretierenden Software festgelegte Standardschrift.';
+
+--CR-032
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört. Diese Relation sollte immer belegt werden. In Version 6.0 wird sie in eine Pflicht-Relation umgewandelt werden.';

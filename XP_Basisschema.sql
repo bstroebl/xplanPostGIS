@@ -1549,7 +1549,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" (
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört. Diese Relation sollte immer belegt werden. In Version 6.0 wird sie in eine Pflicht-Relation umgewandelt werden.';
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("XP_Objekt_gid") ;
 
