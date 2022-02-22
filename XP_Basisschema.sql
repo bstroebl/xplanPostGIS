@@ -240,6 +240,10 @@ DECLARE
         RETURN new;
     ELSIf (TG_OP = 'UPDATE') THEN
         new.id := old.id;
+        IF COALESCE(new."referenzName",'') = '' AND COALESCE(new."referenzURL",'') = '' THEN
+			RAISE WARNING 'Eines der beiden Attribute referenzName bzw. referenzURL muss belegt sein!';
+			RETURN NULL;
+		END IF;
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_ExterneReferenz" WHERE id = old.id;

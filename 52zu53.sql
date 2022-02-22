@@ -353,3 +353,46 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierun
 
 --CR-032
 COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört. Diese Relation sollte immer belegt werden. In Version 6.0 wird sie in eine Pflicht-Relation umgewandelt werden.';
+
+--CR-033: nichts zu ändern, abgelehnt
+
+--CR 034
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"()
+RETURNS trigger AS
+$BODY$
+DECLARE
+    num_parents integer;
+ BEGIN
+    If (TG_OP = 'INSERT') THEN
+        IF new.id IS NULL THEN
+            num_parents := 0;
+            new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+        ELSE
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_ExterneReferenz"' ||
+                ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die id sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
+            END IF;
+        END IF;
+
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
+        END IF;
+
+        RETURN new;
+    ELSIf (TG_OP = 'UPDATE') THEN
+        new.id := old.id;
+        IF COALESCE(new."referenzName",'') = '' AND COALESCE(new."referenzURL",'') = '' THEN
+			RAISE WARNING 'Eines der beiden Attribute referenzName bzw. referenzURL muss belegt sein!';
+			RETURN NULL;
+		END IF;
+        RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_ExterneReferenz" WHERE id = old.id;
+        RETURN old;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"() TO xp_user;
