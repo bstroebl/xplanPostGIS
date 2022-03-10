@@ -473,11 +473,11 @@ COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refPflanzliste" IS 'Referenz auf
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refUmweltbericht" IS 'Referenz auf den Umweltbericht.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refSatzung" IS 'Referenz auf die Satzung.';
 COMMENT ON COLUMN  "BP_Basisobjekte"."BP_Plan"."refGruenordnungsplan" IS 'Referenz auf den Grünordnungsplan .';
-COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauNVODatum" IS 'Datum der zugrundeliegenden Version der BauNVO.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauNVODatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version der BauNVO';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauNVOText" IS 'Zugrundeliegende Version der BauNVO.';
-COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauGBDatum" IS 'Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauGBDatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version des BauGB.';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauGBText" IS 'Zugrunde liegende Version des BauGB.';
-COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionSonstRechtsgrundlageDatum" IS 'Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionSonstRechtsgrundlageDatum" IS 'Bekanntmachungs-Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
 COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionSonstRechtsgrundlageText" IS 'Textliche Spezifikation einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
 CREATE TRIGGER "change_to_BP_Plan" BEFORE INSERT OR UPDATE ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Plan"();
 CREATE TRIGGER "new_BP_Plan" AFTER INSERT ON "BP_Basisobjekte"."BP_Plan" FOR EACH ROW EXECUTE PROCEDURE "BP_Basisobjekte"."new_BP_Plan"();
@@ -1720,7 +1720,7 @@ GRANT ALL ON TABLE "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" TO bp_user;
 CREATE INDEX "BP_TechnischeMassnahmenFlaeche_gidx" ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" using gist ("position");
 COMMENT ON TABLE "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" IS 'Fläche für technische oder bauliche Maßnahmen nach § 9, Abs. 1, Nr. 23 BauGB.';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23a BauGB.';
+COMMENT ON COLUMN "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23 BauGB.';
 COMMENT ON COLUMN  "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."technischeMassnahme" IS 'Beschreibung der Maßnahme.';
 CREATE TRIGGER "change_to_BP_TechnischeMassnahmenFlaeche" BEFORE INSERT OR UPDATE ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_TechnischeMassnahmenFlaeche" AFTER DELETE ON "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
@@ -3237,15 +3237,32 @@ CREATE TRIGGER "change_to_BP_WegerechtPunkt" BEFORE INSERT OR UPDATE ON "BP_Sons
 CREATE TRIGGER "delete_BP_WegerechtPunkt" AFTER DELETE ON "BP_Sonstiges"."BP_WegerechtPunkt" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 
 -- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" TO xp_gast;
+
+-- -----------------------------------------------------
 -- Table "BP_Sonstiges"."BP_Sichtflaeche"
 -- -----------------------------------------------------
 CREATE TABLE "BP_Sonstiges"."BP_Sichtflaeche" (
   "gid" BIGINT NOT NULL,
+  "knotenpunkt" INTEGER,
+  "geschwindigkeit" INTEGER,
+  "schenkellaenge" REAL,
   PRIMARY KEY ("gid"),
   CONSTRAINT "fk_BP_Sichtflaeche_parent"
     FOREIGN KEY ("gid")
     REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid")
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT "fk_BP_Sichtflaeche_Knotenpunkt"
+    FOREIGN KEY ("knotenpunkt" )
+    REFERENCES "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code" )
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 
@@ -3254,6 +3271,9 @@ GRANT ALL ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" TO bp_user;
 CREATE INDEX "BP_Sichtflaeche_gidx" ON "BP_Sonstiges"."BP_Sichtflaeche" using gist ("position");
 COMMENT ON TABLE "BP_Sonstiges"."BP_Sichtflaeche" IS 'Flächenhafte Festlegung einer Sichtfläche';
 COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."knotenpunkt" IS 'Klassifikation des Knotenpunktes, dem die Sichtfläche zugeordnet ist';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."geschwindigkeit" IS 'Zulässige Geschwindigkeit in der übergeordneten Straße, im km/h';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."schenkellaenge" IS 'Schenkellänge des Sichtdreiecks gemäß RAST 06';
 CREATE TRIGGER "change_to_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "delete_BP_Sichtflaeche" AFTER DELETE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
 CREATE TRIGGER "ueberlagerung_BP_Sichtflaeche" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_Sichtflaeche" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isUeberlagerungsobjekt"();
@@ -3742,7 +3762,7 @@ CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_AllgArtDerBaulNutzung1_idx" ON "BP_Bebau
 CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_BesondereArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("besondereArtDerBaulNutzung");
 CREATE INDEX "idx_fk_BP_BaugebietsTF_BP_DetailArtDerBaulNutzung1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("detaillierteArtDerBaulNutzung");
 CREATE INDEX "idx_fk_BP_BaugebietsTF_XP_AbweichungBauNVOTypen1_idx" ON "BP_Bebauung"."BP_BaugebietsTeilFlaeche" ("abweichungBauNVO");
-COMMENT ON TABLE  "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung.';
+COMMENT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung. Das Maß der baulichen Nutzung sowie Festsetzungen zur Bauweise oder Grenzbebauung können innerhalb einer BP_BaugebietsTeilFlaeche unterschiedlich sein (BP_UeberbaubareGrundstueckeFlaeche). Dabei sollte die gleichzeitige Belegung desselben Attributs in BP_BaugebietsTeilFlaeche und einem überlagernden Objekt BP_UeberbaubareGrunsdstuecksFlaeche verzichtet werden. Ab Version 6.0 wird dies evtl. durch eine Konformitätsregel erzwungen.';
 COMMENT ON COLUMN  "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."allgArtDerBaulNutzung" IS 'Spezifikation der allgemeinen Art der baulichen Nutzung.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_BaugebietsTeilFlaeche"."besondereArtDerBaulNutzung" IS 'Festsetzung der Art der baulichen Nutzung (§9, Abs. 1, Nr. 1 BauGB).';
@@ -4470,7 +4490,8 @@ INHERITS("BP_Basisobjekte"."BP_Flaechenobjekt");
 GRANT SELECT ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO xp_gast;
 GRANT ALL ON TABLE "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" TO bp_user;
 CREATE INDEX "BP_UeberbaubareGrundstuecksFlaeche_gidx" ON "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" using gist ("position");
-COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festsetzung der überbaubaren Grundstücksfläche (§9, Abs. 1, Nr. 2 BauGB). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.';
+COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festsetzung der überbaubaren Grundstücksfläche (§9, Abs. 1, Nr. 2 BauGB). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.
+Die gleichzeitige Belegung desselben Attributs in BP_BaugebietsTeilFlaeche und einem überlagernden Objekt BP_UeberbaubareGrunsdstuecksFlaeche sollte verzichtet werden. Ab Version 6.0 wird dies evtl. durch eine Konformitätsregel erzwungen.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMin" IS 'Gibt bei geschossweiser Festsetzung die Nummer des Geschosses an, ab den die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse bis einschl. geschossMax.';
 COMMENT ON COLUMN "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche"."geschossMax" IS 'Gibt bei geschossweiser Feststzung die Nummer des Geschosses an, bis zu der die Festsetzung gilt. Wenn das Attribut nicht belegt ist, gilt die Festsetzung für alle Geschosse ab einschl. geschossMin.';
@@ -5278,6 +5299,48 @@ GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZwec
 GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" TO bp_user;
 COMMENT ON TABLE  "BP_Ver_und_Entsorgung"."BP_VerEntsorgung_detaillierteZweckbestimmung" IS 'Über eine CodeList definierte zusätzliche Zweckbestimmungen.';
 
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FlaecheOhneFestsetzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FlaecheOhneFestsetzung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO bp_user;
+CREATE INDEX "BP_FlaecheOhneFestsetzung_gidx" ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" using gist ("position");
+CREATE TRIGGER "change_to_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FlaecheOhneFestsetzung" AFTER DELETE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
+
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_ZentralerVersorgungsbereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO bp_user;
+CREATE INDEX "BP_ZentralerVersorgungsbereich_gidx" ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" using gist ("position");
+CREATE TRIGGER "change_to_BP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZentralerVersorgungsbereich" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+COMMENT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" IS 'Zentraler Versorgungsbereich gem. § 9 Abs. 2a BauGB';
+
 
 -- *****************************************************
 -- CREATE VIEWs
@@ -5677,3 +5740,13 @@ INSERT INTO "BP_Umwelt"."BP_TechnVorkehrungenImmissionsschutz" ("Code", "Bezeich
 INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (1000, 'Schutzflaeche');
 INSERT INTO "BP_Umwelt"."BP_ImmissionsschutzTypen" ("Code", "Bezeichner") VALUES (2000, 'BesondereAnlagenVorkehrungen');
 
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (1000, 'AnlgStr-AnlgWeg');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (2000, 'AnlgStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (3000, 'SammelStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (4000, 'HauptSammelStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (5000, 'HauptVerkStrAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (6000, 'HauptVerkStrNichtAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstigerKnotenpunkt');

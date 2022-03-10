@@ -181,3 +181,226 @@ INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTyp
 INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10000', 'ErhaltPrivGruen');
 INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('10001', 'ErhaltOeffentlGruen');
 INSERT INTO "FP_Gemeinbedarf_Spiel_und_Sportanlagen"."FP_MassnahmeKlimawandelTypen" ("Code", "Bezeichner") VALUES ('9999', 'SonstMassnahme');
+
+--CR-011
+COMMENT ON TABLE "BP_Bebauung"."BP_BaugebietsTeilFlaeche" IS 'Teil eines Baugebiets mit einheitlicher Art und Maß der baulichen Nutzung. Das Maß der baulichen Nutzung sowie Festsetzungen zur Bauweise oder Grenzbebauung können innerhalb einer BP_BaugebietsTeilFlaeche unterschiedlich sein (BP_UeberbaubareGrundstueckeFlaeche). Dabei sollte die gleichzeitige Belegung desselben Attributs in BP_BaugebietsTeilFlaeche und einem überlagernden Objekt BP_UeberbaubareGrunsdstuecksFlaeche verzichtet werden. Ab Version 6.0 wird dies evtl. durch eine Konformitätsregel erzwungen.';
+COMMENT ON TABLE  "BP_Bebauung"."BP_UeberbaubareGrundstuecksFlaeche" IS 'Festsetzung der überbaubaren Grundstücksfläche (§9, Abs. 1, Nr. 2 BauGB). Über die Attribute geschossMin und geschossMax kann die Festsetzung auf einen Bereich von Geschossen beschränkt werden. Wenn eine Einschränkung der Festsetzung durch expliziter Höhenangaben erfolgen soll, ist dazu die Oberklassen-Relation hoehenangabe auf den komplexen Datentyp XP_Hoehenangabe zu verwenden.
+Die gleichzeitige Belegung desselben Attributs in BP_BaugebietsTeilFlaeche und einem überlagernden Objekt BP_UeberbaubareGrunsdstuecksFlaeche sollte verzichtet werden. Ab Version 6.0 wird dies evtl. durch eine Konformitätsregel erzwungen.';
+
+--CR-012
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Referenz auf einen Abschnitt der Begründung. Diese Relation darf nicht verwendet werden, wenn die Begründung als Gesamt-Dokument referiert werden soll. In diesem Fall sollte über das Attribut externeReferenz eine Objekt XP_SpezExterneReferent mit typ=1010 (Begruendung) verwendet werden.';
+/* optionale Prüfung, ob beides belegt ist:
+SELECT * FROM "XP_Basisobjekte"."XP_Plan_externeReferenz" er
+JOIN "XP_Basisobjekte"."XP_Plan_begruendungsTexte" bt ON er."XP_Plan_gid" = bt."XP_Plan_gid";
+*/
+
+--CR-013
+COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument oder einen extern gespeicherten, georeferenzierten Plan. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.
+Das Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shp', 'application/vnd.shp');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.dbf', 'application/vnd.dbf');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shx', 'application/vnd.shx');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/octet-stream', 'application/octet-stream');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dxf ', 'image/vnd.dxf ');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dwg', 'image/vnd.dwg');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/bmp', 'image/bmp');
+-- DELETE FROM "XP_Basisobjekte"."XP_MimeTypes" WHERE "Code" = 'application/odt';
+-- Dieser MimeType ist in der CodeList nicht mehr definiert. Um kongruent mit dem Standard zu sein, kann er entfernt werden. Da es sich um eine CodeList handelt, ist das jedoch nicht zwingend erforderlich, insbesondere, wenn dieser MimeType bereits verknüpft wurde.
+
+--CR-014: nichts zu ändern
+--CR-015: nichts zu ändern
+
+--CR-016:
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3500', 'relativStrasse');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6600', 'GOK');
+
+--CR-017: nichts zu ändern
+--CR-018: nichts zu ändern
+--CR-019: nichts zu ändern
+
+--CR-020:
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_FlaecheOhneFestsetzung"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_FlaecheOhneFestsetzung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO xp_gast;
+GRANT ALL ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" TO bp_user;
+CREATE INDEX "BP_FlaecheOhneFestsetzung_gidx" ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" using gist ("position");
+CREATE TRIGGER "change_to_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_FlaecheOhneFestsetzung" AFTER DELETE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_BP_FlaecheOhneFestsetzung" BEFORE INSERT OR UPDATE ON "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "BP_Sonstiges"."BP_FlaecheOhneFestsetzung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
+
+-- -----------------------------------------------------
+-- Table "FP_Sonstiges"."FP_FlaecheOhneDarstellung"
+-- -----------------------------------------------------
+CREATE TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_FP_FlaecheOhneDarstellung_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "FP_Basisobjekte"."FP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("FP_Basisobjekte"."FP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO xp_gast;
+GRANT ALL ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" TO fp_user;
+CREATE INDEX "FP_FlaecheOhneDarstellung_gidx" ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" using gist ("position");
+CREATE TRIGGER "change_to_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_FP_FlaecheOhneDarstellung" AFTER DELETE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "flaechenschluss_FP_FlaecheOhneDarstellung" BEFORE INSERT OR UPDATE ON "FP_Sonstiges"."FP_FlaecheOhneDarstellung" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenschlussobjekt"();
+COMMENT ON TABLE "FP_Sonstiges"."FP_FlaecheOhneDarstellung" IS 'Fläche, für die keine geplante Nutzung angegeben werden kann';
+
+--CR-021:
+-- -----------------------------------------------------
+-- Table "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" (
+  "gid" BIGINT NOT NULL ,
+  PRIMARY KEY ("gid") ,
+  CONSTRAINT "fk_BP_ZentralerVersorgungsbereich_parent"
+    FOREIGN KEY ("gid" )
+    REFERENCES "BP_Basisobjekte"."BP_Objekt" ("gid" )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+INHERITS ("BP_Basisobjekte"."BP_Flaechenobjekt");
+
+GRANT SELECT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO xp_gast;
+GRANT ALL ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" TO bp_user;
+CREATE INDEX "BP_ZentralerVersorgungsbereich_gidx" ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" using gist ("position");
+CREATE TRIGGER "change_to_BP_ZentralerVersorgungsbereich" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "delete_BP_ZentralerVersorgungsbereich" AFTER DELETE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."child_of_XP_Objekt"();
+CREATE TRIGGER "BP_ZentralerVersorgungsbereich_Flaechenobjekt" BEFORE INSERT OR UPDATE ON "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" FOR EACH ROW EXECUTE PROCEDURE "XP_Basisobjekte"."isFlaechenobjekt"();
+COMMENT ON TABLE "BP_Ver_und_Entsorgung"."BP_ZentralerVersorgungsbereich" IS 'Zentraler Versorgungsbereich gem. § 9 Abs. 2a BauGB';
+
+--CR-022: nichts zu ändern
+--CR-023: nichts zu ändern
+
+--CR-024
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauNVODatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version der BauNVO';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionBauGBDatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "BP_Basisobjekte"."BP_Plan"."versionSonstRechtsgrundlageDatum" IS 'Bekanntmachungs-Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."versionBauNVODatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version der BauNVO.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."versionBauGBDatum" IS 'DBekanntmachungs-Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."versionSonstRechtsgrundlageDatum" IS 'Bekanntmachungs-Datum einer zugrunde liegenden anderen Rechtsgrundlage als BauGB / BauNVO.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionBauGBDatum" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version des BauGB.';
+COMMENT ON COLUMN "SO_Basisobjekte"."SO_Plan"."versionSonstRechtsgrundlageDatum" IS 'Bekanntmachungs-Datum einer zugrunde liegenden anderen Rechtsgrundlage als das BauGB.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."versionBROG" IS 'Bekanntmachungs-Datum der zugrunde liegenden Version des ROG.';
+COMMENT ON COLUMN "RP_Basisobjekte"."RP_Bereich"."versionLPLG" IS 'Bekanntmachungs-Datum des zugrunde liegenden Landesplanungsgesetzes.';
+
+--CR-025: nichts zu ändern
+
+--CR-026 und CR-027
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"art" gibt die Namen der Attribute an, die mit dem Präsentationsobjekt dargestellt werden sollen. Dabei ist beim Verweis auf komplexe Attribute des Fachobjekts die Xpath-Syntax zu verwenden. Wenn das zugehörige Attribut oder Sub-Attribut des Fachobjekts mehrfach belegt ist, sollte die []-Syntax zur Spezifikation des zugehörigen Instanz-Attributs benutzt werden.
+Die Attributart "art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut, das vom Inhalt des Attributs "art“ bezeichnet wird, im Fachobjekt mehrfach belegt ist gibt "index" an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 voraussichtlich wegfallen. Alternativ sollte im Attribut "art" die XPath-Syntax benutzt werden.';
+
+-- CR-028
+-- -----------------------------------------------------
+-- Table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+CREATE TABLE "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" (
+  "Code" INTEGER NOT NULL ,
+  "Bezeichner" VARCHAR(64) NOT NULL ,
+  PRIMARY KEY ("Code") );
+GRANT SELECT ON "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" TO xp_gast;
+
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "knotenpunkt" INTEGER;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "geschwindigkeit" INTEGER;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD COLUMN "schenkellaenge" REAL;
+ALTER TABLE "BP_Sonstiges"."BP_Sichtflaeche" ADD CONSTRAINT "fk_BP_Sichtflaeche_Knotenpunkt"
+    FOREIGN KEY ("knotenpunkt" )
+    REFERENCES "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code" )
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."knotenpunkt" IS 'Klassifikation des Knotenpunktes, dem die Sichtfläche zugeordnet ist';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."geschwindigkeit" IS 'Zulässige Geschwindigkeit in der übergeordneten Straße, im km/h';
+COMMENT ON COLUMN "BP_Sonstiges"."BP_Sichtflaeche"."schenkellaenge" IS 'Schenkellänge des Sichtdreiecks gemäß RAST 06';
+
+-- -----------------------------------------------------
+-- Data for table "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen"
+-- -----------------------------------------------------
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (1000, 'AnlgStr-AnlgWeg');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (2000, 'AnlgStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (3000, 'SammelStr-AnlgStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (4000, 'HauptSammelStr');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (5000, 'HauptVerkStrAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (6000, 'HauptVerkStrNichtAngeb');
+INSERT INTO "BP_Sonstiges"."BP_SichtflaecheKnotenpunktTypen" ("Code", "Bezeichner") VALUES (9999, 'SonstigerKnotenpunkt');
+
+-- CR-029
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe in Grad; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe in Grad; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
+
+--CR-030: nichts zu ändern
+
+--CR-031
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor der Schriftgröße, bezogen auf die von der interpretierenden Software festgelegte Standardschrift.';
+
+--CR-032
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört. Diese Relation sollte immer belegt werden. In Version 6.0 wird sie in eine Pflicht-Relation umgewandelt werden.';
+
+--CR-033: nichts zu ändern, abgelehnt
+
+--CR 034
+CREATE OR REPLACE FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"()
+RETURNS trigger AS
+$BODY$
+DECLARE
+    num_parents integer;
+ BEGIN
+    If (TG_OP = 'INSERT') THEN
+        IF new.id IS NULL THEN
+            num_parents := 0;
+            new.id := nextval('"XP_Basisobjekte"."XP_ExterneReferenz_id_seq"');
+        ELSE
+            EXECUTE 'SELECT count(id) FROM "XP_Basisobjekte"."XP_ExterneReferenz"' ||
+                ' WHERE id = ' || CAST(new.id as varchar) || ';' INTO num_parents;
+            IF pg_trigger_depth() = 1 THEN -- Trigger wird für unterste Kindtabelle aufgerufen
+                RAISE WARNING 'Die id sollte beim Einfügen in Tabelle % automatisch vergeben werden', TG_TABLE_NAME;
+            END IF;
+        END IF;
+
+        IF num_parents = 0 THEN
+            -- Elternobjekt anlegen
+            INSERT INTO "XP_Basisobjekte"."XP_ExterneReferenz"(id, "referenzName") VALUES(new.id, 'Externe Referenz ' || CAST(new.id as varchar));
+        END IF;
+
+        RETURN new;
+    ELSIf (TG_OP = 'UPDATE') THEN
+        new.id := old.id;
+        IF COALESCE(new."referenzName",'') = '' AND COALESCE(new."referenzURL",'') = '' THEN
+            RAISE WARNING 'Eines der beiden Attribute referenzName bzw. referenzURL muss belegt sein!';
+            RETURN NULL;
+        END IF;
+        RETURN new;
+    ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM "XP_Basisobjekte"."XP_ExterneReferenz" WHERE id = old.id;
+        RETURN old;
+    END IF;
+ END; $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+GRANT EXECUTE ON FUNCTION "XP_Basisobjekte"."child_of_XP_ExterneReferenz"() TO xp_user;
+
+--CR-035: nichts zu ändern
+--CR-036: nichts zu ändern
+--CR-037: nichts zu ändern, abgelehnt
+--CR-038: nichts zu ändern, abgelehnt
+
+--CR-039
+COMMENT ON COLUMN "BP_Umwelt"."BP_TechnischeMassnahmenFlaeche"."zweckbestimmung" IS 'Klassifikation der durchzuführenden Maßnahmen nach §9, Abs. 1, Nr. 23 BauGB.';

@@ -240,6 +240,10 @@ DECLARE
         RETURN new;
     ELSIf (TG_OP = 'UPDATE') THEN
         new.id := old.id;
+        IF COALESCE(new."referenzName",'') = '' AND COALESCE(new."referenzURL",'') = '' THEN
+			RAISE WARNING 'Eines der beiden Attribute referenzName bzw. referenzURL muss belegt sein!';
+			RETURN NULL;
+		END IF;
         RETURN new;
     ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM "XP_Basisobjekte"."XP_ExterneReferenz" WHERE id = old.id;
@@ -1104,14 +1108,16 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_ExterneReferenz" (
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
 
-COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument, einen extern gespeicherten, georeferenzierten Plan oder einen Datenbank-Eintrag. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_ExterneReferenz" IS 'Verweis auf ein extern gespeichertes Dokument oder einen extern gespeicherten, georeferenzierten Plan. Einer der beiden Attribute "referenzName" bzw. "referenzURL" muss belegt sein.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."id" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name des referierten Dokuments innerhalb des Informationssystems.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."informationssystemURL" IS 'URI des des zugehörigen Informationssystems
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzName" IS 'Name bzw. Titel des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzURL" IS 'URI des referierten Dokuments, bzw. Datenbank-Schlüssel. Wenn der XPlanGML Datensatz und das referierte Dokument in einem hierarchischen Ordnersystem gespeichert sind, kann die URI auch einen relativen Pfad vom XPlanGML-Datensatz zum Dokument enthalten.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."referenzMimeType" IS 'Mime-Type des referierten Dokumentes';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefURL" IS 'Referenz auf eine Georeferenzierungs-Datei. Das Attribut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
-COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.';
+COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."georefMimeType" IS 'Mime-Type der Georeferenzierungs-Datei. Das Arrtibut ist nur relevant bei Verweisen auf georeferenzierte Rasterbilder.
+Das Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 evtl. wegfallen.';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."beschreibung" IS 'Beschreibung des referierten Dokuments';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."art" IS 'Typisierung der referierten Dokumente: Beliebiges Dokument oder georeferenzierter Plan';
 COMMENT ON COLUMN "XP_Basisobjekte"."XP_ExterneReferenz"."datum" IS 'Datum des referierten Dokuments';
@@ -1547,7 +1553,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" (
     REFERENCES "XP_Basisobjekte"."XP_Objekt" ("gid" )
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" IS 'Verweis auf den Bereich, zu dem der Planinhalt gehört. Diese Relation sollte immer belegt werden. In Version 6.0 wird sie in eine Pflicht-Relation umgewandelt werden.';
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Bereich1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("gehoertZuBereich") ;
 CREATE INDEX "idx_fk_XP_Bereich_has_XP_Objekt_XP_Objekt1" ON "XP_Basisobjekte"."XP_Objekt_gehoertZuBereich" ("XP_Objekt_gid") ;
 
@@ -1698,7 +1704,7 @@ CREATE  TABLE  "XP_Basisobjekte"."XP_Plan_begruendungsTexte" (
     REFERENCES "XP_Basisobjekte"."XP_BegruendungAbschnitt" ("id" )
     ON DELETE NO ACTION
     ON UPDATE CASCADE);
-COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Verweis auf eine Abschnitt der Begründung.';
+COMMENT ON TABLE "XP_Basisobjekte"."XP_Plan_begruendungsTexte" IS 'Referenz auf einen Abschnitt der Begründung. Diese Relation darf nicht verwendet werden, wenn die Begründung als Gesamt-Dokument referiert werden soll. In diesem Fall sollte über das Attribut externeReferenz eine Objekt XP_SpezExterneReferent mit typ=1010 (Begruendung) verwendet werden.';
 CREATE INDEX "idx_fk_begruendungsTexte_XP_Plan1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("XP_Plan_gid") ;
 CREATE INDEX "idx_fk_begruendungsTexte_XP_BegruendungAbschnitt1" ON "XP_Basisobjekte"."XP_Plan_begruendungsTexte" ("begruendungsTexte") ;
 
@@ -1810,9 +1816,10 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" (
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" IS 'Relation zu XP_Objekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."dientZurDarstellungVon" IS 'Verweis auf das Fachobjekt';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."XP_APObjekt_gid" IS 'Verweis auf das Präsentationsobjekt';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"Art" gibt den Namen des Attributs an, das mit dem Präsentationsobjekt dargestellt werden soll.
-Die Attributart "Art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut art des Fachobjektes mehrfach belegt ist gibt index an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."art" IS '"art" gibt die Namen der Attribute an, die mit dem Präsentationsobjekt dargestellt werden sollen. Dabei ist beim Verweis auf komplexe Attribute des Fachobjekts die Xpath-Syntax zu verwenden. Wenn das zugehörige Attribut oder Sub-Attribut des Fachobjekts mehrfach belegt ist, sollte die []-Syntax zur Spezifikation des zugehörigen Instanz-Attributs benutzt werden. 
+Die Attributart "art" darf im Regelfall nur bei "Freien Präsentationsobjekten" (dientZurDarstellungVon = NULL) nicht belegt sein.';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon"."index" IS 'Wenn das Attribut, das vom Inhalt des Attributs "art“ bezeichnet wird, im Fachobjekt mehrfach belegt ist gibt "index" an, auf welche Instanz des Attributs sich das Präsentationsobjekt bezieht. Indexnummern beginnen dabei immer mit 0.
+Dies Attribut ist als "veraltet" gekennzeichnet und wird in Version 6.0 voraussichtlich wegfallen. Alternativ sollte im Attribut "art" die XPath-Syntax benutzt werden.';
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_APO1" ON "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ("XP_APObjekt_gid") ;
 CREATE INDEX "idx_fk_dientzurdarstellungvon_XP_Objekt1" ON "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" ("dientZurDarstellungVon") ;
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_APObjekt_dientZurDarstellungVon" TO xp_gast;
@@ -1861,7 +1868,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PPO" (
 INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PPO" IS 'Punktförmiges Präsentationsobjekt.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe in Grad; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."skalierung" IS 'Skalierungsfaktor für Symbole.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PPO"."hat" IS 'Die Relation ermöglicht es, einem punktförmigen Präsentationsobjekt ein linienförmiges Präsentationsobjekt zuzuweisen. Einziger bekannter Anwendungsfall ist der Zuordnungspfeil eines Symbols oder einer Nutzungsschablone.';
 CREATE INDEX "idx_fk_XP_PPO_XP_LPO1" ON "XP_Praesentationsobjekte"."XP_PPO" ("hat") ;
@@ -1949,7 +1956,7 @@ COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."schriftinhalt" IS 'Schrif
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."fontSperrung" IS 'Die Zeichensperrung steuert den zusätzlichen Raum, der zwischen 2 aufeinanderfolgende Zeichenkörper geschoben wird.
 Er ist ein Faktor, der mit der angegebenen Zeichenhöhe mulitpliziert wird, um den einzufügenden Zusatzabstand zu erhalten.
 Mit der Abhängigkeit von der Zeichenhöhe wird erreicht, dass das Schriftbild unabhängig von der Zeichenhöhe gleich wirkt.';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor für die Schriftgröße (fontGroesse * skalierung).';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."skalierung" IS 'Skalierungsfaktor der Schriftgröße, bezogen auf die von der interpretierenden Software festgelegte Standardschrift.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_TPO"."horizontaleAusrichtung" IS 'Gibt die Ausrichtung des Textes bezüglich der Textgeometrie an.
 linksbündig : Der Text beginnt an der Punktgeometrie bzw. am Anfangspunkt der Liniengeometrie.
 rechtsbündig: Der Text endet an der Punktgeometrie bzw. am Endpunkt der Liniengeometrie
@@ -1980,8 +1987,7 @@ CREATE  TABLE  "XP_Praesentationsobjekte"."XP_PTO" (
 INHERITS("XP_Praesentationsobjekte"."XP_APO");
 COMMENT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" IS 'Textförmiges Präsentationsobjekt mit punktförmiger Festlegung der Textposition.';
 COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."gid" IS 'Primärschlüssel, wird automatisch ausgefüllt!';
-COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist.
-Angabe im Bogenmaß; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
+COMMENT ON COLUMN "XP_Praesentationsobjekte"."XP_PTO"."drehwinkel" IS 'Winkel um den der Text oder die Signatur mit punktförmiger Bezugsgeometrie aus der Horizontalen gedreht ist. Angabe in Grad; Zählweise im mathematisch positiven Sinn (von Ost über Nord nach West und Süd).';
 CREATE TRIGGER "change_to_XP_PTO" BEFORE INSERT OR UPDATE ON "XP_Praesentationsobjekte"."XP_PTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
 CREATE TRIGGER "delete_XP_PTO" AFTER DELETE ON "XP_Praesentationsobjekte"."XP_PTO" FOR EACH ROW EXECUTE PROCEDURE "XP_Praesentationsobjekte"."child_of_XP_TPO"();
 GRANT SELECT ON TABLE "XP_Praesentationsobjekte"."XP_PTO" TO xp_gast;
@@ -2678,7 +2684,6 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('app
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.sld+xml', 'application/vnd.ogc.sld+xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.wms_xml', 'application/vnd.ogc.wms_xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.ogc.gml', 'application/vnd.ogc.gml');
-INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/odt', 'application/odt');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/jpg', 'image/jpg');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/png', 'image/png');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/tiff', 'image/tiff');
@@ -2686,6 +2691,13 @@ INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('ima
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/svg+xml', 'image/svg+xml');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/html', 'text/html');
 INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('text/plain', 'text/plain');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shp', 'application/vnd.shp');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.dbf', 'application/vnd.dbf');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/vnd.shx', 'application/vnd.shx');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('application/octet-stream', 'application/octet-stream');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dxf ', 'image/vnd.dxf ');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/vnd.dwg', 'image/vnd.dwg');
+INSERT INTO "XP_Basisobjekte"."XP_MimeTypes" ("Code", "Bezeichner") VALUES ('image/bmp', 'image/bmp');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Basisobjekte"."XP_ExterneReferenzArt"
@@ -2803,6 +2815,7 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('1
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2000', 'relativGelaendeoberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('2500', 'relativGehwegOberkante');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3000', 'relativBezugshoehe');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezug" ("Code", "Bezeichner") VALUES ('3500', 'relativStrasse');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Sonstiges"."XP_ArtHoehenbezugspunkt"
@@ -2817,6 +2830,7 @@ INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALU
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('5500', 'UK');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6000', 'GBH');
 INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6500', 'WH');
+INSERT INTO "XP_Sonstiges"."XP_ArtHoehenbezugspunkt" ("Code", "Bezeichner") VALUES ('6600', 'GOK');
 
 -- -----------------------------------------------------
 -- Data for table "XP_Enumerationen"."XP_KlassifizSchutzgebietNaturschutzrecht"
