@@ -1368,7 +1368,7 @@ COMMENT ON COLUMN "XP_Basisobjekte"."XP_WirksamkeitBedingung"."datumRelativ" IS 
 CREATE  TABLE  "XP_Basisobjekte"."XP_Objekt" (
   "gid" BIGINT NOT NULL DEFAULT nextval('"XP_Basisobjekte"."XP_Objekt_gid_seq"'),
   "uuid" VARCHAR(64) NULL ,
-  "text" VARCHAR(255) NULL ,
+  "text" text NULL ,
   "rechtsstand" INTEGER NULL ,
   "gesetzlicheGrundlage" INTEGER NULL ,
   "gliederung1" VARCHAR(255) NULL ,

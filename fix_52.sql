@@ -211,6 +211,13 @@ ALTER TABLE "XP_Basisobjekte"."XP_Bereich_refScan" ADD CONSTRAINT "fk_XP_Bereich
 ALTER TABLE "FP_Basisobjekte"."FP_Plan" RENAME "aufstellungsbechlussDatum" TO "aufstellungsbeschlussDatum";
 COMMENT ON COLUMN "FP_Basisobjekte"."FP_Plan"."aufstellungsbeschlussDatum" IS 'Datum des Plan-Aufstellungsbeschlusses.';
 
+-- ändere datentyp varchar(255) zu text
+-- -----------------------------------------------------
+-- Table "XP_Basisobjekte"."XP_Objekt"
+-- -----------------------------------------------------
+ALTER TABLE "XP_Basisobjekte"."XP_Objekt" ALTER COLUMN "text" SET DATA TYPE text;
+
+
 -- füge fehlendes Attribut XP_Objekt.refBegruendungInhalt ein
 -- -----------------------------------------------------
 -- Table "XP_Basisobjekte"."XP_Objekt_refBegruendungInhalt"
